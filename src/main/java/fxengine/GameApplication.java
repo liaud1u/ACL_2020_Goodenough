@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -45,6 +46,22 @@ public class GameApplication extends Application {
         });
 
         Scene scene = new Scene(group,primaryStage.getWidth(),primaryStage.getHeight(), Color.WHITESMOKE);
+
+        scene.setOnKeyPressed(
+                new EventHandler<KeyEvent>() {
+                    public void handle(KeyEvent event) {
+                        controller.keyPressed(event);
+                    }
+                }
+        );
+
+        scene.setOnKeyReleased(
+                new EventHandler<KeyEvent>() {
+                    public void handle(KeyEvent event) {
+                        controller.keyReleased(event);
+                    }
+                }
+        );
 
         primaryStage.setScene(scene);
         primaryStage.setFullScreen(true);

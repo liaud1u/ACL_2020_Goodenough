@@ -2,8 +2,7 @@ package model;
 
 import fxengine.Cmd;
 import fxengine.GameController;
-
-import java.awt.event.KeyEvent;
+import javafx.scene.input.KeyEvent;
 
 
 /**
@@ -42,14 +41,13 @@ public class PacmanController implements GameController {
 	 */
 	public void keyPressed(KeyEvent e) {
 
-		switch (e.getKeyChar()) {
+		switch (e.getCharacter().charAt(0)) {
 		// si on appuie sur 'q',commande joueur est gauche
 		case 'l':
 		case 'L':
 			this.commandeEnCours = Cmd.LEFT;
 			break;
 		}
-
 	}
 
 	/**
@@ -57,13 +55,6 @@ public class PacmanController implements GameController {
 	 */
 	public void keyReleased(KeyEvent e) {
 		this.commandeEnCours = Cmd.IDLE;
-	}
-
-	/**
-	 * ne fait rien
-	 */
-	public void keyTyped(KeyEvent e) {
-
 	}
 
 }

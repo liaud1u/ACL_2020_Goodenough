@@ -1,6 +1,7 @@
 package fxengine;
 
-import java.awt.event.KeyListener;
+
+import javafx.scene.input.KeyEvent;
 
 /**
  * @author Horatiu Cirstea
@@ -8,7 +9,7 @@ import java.awt.event.KeyListener;
  * controleur qui envoie des commandes au jeu 
  * 
  */
-public interface GameController extends KeyListener {
+public interface GameController  {
 
 	/**
 	 * quand on demande les commandes, le controleur retourne la commande en
@@ -18,4 +19,7 @@ public interface GameController extends KeyListener {
 	 */
     Cmd getCommand();
 
+	void keyPressed(KeyEvent event);
+
+	void keyReleased(KeyEvent event);
 }
