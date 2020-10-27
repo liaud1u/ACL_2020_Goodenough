@@ -1,4 +1,4 @@
-package engine;
+package fxengine;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas

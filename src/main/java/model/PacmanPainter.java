@@ -1,9 +1,9 @@
 package model;
 
-import engine.GamePainter;
-
-import java.awt.*;
-import java.awt.image.BufferedImage;
+import fxengine.GamePainter;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -19,18 +19,23 @@ public class PacmanPainter implements GamePainter{
 	protected static final int WIDTH = 100;
 	protected static final int HEIGHT = 100;
 
+	private final Canvas canvas;
+
 	/**
 	 * appelle constructeur parent
 	 */
-	public PacmanPainter() {
+	public PacmanPainter(Canvas main) {
+		this.canvas = main;
 	}
 
 	/**
 	 * methode  redefinie de Afficheur retourne une image du jeu
 	 */
-	public void draw(BufferedImage im) {
-		Graphics2D crayon = (Graphics2D) im.getGraphics();
-		crayon.setColor(Color.blue);
+	public void draw() {
+		System.out.println("draw");
+		GraphicsContext crayon = canvas.getGraphicsContext2D();
+		crayon.setFill(Color.BLUE);
+		crayon.fill();
 		crayon.fillOval(0,0,10,10);
 	}
 
@@ -42,4 +47,7 @@ public class PacmanPainter implements GamePainter{
 		return HEIGHT;
 	}
 
+	public Canvas getCanvas() {
+		return canvas;
+	}
 }

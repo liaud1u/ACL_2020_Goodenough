@@ -1,7 +1,7 @@
 package model;
 
-import engine.Cmd;
-import engine.GameController;
+import fxengine.Cmd;
+import fxengine.GameController;
 
 import java.awt.event.KeyEvent;
 

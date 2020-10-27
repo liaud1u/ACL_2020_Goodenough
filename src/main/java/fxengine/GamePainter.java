@@ -1,6 +1,6 @@
-package engine;
+package fxengine;
 
-import java.awt.image.BufferedImage;
+import javafx.scene.canvas.Canvas;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -17,7 +17,9 @@ public interface GamePainter {
 	 * @param image
 	 *            image sur laquelle dessiner
 	 */
-    void draw(BufferedImage image);
+    void draw();
+
+    Canvas getCanvas();
 
 	int getWidth();
 

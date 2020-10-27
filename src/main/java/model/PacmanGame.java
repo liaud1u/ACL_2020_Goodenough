@@ -1,7 +1,7 @@
 package model;
 
-import engine.Cmd;
-import engine.Game;
+import fxengine.Cmd;
+import fxengine.Game;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
