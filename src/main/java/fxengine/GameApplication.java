@@ -1,5 +1,6 @@
 package fxengine;
 
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -11,6 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.PacmanController;
+import model.PacmanGame;
 import model.PacmanPainter;
 
 public class GameApplication extends Application {
@@ -18,6 +20,8 @@ public class GameApplication extends Application {
     private GamePainter painter;
     private GameController controller;
     private Canvas mainCanva;
+    private Game game;
+    private Timeline gameloop;
 
     public void run(){
         launch();
@@ -27,6 +31,8 @@ public class GameApplication extends Application {
         this.primaryStage=primaryStage;
 
         Group group = new Group();
+
+        game = new PacmanGame("helpFilePacman.txt");
 
         mainCanva = new Canvas(512,512);
 
@@ -39,7 +45,7 @@ public class GameApplication extends Application {
 
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent event) {
-                System.out.println("CLOSING");
+                System.out.println("Fermeture");
                 Platform.exit();
                 System.exit(0);
             }
@@ -62,6 +68,12 @@ public class GameApplication extends Application {
                     }
                 }
         );
+
+        final long start = System.nanoTime();
+
+
+        GameLoop loop = new GameLoop(painter,controller,game);
+        loop.start();
 
         primaryStage.setScene(scene);
         primaryStage.setFullScreen(true);
