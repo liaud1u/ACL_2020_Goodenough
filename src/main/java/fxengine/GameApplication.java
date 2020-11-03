@@ -2,6 +2,7 @@ package fxengine;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
@@ -19,7 +20,7 @@ import model.PacmanPainter;
  * @author LIAUD Alexis
  */
 public class GameApplication extends Application {
-  public static DoubleProperty blocSize = new SimpleDoubleProperty();
+  public static DoubleProperty blocSizeProperty = new SimpleDoubleProperty();
 
   /**
    * Hauteur de la fenêtre
@@ -98,11 +99,13 @@ public class GameApplication extends Application {
     // Création de la scene principale contenant le groupe de canvas
     Scene scene = new Scene(root, WIDTH, HEIGHT, Color.BLACK);
 
-    blocSize.bind(scene.widthProperty());
+    blocSizeProperty.bind(
+      Bindings
+        .when(scene.widthProperty().lessThan(scene.heightProperty()))
+        .then(scene.widthProperty())
+        .otherwise(scene.heightProperty())
+    );
 
-    scene.widthProperty().addListener((a, o, n) -> {
-      System.out.println(blocSize.get() + " " + n);
-    });
     // Actions à effectuer lors d'un click sur une touche
     scene.setOnKeyPressed(
       new EventHandler<KeyEvent>() {
