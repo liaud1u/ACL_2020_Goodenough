@@ -40,7 +40,8 @@ public class PacmanGame implements Game {
 	 * @param commande
 	 */
 	public void evolve(Cmd commande) {
-		System.out.println("Execute "+commande);
+
+		//System.out.println("Execute "+commande);
 	}
 
 	/**

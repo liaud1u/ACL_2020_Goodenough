@@ -1,6 +1,6 @@
 package fxengine;
 
-import javafx.scene.canvas.Canvas;
+import javafx.scene.Group;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -19,7 +19,7 @@ public interface GamePainter {
 	 */
     void draw();
 
-    Canvas getCanvas();
+	Group getRoot();
 
 	int getWidth();
 
