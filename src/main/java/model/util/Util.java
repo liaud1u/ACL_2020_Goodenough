@@ -9,7 +9,7 @@ import model.PacmanGame;
  * 03/11/2020, 20:46
  */
 public abstract class Util {
-  public static final int MAZE_SIZE = 5;
+  public static final int MAZE_SIZE = 20;
 
   public static double speedDifficulty = 1.;
 

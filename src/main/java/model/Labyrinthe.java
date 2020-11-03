@@ -1,24 +1,11 @@
 package model;
-//  /!\ WIP
-// WORKING :
-//  - Maze creation
-//  - Maze generation
-//  - Imperfect maze
-//  - Maze display AWT/Swing
-// NOT IMPLEMENTED YET :
-//  - Maze display JavaFX
-//  - Imperfect maze
-// TO ENHANCE :
-//  - Imperfect maze generation (generating imperfect faster than generating perfect and then break walls)
-
-import model.util.Util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
 /**
- * @author adrien
+ * @author adrien & florian
  */
 public class Labyrinthe {
 
@@ -190,7 +177,7 @@ public class Labyrinthe {
             for (int y = 1; y < tailleColonneGUI - 1; y++) {
                 if ((x != tailleLigneGUI - 1 && y != 1 || x != 1 && y != tailleColonneGUI - 1) && (x != 2 && y != tailleLigneGUI - 2 || x != tailleColonneGUI - 2 && y != 2)) {
                     if (labyrintheGUI[x][y] == mur) {
-                        int nbPourcentInt = 10;
+                        int nbPourcentInt = 5;
                         int nbAleatoire = rand.nextInt(10);
                         if (nbAleatoire > nbPourcentInt) {
                             labyrintheGUI[x][y] = vide;

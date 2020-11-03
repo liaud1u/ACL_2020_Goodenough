@@ -22,18 +22,10 @@ public class CaseView extends Group {
     public CaseView(Case c) {
 
             this.modelCase = c;
-           // this.tailleCase.bind();
-            // this.diffTailleCase = Util.slotSizeProperty.get() - Util.wallSizeProperty.get();
-
-
             //System.out.println(GameApplication.blocSizeProperty.get());
             representationCase = new ArrayList<>();
 
             // Case de base
-
-
-
-
             Rectangle base = new Rectangle(c.getY() * Util.slotSizeProperty.get(),c.getX() * Util.slotSizeProperty.get(),  Util.slotSizeProperty.get(), Util.slotSizeProperty.get());
             if(c.isEstUnMur()) {
                 base.setFill(Color.GRAY);

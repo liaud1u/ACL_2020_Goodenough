@@ -3,9 +3,8 @@ package model;
 import java.util.ArrayList;
 
 /**
- * @author adrien
+ * @author adrien & florian
  */
-// TODO : inverser X/Y
 public class Case {
 
     // Coordonnees X et Y de la case dans le labyrinthe
