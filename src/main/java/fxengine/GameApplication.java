@@ -15,13 +15,12 @@ import javafx.stage.WindowEvent;
 import model.PacmanController;
 import model.PacmanGame;
 import model.PacmanPainter;
+import model.util.Util;
 
 /**
  * @author LIAUD Alexis
  */
 public class GameApplication extends Application {
-  public static DoubleProperty blocSizeProperty = new SimpleDoubleProperty();
-
   /**
    * Hauteur de la fenêtre
    */
@@ -83,7 +82,7 @@ public class GameApplication extends Application {
     // Création de la scene principale contenant le groupe de canvas
     Scene scene = new Scene(root, WIDTH, HEIGHT, Color.BLACK);
 
-    blocSizeProperty.bind(
+    Util.windowSizeProperty.bind(
             Bindings
                     .when(scene.widthProperty().lessThan(scene.heightProperty()))
                     .then(scene.widthProperty())
