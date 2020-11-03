@@ -11,8 +11,17 @@ import model.Labyrinthe;
 public class LabyrintheView extends Group {
 
 
+
     public LabyrintheView(Labyrinthe l) {
-        Case[][] plateau = l.getPlateau();
+        Case[][] plateau = l.getLabyrinthe();
+
+        for (int i = 0; i < plateau.length; i++) {
+            for (int j = 0; j < plateau.length; j++) {
+                  System.out.println(plateau[i][j]);
+            }
+
+        }
+        System.out.println(plateau);
         for (Case[] cc : plateau) {
             for (Case c : cc) {
                 this.getChildren().add(new CaseView(c));

@@ -42,12 +42,11 @@ public class PacmanGame implements Game {
 		}
 
 
-		labyrinthe = new Labyrinthe(Util.MAZE_SIZE, true);
-		labyrinthe.genererLabyrinthe();
+		labyrinthe = new Labyrinthe(Util.MAZE_SIZE, Util.MAZE_SIZE);
 
 		player = new Player(this);
 
-		tabPastille = new Pastille[labyrinthe.getTaille()][labyrinthe.getTaille()];
+		tabPastille = new Pastille[Util.MAZE_SIZE][Util.MAZE_SIZE];
 
 		for (int i = 0; i < tabPastille.length; i++) {
 			for (int j = 0; j < tabPastille.length; j++) {

@@ -22,10 +22,6 @@ public class CaseView extends Group {
     public CaseView(Case c) {
 
             this.modelCase = c;
-
-            
-
-
            // this.tailleCase.bind();
             this.diffTailleCase = Util.slotSizeProperty.get() - Util.wallSizeProperty.get();
 
@@ -38,39 +34,6 @@ public class CaseView extends Group {
             base.setFill(Color.GRAY);
             representationCase.add(base);
 
-
-          //  Rectangle mur = .setFill(Color.DARKKHAKI);
-
-            
-            // Mur ouest
-            if(c.isMurOuest()) {
-                Rectangle mur =  new Rectangle(c.getY() * Util.slotSizeProperty.get(),c.getX() * Util.slotSizeProperty.get(), Util.wallSizeProperty.get(), Util.slotSizeProperty.get());
-                mur.setFill(Color.BLACK);
-                representationCase.add(mur);
-            }
-
-
-            // Mur est
-            if(c.isMurEst()) {
-                Rectangle mur =  new Rectangle(c.getY() * Util.slotSizeProperty.get() + diffTailleCase, c.getX() * Util.slotSizeProperty.get(), Util.wallSizeProperty.get(), Util.slotSizeProperty.get());
-                mur.setFill(Color.BLACK);
-                representationCase.add(mur);
-
-
-            }
-            // Mur nord
-            if(c.isMurNord()) {
-                Rectangle mur =  new Rectangle(c.getY() * Util.slotSizeProperty.get(),c.getX() * Util.slotSizeProperty.get(),  Util.slotSizeProperty.get(), Util.wallSizeProperty.get());
-                mur.setFill(Color.BLACK);
-                representationCase.add(mur);
-            }
-            // Mur sud
-            if(c.isMurSud()) {
-                Rectangle mur =  new Rectangle(c.getY() * Util.slotSizeProperty.get(),c.getX() * Util.slotSizeProperty.get() + diffTailleCase,  Util.slotSizeProperty.get(), Util.wallSizeProperty.get());
-                mur.setFill(Color.BLACK);
-                representationCase.add(mur);
-            }
-            
             for(Rectangle r :representationCase) {
                 if(r != null) {
                     getChildren().add(r);

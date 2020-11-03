@@ -73,5 +73,37 @@ public class Case {
         this.y = y;
     }
 
+    public ArrayList<Case> getVoisins() {
+        return voisins;
+    }
 
+    public void setVoisins(ArrayList<Case> voisins) {
+        this.voisins = voisins;
+    }
+
+    public boolean isEstUnMur() {
+        return estUnMur;
+    }
+
+    public void setEstUnMur(boolean estUnMur) {
+        this.estUnMur = estUnMur;
+    }
+
+    public boolean isEstVide() {
+        return estVide;
+    }
+
+    public void setEstVide(boolean estVide) {
+        this.estVide = estVide;
+    }
+
+    @Override
+    public String toString() {
+        return "Case{" +
+                "x=" + x +
+                ", y=" + y +
+                ", estUnMur=" + estUnMur +
+                ", estVide=" + estVide +
+                '}';
+    }
 }
