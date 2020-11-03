@@ -2,9 +2,7 @@ package views;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.transform.Translate;
 import model.PacmanGame;
-import model.player.Direction;
 import model.player.Player;
 
 /**
@@ -28,17 +26,16 @@ public class PlayerView extends Circle {
   // public
 
   public void draw(PacmanGame game) {
-    Direction direction = game.getPlayer().getCurrentMoveDirection();
-
-    this.getTransforms().add(new Translate(direction.getX_dir(), direction.getY_dir()));
+    this.setCenterX(player.getX());
+    this.setCenterY(player.getY());
   }
    
    /*------------------------------------------------------------------
                             Constructors
    ------------------------------------------------------------------*/
 
-   public PlayerView(Player player) {
-     this.player = player;
-     this.init();
-   }
+  public PlayerView(Player player) {
+    this.player = player;
+    this.init();
+  }
 }

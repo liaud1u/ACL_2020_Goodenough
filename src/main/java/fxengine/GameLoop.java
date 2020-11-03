@@ -47,7 +47,9 @@ public class GameLoop extends AnimationTimer {
             frame++;
         }
 
+
         painter.draw();
+
         game.evolve(controller.getCommand());
     }
 

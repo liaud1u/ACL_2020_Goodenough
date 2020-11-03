@@ -2,10 +2,11 @@ package model;
 
 import fxengine.GamePainter;
 import javafx.scene.Group;
-import model.player.Player;
 import views.LabyrintheView;
 import views.PastilleView;
 import views.PlayerView;
+
+import java.util.ArrayList;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -22,9 +23,11 @@ public class PacmanPainter implements GamePainter {
   protected int HEIGHT = 100;
 
   private final Group root;
-  private PacmanGame game;
-  private LabyrintheView labyrintheView;
-  private PlayerView playerView;
+  private final PacmanGame game;
+
+  private final LabyrintheView labyrintheView;
+  private final PlayerView playerView;
+  private final ArrayList<PastilleView> pastillesView;
 
   /**
    * appelle constructeur parent
@@ -38,9 +41,13 @@ public class PacmanPainter implements GamePainter {
 
     Pastille[][] pastille = game.getPastille();
 
+    pastillesView = new ArrayList<>();
+
     for (int i = 0; i < pastille.length; i++) {
       for (int j = 0; j < pastille.length; j++) {
-        this.root.getChildren().add(new PastilleView(pastille[i][j],i,j));
+        PastilleView view = new PastilleView(pastille[i][j], i, j);
+        pastillesView.add(view);
+        this.root.getChildren().add(view);
       }
 
     }
@@ -69,5 +76,17 @@ public class PacmanPainter implements GamePainter {
 
   public Group getRoot() {
     return root;
+  }
+
+  public LabyrintheView getLabyrintheView() {
+    return labyrintheView;
+  }
+
+  public PlayerView getPlayerView() {
+    return playerView;
+  }
+
+  public ArrayList<PastilleView> getPastillesView() {
+    return pastillesView;
   }
 }

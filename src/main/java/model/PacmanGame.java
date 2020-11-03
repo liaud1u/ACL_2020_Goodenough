@@ -17,6 +17,7 @@ import java.io.IOException;
  */
 public class PacmanGame implements Game {
 
+	private static final int SIZE = 10;
 	private final Player player;
 	private final Labyrinthe labyrinthe;
 	private final Pastille[][] tabPastille;
@@ -38,11 +39,12 @@ public class PacmanGame implements Game {
 			System.out.println("Help not available");
 		}
 
-		player = new Player();
 
-
-		labyrinthe = new Labyrinthe(20, false);
+		labyrinthe = new Labyrinthe(SIZE, true);
 		labyrinthe.genererLabyrinthe();
+
+		player = new Player(this);
+
 		tabPastille = new Pastille[labyrinthe.getTaille()][labyrinthe.getTaille()];
 
 		for (int i = 0; i < tabPastille.length; i++) {
@@ -64,6 +66,7 @@ public class PacmanGame implements Game {
 		//System.out.println("Execute "+commande);
 		if (commande != Cmd.IDLE)
 			player.setCurrentMoveDirection(Direction.valueOf(commande.name()));
+		player.go();
 	}
 
 	/**
@@ -83,7 +86,29 @@ public class PacmanGame implements Game {
 		return labyrinthe;
 	}
 
-	public Pastille[][] getPastille(){
+	public Pastille[][] getPastille() {
 		return tabPastille;
+	}
+
+	public boolean willPlayerCollide() {
+		int x, y;
+
+		x = player.getX();
+		y = player.getY();
+
+
+		x += player.getCurrentMoveDirection().getX_dir();
+		y += player.getCurrentMoveDirection().getY_dir();
+
+		//System.out.println(x+" " +y);
+
+		//En cas de dépassement des bords
+		if (x >= SIZE * 32 - 16 + 2 || y >= SIZE * 32 - 16 + 2 || y < 16 - 2 || x < 16 - 2)
+			return true;
+
+		int currentCaseX = x / 32;
+		int currentCaseY = y / 32;
+
+		return false;
 	}
 }

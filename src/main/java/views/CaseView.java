@@ -11,31 +11,31 @@ import model.Case;
  */
 public class CaseView extends Group {
 
-    private int TAILLE_CASE = 32;
-    private int TAILLE_MUR = 3;
-    private int DIFF_TAILLE_CASE = TAILLE_CASE - TAILLE_MUR;
+    private final int TAILLE_CASE = 32;
+    private final int TAILLE_MUR = 4;
+    private final int DIFF_TAILLE_CASE = TAILLE_CASE - TAILLE_MUR;
 
-    private Case modelCase;
-    private Rectangle[] representationCase;
+    private final Case modelCase;
+    private final Rectangle[] representationCase;
 
     public CaseView(Case c) {
 
-            this.modelCase = c;
-            representationCase = new Rectangle[5];
+        this.modelCase = c;
+        representationCase = new Rectangle[5];
 
-            // Case de base
-            representationCase[0] = new Rectangle(c.getY() * TAILLE_CASE,c.getX() * TAILLE_CASE,  TAILLE_CASE, TAILLE_CASE);
-            representationCase[0].setFill(Color.DARKKHAKI);
+        // Case de base
+        //representationCase[0] = new Rectangle(c.getY() * TAILLE_CASE,c.getX() * TAILLE_CASE,  TAILLE_CASE, TAILLE_CASE);
+        //representationCase[0].setFill(Color.DARKKHAKI);
 
-            // Mur ouest
-            if(c.isMurOuest()) {
-                representationCase[1] = new Rectangle(c.getY() * TAILLE_CASE,c.getX() * TAILLE_CASE,  TAILLE_MUR, TAILLE_CASE);
-                representationCase[1].setFill(Color.DARKRED);
-            }
-            // Mur est
-            if(c.isMurEst()) {
-                representationCase[2] = new Rectangle(c.getY() * TAILLE_CASE + DIFF_TAILLE_CASE, c.getX() * TAILLE_CASE, TAILLE_MUR, TAILLE_CASE);
-                representationCase[2].setFill(Color.DARKRED);
+        // Mur ouest
+        if (c.isMurOuest()) {
+            representationCase[1] = new Rectangle(c.getY() * TAILLE_CASE, c.getX() * TAILLE_CASE, TAILLE_MUR, TAILLE_CASE);
+            representationCase[1].setFill(Color.DARKRED);
+        }
+        // Mur est
+        if (c.isMurEst()) {
+            representationCase[2] = new Rectangle(c.getY() * TAILLE_CASE + DIFF_TAILLE_CASE, c.getX() * TAILLE_CASE, TAILLE_MUR, TAILLE_CASE);
+            representationCase[2].setFill(Color.DARKRED);
             }
             // Mur nord
             if(c.isMurNord()) {
