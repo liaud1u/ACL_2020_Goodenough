@@ -187,8 +187,8 @@ public class Labyrinthe {
             }
         }
 
-        for (int x = 1; x < tailleLigneGUI - 1; x++) {
-            for (int y = 1; y < tailleColonneGUI - 1; y++) {
+        for (int x = 0; x < tailleLigneGUI ; x++) {
+            for (int y = 0; y < tailleColonneGUI ; y++) {
                 if(labyrintheGUI[x][y] == 'X') {
                     cases[x][y] = new Case(x, y, true);
                 } else {
