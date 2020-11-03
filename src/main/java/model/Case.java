@@ -6,41 +6,83 @@ import java.util.ArrayList;
  * @author adrien & florian
  */
 public class Case {
-
-    // Coordonnees X et Y de la case dans le labyrinthe
+    /**
+     * Coordonée x de la case
+     */
     private int x;
+
+    /**
+     * Coordonnée y de la case
+     */
     private int y;
+
+    /**
+     * Liste des cases voisines de la case
+     */
     private ArrayList<Case> voisins = new ArrayList<>();
+
+    /**
+     * Booléen, vrai si la case courante est un mur
+     */
     private boolean estUnMur = true;
+
+    /**
+     * Booléen, vrai si la case courante est vide
+     */
     private boolean estVide = true;
 
-    public Case(int x, int y)
-    {
+    /**
+     * Constructeur d'une case
+     *
+     * @param x int coordonnée x de la case
+     * @param y int coordonnée y de la case
+     */
+    public Case(int x, int y) {
         this(x, y, true);
     }
 
+    /**
+     * Constructeur d'une case
+     *
+     * @param x    int coordonnée x de la case
+     * @param y    int coordonnée y de la case
+     * @param bool booléen vrai si la case est un mur
+     */
     public Case(int x, int y, boolean bool) {
         this.x = x;
         this.y = y;
         this.estUnMur = bool;
     }
 
-    void ajoutVoisin(Case c) {
-        if (!this.voisins.contains(c))
-        {
+    /**
+     * Ajout d'un voisin à la case courante
+     *
+     * @param c Case voisin à ajouter
+     */
+    public void ajoutVoisin(Case c) {
+        if (!this.voisins.contains(c)) {
             this.voisins.add(c);
         }
-        if (!c.voisins.contains(this))
-        {
+        if (!c.voisins.contains(this)) {
             c.voisins.add(this);
         }
     }
 
-    boolean voisinDessous() {
+    /**
+     * Vérifie si il y a un voisin dessous
+     *
+     * @return true si il y a un voisin en dessous
+     */
+    public boolean voisinDessous() {
         return this.voisins.contains(new Case(this.x, this.y + 1));
     }
 
-    boolean voisinDroite() {
+    /**
+     * Vérifie si il y a un voisin à droite
+     *
+     * @return true si il y a un voisin à droite
+     */
+    public boolean voisinDroite() {
         return this.voisins.contains(new Case(this.x + 1, this.y));
     }
 
@@ -56,42 +98,92 @@ public class Case {
         return this.x + this.y * 256;
     }
 
+    /**
+     * Renvoie la coordonnée x de la case
+     *
+     * @return int x
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * Setter de la coordonnée x de la case
+     *
+     * @param x int coordonnée x
+     */
     public void setX(int x) {
         this.x = x;
     }
 
+    /**
+     * Renvoie la coordonée y de la case
+     *
+     * @return int y
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     * Setter de la coordonnée y de la case
+     *
+     * @param y int coordonnée y
+     */
     public void setY(int y) {
         this.y = y;
     }
 
+    /**
+     * Retourne la liste des voisins
+     *
+     * @return Liste de cases voisines
+     */
     public ArrayList<Case> getVoisins() {
         return voisins;
     }
 
+    /**
+     * Permet de définir la liste des voisins
+     *
+     * @param voisins Liste de cases voisines
+     */
     public void setVoisins(ArrayList<Case> voisins) {
         this.voisins = voisins;
     }
 
+    /**
+     * Vérifie si la case est un mur
+     *
+     * @return true si la case est un mur, false sinon
+     */
     public boolean isEstUnMur() {
         return estUnMur;
     }
 
+    /**
+     * Permet de définir la case courante comme un mur
+     *
+     * @param estUnMur booléen true si la case est un mur, faux sinon
+     */
     public void setEstUnMur(boolean estUnMur) {
         this.estUnMur = estUnMur;
     }
 
+    /**
+     * Vérifie si la case est vide
+     *
+     * @return true si la case est vide, false sinon
+     */
     public boolean isEstVide() {
         return estVide;
     }
 
+    /**
+     * Permet de définir la case courante comme vidé
+     *
+     * @param estVide true si la case est vide, false sinon
+     */
     public void setEstVide(boolean estVide) {
         this.estVide = estVide;
     }

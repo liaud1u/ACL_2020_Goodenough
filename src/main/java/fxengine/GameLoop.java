@@ -3,7 +3,7 @@ package fxengine;
 import javafx.animation.AnimationTimer;
 
 /**
- * @author LIAUD Alexis
+ * Boucle principale du jeu
  */
 public class GameLoop extends AnimationTimer {
     /**
@@ -21,10 +21,23 @@ public class GameLoop extends AnimationTimer {
      */
     private final Game game;
 
+    /**
+     * Nombre de frame affichée durant cette seconde
+     */
     private int frame;
 
+    /**
+     * Long correspondant à la dernière seconde pour calculer les FPS
+     */
     private long lastSeconds = 0;
 
+    /**
+     * Boucle principale du jeu
+     *
+     * @param painter    GamePainter pour dessiner le jeu
+     * @param controller GameController pour controller le jeu
+     * @param game       Game jeu
+     */
     public GameLoop(GamePainter painter, GameController controller, Game game) {
         this.painter = painter;
         this.controller = controller;
@@ -50,6 +63,7 @@ public class GameLoop extends AnimationTimer {
 
         painter.draw();
 
+        // On fait évoluer le jeu
         game.evolve(controller.getCommand());
     }
 

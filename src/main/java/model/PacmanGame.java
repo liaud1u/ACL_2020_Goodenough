@@ -19,10 +19,26 @@ import java.util.ArrayList;
  */
 public class PacmanGame implements Game {
 
+	/**
+	 * Joueur principal
+	 */
 	private final Player player;
+
+	/**
+	 * Labyrinthe principal
+	 */
 	private final Labyrinthe labyrinthe;
+
+	/**
+	 * Tableau des pastilles
+	 */
 	private final Pastille[][] tabPastille;
+
+	/**
+	 * Liste des pastilles restantes
+	 */
 	private final ArrayList<Pastille> pastilles;
+
 
 	/**
 	 * constructeur avec fichier source pour le help
@@ -87,19 +103,36 @@ public class PacmanGame implements Game {
 		return false;
 	}
 
+	/**
+	 * Renvoie le joueur
+	 *
+	 * @return Player joueur principal
+	 */
 	public Player getPlayer() {
 		return player;
 	}
 
-
+	/**
+	 * Renvoie le labyrinthe
+	 *
+	 * @return Labyrinthe labyrinthe principal
+	 */
 	public Labyrinthe getLabyrinthe() {
 		return labyrinthe;
 	}
 
+	/**
+	 * Tableau de pastille du jeu
+	 *
+	 * @return Tableau de pastille
+	 */
 	public Pastille[][] getPastille() {
 		return tabPastille;
 	}
 
+	/**
+	 * Détermine si le joueur vas manger une pastille
+	 */
 	public void willPlayerEatPastille() {
 
 		double x = player.getX();
@@ -112,9 +145,11 @@ public class PacmanGame implements Game {
 			double dx = x - p.getX();
 			double dy = y - p.getY();
 
+
+			//On calcule la distance entre chaque pastille et le joueur principal
 			double distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
 
-
+			//Si les deux objets se touchent, alors la pastille est mangée
 			if (distance < Util.slotSizeProperty.get() * 0.3 + Util.slotSizeProperty.get() / 6) {
 				if (!p.isRamassee()) {
 					p.ramasser();
@@ -130,6 +165,11 @@ public class PacmanGame implements Game {
 			System.out.println("VICTOIRE");
 	}
 
+	/**
+	 * Détermine si le joueur va rentrer en contact avec un mur
+	 *
+	 * @return true si contact avec un mur, false sinon
+	 */
 	public boolean willPlayerCollide() {
 		double x, y;
 
@@ -168,6 +208,6 @@ public class PacmanGame implements Game {
 
 
 		 System.out.println(player.toRectBounds().intersects(haut.toRectBounds()));
-		**/
+		 **/
 	}
 }
