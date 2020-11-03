@@ -16,7 +16,7 @@ import model.PacmanPainter;
 import model.util.Util;
 
 /**
- * @author LIAUD Alexis
+ * Application principale
  */
 public class GameApplication extends Application {
   /**
