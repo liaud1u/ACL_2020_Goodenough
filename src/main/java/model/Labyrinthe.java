@@ -9,9 +9,6 @@ import java.util.Random;
  */
 public class Labyrinthe {
 
-    public final static int CASEVIDE = 0;  // Case vide par laquelle on peut passer
-    public final static int CASEMUR = 1; // Mur
-
     // Ensemble des cases formant le labyrinthe
     private Case[][] cases;
     private Case[][] labyrinthe;
@@ -22,10 +19,6 @@ public class Labyrinthe {
     int tailleColonneGUI;
     Random rand = new Random();
 
-    public Labyrinthe(int tailleLaby) {
-        //Longueur et largeur identiques
-        this(tailleLaby,tailleLaby);
-    }
 
     public Labyrinthe(int tailleLigne, int tailleColonne) {
         this.tailleLigne = tailleLigne;
@@ -42,18 +35,6 @@ public class Labyrinthe {
         return cases;
     }
 
-    public void setLabyrinthe(Case[][] labyrinthe) {
-        this.labyrinthe = labyrinthe;
-    }
-
-
-    public char[][] getLabyrintheGUI() {
-        return labyrintheGUI;
-    }
-
-    public void setLabyrintheGUI(char[][] labyrintheGUI) {
-        this.labyrintheGUI = labyrintheGUI;
-    }
 
     //Création des cases
     private void initialisationLaby() {
