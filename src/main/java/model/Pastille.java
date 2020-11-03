@@ -1,9 +1,10 @@
 package model;
 
 import javafx.scene.paint.Color;
+import model.util.Util;
 
 public abstract class Pastille {
-    protected double rayonPastille = 4; //A définir
+
     private boolean ramassee;
     private Color couleurPastille;
     private String typePastille;
@@ -13,14 +14,6 @@ public abstract class Pastille {
         this.couleurPastille = couleurPastille;
         this.typePastille = typePastille;
 
-    }
-
-    public double getRayonPastille() {
-        return rayonPastille;
-    }
-
-    public void setRayonPastille(double rayonPastille) {
-        this.rayonPastille = rayonPastille;
     }
 
     public boolean isRamassee() {
@@ -47,9 +40,6 @@ public abstract class Pastille {
         this.typePastille = typePastille;
     }
 
-    public double getRayon() {
-        return this.rayonPastille;
-    }
 
 
 }
