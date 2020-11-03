@@ -103,8 +103,8 @@ public class PacmanGame implements Game {
 
 	public void willPlayerEatPastille() {
 
-		int x = player.getX();
-		int y = player.getY();
+		double x = player.getX();
+		double y = player.getY();
 
 
 		ArrayList<Pastille> toRemove = new ArrayList<>();
