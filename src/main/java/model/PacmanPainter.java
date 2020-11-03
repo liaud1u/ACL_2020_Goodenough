@@ -55,8 +55,6 @@ public class PacmanPainter implements GamePainter {
     this.playerView = new PlayerView(game.getPlayer());
     this.root.getChildren().add(this.playerView);
 
-
-
   }
 
   /**
