@@ -3,6 +3,7 @@ package model;
 import fxengine.GamePainter;
 import javafx.scene.Group;
 import model.player.Player;
+import views.LabyrintheView;
 import views.PlayerView;
 
 /**
@@ -21,6 +22,7 @@ public class PacmanPainter implements GamePainter {
 
   private final Group root;
   private PacmanGame game;
+  private LabyrintheView labyrintheView;
   private PlayerView playerView;
 
   /**
@@ -29,6 +31,9 @@ public class PacmanPainter implements GamePainter {
   public PacmanPainter(Group main, PacmanGame game) {
     this.root = main;
     this.game = game;
+
+    this.labyrintheView = new LabyrintheView(game.getLabyrinthe());
+    this.root.getChildren().add(this.labyrintheView);
 
     this.playerView = new PlayerView(game.getPlayer());
     this.root.getChildren().add(this.playerView);

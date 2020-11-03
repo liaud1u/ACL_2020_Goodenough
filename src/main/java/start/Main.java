@@ -12,6 +12,7 @@ public class Main {
 		GameApplication engine = new GameApplication();
 
 		engine.run();
+
 	}
 
 }

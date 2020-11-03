@@ -18,6 +18,7 @@ import java.io.IOException;
 public class PacmanGame implements Game {
 
 	private final Player player;
+	private final Labyrinthe labyrinthe;
 
 	/**
 	 * constructeur avec fichier source pour le help
@@ -37,6 +38,7 @@ public class PacmanGame implements Game {
 		}
 
 		player = new Player();
+		labyrinthe = new Labyrinthe(40, false);
 	}
 
 	/**
@@ -61,5 +63,10 @@ public class PacmanGame implements Game {
 
 	public Player getPlayer() {
 		return player;
+	}
+
+
+	public Labyrinthe getLabyrinthe() {
+		return labyrinthe;
 	}
 }

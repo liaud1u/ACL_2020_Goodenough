@@ -21,6 +21,10 @@ public class Case {
     private boolean murEst;
     private boolean murOuest;
 
+
+
+    private Murs[] murs;
+
     /**
      * Constructeur d'une case du labyrinthe
      * @param id entier : identifiant unique de la case
@@ -32,6 +36,7 @@ public class Case {
         this.num = id;
         this.x = px;
         this.y = py;
+
         this.murNord = true;
         this.murSud = true;
         this.murEst = true;
