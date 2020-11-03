@@ -23,8 +23,8 @@ public class Labyrinthe {
     public Labyrinthe(int tailleLigne, int tailleColonne) {
         this.tailleLigne = tailleLigne;
         this.tailleColonne = tailleColonne;
-        tailleLigneGUI = tailleLigne * 2 + 1;
-        tailleColonneGUI = tailleColonne * 2 + 1;
+        tailleLigneGUI = tailleLigne * 2 ;
+        tailleColonneGUI = tailleColonne * 2 ;
         labyrintheGUI = new char[tailleLigneGUI][tailleColonneGUI];
         cases = new Case[tailleLigneGUI][tailleColonneGUI];
         initialisationLaby();
@@ -131,7 +131,9 @@ public class Labyrinthe {
         }
         for (int x = 0; x < tailleLigneGUI; x++) {
             for (int y = 0; y < tailleColonneGUI; y++) {
-                if (x % 2 == 0 || y % 2 == 0) {
+
+
+                if (x % 2 == 0 || y % 2 == 0 ) {
                     labyrintheGUI[x][y] = mur;
                 }
 
