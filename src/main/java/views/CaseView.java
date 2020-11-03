@@ -1,9 +1,15 @@
 package views;
 
+import fxengine.GameApplication;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import model.Case;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -11,43 +17,71 @@ import model.Case;
  */
 public class CaseView extends Group {
 
-    private int TAILLE_CASE = 32;
-    private int TAILLE_MUR = 3;
-    private int DIFF_TAILLE_CASE = TAILLE_CASE - TAILLE_MUR;
+    private DoubleProperty tailleCase;
+    private DoubleProperty tailleMur;
+    private double diffTailleCase;
 
     private Case modelCase;
-    private Rectangle[] representationCase;
+    private List<Rectangle> representationCase;
 
     public CaseView(Case c) {
 
             this.modelCase = c;
-            representationCase = new Rectangle[5];
+
+            this.tailleCase = new SimpleDoubleProperty();
+            this.tailleMur = new SimpleDoubleProperty();
+
+
+            this.tailleCase.bind(GameApplication.blocSizeProperty.divide(20));
+            this.tailleMur.bind(this.tailleCase.divide(10));
+            this.diffTailleCase = this.tailleCase.get() - this.tailleMur.get();
+
+
+            //System.out.println(GameApplication.blocSizeProperty.get());
+            representationCase = new ArrayList<>();
 
             // Case de base
-            representationCase[0] = new Rectangle(c.getY() * TAILLE_CASE,c.getX() * TAILLE_CASE,  TAILLE_CASE, TAILLE_CASE);
-            representationCase[0].setFill(Color.DARKKHAKI);
+            Rectangle base = new Rectangle(c.getY() * this.tailleCase.get(),c.getX() * this.tailleCase.get(),  this.tailleCase.get(), this.tailleCase.get());
+            base.setFill(Color.GRAY);
+            representationCase.add(base);
 
+
+          //  Rectangle mur = .setFill(Color.DARKKHAKI);
+
+            
             // Mur ouest
             if(c.isMurOuest()) {
-                representationCase[1] = new Rectangle(c.getY() * TAILLE_CASE,c.getX() * TAILLE_CASE,  TAILLE_MUR, TAILLE_CASE);
-                representationCase[1].setFill(Color.DARKRED);
+                Rectangle mur =  new Rectangle(c.getY() * this.tailleCase.get(),c.getX() * this.tailleCase.get(), tailleMur.get(), this.tailleCase.get());
+                mur.setFill(Color.BLACK);
+                representationCase.add(mur);
+                if(!c.isMurSud()) {
+
+                }
+                if(!c.isMurNord()) {
+
+                }
             }
+
+
             // Mur est
             if(c.isMurEst()) {
-                representationCase[2] = new Rectangle(c.getY() * TAILLE_CASE + DIFF_TAILLE_CASE, c.getX() * TAILLE_CASE, TAILLE_MUR, TAILLE_CASE);
-                representationCase[2].setFill(Color.DARKRED);
+                Rectangle mur =  new Rectangle(c.getY() * this.tailleCase.get() + diffTailleCase, c.getX() * this.tailleCase.get(), tailleMur.get(), this.tailleCase.get());
+                mur.setFill(Color.BLACK);
+                representationCase.add(mur);
             }
             // Mur nord
             if(c.isMurNord()) {
-                representationCase[3] = new Rectangle(c.getY() * TAILLE_CASE,c.getX() * TAILLE_CASE,  TAILLE_CASE, TAILLE_MUR);
-                representationCase[3].setFill(Color.DARKRED);
+                Rectangle mur =  new Rectangle(c.getY() * this.tailleCase.get(),c.getX() * this.tailleCase.get(),  this.tailleCase.get(), tailleMur.get());
+                mur.setFill(Color.BLACK);
+                representationCase.add(mur);
             }
             // Mur sud
             if(c.isMurSud()) {
-                representationCase[4] = new Rectangle(c.getY() * TAILLE_CASE,c.getX() * TAILLE_CASE + DIFF_TAILLE_CASE,  TAILLE_CASE, TAILLE_MUR);
-                representationCase[4].setFill(Color.DARKRED);
+                Rectangle mur =  new Rectangle(c.getY() * this.tailleCase.get(),c.getX() * this.tailleCase.get() + diffTailleCase,  this.tailleCase.get(), tailleMur.get());
+                mur.setFill(Color.BLACK);
+                representationCase.add(mur);
             }
-
+            
             for(Rectangle r :representationCase) {
                 if(r != null) {
                     getChildren().add(r);
