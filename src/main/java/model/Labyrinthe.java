@@ -11,13 +11,29 @@ package model;
 // TO ENHANCE :
 //  - Imperfect maze generation (generating imperfect faster than generating perfect and then break walls)
 
+/**
+ * @author adrien
+ */
 public class Labyrinthe {
 
 
+    // Ensemble des cases formant le labyrinthe
     private Case[][] plateau;
+
+    // La taille du labyrinthe
     private int taille;
+
+    // Booléen determinant si le labyrinthe est parfait ou non
     private boolean parfait;
 
+    /**
+     *  Constructeur d'un labyrinthe
+     *
+     *  Permet de construire un labyrinthe et de definir toutes les variables necessaires pour l'utilisation souhaitee.
+     *
+     * @param taille entier representant la taille du labyrinthe
+     * @param parfait booleen determinant la methode de generation du labyrinthe (parfait ou imparfait
+     */
     public Labyrinthe(int taille, boolean parfait) {
         this.taille = taille;
         this.plateau = new Case[taille][taille];
@@ -30,15 +46,27 @@ public class Labyrinthe {
         }
     }
 
+    /**
+     * Getter pour obtenir la taille du labyrinthe
+     * @return int entier qui represente la taille
+     */
     public int getTaille() {
         return taille;
     }
 
+    /**
+     * Getter pour obtenir les cases représentant le labyrinthe
+     * @return tableau 2 dimensions représentant le plateau
+     */
     public Case[][] getPlateau() {
         return plateau;
     }
 
+    /**
+     * Methode permettant de générer le labyrinthe
+     */
     public void genererLabyrinthe() {
+        long startGeneration = System.currentTimeMillis();
             while(!parcoursTermine()) {
                 Case c = choisirCaseAleatoire();
                 int murChoisi = genererValeurAleatoire(4);
@@ -94,6 +122,9 @@ public class Labyrinthe {
                         break;
                 }
             }
+        long stopGeneration = System.currentTimeMillis();
+        double generationTime = (stopGeneration - startGeneration) * 0.001;
+        System.out.println("Temps pour générer le labyrinthe : " + generationTime + " secondes");
          if(!parfait) {
              if(taille != 1) {
                  if(taille <= 7) {
@@ -105,19 +136,39 @@ public class Labyrinthe {
                  }
              }
         }
+
+
+
     }
 
 
+    /**
+     * Methode permettant de selectionner une case aleatoire sur le plateau
+     * @return Case case aleatoire selectionnée
+     */
     private Case choisirCaseAleatoire() {
         return plateau[genererValeurAleatoire(taille)][genererValeurAleatoire(taille)];
     }
 
 
+    /**
+     * Methode qui genere un entier aleatoire entre 0 et la valeur maximum - 1
+     * @param maximum borne superieure semi ouverte
+     * @return entier aleatoire
+     */
     private int genererValeurAleatoire(int maximum) {
         int random = (int)(Math.random() * maximum);
         return random;
     }
 
+    /**
+     * Methode utilisee lors de la construction du labyrinthe parfait
+     * Lorsque l'on relie 2 cases, si l'une des cases reliees
+     * appartient deja a un ensemble de cases de meme numero,
+     * on met a jour toutes les cases avec la nouvelle valeur.
+     * @param numCase ancien numero de case a remplacer
+     * @param nouveauNumCase nouveau numero a appliquer aux anciennes cases
+     */
     private void mettreAJourCases(int numCase, int nouveauNumCase) {
         for(int x = 0 ; x < taille ; x++) {
             for (int y = 0; y < taille; y++) {
@@ -128,7 +179,12 @@ public class Labyrinthe {
         }
     }
 
+    /**
+     * Methode permettant de casser des murs aleatoires
+     * @param nbMurs : entier representant le nombre de murs aleatoires a casser
+     */
     private void casserMursAleatoires(int nbMurs) {
+        long startGeneration = System.currentTimeMillis();
         for(int i = 0 ; i < nbMurs ; i ++ ){
             Case c = choisirCaseAleatoire();
             Case c2 = null;
@@ -176,7 +232,17 @@ public class Labyrinthe {
                 c2 = null;
             }
         }
+        long stopGeneration = System.currentTimeMillis();
+        double generationTime = (stopGeneration - startGeneration) * 0.001;
+        System.out.println("Temps pour casser les murs : " + generationTime + " secondes");
     }
+
+
+    /**
+     * Fonction utilisee lors de la construction du labyrinthe
+     * qui renvoie vrai si toutes les cases du labyrinthe ont ete reliees
+     * @return booleen vrai si toutes les cases du labyrinthe sont reliees, faux sinon
+     */
     private boolean parcoursTermine() {
         boolean termine = true;
         int numero = plateau[0][0].getNum();
@@ -191,18 +257,6 @@ public class Labyrinthe {
         }
         return termine;
     }
-
-
-    // Methode de test pour afficher le labyrinthe
-    // TODO : à supprimer lorsque le package views et l'affichage du labyrinthe sera implémenté en JavaFX.
-    public void afficher() {
-        for(int x = 0 ; x < taille ; x++) {
-            for (int y = 0 ; y < taille ; y++) {
-                Case courante = plateau[x][y];
-
-            }
-            System.out.println();
-        }
-    }
+    
 
 }
