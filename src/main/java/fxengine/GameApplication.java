@@ -80,6 +80,16 @@ public class GameApplication extends Application {
     // Création d'un groupe pour les canvas et ajout des canvas au groupe
     root = new Group();
 
+    // Création de la scene principale contenant le groupe de canvas
+    Scene scene = new Scene(root, WIDTH, HEIGHT, Color.BLACK);
+
+    blocSizeProperty.bind(
+            Bindings
+                    .when(scene.widthProperty().lessThan(scene.heightProperty()))
+                    .then(scene.widthProperty())
+                    .otherwise(scene.heightProperty())
+    );
+
     // Création de la vue et du controlleur
     painter = new PacmanPainter(root, game);
     controller = new PacmanController();
@@ -96,15 +106,6 @@ public class GameApplication extends Application {
       }
     });
 
-    // Création de la scene principale contenant le groupe de canvas
-    Scene scene = new Scene(root, WIDTH, HEIGHT, Color.BLACK);
-
-    blocSizeProperty.bind(
-      Bindings
-        .when(scene.widthProperty().lessThan(scene.heightProperty()))
-        .then(scene.widthProperty())
-        .otherwise(scene.heightProperty())
-    );
 
     // Actions à effectuer lors d'un click sur une touche
     scene.setOnKeyPressed(

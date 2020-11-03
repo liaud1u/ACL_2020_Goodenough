@@ -4,8 +4,6 @@ import javafx.scene.paint.Color;
 
 public abstract class Pastille {
     protected double rayonPastille = 4; //A définir
-    private Labyrinthe labyrintheCourant;
-    private Case casePastille;
     private boolean ramassee;
     private Color couleurPastille;
     private String typePastille;
@@ -33,22 +31,6 @@ public abstract class Pastille {
         this.ramassee = true;
     }
 
-    public Case getCasePastille(){
-        return casePastille;
-    }
-
-    public Labyrinthe getLabyrintheCourant() {
-        return labyrintheCourant;
-    }
-
-    public void setLabyrintheCourant(Labyrinthe labyrintheCourant) {
-        this.labyrintheCourant = labyrintheCourant;
-    }
-
-    public void setCasePastille(Case casePastille) {
-        this.casePastille = casePastille;
-    }
-
     public Color getCouleurPastille() {
         return couleurPastille;
     }
@@ -65,7 +47,6 @@ public abstract class Pastille {
         this.typePastille = typePastille;
     }
 
-    public abstract String toString();
     public double getRayon() {
         return this.rayonPastille;
     }
