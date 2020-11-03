@@ -3,6 +3,7 @@ package model;
 /**
  * @author adrien
  */
+// TODO : inverser X/Y
 public class Case {
 
     // Identifiant unique de la case
@@ -23,7 +24,6 @@ public class Case {
 
 
 
-    private Murs[] murs;
 
     /**
      * Constructeur d'une case du labyrinthe

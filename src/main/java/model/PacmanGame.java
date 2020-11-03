@@ -38,7 +38,8 @@ public class PacmanGame implements Game {
 		}
 
 		player = new Player();
-		labyrinthe = new Labyrinthe(40, false);
+		labyrinthe = new Labyrinthe(20, false);
+		labyrinthe.genererLabyrinthe();
 	}
 
 	/**

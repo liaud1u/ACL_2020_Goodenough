@@ -44,6 +44,7 @@ public class Labyrinthe {
                 this.plateau[x][y] = new Case(id++, x, y);
             }
         }
+
     }
 
     /**
