@@ -7,35 +7,40 @@ import model.player.Player;
 import model.util.Util;
 
 /**
- * @author Ribeyrolles Matthieu
- * 03/11/2020, 14:07
+ * Vue du joueur
  */
 public class PlayerView extends Circle {
+
+  /**
+   * Joueur à afficher
+   */
   private final Player player;
 
-  /*------------------------------------------------------------------
-                              Methods
-   ------------------------------------------------------------------*/
+  /**
+   * Constructeur de la vue
+   *
+   * @param player Player joueur à afficher
+   */
+  public PlayerView(Player player) {
+    this.player = player;
+    this.init();
+  }
 
-  // private
-
+  /**
+   * Initialisation de la vue
+   */
   private void init() {
     this.setRadius(Util.slotSizeProperty.get() * 0.3); //TODO: can be done through constructor but need an external way to get radius
     this.setFill(Color.GOLDENROD);
   }
-  // public
 
+  /**
+   * Dessin de la vue
+   *
+   * @param game PacmanGame jeu principal
+   */
   public void draw(PacmanGame game) {
     this.setCenterX(player.getX());
     this.setCenterY(player.getY());
-  }
-   
-   /*------------------------------------------------------------------
-                            Constructors
-   ------------------------------------------------------------------*/
-
-  public PlayerView(Player player) {
-    this.player = player;
-    this.init();
   }
 }

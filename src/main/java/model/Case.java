@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 
 /**
- * @author adrien & florian
+ * Objet case
  */
 public class Case {
     /**
