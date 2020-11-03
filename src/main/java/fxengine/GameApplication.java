@@ -51,7 +51,7 @@ public class GameApplication extends Application {
     /**
      * Modele
      */
-    private Game game;
+    private PacmanGame game;
 
     /**
      * Lance l'execution de l'application

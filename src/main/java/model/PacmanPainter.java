@@ -1,11 +1,7 @@
 package model;
 
-import fxengine.Game;
 import fxengine.GamePainter;
 import javafx.scene.Group;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.transform.Translate;
 import views.PlayerView;
 
 /**
@@ -26,12 +22,14 @@ public class PacmanPainter implements GamePainter {
 
 	private final Group root;
 
+
 	/**
 	 * appelle constructeur parent
 	 */
-	public PacmanPainter(Group main, Game game) {
+	public PacmanPainter(Group main, PacmanGame game) {
 		this.root = main;
-		this.playerView = new PlayerView();
+
+		this.playerView = new PlayerView(game);
 
 		this.root.getChildren().add(this.playerView);
 	}
@@ -40,7 +38,7 @@ public class PacmanPainter implements GamePainter {
 	 * methode  redefinie de Afficheur retourne une image du jeu
 	 */
 	public void draw() {
-
+		playerView.draw();
 	}
 
 	public int getWidth() {
