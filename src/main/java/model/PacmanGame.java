@@ -4,6 +4,7 @@ import fxengine.Cmd;
 import fxengine.Game;
 import model.player.Direction;
 import model.player.Player;
+import model.util.Util;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -17,7 +18,6 @@ import java.io.IOException;
  */
 public class PacmanGame implements Game {
 
-	private static final int SIZE = 20;
 	private final Player player;
 	private final Labyrinthe labyrinthe;
 	private final Pastille[][] tabPastille;
@@ -40,7 +40,7 @@ public class PacmanGame implements Game {
 		}
 
 
-		labyrinthe = new Labyrinthe(SIZE, true);
+		labyrinthe = new Labyrinthe(Util.MAZE_SIZE, true);
 		labyrinthe.genererLabyrinthe();
 
 		player = new Player(this);
@@ -103,7 +103,7 @@ public class PacmanGame implements Game {
 		//System.out.println(x+" " +y);
 
 		//En cas de dépassement des bords
-		return x >= SIZE * 32 - 16 + 2 || y >= SIZE * 32 - 16 + 2 || y < 16 - 2 || x < 16 - 2;
+		return x >= Util.MAZE_SIZE * 32 - 16 + 2 || y >= Util.MAZE_SIZE * 32 - 16 + 2 || y < 16 - 2 || x < 16 - 2;
 
 
 		/**

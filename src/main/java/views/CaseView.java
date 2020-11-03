@@ -7,6 +7,8 @@ import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import model.Case;
+import model.PacmanGame;
+import model.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +19,7 @@ import java.util.List;
  */
 public class CaseView extends Group {
 
-    private DoubleProperty tailleCase;
-    private DoubleProperty tailleMur;
     private double diffTailleCase;
-
     private Case modelCase;
     private List<Rectangle> representationCase;
 
@@ -28,20 +27,18 @@ public class CaseView extends Group {
 
             this.modelCase = c;
 
-            this.tailleCase = new SimpleDoubleProperty();
-            this.tailleMur = new SimpleDoubleProperty();
+            
 
 
-            this.tailleCase.bind(GameApplication.blocSizeProperty.divide(20));
-            this.tailleMur.bind(this.tailleCase.divide(10));
-            this.diffTailleCase = this.tailleCase.get() - this.tailleMur.get();
+           // this.tailleCase.bind();
+            this.diffTailleCase = Util.slotSizeProperty.get() - Util.wallSizeProperty.get();
 
 
             //System.out.println(GameApplication.blocSizeProperty.get());
             representationCase = new ArrayList<>();
 
             // Case de base
-            Rectangle base = new Rectangle(c.getY() * this.tailleCase.get(),c.getX() * this.tailleCase.get(),  this.tailleCase.get(), this.tailleCase.get());
+            Rectangle base = new Rectangle(c.getY() * Util.slotSizeProperty.get(),c.getX() * Util.slotSizeProperty.get(),  Util.slotSizeProperty.get(), Util.slotSizeProperty.get());
             base.setFill(Color.GRAY);
             representationCase.add(base);
 
@@ -51,33 +48,29 @@ public class CaseView extends Group {
             
             // Mur ouest
             if(c.isMurOuest()) {
-                Rectangle mur =  new Rectangle(c.getY() * this.tailleCase.get(),c.getX() * this.tailleCase.get(), tailleMur.get(), this.tailleCase.get());
+                Rectangle mur =  new Rectangle(c.getY() * Util.slotSizeProperty.get(),c.getX() * Util.slotSizeProperty.get(), Util.wallSizeProperty.get(), Util.slotSizeProperty.get());
                 mur.setFill(Color.BLACK);
                 representationCase.add(mur);
-                if(!c.isMurSud()) {
-
-                }
-                if(!c.isMurNord()) {
-
-                }
             }
 
 
             // Mur est
             if(c.isMurEst()) {
-                Rectangle mur =  new Rectangle(c.getY() * this.tailleCase.get() + diffTailleCase, c.getX() * this.tailleCase.get(), tailleMur.get(), this.tailleCase.get());
+                Rectangle mur =  new Rectangle(c.getY() * Util.slotSizeProperty.get() + diffTailleCase, c.getX() * Util.slotSizeProperty.get(), Util.wallSizeProperty.get(), Util.slotSizeProperty.get());
                 mur.setFill(Color.BLACK);
                 representationCase.add(mur);
+
+
             }
             // Mur nord
             if(c.isMurNord()) {
-                Rectangle mur =  new Rectangle(c.getY() * this.tailleCase.get(),c.getX() * this.tailleCase.get(),  this.tailleCase.get(), tailleMur.get());
+                Rectangle mur =  new Rectangle(c.getY() * Util.slotSizeProperty.get(),c.getX() * Util.slotSizeProperty.get(),  Util.slotSizeProperty.get(), Util.wallSizeProperty.get());
                 mur.setFill(Color.BLACK);
                 representationCase.add(mur);
             }
             // Mur sud
             if(c.isMurSud()) {
-                Rectangle mur =  new Rectangle(c.getY() * this.tailleCase.get(),c.getX() * this.tailleCase.get() + diffTailleCase,  this.tailleCase.get(), tailleMur.get());
+                Rectangle mur =  new Rectangle(c.getY() * Util.slotSizeProperty.get(),c.getX() * Util.slotSizeProperty.get() + diffTailleCase,  Util.slotSizeProperty.get(), Util.wallSizeProperty.get());
                 mur.setFill(Color.BLACK);
                 representationCase.add(mur);
             }

@@ -70,6 +70,8 @@ public class GameApplication extends Application {
    * @throws Exception
    */
   public void start(Stage primaryStage) throws Exception {
+
+
     this.primaryStage = primaryStage;
 
     // Création du jeu
