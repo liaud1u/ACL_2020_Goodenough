@@ -2,7 +2,6 @@ package model;
 
 import fxengine.GamePainter;
 import javafx.scene.Group;
-import model.player.Player;
 import views.LabyrintheView;
 import views.PastilleView;
 import views.PlayerView;
