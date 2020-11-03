@@ -17,7 +17,7 @@ import java.io.IOException;
  */
 public class PacmanGame implements Game {
 
-	private static final int SIZE = 10;
+	private static final int SIZE = 20;
 	private final Player player;
 	private final Labyrinthe labyrinthe;
 	private final Pastille[][] tabPastille;
@@ -103,12 +103,27 @@ public class PacmanGame implements Game {
 		//System.out.println(x+" " +y);
 
 		//En cas de dépassement des bords
-		if (x >= SIZE * 32 - 16 + 2 || y >= SIZE * 32 - 16 + 2 || y < 16 - 2 || x < 16 - 2)
-			return true;
+		return x >= SIZE * 32 - 16 + 2 || y >= SIZE * 32 - 16 + 2 || y < 16 - 2 || x < 16 - 2;
 
-		int currentCaseX = x / 32;
-		int currentCaseY = y / 32;
 
-		return false;
+		/**
+		 Direction currentDir = player.getCurrentMoveDirection();
+
+		 int currentCaseX = (x ) / 32 ;
+		 int currentCaseY = (y ) / 32 ;
+
+		 Case current  = getLabyrinthe().getPlateau()[currentCaseY][currentCaseX];
+
+
+		 System.out.println(currentCaseX+" "+currentCaseY+" "+current.isMurNord());
+
+
+		 Rectangle player = new Rectangle(getPlayer().getX()-10,getPlayer().getY()-10,20,20);
+
+		 Rectangle haut = new  Rectangle(currentCaseY * 32,currentCaseX * 32,  32, 4);
+
+
+		 System.out.println(player.toRectBounds().intersects(haut.toRectBounds()));
+		**/
 	}
 }
