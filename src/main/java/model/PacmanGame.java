@@ -91,7 +91,7 @@ public class PacmanGame implements Game {
 	}
 
 	public boolean willPlayerCollide() {
-		int x, y;
+		double x, y;
 
 		x = player.getX();
 		y = player.getY();

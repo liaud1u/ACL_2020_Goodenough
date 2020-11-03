@@ -1,6 +1,7 @@
 package model.player;
 
 import model.PacmanGame;
+import model.util.Util;
 
 /**
  * @author Ribeyrolles Matthieu
@@ -10,8 +11,7 @@ public class Player {
   private final int SPAWN_X = 16; //TODO change the value
   private final int SPAWN_Y = 16; //TODO change the value
   private final PacmanGame game;
-  private int x;
-  private int y;
+  private double x, y;
 
   private Direction currentMoveDirection = Direction.RIGHT;
   /*------------------------------------------------------------------
@@ -41,12 +41,12 @@ public class Player {
 
   public void go() {
     if (!game.willPlayerCollide()) {
-      x += currentMoveDirection.getX_dir();
-      y += currentMoveDirection.getY_dir();
+      x += currentMoveDirection.getX_dir() * Util.speedDifficulty;
+      y += currentMoveDirection.getY_dir() * Util.speedDifficulty;
     }
   }
 
-  public int getX() {
+  public double getX() {
     return x;
   }
 
@@ -54,7 +54,7 @@ public class Player {
                             Constructors
    ------------------------------------------------------------------*/
 
-  public int getY() {
+  public double getY() {
     return y;
   }
 }
