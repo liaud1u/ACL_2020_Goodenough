@@ -1,116 +1,77 @@
 package model;
 
+import java.util.ArrayList;
+
 /**
  * @author adrien
  */
 // TODO : inverser X/Y
 public class Case {
 
-    // Identifiant unique de la case
-    private final int id;
-
-    // Numero utilise pour la fusion des chemins dans la generation d'un labyrinthe parfait
-    private int num;
-
     // Coordonnees X et Y de la case dans le labyrinthe
-    private final int x;
-    private final int y;
+    private int x;
+    private int y;
+    private ArrayList<Case> voisins = new ArrayList<>();
+    private boolean estUnMur = true;
+    private boolean estVide = true;
 
-    // Booleens representant les murs de la case (modifies a la creation d'un chemin)
-    private boolean murNord;
-    private boolean murSud;
-    private boolean murEst;
-    private boolean murOuest;
-
-
-
-
-    /**
-     * Constructeur d'une case du labyrinthe
-     * @param id entier : identifiant unique de la case
-     * @param px entier : coordonnee X de la case
-     * @param py entier : cordonnee Y de la case
-     */
-    public Case(int id, int px, int py) {
-        this.id = id;
-        this.num = id;
-        this.x = px;
-        this.y = py;
-
-        this.murNord = true;
-        this.murSud = true;
-        this.murEst = true;
-        this.murOuest = true;
+    public Case(int x, int y)
+    {
+        this(x, y, true);
     }
 
-    /**
-     *  Redefinition de la methode toString
-     * @return String : texte decrivant les informations de la case (id unique, numero de fusion, coordonnees)
-     */
-    public String toString() {
-        StringBuilder strB = new StringBuilder();
-        strB.append("UID=");
-        strB.append(id);
-        strB.append(", FNUM=");
-        strB.append(num);
-        strB.append(", X=");
-        strB.append(x);
-        strB.append(", Y=");
-        strB.append(y);
-        return strB.toString();
+    public Case(int x, int y, boolean bool) {
+        this.x = x;
+        this.y = y;
+        this.estUnMur = bool;
     }
 
+    void ajoutVoisin(Case c) {
+        if (!this.voisins.contains(c))
+        {
+            this.voisins.add(c);
+        }
+        if (!c.voisins.contains(this))
+        {
+            c.voisins.add(this);
+        }
+    }
 
-    /* **************************************
-     * **************************************
-     * <GETTERS & SETTERS CASE>
-     * **************************************
-     * **************************************
-     */
+    boolean voisinDessous() {
+        return this.voisins.contains(new Case(this.x, this.y + 1));
+    }
+
+    boolean voisinDroite() {
+        return this.voisins.contains(new Case(this.x + 1, this.y));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Case)) return false;
+        Case c = (Case) o;
+        return (this.x == c.x && this.y == c.y);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.x + this.y * 256;
+    }
+
     public int getX() {
         return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
     }
 
     public int getY() {
         return y;
     }
 
-    public int getNum() {
-        return num;
+    public void setY(int y) {
+        this.y = y;
     }
 
-    public boolean isMurSud() {
-        return murSud;
-    }
 
-    public boolean isMurEst() {
-        return murEst;
-    }
-
-    public boolean isMurOuest() {
-        return murOuest;
-    }
-
-    public boolean isMurNord() {
-        return murNord;
-    }
-
-    public void setNum(int num) {
-        this.num = num;
-    }
-    public void setMurNord(boolean murNord) {
-        this.murNord = murNord;
-    }
-
-    public void setMurSud(boolean murSud) {
-        this.murSud = murSud;
-    }
-
-    public void setMurEst(boolean murEst) {
-        this.murEst = murEst;
-    }
-
-    public void setMurOuest(boolean murOuest) {
-        this.murOuest = murOuest;
-    }
 }
