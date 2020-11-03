@@ -9,6 +9,7 @@ import model.util.Util;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -21,6 +22,7 @@ public class PacmanGame implements Game {
 	private final Player player;
 	private final Labyrinthe labyrinthe;
 	private final Pastille[][] tabPastille;
+	private final ArrayList<Pastille> pastilles;
 
 	/**
 	 * constructeur avec fichier source pour le help
@@ -49,10 +51,19 @@ public class PacmanGame implements Game {
 
 		for (int i = 0; i < tabPastille.length; i++) {
 			for (int j = 0; j < tabPastille.length; j++) {
-				tabPastille[i][j] = new ScorePastille();
+				tabPastille[i][j] = new ScorePastille(i, j);
 			}
-
 		}
+
+		pastilles = new ArrayList<>();
+
+		for (int i = 0; i < tabPastille.length; i++) {
+			for (int j = 0; j < tabPastille.length; j++) {
+				pastilles.add(tabPastille[i][j]);
+				System.out.println(tabPastille[i][j].getX());
+			}
+		}
+
 
 	}
 
@@ -90,6 +101,36 @@ public class PacmanGame implements Game {
 		return tabPastille;
 	}
 
+	public void willPlayerEatPastille() {
+
+		int x = player.getX();
+		int y = player.getY();
+
+
+		ArrayList<Pastille> toRemove = new ArrayList<>();
+
+		for (Pastille p : pastilles) {
+			double dx = x - p.getX();
+			double dy = y - p.getY();
+
+			double distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+
+
+			if (distance < Util.slotSizeProperty.get() * 0.3 + Util.slotSizeProperty.get() / 6) {
+				if (!p.isRamassee()) {
+					p.ramasser();
+					toRemove.add(p);
+				}
+			}
+
+		}
+
+		pastilles.removeAll(toRemove);
+
+		if (pastilles.size() == 0)
+			System.out.println("VICTOIRE");
+	}
+
 	public boolean willPlayerCollide() {
 		int x, y;
 
@@ -100,7 +141,7 @@ public class PacmanGame implements Game {
 		x += player.getCurrentMoveDirection().getX_dir();
 		y += player.getCurrentMoveDirection().getY_dir();
 
-		
+
 		//System.out.println(x+" " +y);
 
 		//En cas de dépassement des bords

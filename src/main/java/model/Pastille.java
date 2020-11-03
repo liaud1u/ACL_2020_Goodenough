@@ -9,11 +9,15 @@ public abstract class Pastille {
     private Color couleurPastille;
     private String typePastille;
 
-    public Pastille(Color couleurPastille, String typePastille){
+    private final double x;
+    private final double y;
+
+    public Pastille(Color couleurPastille, String typePastille, int x, int y) {
         this.ramassee = false;
         this.couleurPastille = couleurPastille;
         this.typePastille = typePastille;
-
+        this.x = x;
+        this.y = y;
     }
 
     public boolean isRamassee() {
@@ -21,7 +25,8 @@ public abstract class Pastille {
     }
 
     public void ramasser() {
-        this.ramassee = true;
+        if (!ramassee)
+            this.ramassee = true;
     }
 
     public Color getCouleurPastille() {
@@ -40,6 +45,11 @@ public abstract class Pastille {
         this.typePastille = typePastille;
     }
 
+    public double getX() {
+        return (x * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2);
+    }
 
-
+    public double getY() {
+        return (y * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2);
+    }
 }

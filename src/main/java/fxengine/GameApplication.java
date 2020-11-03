@@ -3,8 +3,6 @@ package fxengine;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -74,9 +72,6 @@ public class GameApplication extends Application {
 
     this.primaryStage = primaryStage;
 
-    // Création du jeu
-    game = new PacmanGame("helpFilePacman.txt");
-
 
     // Création d'un groupe pour les canvas et ajout des canvas au groupe
     root = new Group();
@@ -90,6 +85,11 @@ public class GameApplication extends Application {
                     .then(scene.widthProperty())
                     .otherwise(scene.heightProperty())
     );
+
+
+    // Création du jeu
+    game = new PacmanGame("helpFilePacman.txt");
+
 
     // Création de la vue et du controlleur
     painter = new PacmanPainter(root, game);

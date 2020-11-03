@@ -62,6 +62,9 @@ public class PacmanPainter implements GamePainter {
    */
   public void draw() {
     this.playerView.draw(this.game);
+    for (PastilleView pastilleView : pastillesView) {
+      pastilleView.draw();
+    }
   }
 
   public int getWidth() {

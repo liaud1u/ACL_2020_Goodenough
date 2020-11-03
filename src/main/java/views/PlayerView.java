@@ -4,13 +4,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import model.PacmanGame;
 import model.player.Player;
+import model.util.Util;
 
 /**
  * @author Ribeyrolles Matthieu
  * 03/11/2020, 14:07
  */
 public class PlayerView extends Circle {
-  private final double RADIUS = 10; //TODO: change the value
   private final Player player;
 
   /*------------------------------------------------------------------
@@ -20,7 +20,7 @@ public class PlayerView extends Circle {
   // private
 
   private void init() {
-    this.setRadius(this.RADIUS); //TODO: can be done through constructor but need an external way to get radius
+    this.setRadius(Util.slotSizeProperty.get() * 0.3); //TODO: can be done through constructor but need an external way to get radius
     this.setFill(Color.GOLDENROD);
   }
   // public
