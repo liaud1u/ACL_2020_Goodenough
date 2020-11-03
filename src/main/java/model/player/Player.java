@@ -9,8 +9,7 @@ import model.util.Util;
  */
 public class Player {
   private final PacmanGame game;
-  private int x;
-  private int y;
+  private double x, y;
 
   private Direction currentMoveDirection = Direction.RIGHT;
   /*------------------------------------------------------------------
@@ -41,12 +40,13 @@ public class Player {
   public void go() {
     if (!game.willPlayerCollide()) {
       game.willPlayerEatPastille();
-      x += currentMoveDirection.getX_dir();
-      y += currentMoveDirection.getY_dir();
-    }
+
+      x += currentMoveDirection.getX_dir() * Util.speedDifficulty;
+      y += currentMoveDirection.getY_dir() * Util.speedDifficulty;
+      }
   }
 
-  public int getX() {
+  public double getX() {
     return x;
   }
 
@@ -54,7 +54,7 @@ public class Player {
                             Constructors
    ------------------------------------------------------------------*/
 
-  public int getY() {
+  public double getY() {
     return y;
   }
 }
