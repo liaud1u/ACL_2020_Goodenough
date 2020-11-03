@@ -77,7 +77,7 @@ public class GameApplication extends Application {
         root = new Group();
 
         // Création de la vue et du controlleur
-        painter = new PacmanPainter(root);
+        painter = new PacmanPainter(root, game);
         controller = new PacmanController();
 
         // Premier affichage

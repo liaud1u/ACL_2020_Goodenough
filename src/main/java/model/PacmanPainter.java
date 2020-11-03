@@ -1,10 +1,12 @@
 package model;
 
+import fxengine.Game;
 import fxengine.GamePainter;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.transform.Translate;
+import views.PlayerView;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -20,30 +22,25 @@ public class PacmanPainter implements GamePainter {
 	protected int WIDTH = 100;
 	protected int HEIGHT = 100;
 
-	private final Group root;
+	private final PlayerView playerView;
 
-	private final Circle circle;
+	private final Group root;
 
 	/**
 	 * appelle constructeur parent
 	 */
-	public PacmanPainter(Group main) {
+	public PacmanPainter(Group main, Game game) {
 		this.root = main;
+		this.playerView = new PlayerView();
 
-		circle = new Circle(10, Color.BLUE);
-		circle.setCenterX(0);
-		circle.setCenterY(0);
-		root.getChildren().add(circle);
+		this.root.getChildren().add(this.playerView);
 	}
 
 	/**
 	 * methode  redefinie de Afficheur retourne une image du jeu
 	 */
 	public void draw() {
-		Translate translate = new Translate();
-		translate.setX(1);
-		translate.setY(2);
-		circle.getTransforms().add(translate);
+
 	}
 
 	public int getWidth() {

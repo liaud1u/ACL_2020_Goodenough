@@ -15,7 +15,6 @@ import java.io.IOException;
  * 
  */
 public class PacmanGame implements Game {
-
 	/**
 	 * constructeur avec fichier source pour le help
 	 * 
