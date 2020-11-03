@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * @author adrien
+ */
 public class Case {
 
     // Identifiant unique de la case
@@ -18,7 +21,12 @@ public class Case {
     private boolean murEst;
     private boolean murOuest;
 
-
+    /**
+     * Constructeur d'une case du labyrinthe
+     * @param id entier : identifiant unique de la case
+     * @param px entier : coordonnee X de la case
+     * @param py entier : cordonnee Y de la case
+     */
     public Case(int id, int px, int py) {
         this.id = id;
         this.num = id;
@@ -30,7 +38,10 @@ public class Case {
         this.murOuest = true;
     }
 
-
+    /**
+     *  Redefinition de la methode toString
+     * @return String : texte decrivant les informations de la case (id unique, numero de fusion, coordonnees)
+     */
     public String toString() {
         StringBuilder strB = new StringBuilder();
         strB.append("UID=");
@@ -45,6 +56,12 @@ public class Case {
     }
 
 
+    /* **************************************
+     * **************************************
+     * <GETTERS & SETTERS CASE>
+     * **************************************
+     * **************************************
+     */
     public int getX() {
         return x;
     }
