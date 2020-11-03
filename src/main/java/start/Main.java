@@ -1,6 +1,10 @@
 package start;
 
 import fxengine.GameApplication;
+import model.PacmanGameState;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * lancement du moteur avec le jeu
@@ -12,6 +16,7 @@ public class Main {
 		GameApplication engine = new GameApplication();
 
 		engine.run();
+
 
 
 
