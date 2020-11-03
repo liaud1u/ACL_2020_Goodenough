@@ -11,6 +11,8 @@ package model;
 // TO ENHANCE :
 //  - Imperfect maze generation (generating imperfect faster than generating perfect and then break walls)
 
+import model.util.Util;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -24,6 +26,7 @@ public class Labyrinthe {
     public final static int CASEMUR = 1; // Mur
 
     // Ensemble des cases formant le labyrinthe
+    private Case[][] cases;
     private Case[][] labyrinthe;
     char[][] labyrintheGUI;
     private int tailleLigne;
@@ -43,17 +46,19 @@ public class Labyrinthe {
         tailleLigneGUI = tailleLigne * 2 + 1;
         tailleColonneGUI = tailleColonne * 2 + 1;
         labyrintheGUI = new char[tailleLigneGUI][tailleColonneGUI];
+        cases = new Case[tailleLigneGUI][tailleColonneGUI];
         initialisationLaby();
         creationLabyrinthe();
     }
 
     public Case[][] getLabyrinthe() {
-        return labyrinthe;
+        return cases;
     }
 
     public void setLabyrinthe(Case[][] labyrinthe) {
         this.labyrinthe = labyrinthe;
     }
+
 
     public char[][] getLabyrintheGUI() {
         return labyrintheGUI;
@@ -66,7 +71,7 @@ public class Labyrinthe {
     //Création des cases
     private void initialisationLaby() {
 
-        labyrinthe = new Case[tailleLigne][tailleColonne];
+        labyrinthe = new Case[tailleLigneGUI][tailleColonneGUI];
         for (int i = 0; i < tailleLigne; i++)
         {
             for (int j = 0; j < tailleColonne; j++)
@@ -195,9 +200,21 @@ public class Labyrinthe {
             }
         }
 
+        for (int x = 1; x < tailleLigneGUI - 1; x++) {
+            for (int y = 1; y < tailleColonneGUI - 1; y++) {
+                if(labyrintheGUI[x][y] == 'X') {
+                    cases[x][y] = new Case(x, y, true);
+                } else {
+                    cases[x][y] = new Case(x, y, false);
+                }
+            }
+        }
+    }
+
+
     }
 
 
 
 
-}
+

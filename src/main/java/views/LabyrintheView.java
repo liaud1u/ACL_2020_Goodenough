@@ -3,6 +3,7 @@ package views;
 import javafx.scene.Group;
 import model.Case;
 import model.Labyrinthe;
+import model.util.Util;
 
 
 /**
@@ -13,17 +14,13 @@ public class LabyrintheView extends Group {
 
 
     public LabyrintheView(Labyrinthe l) {
-        char[][] plateau = l.getLabyrintheGUI();
+        Case[][] plateau = l.getLabyrinthe();
 
-        for (int i = 0; i < plateau.length; i++) {
-            for (int j = 0; j < plateau.length; j++) {
-                  System.out.println(plateau[i][j]);
-            }
-        }
-        System.out.println(plateau);
-        for (char[] cc : plateau) {
-            for (char c : cc) {
-                //this.getChildren().add(new CaseView(c));
+        for (Case[] li : plateau) {
+            for (Case c : li) {
+                if(c != null) {
+                    this.getChildren().add(new CaseView(c));
+                }
             }
         }
     }
