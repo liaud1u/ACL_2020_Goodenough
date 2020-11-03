@@ -43,10 +43,10 @@ public class PacmanController implements GameController {
 
 		switch (e.getCode()) {
 			case LEFT:
-				this.commandeEnCours = Cmd.RIGHT;
+				this.commandeEnCours = Cmd.LEFT;
 				break;
 			case RIGHT:
-				this.commandeEnCours = Cmd.LEFT;
+				this.commandeEnCours = Cmd.RIGHT;
 				break;
 			case UP:
 				this.commandeEnCours = Cmd.UP;

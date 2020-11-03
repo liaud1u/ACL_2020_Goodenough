@@ -5,6 +5,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.transform.Translate;
 import model.PacmanGame;
 import model.player.Direction;
+import model.player.Player;
 
 /**
  * @author Ribeyrolles Matthieu
@@ -12,7 +13,7 @@ import model.player.Direction;
  */
 public class PlayerView extends Circle {
   private final double RADIUS = 10; //TODO: change the value
-  private final PacmanGame game;
+  private final Player player;
 
   /*------------------------------------------------------------------
                               Methods
@@ -26,18 +27,18 @@ public class PlayerView extends Circle {
   }
   // public
 
-  public PlayerView(PacmanGame game) {
-    this.game = game;
-    this.init();
+  public void draw(PacmanGame game) {
+    Direction direction = game.getPlayer().getCurrentMoveDirection();
+
+    this.getTransforms().add(new Translate(direction.getX_dir(), direction.getY_dir()));
   }
    
    /*------------------------------------------------------------------
                             Constructors
    ------------------------------------------------------------------*/
 
-  public void draw() {
-    Direction direction = game.getPlayer().getCurrentMoveDirection();
-
-    this.getTransforms().add(new Translate(direction.getX_dir(), direction.getY_dir()));
-  }
+   public PlayerView(Player player) {
+     this.player = player;
+     this.init();
+   }
 }

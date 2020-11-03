@@ -6,9 +6,9 @@ package model.player;
  */
 public enum Direction {
   UP    (0, -1),
-  LEFT  (1, 0),
+  LEFT  (-1, 0),
   DOWN  (0, 1),
-  RIGHT (-1, 0);
+  RIGHT (1, 0);
 
   public int getX_dir() { return x_dir; }
   public int getY_dir() { return y_dir; }
