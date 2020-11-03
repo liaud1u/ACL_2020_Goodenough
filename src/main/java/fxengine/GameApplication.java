@@ -120,6 +120,7 @@ public class GameApplication extends Application {
         // Paramètrage et affichage de la fenêtre principale
         primaryStage.setScene(scene);
         primaryStage.setTitle("Pacman");
+        primaryStage.sizeToScene();
         primaryStage.show();
     }
 }
