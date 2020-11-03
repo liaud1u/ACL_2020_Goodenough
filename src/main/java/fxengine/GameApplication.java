@@ -5,7 +5,6 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -18,6 +17,17 @@ import model.PacmanPainter;
  * @author LIAUD Alexis
  */
 public class GameApplication extends Application {
+
+    /**
+     * Hauteur de la fenêtre
+     */
+    private static final int HEIGHT = 600;
+
+    /**
+     * Largeur de la fenêtre
+     */
+    private static final int WIDTH = 800;
+
     /**
      * Stage principal du jeu
      */
@@ -36,7 +46,7 @@ public class GameApplication extends Application {
     /**
      * Image principale du jeu
      */
-    private Canvas mainCanva;
+    private Group root;
 
     /**
      * Modele
@@ -64,12 +74,10 @@ public class GameApplication extends Application {
 
 
         // Création d'un groupe pour les canvas et ajout des canvas au groupe
-        Group group = new Group();
-        mainCanva = new Canvas(512, 512);
-        group.getChildren().add(mainCanva);
+        root = new Group();
 
         // Création de la vue et du controlleur
-        painter = new PacmanPainter(mainCanva);
+        painter = new PacmanPainter(root);
         controller = new PacmanController();
 
         // Premier affichage
@@ -85,7 +93,7 @@ public class GameApplication extends Application {
         });
 
         // Création de la scene principale contenant le groupe de canvas
-        Scene scene = new Scene(group,primaryStage.getWidth(),primaryStage.getHeight(), Color.WHITESMOKE);
+        Scene scene = new Scene(root, WIDTH, HEIGHT, Color.WHITESMOKE);
 
         // Actions à effectuer lors d'un click sur une touche
         scene.setOnKeyPressed(
