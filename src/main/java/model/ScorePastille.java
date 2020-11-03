@@ -8,12 +8,10 @@ public class ScorePastille extends Pastille {
     private Circle c1;
     private static final Color couleur = Color.BLUE;
 
-    public ScorePastille(Case casePastille, Labyrinthe labyrintheCourant)
+    public ScorePastille()
     {
-        super(casePastille,labyrintheCourant,couleur,"scorePastille");
-        double x = casePastille.getX();
-        double y = casePastille.getY();
-        this.c1 = new Circle(x,y,getRayon(),couleur);
+        super(couleur,"scorePastille");
+
     }
 
     public void setScorePastille(Circle c)

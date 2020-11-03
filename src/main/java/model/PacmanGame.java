@@ -19,6 +19,7 @@ public class PacmanGame implements Game {
 
 	private final Player player;
 	private final Labyrinthe labyrinthe;
+	private final Pastille[][] tabPastille;
 
 	/**
 	 * constructeur avec fichier source pour le help
@@ -39,6 +40,14 @@ public class PacmanGame implements Game {
 
 		player = new Player();
 		labyrinthe = new Labyrinthe(40, false);
+		tabPastille = new Pastille[labyrinthe.getTaille()][labyrinthe.getTaille()];
+
+		for (int i = 0; i < tabPastille.length; i++) {
+			for (int j = 0; j < tabPastille.length; j++) {
+				tabPastille[i][j] = new ScorePastille();
+			}
+
+		}
 	}
 
 	/**
@@ -68,5 +77,9 @@ public class PacmanGame implements Game {
 
 	public Labyrinthe getLabyrinthe() {
 		return labyrinthe;
+	}
+
+	public Pastille[][] getPastille(){
+		return tabPastille;
 	}
 }

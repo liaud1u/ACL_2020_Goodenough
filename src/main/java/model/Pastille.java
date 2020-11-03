@@ -3,20 +3,26 @@ package model;
 import javafx.scene.paint.Color;
 
 public abstract class Pastille {
-    protected double rayonPastille; //A définir
+    protected double rayonPastille = 4; //A définir
     private Labyrinthe labyrintheCourant;
     private Case casePastille;
     private boolean ramassee;
     private Color couleurPastille;
     private String typePastille;
 
-    public Pastille(Case casePastille, Labyrinthe labyrintheCourant, Color couleurPastille, String typePastille){
+    public Pastille(Color couleurPastille, String typePastille){
         this.ramassee = false;
-        this.casePastille = casePastille;
-        this.labyrintheCourant = labyrintheCourant;
         this.couleurPastille = couleurPastille;
         this.typePastille = typePastille;
 
+    }
+
+    public double getRayonPastille() {
+        return rayonPastille;
+    }
+
+    public void setRayonPastille(double rayonPastille) {
+        this.rayonPastille = rayonPastille;
     }
 
     public boolean isRamassee() {

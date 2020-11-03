@@ -4,6 +4,7 @@ import fxengine.GamePainter;
 import javafx.scene.Group;
 import model.player.Player;
 import views.LabyrintheView;
+import views.PastilleView;
 import views.PlayerView;
 
 /**
@@ -35,8 +36,20 @@ public class PacmanPainter implements GamePainter {
     this.labyrintheView = new LabyrintheView(game.getLabyrinthe());
     this.root.getChildren().add(this.labyrintheView);
 
+    Pastille[][] pastille = game.getPastille();
+
+    for (int i = 0; i < pastille.length; i++) {
+      for (int j = 0; j < pastille.length; j++) {
+        this.root.getChildren().add(new PastilleView(pastille[i][j],i,j));
+      }
+
+    }
+
     this.playerView = new PlayerView(game.getPlayer());
     this.root.getChildren().add(this.playerView);
+
+
+
   }
 
   /**
