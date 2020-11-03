@@ -26,7 +26,7 @@ public class CaseView extends Group {
             representationCase = new ArrayList<>();
 
             // Case de base
-            Rectangle base = new Rectangle(c.getY() * Util.slotSizeProperty.get(),c.getX() * Util.slotSizeProperty.get(),  Util.slotSizeProperty.get(), Util.slotSizeProperty.get());
+            Rectangle base = new Rectangle(c.getX() * (Util.slotSizeProperty.get()/2),c.getY() * (Util.slotSizeProperty.get()/2),  Util.slotSizeProperty.get()/2, Util.slotSizeProperty.get()/2);
             if(c.isEstUnMur()) {
                 base.setFill(Color.GRAY);
             } else {
