@@ -4,6 +4,7 @@
 .idea/*
 /.idea/*
 .iml
+*.iml
 
 # Maven
 
