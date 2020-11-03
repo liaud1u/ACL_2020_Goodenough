@@ -100,10 +100,14 @@ public class PacmanGame implements Game {
 		x += player.getCurrentMoveDirection().getX_dir();
 		y += player.getCurrentMoveDirection().getY_dir();
 
+		
 		//System.out.println(x+" " +y);
 
 		//En cas de dépassement des bords
-		return x >= Util.MAZE_SIZE * 32 - 16 + 2 || y >= Util.MAZE_SIZE * 32 - 16 + 2 || y < 16 - 2 || x < 16 - 2;
+		return x >= Util.MAZE_SIZE * Util.slotSizeProperty.get() - Util.slotSizeProperty.get()/2 + Util.wallSizeProperty.get()/2
+				|| y >= Util.MAZE_SIZE * Util.slotSizeProperty.get() - Util.slotSizeProperty.get()/2 + Util.wallSizeProperty.get()/2
+				|| y < Util.slotSizeProperty.get()/2 - Util.wallSizeProperty.get()/2
+				|| x < Util.slotSizeProperty.get()/2 - Util.wallSizeProperty.get()/2 ;
 
 
 		/**

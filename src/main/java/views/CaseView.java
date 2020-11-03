@@ -1,13 +1,9 @@
 package views;
 
-import fxengine.GameApplication;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import model.Case;
-import model.PacmanGame;
 import model.util.Util;
 
 import java.util.ArrayList;
