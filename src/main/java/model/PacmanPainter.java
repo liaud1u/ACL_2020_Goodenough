@@ -52,7 +52,7 @@ public class PacmanPainter implements GamePainter {
     this.root = main;
     this.game = game;
 
-    this.labyrintheView = new LabyrintheView(game.getLabyrinthe());
+    this.labyrintheView = new LabyrintheView();
     this.root.getChildren().add(this.labyrintheView);
 
     Pastille[][] pastille = game.getPastille();

@@ -58,11 +58,12 @@ public class PacmanGame implements Game {
 		}
 
 
-		labyrinthe = new Labyrinthe(Util.MAZE_SIZE/2 - 1, Util.MAZE_SIZE/2 - 1);
+		labyrinthe = new Labyrinthe(Util.MAZE_SIZE/2 -1, Util.MAZE_SIZE/2-1);
+
 
 		player = new Player(this);
 
-		tabPastille = new Pastille[Util.MAZE_SIZE][Util.MAZE_SIZE];
+		tabPastille = new Pastille[Util.MAZE_SIZE-1][Util.MAZE_SIZE-1];
 
 		for (int i = 0; i < tabPastille.length; i++) {
 			for (int j = 0; j < tabPastille.length; j++) {
@@ -75,7 +76,6 @@ public class PacmanGame implements Game {
 		for (int i = 0; i < tabPastille.length; i++) {
 			for (int j = 0; j < tabPastille.length; j++) {
 				pastilles.add(tabPastille[i][j]);
-				System.out.println(tabPastille[i][j].getX());
 			}
 		}
 

@@ -4,6 +4,9 @@ import javafx.scene.Group;
 import model.Case;
 import model.Labyrinthe;
 
+import static model.Labyrinthe.labyrinthe;
+import static model.util.Util.MAZE_SIZE;
+
 
 /**
  * Vue du labyrinthe
@@ -15,13 +18,13 @@ public class LabyrintheView extends Group {
      *
      * @param l Labyrinthe à dessiner
      */
-    public LabyrintheView(Labyrinthe l) {
-        Case[][] plateau = l.getLabyrinthe();
+    public LabyrintheView() {
 
-        for (Case[] li : plateau) {
-            for (Case c : li) {
-                if (c != null) {
-                    this.getChildren().add(new CaseView(c));
+        for (int ligne = 0; ligne < 19; ligne++)
+        {
+            for (int colonne = 0; colonne < 19; colonne++) {
+                if(labyrinthe[ligne][colonne] != null) {
+                    this.getChildren().add(new CaseView(labyrinthe[ligne][colonne]));
                 }
             }
         }
