@@ -17,6 +17,12 @@ public abstract class Util {
    */
   public static double speedDifficulty = 1.;
 
+
+  /**
+   * Ratio de la taille du personnage par rapport à la taille d'une case
+   */
+  public static double RATIO = 0.8;
+
   /**
    * Taille de la fenêtre
    */

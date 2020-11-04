@@ -1,20 +1,37 @@
 package views;
 
+import javafx.scene.Group;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import model.PacmanGame;
 import model.player.Player;
 import model.util.Util;
 
+import java.awt.*;
+
 /**
  * Vue du joueur
  */
-public class PlayerView extends Circle {
+public class PlayerView extends Group {
+
 
   /**
    * Joueur à afficher
    */
   private final Player player;
+
+  /**
+   * Liste des 4 différentes images décrivant le personnage
+   */
+  private Image[] sprite = new Image[4];
+
+  /**
+   * Vue de l'image à afficher
+   */
+  private ImageView view;
+
 
   /**
    * Constructeur de la vue
@@ -23,15 +40,25 @@ public class PlayerView extends Circle {
    */
   public PlayerView(Player player) {
     this.player = player;
+
+    int size = (int) (Util.slotSizeProperty.intValue()*Util.RATIO);
+
+    sprite[0]= new Image("pacman/pacman_down.png",size,size,true,false);
+    sprite[1]= new Image("pacman/pacman_up.png",size,size,true,false);
+    sprite[2]= new Image("pacman/pacman_left.png",size,size,true,false);
+    sprite[3]= new Image("pacman/pacman_right.png",size,size,true,false);
+
+    view = new ImageView(sprite[0]);
+
     this.init();
+
   }
 
   /**
    * Initialisation de la vue
    */
   private void init() {
-    this.setRadius(Util.slotSizeProperty.get() * 0.3); //TODO: can be done through constructor but need an external way to get radius
-    this.setFill(Color.GOLDENROD);
+    this.getChildren().add(view);
   }
 
   /**
@@ -40,7 +67,24 @@ public class PlayerView extends Circle {
    * @param game PacmanGame jeu principal
    */
   public void draw(PacmanGame game) {
-    this.setCenterX(player.getX());
-    this.setCenterY(player.getY());
+    double rayon =  Util.slotSizeProperty.getValue()*Util.RATIO/2;
+
+    switch (player.getCurrentMoveDirection()){
+      case DOWN:
+        view.setImage(sprite[0]);
+        break;
+      case UP:
+        view.setImage(sprite[1]);
+        break;
+      case LEFT:
+        view.setImage(sprite[2]);
+        break;
+      case RIGHT:
+        view.setImage(sprite[3]);
+        break;
+    }
+
+    view.setX(player.getX()-rayon);
+    view.setY(player.getY()-rayon);
   }
 }
