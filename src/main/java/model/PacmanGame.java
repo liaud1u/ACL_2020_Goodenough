@@ -5,7 +5,6 @@ import fxengine.Game;
 import model.player.Direction;
 import model.player.Player;
 import model.util.Util;
-import views.PlayerView;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -151,8 +150,7 @@ public class PacmanGame implements Game {
 			double distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
 
 			//Si les deux objets se touchent, alors la pastille est mangée
-			//On multiplie par 0.8 la taille du sprite (partie droite) puisque le sprite n'est pas exactement un cercle de taille RATIO * CASE
-			if (distance < 0.8*(Util.slotSizeProperty.get() * Util.RATIO)) {
+		 	if (distance < (Util.slotSizeProperty.get() * Util.RATIO_PERSONNAGE)*0.6) {
 				if (!p.isRamassee()) {
 					p.ramasser();
 					toRemove.add(p);

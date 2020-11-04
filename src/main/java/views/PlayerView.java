@@ -3,13 +3,9 @@ package views;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import model.PacmanGame;
 import model.player.Player;
 import model.util.Util;
-
-import java.awt.*;
 
 /**
  * Vue du joueur
@@ -41,7 +37,7 @@ public class PlayerView extends Group {
   public PlayerView(Player player) {
     this.player = player;
 
-    int size = (int) (Util.slotSizeProperty.intValue()*Util.RATIO);
+    int size = (int) (Util.slotSizeProperty.intValue()*Util.RATIO_PERSONNAGE);
 
     sprite[0]= new Image("pacman/pacman_down.png",size,size,true,false);
     sprite[1]= new Image("pacman/pacman_up.png",size,size,true,false);
@@ -67,7 +63,7 @@ public class PlayerView extends Group {
    * @param game PacmanGame jeu principal
    */
   public void draw(PacmanGame game) {
-    double rayon =  Util.slotSizeProperty.getValue()*Util.RATIO/2;
+    double rayon =  Util.slotSizeProperty.getValue()*Util.RATIO_PERSONNAGE /2;
 
     switch (player.getCurrentMoveDirection()){
       case DOWN:

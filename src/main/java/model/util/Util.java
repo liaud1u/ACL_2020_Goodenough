@@ -21,7 +21,13 @@ public abstract class Util {
   /**
    * Ratio de la taille du personnage par rapport à la taille d'une case
    */
-  public static double RATIO = 0.8;
+  public static double RATIO_PERSONNAGE = 0.8;
+
+
+  /**
+   * Ratio de la taille d'une pastille par rapport à la taille d'une case
+   */
+  public static double RATIO_PASTILLE = 0.3;
 
   /**
    * Taille de la fenêtre

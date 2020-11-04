@@ -1,5 +1,8 @@
 package views;
 
+import javafx.scene.Group;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.shape.Circle;
 import model.Pastille;
 import model.util.Util;
@@ -7,12 +10,19 @@ import model.util.Util;
 /**
  * Vue de la pastille
  */
-public class PastilleView extends Circle {
+public class PastilleView extends Group {
 
     /**
      * Pastille à afficher
      */
     private final Pastille pastille;
+
+
+    /**
+     * Vue de l'image à afficher
+     */
+    private ImageView view;
+
 
     /**
      * Constructeur de la vue
@@ -22,14 +32,17 @@ public class PastilleView extends Circle {
      * @param y        int coordonnée y de la pastille
      */
     public PastilleView(Pastille pastille, int x, int y) {
-        super(Util.slotSizeProperty.get() / 6);
+        double size = Util.RATIO_PASTILLE * Util.slotSizeProperty.get();
+        Image image =new Image("pastille.png",size,size,true,false);
 
         this.pastille = pastille;
-        this.setFill(pastille.getCouleurPastille());
 
-        this.setCenterX(x * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2);
-        this.setCenterY(y * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2);
+        view = new ImageView(image);
 
+        view.setX(x * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2 -size/2);
+        view.setY(y * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2 - size/2);
+
+        getChildren().add(view);
     }
 
     /**
