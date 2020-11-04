@@ -1,94 +1,203 @@
 package model;
 
+
+import java.util.ArrayList;
+
+/**
+ * Objet case
+ */
 public class Case {
+    /**
+     * Coordonée x de la case
+     */
+    private int x;
 
-    // Identifiant unique de la case
-    private final int id;
+    /**
+     * Coordonnée y de la case
+     */
+    private int y;
 
-    // Numero utilise pour la fusion des chemins dans la generation d'un labyrinthe parfait
-    private int num;
+    /**
+     * Liste des cases voisines de la case
+     */
+    private ArrayList<Case> voisins = new ArrayList<>();
 
-    // Coordonnees X et Y de la case dans le labyrinthe
-    private final int x;
-    private final int y;
+    /**
+     * Booléen, vrai si la case courante est un mur
+     */
+    private boolean estUnMur = true;
 
-    // Booleens representant les murs de la case (modifies a la creation d'un chemin)
-    private boolean murNord;
-    private boolean murSud;
-    private boolean murEst;
-    private boolean murOuest;
+    /**
+     * Booléen, vrai si la case courante est vide
+     */
+    private boolean estVide = true;
 
-
-    public Case(int id, int px, int py) {
-        this.id = id;
-        this.num = id;
-        this.x = px;
-        this.y = py;
-        this.murNord = true;
-        this.murSud = true;
-        this.murEst = true;
-        this.murOuest = true;
+    /**
+     * Constructeur d'une case
+     *
+     * @param x int coordonnée x de la case
+     * @param y int coordonnée y de la case
+     */
+    public Case(int x, int y) {
+        this(x, y, true);
     }
 
-
-    public String toString() {
-        StringBuilder strB = new StringBuilder();
-        strB.append("UID=");
-        strB.append(id);
-        strB.append(", FNUM=");
-        strB.append(num);
-        strB.append(", X=");
-        strB.append(x);
-        strB.append(", Y=");
-        strB.append(y);
-        return strB.toString();
+    /**
+     * Constructeur d'une case
+     *
+     * @param x    int coordonnée x de la case
+     * @param y    int coordonnée y de la case
+     * @param bool booléen vrai si la case est un mur
+     */
+    public Case(int x, int y, boolean bool) {
+        this.x = x;
+        this.y = y;
+        this.estUnMur = bool;
     }
 
+    /**
+     * Ajout d'un voisin à la case courante
+     *
+     * @param c Case voisin à ajouter
+     */
+    public void ajoutVoisin(Case c) {
+        if (!this.voisins.contains(c)) {
+            this.voisins.add(c);
+        }
+        if (!c.voisins.contains(this)) {
+            c.voisins.add(this);
+        }
+    }
+
+    /**
+     * Vérifie si il y a un voisin dessous
+     *
+     * @return true si il y a un voisin en dessous
+     */
+    public boolean voisinDessous() {
+        return this.voisins.contains(new Case(this.x, this.y + 1));
+    }
+
+    /**
+     * Vérifie si il y a un voisin à droite
+     *
+     * @return true si il y a un voisin à droite
+     */
+    public boolean voisinDroite() {
+        return this.voisins.contains(new Case(this.x + 1, this.y));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Case)) return false;
+        Case c = (Case) o;
+        return (this.x == c.x && this.y == c.y);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.x + this.y * 256;
+    }
+
+    /**
+     * Renvoie la coordonnée x de la case
+     *
+     * @return int x
+     */
 
     public int getX() {
         return x;
     }
 
+
+    /**
+     * Setter de la coordonnée x de la case
+     *
+     * @param x int coordonnée x
+     */
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    /**
+     * Renvoie la coordonée y de la case
+     *
+     * @return int y
+     */
     public int getY() {
         return y;
     }
 
-    public int getNum() {
-        return num;
+    /**
+     * Setter de la coordonnée y de la case
+     *
+     * @param y int coordonnée y
+     */
+    public void setY(int y) {
+        this.y = y;
     }
 
-    public boolean isMurSud() {
-        return murSud;
+    /**
+     * Retourne la liste des voisins
+     *
+     * @return Liste de cases voisines
+     */
+    public ArrayList<Case> getVoisins() {
+        return voisins;
     }
 
-    public boolean isMurEst() {
-        return murEst;
+    /**
+     * Permet de définir la liste des voisins
+     *
+     * @param voisins Liste de cases voisines
+     */
+    public void setVoisins(ArrayList<Case> voisins) {
+        this.voisins = voisins;
     }
 
-    public boolean isMurOuest() {
-        return murOuest;
+    /**
+     * Vérifie si la case est un mur
+     *
+     * @return true si la case est un mur, false sinon
+     */
+    public boolean isEstUnMur() {
+        return estUnMur;
     }
 
-    public boolean isMurNord() {
-        return murNord;
+    /**
+     * Permet de définir la case courante comme un mur
+     *
+     * @param estUnMur booléen true si la case est un mur, faux sinon
+     */
+    public void setEstUnMur(boolean estUnMur) {
+        this.estUnMur = estUnMur;
     }
 
-    public void setNum(int num) {
-        this.num = num;
-    }
-    public void setMurNord(boolean murNord) {
-        this.murNord = murNord;
-    }
-
-    public void setMurSud(boolean murSud) {
-        this.murSud = murSud;
+    /**
+     * Vérifie si la case est vide
+     *
+     * @return true si la case est vide, false sinon
+     */
+    public boolean isEstVide() {
+        return estVide;
     }
 
-    public void setMurEst(boolean murEst) {
-        this.murEst = murEst;
+    /**
+     * Permet de définir la case courante comme vidé
+     *
+     * @param estVide true si la case est vide, false sinon
+     */
+    public void setEstVide(boolean estVide) {
+        this.estVide = estVide;
     }
 
-    public void setMurOuest(boolean murOuest) {
-        this.murOuest = murOuest;
+    @Override
+    public String toString() {
+        return "Case{" +
+                "x=" + x +
+                ", y=" + y +
+                ", estUnMur=" + estUnMur +
+                ", estVide=" + estVide +
+                '}';
     }
 }
