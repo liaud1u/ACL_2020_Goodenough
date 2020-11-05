@@ -131,15 +131,7 @@ public class GameApplication extends Application {
     GameLoop loop = new GameLoop(painter,controller,game);
     loop.start();
 
-    // Création et lancement du timer
-    //TODO: ne pas lancer ici, mais depuis un bouton
-    GameTimer gameTimer = new GameTimer(Util.timer);
-    gameTimer.play();
 
-    TimerView timerView = new TimerView(gameTimer);
-    timerView.toFront();
-
-    root.getChildren().add(timerView);
 
     // Paramètrage et affichage de la fenêtre principale
     primaryStage.setScene(scene);

@@ -31,6 +31,9 @@ public class GameTimer {
   public int getCurrentTimer() {
     return this.timerProperty.get();
   }
+  public String getformatedTimer() {
+    return String.format("%03d", this.getCurrentTimer());
+  }
 
   /**
    * @return an {@link IntegerProperty}, corresponding to the current time property

@@ -1,20 +1,28 @@
 package views;
 
-import fxengine.Game;
 import fxengine.GameTimer;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Group;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.util.StringConverter;
-import javafx.util.converter.NumberStringConverter;
+import model.util.SpriteTools;
 import model.util.Util;
+
+import static model.util.Util.maxTimerSize;
 
 /**
  * @author Ribeyrolles Matthieu
  * 05/11/2020, 16:28
  */
-public class TimerView extends Text {
+public class TimerView extends Group {
+  private final Image SPRITE = new Image("score.png", 300, 24, true, false);
+
   private GameTimer gameTimer;
+  private Text textView;
+  private ImageView[] digitsImages;
+
   /*------------------------------------------------------------------
                               Methods
    ------------------------------------------------------------------*/
@@ -27,8 +35,15 @@ public class TimerView extends Text {
   }
 
   // private
+
+  /**
+   * Init all the components, and bing the timer property to the text
+   * */
   private void init() {
-    this.textProperty().bindBidirectional(this.gameTimer.getTimerProperty(), new StringConverter<Number>() {
+    this.textView = new Text();
+    this.digitsImages = new ImageView[maxTimerSize];
+
+    this.textView.textProperty().bindBidirectional(this.gameTimer.getTimerProperty(), new StringConverter<Number>() {
       @Override
       public String toString(Number number) {
         return String.format("Time left: %d seconds", gameTimer.getTimerProperty().get());
@@ -41,15 +56,42 @@ public class TimerView extends Text {
     });
 
     // init the view properties (css and position)
-    this.setStyle(
+    this.textView.setStyle(
       "-fx-font-size: 20;" +
         "-fx-fill: #fff"
     );
     this.setTranslateX(Util.MAZE_SIZE*Util.slotSizeProperty.get() + 10.);
     this.setTranslateY(50.);
+    this.getChildren().add(this.textView);
+
+//    for (int i = maxTimerSize-1; i >= 0; i--) {
+//      this.digitsImages[i] = new ImageView(this.SPRITE);
+//      this.digitsImages[i].setTranslateX(this.SPRITE.getWidth()/10 * i);
+//      this.digitsImages[i].setViewport(
+//        new Rectangle2D(
+//          this.SPRITE.getWidth() / 10 * (this.gameTimer.getCurrentTimer() / (int) (Math.pow(10, i)) % 10),
+//          0,
+//          this.SPRITE.getWidth() / 10,
+//          this.SPRITE.getHeight())
+//      );
+//
+//      this.getChildren().add(this.digitsImages[i]);
+//    }
   }
   // public
-   
+
+  public void draw() {
+//    for (int i = maxTimerSize - 1; i >= 0; i--) {
+//      this.digitsImages[i].setViewport(
+//        new Rectangle2D(
+//          this.SPRITE.getWidth() / 10 * Integer.parseInt(String.valueOf(this.gameTimer.getformatedTimer().charAt(i))),
+//          0,
+//          this.SPRITE.getWidth() / 10,
+//          this.SPRITE.getHeight())
+//      );
+//
+//    }
+  }
    /*------------------------------------------------------------------
                             Constructors
    ------------------------------------------------------------------*/

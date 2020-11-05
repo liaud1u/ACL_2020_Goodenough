@@ -2,6 +2,7 @@ package model;
 
 import fxengine.Cmd;
 import fxengine.Game;
+import fxengine.GameTimer;
 import model.player.Direction;
 import model.player.Player;
 import model.util.Util;
@@ -18,6 +19,11 @@ import java.util.ArrayList;
  * versions suivantes.
  */
 public class PacmanGame implements Game {
+	private GameTimer gameTimer = new GameTimer(Util.timer);
+
+	public GameTimer getGameTimer() {
+		return gameTimer;
+	}
 
 	/**
 	 * Joueur principal
@@ -84,7 +90,7 @@ public class PacmanGame implements Game {
 		}
 
 		score = 0;
-
+		this.gameTimer.play();
 	}
 
 	/**

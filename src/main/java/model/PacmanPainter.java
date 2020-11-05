@@ -1,11 +1,10 @@
 package model;
 
 import fxengine.GamePainter;
+import fxengine.GameTimer;
 import javafx.scene.Group;
-import views.LabyrintheView;
-import views.PastilleView;
-import views.PlayerView;
-import views.ScoreView;
+import model.util.Util;
+import views.*;
 
 import java.util.ArrayList;
 
@@ -16,6 +15,7 @@ import java.util.ArrayList;
  *
  */
 public class PacmanPainter implements GamePainter {
+  private TimerView timerView;
 
   /**
    * Groupe racine ou ajouter les vues
@@ -85,6 +85,8 @@ public class PacmanPainter implements GamePainter {
     this.playerView = new PlayerView(game.getPlayer());
     this.root.getChildren().add(this.playerView);
 
+    this.timerView = new TimerView(this.game.getGameTimer());
+    this.root.getChildren().add(this.timerView);
   }
 
   /**
@@ -96,6 +98,7 @@ public class PacmanPainter implements GamePainter {
       pastilleView.draw();
     }
     this.scoreView.draw();
+    this.timerView.draw();
   }
 
   /**
