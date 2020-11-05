@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -27,12 +28,12 @@ public class PacmanGame implements Game {
 	/**
 	 * Labyrinthe principal
 	 */
-	private final Labyrinthe labyrinthe;
+	private Labyrinthe labyrinthe;
 
 	/**
 	 * Tableau des pastilles
 	 */
-	private final Pastille[][] tabPastille;
+	//private final Pastille[][] tabPastille;
 
 	/**
 	 * Liste des pastilles restantes
@@ -67,21 +68,15 @@ public class PacmanGame implements Game {
 
 		player = new Player(this);
 
-		tabPastille = new Pastille[Util.MAZE_SIZE-1][Util.MAZE_SIZE-1];
-
-		for (int i = 0; i < tabPastille.length; i++) {
-			for (int j = 0; j < tabPastille.length; j++) {
-				tabPastille[i][j] = new ScorePastille(i, j);
-			}
-		}
 
 		pastilles = new ArrayList<>();
 
-		for (int i = 0; i < tabPastille.length; i++) {
-			for (int j = 0; j < tabPastille.length; j++) {
-				pastilles.add(tabPastille[i][j]);
+		for (int i = 0; i < Util.MAZE_SIZE - 1; i++) {
+			for (int j = 0; j < Util.MAZE_SIZE - 1; j++) {
+				pastilles.add(new ScorePastille(i, j));
 			}
 		}
+
 
 		score = 0;
 
@@ -98,6 +93,31 @@ public class PacmanGame implements Game {
 		if (commande != Cmd.IDLE)
 			player.setCurrentMoveDirection(Direction.valueOf(commande.name()));
 		player.go();
+		if(allPastillesEaten()) {
+			// TODO : generate new maze
+			labyrinthe = new Labyrinthe(Util.MAZE_SIZE/2 -1, Util.MAZE_SIZE/2-1);
+
+		}
+	}
+
+	/**
+	 * Méthode permettant de générer
+	 * @param nbPastilles
+	 */
+	private void generatePastilles(int nbPastilles) {
+
+	}
+	/**
+	 * Méthode permettant de savoir si l'ensemble des pastilles ont été récupérées
+	 * par le joueur (le permettant de passer au niveau suivant)
+	 *
+	 * @return booleen vrai si toutes les pastilles ont été récupérées
+	 */
+	public boolean allPastillesEaten() {
+		for(Pastille p : pastilles) {
+			if(!p.isRamassee()) return false;
+		}
+		return true;
 	}
 
 	/**
@@ -131,8 +151,8 @@ public class PacmanGame implements Game {
 	 *
 	 * @return Tableau de pastille
 	 */
-	public Pastille[][] getPastille() {
-		return tabPastille;
+	public List<Pastille> getPastille() {
+		return pastilles;
 	}
 
 	/**
@@ -147,8 +167,8 @@ public class PacmanGame implements Game {
 		ArrayList<Pastille> toRemove = new ArrayList<>();
 
 		for (Pastille p : pastilles) {
-			double dx = x - p.getX();
-			double dy = y - p.getY();
+			double dx = x - p.getPosX();
+			double dy = y - p.getPosY();
 
 
 			//On calcule la distance entre chaque pastille et le joueur principal

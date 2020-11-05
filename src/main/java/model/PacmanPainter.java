@@ -8,6 +8,7 @@ import views.PlayerView;
 import views.ScoreView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -66,18 +67,17 @@ public class PacmanPainter implements GamePainter {
     this.labyrintheView = new LabyrintheView();
     this.root.getChildren().add(this.labyrintheView);
 
-    Pastille[][] pastille = game.getPastille();
+    List<Pastille> pastilles = game.getPastille();
 
     pastillesView = new ArrayList<>();
 
-    for (int i = 0; i < pastille.length; i++) {
-      for (int j = 0; j < pastille.length; j++) {
-        PastilleView view = new PastilleView(pastille[i][j], i, j);
-        pastillesView.add(view);
-        this.root.getChildren().add(view);
-      }
-
+    for(Pastille p : pastilles) {
+      PastilleView view = new PastilleView(p,p.getX(), p.getY());
+      pastillesView.add(view);
+      this.root.getChildren().add(view);
     }
+
+
 
     this.scoreView = new ScoreView(game,300,24,0,0);
     this.root.getChildren().add(scoreView);
