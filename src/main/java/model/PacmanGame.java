@@ -69,7 +69,7 @@ public class PacmanGame implements Game {
 		}
 
 
-		labyrinthe = new Labyrinthe(Util.MAZE_SIZE/2 -1, Util.MAZE_SIZE/2-1);
+		labyrinthe = new Labyrinthe(Util.MAZE_SIZE, Util.MAZE_SIZE);
 
 		player = new Player(this);
 

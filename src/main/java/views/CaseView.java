@@ -15,29 +15,21 @@ import java.util.List;
  */
 public class CaseView extends Group {
 
-    /**
-     * Case
-     */
-    private final Case modelCase;
-    /**
-     * Representation de la case
-     */
     private final List<Rectangle> representationCase;
     /**
      * Différence de taille entre le mur et la case (obsolète)
      */
     private double diffTailleCase;
 
-    public CaseView(Case c) {
+    public CaseView(int x,int y, int i) {
 
-        this.modelCase = c;
         //System.out.println(GameApplication.blocSizeProperty.get());
         representationCase = new ArrayList<>();
 
         //System.err.println("DEBUG:" + c.toString());
         // Case de base
-            Rectangle base = new Rectangle(c.getX() * Util.slotSizeProperty.get(),c.getY() * Util.slotSizeProperty.get(),  Util.slotSizeProperty.get(), Util.slotSizeProperty.get());
-            if(c.isEstUnMur()) {
+            Rectangle base = new Rectangle(x * Util.slotSizeProperty.get(),y * Util.slotSizeProperty.get(),  Util.slotSizeProperty.get(), Util.slotSizeProperty.get());
+            if(i == 1) {
                 base.setFill(Color.GRAY);
             } else {
                 base.setFill(Color.WHITE);

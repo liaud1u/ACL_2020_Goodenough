@@ -46,7 +46,6 @@ public class TimerView extends Group {
   // public
 
   public void draw() {
-    SpriteTools.updateSpritedDigits();
     this.getChildren().clear();
     this.getChildren().addAll(SpriteTools.getSpritedNumber(this.gameTimer.getCurrentTimer(), maxTimerSize, 10));
   }

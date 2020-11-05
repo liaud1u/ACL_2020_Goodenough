@@ -32,6 +32,10 @@ public class Case {
      */
     private boolean estVide = true;
 
+    private Case casePrecedente;
+
+    private int distance;
+
     /**
      * Constructeur d'une case
      *
@@ -173,6 +177,14 @@ public class Case {
         this.estUnMur = estUnMur;
     }
 
+    public Case getCasePrecedente() {
+        return casePrecedente;
+    }
+
+    public void setCasePrecedente(Case casePrecedente) {
+        this.casePrecedente = casePrecedente;
+    }
+
     /**
      * Vérifie si la case est vide
      *
@@ -197,7 +209,14 @@ public class Case {
                 "x=" + x +
                 ", y=" + y +
                 ", estUnMur=" + estUnMur +
-                ", estVide=" + estVide +
                 '}';
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
     }
 }

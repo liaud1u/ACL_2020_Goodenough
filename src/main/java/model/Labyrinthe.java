@@ -1,8 +1,9 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
+
+import static views.LabyrintheView.labyrintheVue;
 
 
 /**
@@ -11,53 +12,63 @@ import java.util.Random;
 public class Labyrinthe {
 
     // Ensemble des cases formant le labyrinthe
-    public static Case[][] labyrinthe = new Case[20][20];
-    char[][] labyrintheGUI;
+    public Case[][] labyrinthe;
+
+    //On utilise un tableau de CHAR pour pouvoir modifier le type des cases à volonté
+    public char[][] labyrintheCHAR;
+
+
     int tailleLigne;
     int tailleColonne;
-    int tailleLigneGUI;
-    int tailleColonneGUI;
+    int tailleLigneCHAR;
+    int tailleColonneCHAR;
     Random rand = new Random();
 
 
-    public Labyrinthe(int tailleLigne, int tailleColonne) {
-        this.tailleLigne = tailleLigne;
-        this.tailleColonne = tailleColonne;
-        tailleLigneGUI = tailleLigne * 2 + 1;
-        tailleColonneGUI = tailleColonne * 2 + 1;
-        labyrintheGUI = new char[tailleLigneGUI][tailleColonneGUI];
+
+
+    public Labyrinthe(int tailleL, int tailleC) {
+        // tailleLigne et tailleColonne = 19
+        this.tailleLigne = tailleL/2;
+        this.tailleColonne = tailleC/2;
+
+        this.tailleLigneCHAR = tailleLigne * 2;
+        this.tailleColonneCHAR = tailleColonne * 2;
+
+        labyrintheCHAR = new char[tailleLigneCHAR][tailleColonneCHAR];
         initialisationLaby();
         creationLabyrinthe();
-    }
-
-    public Case[][] getLabyrinthe() {
-        return labyrinthe;
     }
 
 
     //Création des cases
     private void initialisationLaby() {
 
-        for (int i = 0; i < tailleLigneGUI + 1; i++)
-        {
-            for (int j = 0; j < tailleLigneGUI + 1; j++)
-            {
-                labyrinthe[i][j] = new Case(i, j, false);
+        labyrinthe = new Case[tailleLigne][tailleColonne];
 
+        for (int i = 0; i < tailleLigne; i++)
+        {
+            for (int j = 0; j < tailleColonne; j++)
+            {
+                labyrinthe[i][j] = new Case(i,j,false);
             }
         }
     }
 
-    public void creationLabyrinthe() {
+
+    private void creationLabyrinthe() {
         creationLabyrinthe(0, 0);
     }
 
-    public void creationLabyrinthe(int x, int y) {
+    private void creationLabyrinthe(int x, int y) {
         creationLabyrinthe(getCase(x, y));
     }
+    private void creationLabyrinthe(Case caseDepart) {
+        if (caseDepart == null) return;
+        caseDepart.setEstVide(true);
 
-    public void creationLabyrinthe(Case caseDepart) {
         ArrayList<Case> listeCase = new ArrayList<>();
+        listeCase.add(caseDepart);
 
         while (!listeCase.isEmpty()) {
             Case c;
@@ -77,9 +88,10 @@ public class Labyrinthe {
                     getCase(c.getX() - 1, c.getY()),
                     getCase(c.getX(), c.getY() - 1)
             };
+
             for (Case c1 : voisinsPotentiel)
             {
-                if (c1==null || c1.isEstUnMur() || !c1.isEstVide()) continue;
+                if (c1==null || c1.isEstUnMur()|| !c1.isEstVide()) continue;
                 voisins.add(c1);
             }
             if (voisins.isEmpty()) continue;
@@ -93,6 +105,7 @@ public class Labyrinthe {
         updateLabyrinthe();
     }
 
+
     public Case getCase(int x, int y) {
         try {
             return labyrinthe[x][y];
@@ -101,85 +114,111 @@ public class Labyrinthe {
         }
     }
 
-    @Override
-    public String toString() {
-        return "Labyrinthe{" +
-                "labyrinthe=" + Arrays.toString(labyrinthe) +
-                ", labyrintheGUI=" + Arrays.toString(labyrintheGUI) +
-                ", tailleLigne=" + tailleLigne +
-                ", tailleColonne=" + tailleColonne +
-                ", tailleLigneGUI=" + tailleLigneGUI +
-                ", tailleColonneGUI=" + tailleColonneGUI +
-                ", rand=" + rand +
-                '}';
-    }
 
+    //Seems good sauf les fonctions voisins droite et voisins dessous
     public void updateLabyrinthe() {
-        char vide = 'V';
-        char mur = 'X';
-        char casec = 'V';
 
-        for (int x = 0; x < tailleLigne; x++) {
-            for (int y = 0; y < tailleColonneGUI; y++) {
-                labyrintheGUI[x][y] = vide;
+        char vide = ' ';
+        char mur = 'X';
+
+        for (int x = 0; x < tailleLigneCHAR; x++) {
+            for (int y = 0; y < tailleColonneCHAR; y++) {
+                labyrintheCHAR[x][y] = vide;
             }
         }
-        for (int x = 0; x < tailleLigneGUI; x++) {
-            for (int y = 0; y < tailleColonneGUI; y++) {
+
+        //Murs sur les côtés
+
+        //Bordure Ouest
+        for (int y = 0; y < tailleColonneCHAR; y++) {
+            labyrintheCHAR[0][y] = mur;
+        }
+
+        //Bordure Nord
+        for (int x = 0; x < tailleColonneCHAR; x++) {
+            labyrintheCHAR[x][0] = mur;
+        }
+
+        //Bordure Est
+        for (int y = 0; y < tailleColonneCHAR; y++) {
+            labyrintheCHAR[tailleColonneCHAR - 1][y] = mur;
+        }
+
+        //Bordure Sud
+        for (int x = 0; x < tailleColonneCHAR; x++) {
+            labyrintheCHAR[x][tailleColonneCHAR - 1] = mur;
+        }
+
+        //Murs du milieu
+        for (int x = 2; x < tailleLigneCHAR-2; x++) {
+            for (int y = 2; y < tailleColonneCHAR-2; y++) {
 
                 if (x % 2 == 0 || y % 2 == 0)
                 {
-                    labyrintheGUI[x][y] = mur;
+                    labyrintheCHAR[x][y] = mur;
                 }
 
             }
         }
-        for (int x = 0; x < tailleLigne; x++) {
-            for (int y = 0; y < tailleColonne; y++) {
 
-                Case caseCourante = getCase(x, y);
+        //Casse des murs pour rendre le labyrinthe parfait
+        for (int x = 0; x < tailleLigne-1; x++) {
+            for (int y = 0; y < tailleColonne-1; y++) {
+
+                Case caseCourante = getCase(x,y);
+
                 int XGUI = x * 2 + 1;
                 int YGUI = y * 2 + 1;
-                labyrintheGUI[XGUI][YGUI] = casec;
+                //labyrintheCHAR[XGUI][YGUI] = vide;
+
+                System.out.println(labyrintheCHAR[x][y]);
                 if (caseCourante.voisinDessous())
                 {
-                    labyrintheGUI[XGUI][YGUI + 1] = casec;
+                    labyrintheCHAR[XGUI][YGUI + 1] = vide;
                 }
                 if (caseCourante.voisinDroite())
                 {
-                    labyrintheGUI[XGUI + 1][YGUI] = casec;
+                    labyrintheCHAR[XGUI + 1][YGUI] = vide;
                 }
+
             }
         }
 
+
         //On détruit des murs au hasard pour créer des cycles
         //Décalage de 1 pour éviter de taper dans les murs
-        for (int x = 1; x < tailleLigneGUI - 1; x++) {
-            for (int y = 1; y < tailleColonneGUI - 1; y++) {
-                if ((x != tailleLigneGUI - 1 && y != 1 || x != 1 && y != tailleColonneGUI - 1)&& (x != 2 && y != tailleLigneGUI-2 || x != tailleColonneGUI-2 && y != 2)) {
-                    if (labyrintheGUI[x][y] == mur) {
-                        int nbPourcentInt = 1;
+        for (int x = 1; x < tailleLigneCHAR - 1; x++) {
+            for (int y = 1; y < tailleColonneCHAR - 1; y++) {
+                if ((x != tailleLigneCHAR - 1 && y != 1 || x != 1 && y != tailleColonneCHAR - 1) && (x != 2 && y != tailleLigneCHAR -2 || x != tailleColonneCHAR -2 && y != 2)) {
+                    if (labyrintheCHAR[x][y] == mur) {
+                        int nbPourcentInt = 9;
                         int nbAleatoire = rand.nextInt(10);
                         if (nbAleatoire > nbPourcentInt) {
-                            labyrintheGUI[x][y] = vide;
+                            labyrintheCHAR[x][y] = vide;
                         }
                     }
                 }
             }
         }
 
-        for (int x = 0; x < tailleLigneGUI ; x++) {
-            for (int y = 0; y < tailleColonneGUI ; y++) {
-                //System.out.println(labyrintheGUI[x][y]);
-                if(labyrintheGUI[x][y] == mur) {
-                    labyrinthe[x][y] = new Case(x, y, true);
-                } else if (labyrintheGUI[x][y] == vide) {
-                    labyrinthe[x][y] = new Case(x, y, false);
+
+        for (int ligne = 0; ligne < tailleLigneCHAR; ligne++)
+        {
+            for (int colonne = 0; colonne < tailleColonneCHAR; colonne++)
+            {
+                if (labyrintheCHAR[ligne][colonne] == mur)
+                {
+                    labyrintheVue[ligne][colonne] = 1;
+                }
+                else
+                {
+                    labyrintheVue[ligne][colonne] = 0;
                 }
             }
         }
-    }
 
+        System.out.println("FIN DE LABYRINTHE");
+    }
 
 }
 
