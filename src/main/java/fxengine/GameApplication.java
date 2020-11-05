@@ -130,6 +130,11 @@ public class GameApplication extends Application {
     GameLoop loop = new GameLoop(painter,controller,game);
     loop.start();
 
+    // Création et lancement du timer
+    //TODO: ne pas lancer ici, mais depuis un bouton
+    GameTimer gameTimer = new GameTimer(Util.timer);
+    gameTimer.play();
+
     // Paramètrage et affichage de la fenêtre principale
     primaryStage.setScene(scene);
     primaryStage.setTitle("Pacman");

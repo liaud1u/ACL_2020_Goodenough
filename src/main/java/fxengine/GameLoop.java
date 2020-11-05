@@ -50,12 +50,11 @@ public class GameLoop extends AnimationTimer {
      * @param now
      */
     public void handle(long now) {
-
         //Calcul des FPS
-        if (lastSeconds != now / 1000000000) {
+        if (lastSeconds != now / 1_000_000_000) {
             //System.out.println(frame+ "fps");
             frame = 0;
-            lastSeconds = now / 1000000000;
+            lastSeconds = now / 1_000_000_000;
         } else {
             frame++;
         }
