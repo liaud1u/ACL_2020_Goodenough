@@ -30,6 +30,11 @@ public abstract class Pastille {
     private String typePastille;
 
     /**
+     * Valeur de la pastille
+     */
+    protected int value = 0;
+
+    /**
      * Constructeur par défaut de la pastille
      *
      * @param couleurPastille Couleur par défaut de la pastille
@@ -58,8 +63,9 @@ public abstract class Pastille {
      * Ramasser une pastille
      */
     public void ramasser() {
-        if (!ramassee)
+        if (!ramassee) {
             this.ramassee = true;
+        }
     }
 
     /**
@@ -109,10 +115,17 @@ public abstract class Pastille {
 
     /**
      * Getter de la coordonnée y de la pastille
-     *
      * @return double y
      */
     public double getY() {
         return (y * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2);
+    }
+
+    /**
+     * Getter de la valeur de la pastille
+     * @return int valeur
+     */
+    public int getValue() {
+        return value;
     }
 }

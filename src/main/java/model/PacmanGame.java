@@ -39,6 +39,11 @@ public class PacmanGame implements Game {
 	 */
 	private final ArrayList<Pastille> pastilles;
 
+	/**
+	 * Score
+	 */
+	private int score;
+
 
 	/**
 	 * constructeur avec fichier source pour le help
@@ -60,7 +65,6 @@ public class PacmanGame implements Game {
 
 		labyrinthe = new Labyrinthe(Util.MAZE_SIZE/2 -1, Util.MAZE_SIZE/2-1);
 
-
 		player = new Player(this);
 
 		tabPastille = new Pastille[Util.MAZE_SIZE-1][Util.MAZE_SIZE-1];
@@ -79,6 +83,7 @@ public class PacmanGame implements Game {
 			}
 		}
 
+		score = 0;
 
 	}
 
@@ -153,6 +158,7 @@ public class PacmanGame implements Game {
 		 	if (distance < (Util.slotSizeProperty.get() * Util.RATIO_PERSONNAGE)*0.6) {
 				if (!p.isRamassee()) {
 					p.ramasser();
+					score+=p.getValue();
 					toRemove.add(p);
 				}
 			}
@@ -209,5 +215,13 @@ public class PacmanGame implements Game {
 
 		 System.out.println(player.toRectBounds().intersects(haut.toRectBounds()));
 		 **/
+	}
+
+	/**
+	 * Getter de la valeur du score
+	 * @return int score
+	 */
+	public int getScore(){
+		return score;
 	}
 }

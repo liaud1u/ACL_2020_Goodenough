@@ -5,6 +5,7 @@ import javafx.scene.Group;
 import views.LabyrintheView;
 import views.PastilleView;
 import views.PlayerView;
+import views.ScoreView;
 
 import java.util.ArrayList;
 
@@ -20,22 +21,32 @@ public class PacmanPainter implements GamePainter {
    * Groupe racine ou ajouter les vues
    */
   private final Group root;
+
   /**
    * Jeu principal
    */
   private final PacmanGame game;
+
   /**
    * Vue du labyrinthe
    */
   private final LabyrintheView labyrintheView;
+
   /**
    * Vue du joueur
    */
   private final PlayerView playerView;
+
   /**
    * Liste des vues de Pastilles
    */
   private final ArrayList<PastilleView> pastillesView;
+
+  /**
+   * Vue du score
+   */
+  private final ScoreView scoreView;
+
   /**
    * Largeur
    */
@@ -68,6 +79,9 @@ public class PacmanPainter implements GamePainter {
 
     }
 
+    this.scoreView = new ScoreView(game,300,24,0,0);
+    this.root.getChildren().add(scoreView);
+
     this.playerView = new PlayerView(game.getPlayer());
     this.root.getChildren().add(this.playerView);
 
@@ -77,10 +91,11 @@ public class PacmanPainter implements GamePainter {
    * methode  redefinie de Afficheur retourne une image du jeu
    */
   public void draw() {
-    this.playerView.draw(this.game);
+    this.playerView.draw();
     for (PastilleView pastilleView : pastillesView) {
       pastilleView.draw();
     }
+    this.scoreView.draw();
   }
 
   /**

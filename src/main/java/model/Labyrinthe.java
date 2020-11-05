@@ -170,7 +170,7 @@ public class Labyrinthe {
 
         for (int x = 0; x < tailleLigneGUI ; x++) {
             for (int y = 0; y < tailleColonneGUI ; y++) {
-                System.out.println(labyrintheGUI[x][y]);
+                //System.out.println(labyrintheGUI[x][y]);
                 if(labyrintheGUI[x][y] == mur) {
                     labyrinthe[x][y] = new Case(x, y, true);
                 } else if (labyrintheGUI[x][y] == vide) {

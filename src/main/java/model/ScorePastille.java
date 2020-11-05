@@ -20,6 +20,7 @@ public class ScorePastille extends Pastille {
      */
     public ScorePastille(int x, int y) {
         super(couleur, "scorePastille", x, y);
+        value = 10;
     }
 
 }

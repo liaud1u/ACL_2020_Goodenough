@@ -18,6 +18,13 @@ public abstract class Util {
   public static double speedDifficulty = 1.;
 
 
+
+  /**
+   * Nombre de chiffre dans le score
+   */
+  public static int SCORE_SIZE = 8;
+
+
   /**
    * Ratio de la taille du personnage par rapport à la taille d'une case
    */

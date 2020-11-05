@@ -62,7 +62,7 @@ public class PlayerView extends Group {
    *
    * @param game PacmanGame jeu principal
    */
-  public void draw(PacmanGame game) {
+  public void draw() {
     double rayon =  Util.slotSizeProperty.getValue()*Util.RATIO_PERSONNAGE /2;
 
     switch (player.getCurrentMoveDirection()){
