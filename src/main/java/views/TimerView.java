@@ -1,12 +1,8 @@
 package views;
 
 import fxengine.GameTimer;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
-import javafx.util.StringConverter;
 import model.util.SpriteTools;
 import model.util.Util;
 
@@ -43,7 +39,6 @@ public class TimerView extends Group {
     this.setTranslateX(Util.MAZE_SIZE*Util.slotSizeProperty.get() + 10.);
     this.setTranslateY(50.);
 
-    System.out.println(this.gameTimer.getCurrentTimer());
     ImageView[] digitsViews = SpriteTools.getSpritedNumber(this.gameTimer.getCurrentTimer(), maxTimerSize, 10);
     this.getChildren().addAll(digitsViews);
   }
@@ -51,6 +46,7 @@ public class TimerView extends Group {
   // public
 
   public void draw() {
+    SpriteTools.updateSpritedDigits();
     this.getChildren().clear();
     this.getChildren().addAll(SpriteTools.getSpritedNumber(this.gameTimer.getCurrentTimer(), maxTimerSize, 10));
   }

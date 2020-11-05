@@ -90,18 +90,6 @@ public abstract class SpriteTools {
 
     return spritedDigits;
   }
-
-
-  public static void updateSpritedDigits(ImageView[] spritedDigits, int newNumber) {
-    String formattedNumber = getFromattedNumber(newNumber, spritedDigits.length);
-
-    for (int i = spritedDigits.length - 1; i >= 0; i--) {
-      int currentDigit = Integer.parseInt(String.valueOf(formattedNumber.charAt(i)));
-
-      spritedDigits[i] = getSpritedDigit(currentDigit); // generate the sprited image view for the current digit
-      spritedDigits[i].setTranslateX(digitsSprite.getWidth()/10 * i);
-    }
-  }
    
    /*------------------------------------------------------------------
                             Constructors
