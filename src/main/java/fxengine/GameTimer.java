@@ -2,56 +2,98 @@ package fxengine;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.util.Duration;
+
+import java.sql.Time;
 
 /**
  * @author Ribeyrolles Matthieu
  * 05/11/2020, 16:01
  */
 public class GameTimer {
-  private int maxTimer; // max timer used as referent
-  private int currentTimer; // current timer, the one looping
-  private Timeline timeline;  // the timer itself
+  private Timeline timeline;  // the timer loop
+  private IntegerProperty timerProperty;  // the timer
 
   /*------------------------------------------------------------------
                               Methods
    ------------------------------------------------------------------*/
 
   // getters
+
+
+  /**
+   * @return an integer value, the current time
+   * */
   public int getCurrentTimer() {
-    return currentTimer;
+    return this.timerProperty.get();
   }
+
+  /**
+   * @return an {@link IntegerProperty}, corresponding to the current time property
+   * */
+  public IntegerProperty getTimerProperty() { return this.timerProperty; }
 
   // setters
-  public void setCurrentTimer(int currentTimer) {
-    this.currentTimer = currentTimer;
-  }
+
+  /**
+   * @param currentTimer (:int) = value which the new timer will be set for
+   *                              Note that it will be set through an {@link IntegerProperty}
+   * */
+  public void setCurrentTimer(int currentTimer) { this.timerProperty.set(currentTimer); }
 
   // private
+  /**
+   * Init the timer loop ({@link Timeline}, loop that will subtract one second to the timer every second
+   * */
   private void initTimer() {
-    this.timeline = new Timeline(new KeyFrame(
-      Duration.seconds(1),
-      ae -> {
-        this.currentTimer--;
+    this.timeline = new Timeline(
+      new KeyFrame(Duration.seconds(1), ae -> {
+        this.timerProperty.set(this.timerProperty.subtract(1).get());
         this.checkTimerEnds();
-      }
-    ));
-    this.timeline.setCycleCount(Animation.INDEFINITE);
+      })
+    );
+    timeline.setCycleCount(Animation.INDEFINITE);
+    this.play();
   }
 
+  /**
+   * Check if the timer has ends.
+   * We check under 0 too, in case of we drop under (e.g. removeTime)
+   * */
   private void checkTimerEnds() {
-    if (this.currentTimer <= 0) System.exit(0); //TODO: end the game
+    if (this.timerProperty.get() <= 0) {
+      this.timeline.stop();
+//      System.exit(0); //TODO: end the game
+    }
   }
 
   // public
-  public void addTime(int timeToAdd) { this.currentTimer+=timeToAdd; };
+
+  /**
+   * @param timeToAdd (:int), the amount of seconds to add to the timer
+   * */
+  public void addTime(int timeToAdd) {
+    this.timerProperty.set(this.timerProperty.add(timeToAdd).get());
+  }
+
+  /**
+   * @param timeToRemove (:int), the amount of seconds to add to the timer
+   * */
   public void removeTime(int timeToRemove) {
-    this.currentTimer-=timeToRemove;
+    this.timerProperty.set(this.timerProperty.subtract(timeToRemove).get());
     this.checkTimerEnds();
   }
+
   public void pause() { this.timeline.pause(); }
   public void play() { this.timeline.play(); }
+
+  /**
+   *  Reset the timer.
+   * */
   public void reset() {
     this.timeline.stop();
     this.initTimer();
@@ -62,9 +104,11 @@ public class GameTimer {
                             Constructors
    ------------------------------------------------------------------*/
 
+  /**
+   * @param maxTimer (:int), the value in seconds the timer will be set to
+   * */
   public GameTimer(int maxTimer) {
-    this.maxTimer = maxTimer;
-    this.currentTimer = this.maxTimer;
+    this.timerProperty = new SimpleIntegerProperty(maxTimer);
 
     this.initTimer();
   }
