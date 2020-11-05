@@ -14,6 +14,7 @@ import model.PacmanController;
 import model.PacmanGame;
 import model.PacmanPainter;
 import model.util.Util;
+import views.TimerView;
 
 /**
  * Application principale
@@ -129,6 +130,16 @@ public class GameApplication extends Application {
     // Création et lancement de la boucle principale de gameplay
     GameLoop loop = new GameLoop(painter,controller,game);
     loop.start();
+
+    // Création et lancement du timer
+    //TODO: ne pas lancer ici, mais depuis un bouton
+    GameTimer gameTimer = new GameTimer(Util.timer);
+    gameTimer.play();
+
+    TimerView timerView = new TimerView(gameTimer);
+    timerView.toFront();
+
+    root.getChildren().add(timerView);
 
     // Paramètrage et affichage de la fenêtre principale
     primaryStage.setScene(scene);
