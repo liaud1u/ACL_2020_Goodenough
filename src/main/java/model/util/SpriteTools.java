@@ -28,24 +28,34 @@ public abstract class SpriteTools {
     return new ImageView(digitsSprite);
   }
 
-  public static ImageView[] getSpritedNumber(int number, int desiredLength, double width, double height, double spaceBetweenDigits) {
-    if (digitsSprite == null) setImageSize(width, height);  // prevent null image loading
+  /**
+   *  @param number (:int), the number to convert into sprites
+   *  @param
+   *  @return list of {@link ImageView} representing the different digits for the given number
+   * */
+  public static ImageView[] getSpritedNumber(int number, int desiredLength, double spaceBetweenDigits) {
+    if (number < 0) number = 0;
+    if (desiredLength < 0) number = 0;
+    if (digitsSprite == null) digitsSprite = new Image("score.png");  // prevent null image loading
+
     ImageView[] spritedDigits = new ImageView[desiredLength]; // the list of images displayed
 
     /**
-     * Return the formatted number
+     * return the formatted number
      * e.g. with a desired size of 5 and 155, it will return "00155"
      * */
     String formattedNumber = String.format("%0" + desiredLength + "d", number, desiredLength);
 
+    // Iterate and set the viewport for every digit of the given number
     for (int i = desiredLength - 1; i >= 0; i--) {
       int currentDigit = Integer.parseInt(String.valueOf(formattedNumber.charAt(i)));
 
       spritedDigits[i] = new ImageView(digitsSprite);
+      System.out.printf("Height: %f, width: %f\n", digitsSprite.getHeight(), digitsSprite.getWidth());
       spritedDigits[i].setTranslateX(digitsSprite.getWidth()/10 * i);
       spritedDigits[i].setViewport(
         new Rectangle2D(
-          (digitsSprite.getWidth() / 10) * currentDigit,
+          digitsSprite.getWidth() / 10 * currentDigit,
           0,
           digitsSprite.getWidth() / 10,
           digitsSprite.getHeight())
