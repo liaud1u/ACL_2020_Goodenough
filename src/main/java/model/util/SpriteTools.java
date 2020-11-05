@@ -20,12 +20,32 @@ public abstract class SpriteTools {
   // private
   // public
 
+  /**
+   * @param (width, height) (:double, double), the dimensions for the image
+   * */
   public static void setImageSize(double width, double height) {
     digitsSprite = new Image("score.png", width, height, true, false);
   }
 
+  /**
+   * @param digit (:int), the digit who needs to be sprited
+   * @return spritedDigit, an {@link ImageView}, corresponding to the sprited digit
+   * */
   public static ImageView getSpritedDigit(int digit) {
-    return new ImageView(digitsSprite);
+    if (digitsSprite == null) digitsSprite = new Image("score.png");  // prevent null image loading
+
+    ImageView spritedDigit = new ImageView(digitsSprite);
+
+    // adjust the viewport on the sprite
+    spritedDigit.setViewport(
+      new Rectangle2D(
+        digitsSprite.getWidth() / 10 * digit,
+        0,
+        digitsSprite.getWidth() / 10,
+        digitsSprite.getHeight())
+    );
+
+    return spritedDigit;
   }
 
   /**
@@ -50,16 +70,16 @@ public abstract class SpriteTools {
     for (int i = desiredLength - 1; i >= 0; i--) {
       int currentDigit = Integer.parseInt(String.valueOf(formattedNumber.charAt(i)));
 
-      spritedDigits[i] = new ImageView(digitsSprite);
-      System.out.printf("Height: %f, width: %f\n", digitsSprite.getHeight(), digitsSprite.getWidth());
+//      spritedDigits[i] = new ImageView(digitsSprite);
+      spritedDigits[i] = getSpritedDigit(currentDigit);
       spritedDigits[i].setTranslateX(digitsSprite.getWidth()/10 * i);
-      spritedDigits[i].setViewport(
-        new Rectangle2D(
-          digitsSprite.getWidth() / 10 * currentDigit,
-          0,
-          digitsSprite.getWidth() / 10,
-          digitsSprite.getHeight())
-      );
+//      spritedDigits[i].setViewport(
+//        new Rectangle2D(
+//          digitsSprite.getWidth() / 10 * currentDigit,
+//          0,
+//          digitsSprite.getWidth() / 10,
+//          digitsSprite.getHeight())
+//      );
     }
 
     return spritedDigits;
