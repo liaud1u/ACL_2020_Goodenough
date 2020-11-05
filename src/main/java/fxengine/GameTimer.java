@@ -19,14 +19,11 @@ public class GameTimer {
    ------------------------------------------------------------------*/
 
   // getters
-
   public int getCurrentTimer() {
     return currentTimer;
   }
 
-
   // setters
-
   public void setCurrentTimer(int currentTimer) {
     this.currentTimer = currentTimer;
   }
@@ -37,13 +34,22 @@ public class GameTimer {
       Duration.seconds(1),
       ae -> {
         this.currentTimer--;
-        if (this.currentTimer <= 0) System.exit(0); //TODO: end the game
+        this.checkTimerEnds();
       }
     ));
     this.timeline.setCycleCount(Animation.INDEFINITE);
   }
 
+  private void checkTimerEnds() {
+    if (this.currentTimer <= 0) System.exit(0); //TODO: end the game
+  }
+
   // public
+  public void addTime(int timeToAdd) { this.currentTimer+=timeToAdd; };
+  public void removeTime(int timeToRemove) {
+    this.currentTimer-=timeToRemove;
+    this.checkTimerEnds();
+  }
   public void pause() { this.timeline.pause(); }
   public void play() { this.timeline.play(); }
   public void reset() {
