@@ -3,6 +3,7 @@ package model;
 import fxengine.GamePainter;
 import fxengine.GameTimer;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import model.util.Util;
 import views.*;
 
@@ -21,7 +22,7 @@ public class PacmanPainter implements GamePainter {
   /**
    * Groupe racine ou ajouter les vues
    */
-  private final Group root;
+  private  Group root;
 
   /**
    * Jeu principal
@@ -36,12 +37,12 @@ public class PacmanPainter implements GamePainter {
   /**
    * Vue du joueur
    */
-  private final PlayerView playerView;
+  private  PlayerView playerView;
 
   /**
-   * Liste des vues de Pastilles
+   * Vue des pastilles
    */
-  private ArrayList<PastilleView> pastillesView;
+  private List<PastilleView> pastillesView;
 
   /**
    * Vue du score
@@ -67,12 +68,11 @@ public class PacmanPainter implements GamePainter {
     this.labyrintheView = new LabyrintheView(game.getLabyrinthe());
     this.root.getChildren().add(this.labyrintheView);
 
-   this.generatePastilleView();
 
-
+    this.addPastilles();
 
     this.scoreView = new ScoreView(game,300,24,0,0);
-    this.root.getChildren().add(scoreView);
+    this.root.getChildren().add(this.scoreView);
 
     this.playerView = new PlayerView(game.getPlayer());
     this.root.getChildren().add(this.playerView);
@@ -81,44 +81,50 @@ public class PacmanPainter implements GamePainter {
     this.root.getChildren().add(this.timerView);
   }
 
-  private void generatePastilleView() {
-    List<Pastille> pastilles = game.getPastille();
-    pastillesView = new ArrayList<>();
-    for(Pastille p : pastilles) {
-      PastilleView view = new PastilleView(p,p.getX(), p.getY());
-      pastillesView.add(view);
-      this.root.getChildren().add(view);
-    }
-  }
+
   /**
    * methode  redefinie de Afficheur retourne une image du jeu
    */
   public void draw() {
     // En cas de victoire, on change de labyrinthe et on génère de nouvelles pastilles.
     if(game.getGameState().getState() == PacmanGameState.EtatJeu.VICTOIRE) {
-
-      int indexLaby = this.root.getChildren().indexOf(labyrintheView);
-
-      this.root.getChildren().remove(labyrintheView);
-      this.root.getChildren().removeAll(pastillesView);
-      // On récupère le nouveau labyrinthe
-      labyrintheView = new LabyrintheView(game.getLabyrinthe());
-      generatePastilleView();
-      // On remplace a la position de l'ancien dans la liste
-      this.root.getChildren().set(indexLaby, labyrintheView);
-
-
-    } else {
-      this.playerView.draw();
-      for (PastilleView pastilleView : pastillesView) {
-        pastilleView.draw();
-      }
-      this.scoreView.draw();
-      this.timerView.draw();
+      this.repaint();
     }
-
+    for(PastilleView p : pastillesView)  p.draw();
+    this.playerView.draw();
+    this.scoreView.draw();
+    this.timerView.draw();
   }
 
+  /**
+   * Methode qui redessine l'interface
+   */
+  private void repaint() {
+
+    // On récupère le nouveau labyrinthe et les nouvelles pastilles
+    labyrintheView = new LabyrintheView(game.getLabyrinthe());
+    //pastillesView = new PastillesView(game.getPastille());
+
+    // On nettoie la liste des vues
+    this.root.getChildren().clear();
+
+    // On rajoute les nouvelles vues
+    this.root.getChildren().add(labyrintheView);
+    this.addPastilles();
+    this.root.getChildren().add(scoreView);
+    this.root.getChildren().add(playerView);
+    this.root.getChildren().add(timerView);
+  }
+
+
+  private void addPastilles() {
+    this.pastillesView = new ArrayList<>();
+    for(Pastille p : game.getPastille()) {
+      PastilleView view = new PastilleView(p,p.getX(), p.getY());
+      pastillesView.add(view);
+      this.root.getChildren().add(view);
+    }
+  }
 
   /**
    * Renvoie la taille
@@ -165,12 +171,4 @@ public class PacmanPainter implements GamePainter {
     return playerView;
   }
 
-  /**
-   * Getter de la liste des vues de pastilles
-   *
-   * @return Liste des vues de pastilles
-   */
-  public ArrayList<PastilleView> getPastillesView() {
-    return pastillesView;
-  }
 }
