@@ -41,7 +41,7 @@ public class PacmanPainter implements GamePainter {
   /**
    * Liste des vues de Pastilles
    */
-  private final ArrayList<PastilleView> pastillesView;
+  private ArrayList<PastilleView> pastillesView;
 
   /**
    * Vue du score
@@ -67,15 +67,7 @@ public class PacmanPainter implements GamePainter {
     this.labyrintheView = new LabyrintheView(game.getLabyrinthe());
     this.root.getChildren().add(this.labyrintheView);
 
-    List<Pastille> pastilles = game.getPastille();
-
-    pastillesView = new ArrayList<>();
-
-    for(Pastille p : pastilles) {
-      PastilleView view = new PastilleView(p,p.getX(), p.getY());
-      pastillesView.add(view);
-      this.root.getChildren().add(view);
-    }
+   this.generatePastilleView();
 
 
 
@@ -89,21 +81,32 @@ public class PacmanPainter implements GamePainter {
     this.root.getChildren().add(this.timerView);
   }
 
+  private void generatePastilleView() {
+    List<Pastille> pastilles = game.getPastille();
+    pastillesView = new ArrayList<>();
+    for(Pastille p : pastilles) {
+      PastilleView view = new PastilleView(p,p.getX(), p.getY());
+      pastillesView.add(view);
+      this.root.getChildren().add(view);
+    }
+  }
   /**
    * methode  redefinie de Afficheur retourne une image du jeu
    */
   public void draw() {
-    if(game.isChanged()) {
+    // En cas de victoire, on change de labyrinthe et on génère de nouvelles pastilles.
+    if(game.getGameState().getState() == PacmanGameState.EtatJeu.VICTOIRE) {
 
-      // On récupère l'index de la vue labyrinthe dans les child du group
-      int index = this.root.getChildren().indexOf(labyrintheView);
-      // On retire la vue labyrinthe du group
+      int indexLaby = this.root.getChildren().indexOf(labyrintheView);
+
       this.root.getChildren().remove(labyrintheView);
+      this.root.getChildren().removeAll(pastillesView);
       // On récupère le nouveau labyrinthe
       labyrintheView = new LabyrintheView(game.getLabyrinthe());
+      generatePastilleView();
       // On remplace a la position de l'ancien dans la liste
-      this.root.getChildren().set(index, labyrintheView);
-      
+      this.root.getChildren().set(indexLaby, labyrintheView);
+
 
     } else {
       this.playerView.draw();

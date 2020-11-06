@@ -21,6 +21,10 @@ import java.util.List;
  */
 public class PacmanGame implements Game {
 
+	public PacmanGameState getGameState() {
+		return gameState;
+	}
+
 	/**
 	 * Etat du jeu
 	 */
@@ -42,6 +46,7 @@ public class PacmanGame implements Game {
 	private Labyrinthe labyrinthe;
 
 
+
 	/**
 	 * Liste des pastilles restantes
 	 */
@@ -52,15 +57,6 @@ public class PacmanGame implements Game {
 	 */
 	private int score;
 
-	/**
-	 * Booleen a vrai si nous venons de changer de niveau
-	 * (sera supprimé lorsque GameState sera implémenté dans le projet)
-	 */
-	private boolean changed;
-
-	public boolean isChanged() {
-		return changed;
-	}
 
 	/**
 	 * constructeur avec fichier source pour le help
@@ -78,7 +74,10 @@ public class PacmanGame implements Game {
 		} catch (IOException e) {
 			System.out.println("Help not available");
 		}
-		changed = false;
+
+		this.gameState  = new PacmanGameState();
+
+		//changed = false;
 
 		labyrinthe = new Labyrinthe(Util.MAZE_SIZE, Util.MAZE_SIZE);
 
@@ -110,11 +109,11 @@ public class PacmanGame implements Game {
 			player.setCurrentMoveDirection(Direction.valueOf(commande.name()));
 		player.go();
 		if(allPastillesEaten()) {
-			changed = true;
+			gameState.setState(PacmanGameState.EtatJeu.VICTOIRE);
 			labyrinthe = new Labyrinthe(Util.MAZE_SIZE, Util.MAZE_SIZE);
-			generatePastilles(11);
+			generatePastilles(10);
 		} else {
-			changed = false;
+			gameState.setState(PacmanGameState.EtatJeu.EN_COURS);
 		}
 	}
 
@@ -124,7 +123,6 @@ public class PacmanGame implements Game {
 	 */
 	private void generatePastilles(int nbPastilles) {
 		pastilles = new ArrayList<>();
-
 		for (int i = 0; i < nbPastilles; i++) {
 			for (int j = 0; j < nbPastilles; j++) {
 				pastilles.add(new ScorePastille(i, j));
