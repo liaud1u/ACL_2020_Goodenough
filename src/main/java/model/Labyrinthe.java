@@ -28,11 +28,14 @@ public class Labyrinthe {
     public Labyrinthe(int tailleL, int tailleC) {
         this.labyrintheVue = new int[tailleL][tailleC];
 
-        this.tailleLigne = tailleL/2;
-        this.tailleColonne = tailleC/2;
+        this.tailleLigne = tailleL/2 - 1;
+        this.tailleColonne = tailleC/2 - 1;
 
-        this.tailleLigneCHAR = tailleLigne * 2;
-        this.tailleColonneCHAR = tailleColonne * 2;
+        System.out.println(tailleLigne);
+        System.out.println(tailleColonne);
+
+        this.tailleLigneCHAR = tailleLigne * 2 + 1;
+        this.tailleColonneCHAR = tailleColonne * 2 + 1;
 
         labyrintheCHAR = new char[tailleLigneCHAR][tailleColonneCHAR];
         initialisationLaby();
@@ -130,8 +133,8 @@ public class Labyrinthe {
         }
 
         //Murs sur les côtés
-
-        //Bordure Ouest
+/*
+       //Bordure Ouest
         for (int y = 0; y < tailleColonneCHAR; y++) {
             labyrintheCHAR[0][y] = mur;
         }
@@ -150,10 +153,10 @@ public class Labyrinthe {
         for (int x = 0; x < tailleColonneCHAR; x++) {
             labyrintheCHAR[x][tailleColonneCHAR - 1] = mur;
         }
-
+*/
         //Murs du milieu
-        for (int x = 2; x < tailleLigneCHAR-2; x++) {
-            for (int y = 2; y < tailleColonneCHAR-2; y++) {
+        for (int x = 0; x < tailleLigneCHAR; x++) {
+            for (int y = 0; y < tailleColonneCHAR; y++) {
 
                 if (x % 2 == 0 || y % 2 == 0)
                 {
@@ -164,8 +167,8 @@ public class Labyrinthe {
         }
 
         //Casse des murs pour rendre le labyrinthe parfait
-        for (int x = 0; x < tailleLigne-1; x++) {
-            for (int y = 0; y < tailleColonne-1; y++) {
+        for (int x = 0; x < tailleLigne; x++) {
+            for (int y = 0; y < tailleColonne; y++) {
 
                 Case caseCourante = getCase(x,y);
 
@@ -193,7 +196,7 @@ public class Labyrinthe {
             for (int y = 1; y < tailleColonneCHAR - 1; y++) {
                 if ((x != tailleLigneCHAR - 1 && y != 1 || x != 1 && y != tailleColonneCHAR - 1) && (x != 2 && y != tailleLigneCHAR -2 || x != tailleColonneCHAR -2 && y != 2)) {
                     if (labyrintheCHAR[x][y] == mur) {
-                        int nbPourcentInt = 9;
+                        int nbPourcentInt = 10;
                         int nbAleatoire = rand.nextInt(10);
                         if (nbAleatoire > nbPourcentInt) {
                             labyrintheCHAR[x][y] = vide;
