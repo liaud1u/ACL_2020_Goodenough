@@ -31,7 +31,7 @@ public class PastilleView extends Group {
      * @param x        int coordonnée x de la pastille
      * @param y        int coordonnée y de la pastille
      */
-    public PastilleView(Pastille pastille, int x, int y) {
+    public PastilleView(Pastille pastille, double x, double y) {
         double size = Util.RATIO_PASTILLE * Util.slotSizeProperty.get();
         Image image =new Image("pastille.png",size,size,true,false);
 
@@ -39,7 +39,7 @@ public class PastilleView extends Group {
 
         view = new ImageView(image);
 
-        view.setX(x * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2 -size/2);
+        view.setX(x * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2 - size/2);
         view.setY(y * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2 - size/2);
 
         getChildren().add(view);

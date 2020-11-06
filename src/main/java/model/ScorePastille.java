@@ -15,10 +15,10 @@ public class ScorePastille extends Pastille {
     /**
      * Pastille de score
      *
-     * @param x int x coordonnée x de la pastille
-     * @param y int y coordonnée y de la pastille
+     * @param x double x coordonnée x de la pastille
+     * @param y double y coordonnée y de la pastille
      */
-    public ScorePastille(int x, int y) {
+    public ScorePastille(double x, double y) {
         super(couleur, "scorePastille", x, y);
         value = 10;
     }
