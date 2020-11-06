@@ -39,6 +39,7 @@ public class TimerView extends Group {
     this.setTranslateX(Util.MAZE_SIZE*Util.slotSizeProperty.get() + 10.);
     this.setTranslateY(50.);
 
+    SpriteTools.setImageSize(300, 24);
     ImageView[] digitsViews = SpriteTools.getSpritedNumber(this.gameTimer.getCurrentTimer(), maxTimerSize, 10);
     this.getChildren().addAll(digitsViews);
   }
