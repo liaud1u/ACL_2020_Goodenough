@@ -20,11 +20,16 @@ import java.util.List;
  * versions suivantes.
  */
 public class PacmanGame implements Game {
-	private GameTimer gameTimer = new GameTimer(Util.timer);
 
-	public GameTimer getGameTimer() {
-		return gameTimer;
-	}
+	/**
+	 * Etat du jeu
+	 */
+	private PacmanGameState gameState;
+
+	/**
+	 * Timer du jeu
+	 */
+	private GameTimer gameTimer = new GameTimer(Util.timer);
 
 	/**
 	 * Joueur principal
@@ -36,21 +41,26 @@ public class PacmanGame implements Game {
 	 */
 	private Labyrinthe labyrinthe;
 
-	/**
-	 * Tableau des pastilles
-	 */
-	//private final Pastille[][] tabPastille;
 
 	/**
 	 * Liste des pastilles restantes
 	 */
-	private final ArrayList<Pastille> pastilles;
+	private ArrayList<Pastille> pastilles;
 
 	/**
 	 * Score
 	 */
 	private int score;
 
+	/**
+	 * Booleen a vrai si nous venons de changer de niveau
+	 * (sera supprimé lorsque GameState sera implémenté dans le projet)
+	 */
+	private boolean changed;
+
+	public boolean isChanged() {
+		return changed;
+	}
 
 	/**
 	 * constructeur avec fichier source pour le help
@@ -68,7 +78,7 @@ public class PacmanGame implements Game {
 		} catch (IOException e) {
 			System.out.println("Help not available");
 		}
-
+		changed = false;
 
 		labyrinthe = new Labyrinthe(Util.MAZE_SIZE, Util.MAZE_SIZE);
 
@@ -77,8 +87,8 @@ public class PacmanGame implements Game {
 
 		pastilles = new ArrayList<>();
 
-		for (int i = 0; i < Util.MAZE_SIZE - 1; i++) {
-			for (int j = 0; j < Util.MAZE_SIZE - 1; j++) {
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
 				pastilles.add(new ScorePastille(i, j));
 			}
 		}
@@ -100,9 +110,11 @@ public class PacmanGame implements Game {
 			player.setCurrentMoveDirection(Direction.valueOf(commande.name()));
 		player.go();
 		if(allPastillesEaten()) {
-			// TODO : generate new maze
-			labyrinthe = new Labyrinthe(Util.MAZE_SIZE/2 -1, Util.MAZE_SIZE/2-1);
-
+			changed = true;
+			labyrinthe = new Labyrinthe(Util.MAZE_SIZE, Util.MAZE_SIZE);
+			generatePastilles(11);
+		} else {
+			changed = false;
 		}
 	}
 
@@ -111,8 +123,16 @@ public class PacmanGame implements Game {
 	 * @param nbPastilles
 	 */
 	private void generatePastilles(int nbPastilles) {
+		pastilles = new ArrayList<>();
 
+		for (int i = 0; i < nbPastilles; i++) {
+			for (int j = 0; j < nbPastilles; j++) {
+				pastilles.add(new ScorePastille(i, j));
+			}
+		}
 	}
+
+
 	/**
 	 * Méthode permettant de savoir si l'ensemble des pastilles ont été récupérées
 	 * par le joueur (le permettant de passer au niveau suivant)
@@ -249,5 +269,13 @@ public class PacmanGame implements Game {
 	 */
 	public int getScore(){
 		return score;
+	}
+
+	/**
+	 * Getter du timer du jeu
+	 * @return GameTime timer
+	 */
+	public GameTimer getGameTimer() {
+		return gameTimer;
 	}
 }

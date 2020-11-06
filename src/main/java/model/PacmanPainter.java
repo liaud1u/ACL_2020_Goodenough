@@ -31,7 +31,7 @@ public class PacmanPainter implements GamePainter {
   /**
    * Vue du labyrinthe
    */
-  private final LabyrintheView labyrintheView;
+  private LabyrintheView labyrintheView;
 
   /**
    * Vue du joueur
@@ -64,7 +64,7 @@ public class PacmanPainter implements GamePainter {
     this.root = main;
     this.game = game;
 
-    this.labyrintheView = new LabyrintheView();
+    this.labyrintheView = new LabyrintheView(game.getLabyrinthe());
     this.root.getChildren().add(this.labyrintheView);
 
     List<Pastille> pastilles = game.getPastille();
@@ -93,13 +93,29 @@ public class PacmanPainter implements GamePainter {
    * methode  redefinie de Afficheur retourne une image du jeu
    */
   public void draw() {
-    this.playerView.draw();
-    for (PastilleView pastilleView : pastillesView) {
-      pastilleView.draw();
+    if(game.isChanged()) {
+
+      // On récupère l'index de la vue labyrinthe dans les child du group
+      int index = this.root.getChildren().indexOf(labyrintheView);
+      // On retire la vue labyrinthe du group
+      this.root.getChildren().remove(labyrintheView);
+      // On récupère le nouveau labyrinthe
+      labyrintheView = new LabyrintheView(game.getLabyrinthe());
+      // On remplace a la position de l'ancien dans la liste
+      this.root.getChildren().set(index, labyrintheView);
+      
+
+    } else {
+      this.playerView.draw();
+      for (PastilleView pastilleView : pastillesView) {
+        pastilleView.draw();
+      }
+      this.scoreView.draw();
+      this.timerView.draw();
     }
-    this.scoreView.draw();
-    this.timerView.draw();
+
   }
+
 
   /**
    * Renvoie la taille

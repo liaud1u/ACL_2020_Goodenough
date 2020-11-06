@@ -162,4 +162,8 @@ public abstract class Pastille {
     public int getValue() {
         return value;
     }
+
+
+    public void setRamassee(boolean ramassee) { this.ramassee = ramassee;
+    }
 }

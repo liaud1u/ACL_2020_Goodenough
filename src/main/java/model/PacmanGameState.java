@@ -3,7 +3,7 @@ package model;
 
 import java.util.Timer;
 import java.util.TimerTask;
-
+// FIXME: IMPLEMENT IN PROJECT
 /**
  * Gère l'état actuel du jeu
  */

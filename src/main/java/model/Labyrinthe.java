@@ -3,9 +3,6 @@ package model;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static views.LabyrintheView.labyrintheVue;
-
-
 /**
  * @author adrien & florian
  */
@@ -17,6 +14,7 @@ public class Labyrinthe {
     //On utilise un tableau de CHAR pour pouvoir modifier le type des cases à volonté
     public char[][] labyrintheCHAR;
 
+    private int[][] labyrintheVue;
 
     int tailleLigne;
     int tailleColonne;
@@ -28,7 +26,8 @@ public class Labyrinthe {
 
 
     public Labyrinthe(int tailleL, int tailleC) {
-        // tailleLigne et tailleColonne = 19
+        this.labyrintheVue = new int[tailleL][tailleC];
+
         this.tailleLigne = tailleL/2;
         this.tailleColonne = tailleC/2;
 
@@ -105,6 +104,9 @@ public class Labyrinthe {
         updateLabyrinthe();
     }
 
+    public int[][] getLabyrintheVue() {
+        return labyrintheVue;
+    }
 
     public Case getCase(int x, int y) {
         try {
@@ -171,7 +173,7 @@ public class Labyrinthe {
                 int YGUI = y * 2 + 1;
                 //labyrintheCHAR[XGUI][YGUI] = vide;
 
-                System.out.println(labyrintheCHAR[x][y]);
+             //   System.out.println(labyrintheCHAR[x][y]);
                 if (caseCourante.voisinDessous())
                 {
                     labyrintheCHAR[XGUI][YGUI + 1] = vide;
@@ -217,7 +219,7 @@ public class Labyrinthe {
             }
         }
 
-        System.out.println("FIN DE LABYRINTHE");
+       // System.out.println("FIN DE LABYRINTHE");
     }
 
 }
