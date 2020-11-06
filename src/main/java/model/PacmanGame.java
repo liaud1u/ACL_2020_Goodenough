@@ -5,6 +5,7 @@ import fxengine.Game;
 import fxengine.GameTimer;
 import model.player.Direction;
 import model.player.Player;
+import model.util.RandomGenerator;
 import model.util.Util;
 
 import java.io.BufferedReader;
@@ -12,6 +13,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -83,14 +85,8 @@ public class PacmanGame implements Game {
 
 		player = new Player(this);
 
-
-		pastilles = new ArrayList<>();
-
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
-				pastilles.add(new ScorePastille(i, j));
-			}
-		}
+		// TODO : when difficulty implemented, change hardcoded value here
+		generatePastilles(5);
 
 
 		score = 0;
@@ -103,7 +99,6 @@ public class PacmanGame implements Game {
 	 * @param commande
 	 */
 	public void evolve(Cmd commande) {
-
 		//System.out.println("Execute "+commande);
 		if (commande != Cmd.IDLE)
 			player.setCurrentMoveDirection(Direction.valueOf(commande.name()));
@@ -111,7 +106,8 @@ public class PacmanGame implements Game {
 		if(allPastillesEaten()) {
 			gameState.setState(PacmanGameState.EtatJeu.VICTOIRE);
 			labyrinthe = new Labyrinthe(Util.MAZE_SIZE, Util.MAZE_SIZE);
-			generatePastilles(10);
+			// TODO : when difficulty implemented, change hardcoded value here
+			generatePastilles(5);
 		} else {
 			gameState.setState(PacmanGameState.EtatJeu.EN_COURS);
 		}
@@ -119,14 +115,20 @@ public class PacmanGame implements Game {
 
 	/**
 	 * Méthode permettant de générer
-	 * @param nbPastilles
+	 * @param nbPastilles nombre de pastilles à générer
 	 */
 	private void generatePastilles(int nbPastilles) {
+		int[][] cases = labyrinthe.getLabyrintheVue();
 		pastilles = new ArrayList<>();
-		for (int i = 0; i < nbPastilles; i++) {
-			for (int j = 0; j < nbPastilles; j++) {
-				pastilles.add(new ScorePastille(i, j));
-			}
+		for(int i = 0 ; i < nbPastilles ; i ++) {
+			int x = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
+			int y = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
+				if(cases[x][y] == 0) {
+					pastilles.add(new ScorePastille(x,y));
+					i++;
+				}
+
+			i--;
 		}
 	}
 
