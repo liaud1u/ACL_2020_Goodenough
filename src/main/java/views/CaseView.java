@@ -18,12 +18,12 @@ public class CaseView extends Group {
     private final List<Rectangle> representationCase;
 
 
-    public CaseView(int x,int y, int i) {
+    public CaseView(Case c) {
 
         representationCase = new ArrayList<>();
 
-            Rectangle base = new Rectangle(x * Util.slotSizeProperty.get(),y * Util.slotSizeProperty.get(),  Util.slotSizeProperty.get(), Util.slotSizeProperty.get());
-            if(i == 1) {
+            Rectangle base = new Rectangle(c.getX() * Util.slotSizeProperty.get(),c.getY() * Util.slotSizeProperty.get(),  Util.slotSizeProperty.get(), Util.slotSizeProperty.get());
+            if(c.isEstUnMur()) {
                 base.setFill(Color.GRAY);
             } else {
                 base.setFill(Color.WHITE);
