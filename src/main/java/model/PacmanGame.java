@@ -118,12 +118,12 @@ public class PacmanGame implements Game {
 	 * @param nbPastilles nombre de pastilles à générer
 	 */
 	private void generatePastilles(int nbPastilles) {
-		int[][] cases = labyrinthe.getLabyrintheVue();
+		Case[][] cases = labyrinthe.getLabyrintheVUE();
 		pastilles = new ArrayList<>();
 		for(int i = 0 ; i < nbPastilles ; i ++) {
 			int x = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
 			int y = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
-				if(cases[x][y] == 0) {
+				if(cases[x][y].isEstUnMur() == false) {
 					pastilles.add(new ScorePastille(x,y));
 					i++;
 				}
