@@ -1,6 +1,7 @@
 package model.monster;
 
 import model.PacmanGame;
+import model.util.Util;
 
 public class Monstre {
     /**
@@ -36,4 +37,21 @@ public class Monstre {
         this.x = x;
         this.y = y;
     }
+
+    /**
+     * Renvoie la coordonnée X du monstre pour la gestion du dessin et des collisions
+     * @return double x
+     */
+    public double getPosX() {
+        return (x * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2);
+    }
+
+    /**
+     * Renvoie la coordonnée Y du monstre pour la gestion du dessin et des collisions
+     * @return double y
+     */
+    public double getPosY() {
+        return (y * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2);
+    }
+
 }

@@ -112,12 +112,17 @@ public class PacmanGame implements Game {
 		if (commande != Cmd.IDLE)
 			player.setCurrentMoveDirection(Direction.valueOf(commande.name()));
 		player.go();
+
+
 		if(allPastillesEaten()) {
 			gameState.setState(PacmanGameState.EtatJeu.VICTOIRE);
 			labyrinthe = new Labyrinthe(Util.MAZE_SIZE, Util.MAZE_SIZE);
 			// TODO : when difficulty implemented, change hardcoded values here
 			generatePastilles(5);
 			generateMonstres(3);
+		} else if(isPlayerAttacked()){
+			System.out.println("ATTACKED !");
+			gameState.setState(PacmanGameState.EtatJeu.PERDU);
 		} else {
 			gameState.setState(PacmanGameState.EtatJeu.EN_COURS);
 		}
@@ -131,7 +136,7 @@ public class PacmanGame implements Game {
 	private void generateMonstres(int nbMonstres) {
 		monstres = new ArrayList<>();
 		Case[][] cases = labyrinthe.getLabyrintheVUE();
-		int nbCasesDisponibles = labyrinthe.getNbCasesVides();
+		int nbCasesDisponibles = labyrinthe.getNbCasesLibres();
 		if(nbCasesDisponibles < nbMonstres) {
 			System.err.println("ERREUR : Impossible de mettre " + nbMonstres + " monstres dans un labyrinthe possédant " + nbCasesDisponibles + " cases libres !");
 			return;
@@ -139,13 +144,11 @@ public class PacmanGame implements Game {
 		for(int i = 0 ; i < nbMonstres ; i ++) {
 			int x = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
 			int y = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
-			if(!cases[x][y].estUnMur()
-					&& !cases[x][y].possedePastille()) {
-				cases[x][y].setPossedePastille(true);
+			if(!cases[x][y].estUnMur() && !cases[x][y].possedeEntite()) {
+				cases[x][y].setPossedeEntite(true);
 				monstres.add(new Monstre(this,x,y));
 				i++;
 			}
-
 			i--;
 		}
 	}
@@ -157,7 +160,7 @@ public class PacmanGame implements Game {
 	private void generatePastilles(int nbPastilles) {
 		pastilles = new ArrayList<>();
 		Case[][] cases = labyrinthe.getLabyrintheVUE();
-		int nbCasesDisponibles = labyrinthe.getNbCasesVides();
+		int nbCasesDisponibles = labyrinthe.getNbCasesLibres();
 		if(nbCasesDisponibles < nbPastilles) {
 			System.err.println("ERREUR : Impossible de mettre " + nbPastilles + " pastilles dans un labyrinthe possédant " + nbCasesDisponibles + " cases libres !");
 			return;
@@ -166,8 +169,8 @@ public class PacmanGame implements Game {
 			int x = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
 			int y = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
 				if(!cases[x][y].estUnMur()
-				&& !cases[x][y].possedePastille()) {
-					cases[x][y].setPossedePastille(true);
+				&& !cases[x][y].possedeEntite()) {
+					cases[x][y].setPossedeEntite(true);
 					pastilles.add(new ScorePastille(x,y));
 					i++;
 				}
@@ -226,6 +229,50 @@ public class PacmanGame implements Game {
 		return pastilles;
 	}
 
+
+	/**
+	 * Détermine si le joueur est assez proche d'un monstre pour être attaqué
+	 */
+	public boolean isPlayerAttacked() {
+		boolean attacked = false;
+		for(Monstre m : monstres) {
+			double dx = player.getX() - m.getPosX();
+			double dy = player.getY() - m.getPosY();
+			double distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+			if(distance < (Util.slotSizeProperty.get() * Util.RATIO_PERSONNAGE)*0.6) {
+				attacked = true;
+				break;
+			}
+		}
+		return attacked;
+	}
+
+
+
+	/**
+	 * Détermine si le joueur va entrer en collision avec un monstre
+	 * TODO : INFO this method is in WIP
+	 */
+	public boolean willPlayerCollideMob() {
+		double x, y;
+
+		x = player.getX();
+		y = player.getY();
+
+
+		x += player.getCurrentMoveDirection().getX_dir();
+		y += player.getCurrentMoveDirection().getY_dir();
+
+		for(Monstre m : monstres) {
+			if (x == m.getPosX() && y == m.getPosY()) {
+				return true;
+			}
+		}
+		return false;
+
+	}
+
+
 	/**
 	 * Détermine si le joueur vas manger une pastille
 	 */
@@ -234,8 +281,6 @@ public class PacmanGame implements Game {
 		double x = player.getX();
 		double y = player.getY();
 
-
-		ArrayList<Pastille> toRemove = new ArrayList<>();
 
 		for (Pastille p : pastilles) {
 			double dx = x - p.getPosX();
@@ -246,17 +291,15 @@ public class PacmanGame implements Game {
 			double distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
 
 			//Si les deux objets se touchent, alors la pastille est mangée
-		 	if (distance < (Util.slotSizeProperty.get() * Util.RATIO_PERSONNAGE)*0.6) {
+		 	if (distance < (Util.slotSizeProperty.get() * Util.RATIO_PERSONNAGE)) {
 				if (!p.isRamassee()) {
 					p.ramasser();
 					score+=p.getValue();
-				//	toRemove.add(p);
 				}
 			}
 
 		}
 
-	//	pastilles.removeAll(toRemove);
 	}
 
 	/**
@@ -264,7 +307,7 @@ public class PacmanGame implements Game {
 	 *
 	 * @return true si contact avec un mur, false sinon
 	 */
-	public boolean willPlayerCollide() {
+	public boolean willPlayerCollideWall() {
 		double x, y;
 
 		x = player.getX();

@@ -33,9 +33,9 @@ public class Case {
     private boolean estVide = true;
 
     /**
-     * Booléen, vrai si une pastille est présente sur la case
+     * Booléen, vrai si une entité (monstre ou pastille) est présente sur la case
      */
-    private boolean possedePastille = false;
+    private boolean possedeEntite = false;
 
     private Case casePrecedente;
 
@@ -225,11 +225,11 @@ public class Case {
         this.distance = distance;
     }
 
-    public boolean possedePastille() {
-        return possedePastille;
+    public boolean possedeEntite() {
+        return possedeEntite;
     }
 
-    public void setPossedePastille(boolean possedePastille) {
-        this.possedePastille = possedePastille;
+    public void setPossedeEntite(boolean possedePastille) {
+        this.possedeEntite = possedePastille;
     }
 }
