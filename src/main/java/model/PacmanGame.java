@@ -292,38 +292,19 @@ public class PacmanGame implements Game {
 		x += player.getCurrentMoveDirection().getX_dir();
 		y += player.getCurrentMoveDirection().getY_dir();
 
-		return this.willPlayerCollideWall(x, y);
+		return this.willPlayerCollideWall(
+          (int)(x / Util.slotSizeProperty.get()),
+          (int) (y / Util.slotSizeProperty.get())
+        );
 	}
 
 	/**
-	 * @param posX (:double), the x position to check
-	 * @param poxY (:double), the y position to check
+	 * @param posX (:int), the x position to check
+	 * @param posY (:int), the y position to check
 	 * */
-	private boolean willPlayerCollideWall(double posX, double poxY) {
-		return false;
+	private boolean willPlayerCollideWall(int posX, int posY) {
+		return this.labyrinthe.getLabyrintheVUE()[posX][posY].estUnMur();
 	}
-
-	/**
-	 * Détermine si le joueur va rentrer en contact avec un bord
-	 */
-	private boolean willPlayerCollideBorder(double posX, double posY) {
-		final double rightAndBottomBorder =
-		  Util.slotSizeProperty
-			.multiply(Util.MAZE_SIZE)
-			  .subtract(Util.slotSizeProperty.divide(2))
-				.add(Util.wallSizeProperty.divide(2))
-				  .get();
-
-		final double leftAndTopBorder =
-		  Util.slotSizeProperty
-			.divide(2)
-			  .subtract(Util.wallSizeProperty.divide(2))
-				.get();
-
-		return
-		  posX >= rightAndBottomBorder || posX < leftAndTopBorder ||
-		  posY >= rightAndBottomBorder || posY < leftAndTopBorder;
-  }
 
   /**
    * Getter de la valeur du score

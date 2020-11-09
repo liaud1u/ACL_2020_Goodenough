@@ -11,7 +11,7 @@ public abstract class Util {
   public static final int MAZE_SIZE = 20; //Taille du labyrinthe (cases)
 
   //RATIOS
-  public static double RATIO_PERSONNAGE = 0.8;  //Ratio de la taille du personnage par rapport à la taille d'une case
+  public static double RATIO_PERSONNAGE = 1.;  //Ratio de la taille du personnage par rapport à la taille d'une case
   public static double RATIO_PASTILLE = 0.3;  //Ratio de la taille d'une pastille par rapport à la taille d'une case
   public static double RATIO_MONSTRE = 0.7;
 
