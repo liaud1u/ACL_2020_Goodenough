@@ -97,7 +97,7 @@ public class Labyrinthe {
 
             for (Case c1 : voisinsPotentiel)
             {
-                if (c1==null || c1.isEstUnMur()|| !c1.isEstVide()) continue;
+                if (c1==null || c1.estUnMur()|| !c1.estVide()) continue;
                 voisins.add(c1);
             }
             if (voisins.isEmpty()) continue;
@@ -173,7 +173,7 @@ public class Labyrinthe {
         for (int x = 1; x < tailleLigneVue - 1; x++) {
             for (int y = 1; y < tailleColonneVue - 1; y++) {
                 if ((x != tailleLigneVue - 1 && y != 1 || x != 1 && y != tailleColonneVue - 1) && (x != 2 && y != tailleLigneVue -2 || x != tailleColonneVue -2 && y != 2)) {
-                    if (labyrinthe[x][y].isEstUnMur()) {
+                    if (labyrinthe[x][y].estUnMur()) {
                         int nbPourcentInt = 10;
                         int nbAleatoire = rand.nextInt(10);
                         if (nbAleatoire > nbPourcentInt) {

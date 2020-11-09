@@ -13,7 +13,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -118,12 +117,26 @@ public class PacmanGame implements Game {
 	 * @param nbPastilles nombre de pastilles à générer
 	 */
 	private void generatePastilles(int nbPastilles) {
-		Case[][] cases = labyrinthe.getLabyrintheVUE();
 		pastilles = new ArrayList<>();
+		Case[][] cases = labyrinthe.getLabyrintheVUE();
+		int nbCasesDisponibles = 0;
+		for(Case[] ligne : cases) {
+			for(Case c : ligne) {
+				if(!c.estUnMur()) {
+					nbCasesDisponibles++;
+				}
+			}
+		}
+		if(nbCasesDisponibles < nbPastilles) {
+			System.err.println("ERREUR : Impossible de mettre " + nbPastilles + " pastilles dans un labyrinthe possédant " + nbCasesDisponibles + " cases libres !");
+			return;
+		}
 		for(int i = 0 ; i < nbPastilles ; i ++) {
 			int x = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
 			int y = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
-				if(cases[x][y].isEstUnMur() == false) {
+				if(!cases[x][y].estUnMur()
+				&& !cases[x][y].possedePastille()) {
+					cases[x][y].setPossedePastille(true);
 					pastilles.add(new ScorePastille(x,y));
 					i++;
 				}
@@ -140,6 +153,7 @@ public class PacmanGame implements Game {
 	 * @return booleen vrai si toutes les pastilles ont été récupérées
 	 */
 	public boolean allPastillesEaten() {
+		if(pastilles.size() == 0) return false;
 		for(Pastille p : pastilles) {
 			if(!p.isRamassee()) return false;
 		}
@@ -205,16 +219,13 @@ public class PacmanGame implements Game {
 				if (!p.isRamassee()) {
 					p.ramasser();
 					score+=p.getValue();
-					toRemove.add(p);
+				//	toRemove.add(p);
 				}
 			}
 
 		}
 
-		pastilles.removeAll(toRemove);
-
-		if (pastilles.size() == 0)
-			System.out.println("VICTOIRE");
+	//	pastilles.removeAll(toRemove);
 	}
 
 	/**
