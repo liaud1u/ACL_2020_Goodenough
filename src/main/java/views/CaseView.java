@@ -23,10 +23,9 @@ public class CaseView extends Group {
         representationCase = new ArrayList<>();
 
             Rectangle base = new Rectangle(c.getX() * Util.slotSizeProperty.get(),c.getY() * Util.slotSizeProperty.get(),  Util.slotSizeProperty.get(), Util.slotSizeProperty.get());
+            base.setFill(Color.BLACK);
             if(c.estUnMur()) {
-                base.setFill(Color.GRAY);
-            } else {
-                base.setFill(Color.WHITE);
+                base.setStyle("-fx-stroke: #DEA185");
             }
             representationCase.add(base);
 

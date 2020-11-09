@@ -54,7 +54,6 @@ public class PlayerView extends Group {
     view.setViewport(new Rectangle2D(0, 0, size, size));
 
     this.init();
-
   }
 
   /**

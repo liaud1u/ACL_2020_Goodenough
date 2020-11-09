@@ -33,8 +33,7 @@ public class Player {
     this.game = game;
 
     // On récupère la moitié de la taille d'une case comme coordonnées par défaut
-    x = Util.slotSizeProperty.intValue() / 2;
-    y = Util.slotSizeProperty.intValue() / 2;
+    x = y = Util.slotSizeProperty.add(Util.slotSizeProperty.divide(2)).get();
   }
 
   /**
@@ -60,7 +59,7 @@ public class Player {
    */
   public void go() {
     //Si il n'y a pas de collisions, on met à jour les coordonnées
-    if (!game.willPlayerCollideWall() && !game.willPlayerCollideMob()) {
+    if (!game.willPlayerCollide() && !game.willPlayerCollideMob()) {
       game.willPlayerEatPastille();
 
       x += currentMoveDirection.getX_dir() * Util.speedDifficulty;

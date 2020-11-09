@@ -283,12 +283,7 @@ public class PacmanGame implements Game {
 
 	}
 
-	/**
-	 * Détermine si le joueur va rentrer en contact avec un mur
-	 *
-	 * @return true si contact avec un mur, false sinon
-	 */
-	public boolean willPlayerCollideWall() {
+	public boolean willPlayerCollide() {
 		double x, y;
 
 		x = player.getX();
@@ -297,7 +292,21 @@ public class PacmanGame implements Game {
 		x += player.getCurrentMoveDirection().getX_dir();
 		y += player.getCurrentMoveDirection().getY_dir();
 
+		return this.willPlayerCollideWall(x, y);
+	}
 
+	/**
+	 * @param posX (:double), the x position to check
+	 * @param poxY (:double), the y position to check
+	 * */
+	private boolean willPlayerCollideWall(double posX, double poxY) {
+		return false;
+	}
+
+	/**
+	 * Détermine si le joueur va rentrer en contact avec un bord
+	 */
+	private boolean willPlayerCollideBorder(double posX, double posY) {
 		final double rightAndBottomBorder =
 		  Util.slotSizeProperty
 			.multiply(Util.MAZE_SIZE)
@@ -312,30 +321,8 @@ public class PacmanGame implements Game {
 				.get();
 
 		return
-		  x >= rightAndBottomBorder || x < leftAndTopBorder ||
-		  y >= rightAndBottomBorder || y < leftAndTopBorder;
-
-
-
-    /**
-     Direction currentDir = player.getCurrentMoveDirection();
-
-     int currentCaseX = (x ) / 32 ;
-     int currentCaseY = (y ) / 32 ;
-
-     Case current  = getLabyrinthe().getPlateau()[currentCaseY][currentCaseX];
-
-
-     System.out.println(currentCaseX+" "+currentCaseY+" "+current.isMurNord());
-
-
-     Rectangle player = new Rectangle(getPlayer().getX()-10,getPlayer().getY()-10,20,20);
-
-     Rectangle haut = new  Rectangle(currentCaseY * 32,currentCaseX * 32,  32, 4);
-
-
-     System.out.println(player.toRectBounds().intersects(haut.toRectBounds()));
-     **/
+		  posX >= rightAndBottomBorder || posX < leftAndTopBorder ||
+		  posY >= rightAndBottomBorder || posY < leftAndTopBorder;
   }
 
   /**
