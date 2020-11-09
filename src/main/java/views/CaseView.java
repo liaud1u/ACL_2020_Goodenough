@@ -4,6 +4,7 @@ import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import model.Case;
+import model.Labyrinthe;
 import model.util.Util;
 
 import java.util.ArrayList;

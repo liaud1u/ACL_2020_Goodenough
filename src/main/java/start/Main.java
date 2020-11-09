@@ -1,6 +1,7 @@
 package start;
 
 import fxengine.GameApplication;
+import model.Labyrinthe;
 import model.PacmanGameState;
 import model.util.Util;
 

@@ -134,6 +134,14 @@ public class Labyrinthe {
         }
     }
 
+    public Case getCaseLabyrinthe(int x, int y) {
+        try {
+            return labyrinthe[x][y];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return null;
+        }
+    }
+
     public void updateLabyrinthe() {
 
 
