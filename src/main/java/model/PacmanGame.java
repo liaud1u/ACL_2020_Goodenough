@@ -121,7 +121,7 @@ public class PacmanGame implements Game {
 			// TODO : when difficulty implemented, change hardcoded values here
 			generatePastilles(5);
 			generateMonstres(3);
-		} else if(isPlayerAttacked()){
+		} else if(willPlayerCollideMob()){
 			System.out.println("ATTACKED !");
 			gameState.setState(PacmanGameState.EtatJeu.PERDU);
 		} else {
@@ -231,46 +231,26 @@ public class PacmanGame implements Game {
 	}
 
 
-	/**
-	 * Détermine si le joueur est assez proche d'un monstre pour être attaqué
-	 */
-	public boolean isPlayerAttacked() {
-		boolean attacked = false;
-		for(Monstre m : monstres) {
-			double dx = player.getX() - m.getPosX();
-			double dy = player.getY() - m.getPosY();
-			double distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-			if(distance < (Util.slotSizeProperty.get() * Util.RATIO_PERSONNAGE)*0.6) {
-				attacked = true;
-				break;
-			}
-		}
-		return attacked;
-	}
+
 
 
 
 	/**
 	 * Détermine si le joueur va entrer en collision avec un monstre
-	 * TODO : INFO this method is in WIP
 	 */
 	public boolean willPlayerCollideMob() {
 		double x, y;
-
 		x = player.getX();
 		y = player.getY();
-
-
 		x += player.getCurrentMoveDirection().getX_dir();
 		y += player.getCurrentMoveDirection().getY_dir();
-
 		for(Monstre m : monstres) {
-			if (x == m.getPosX() && y == m.getPosY()) {
+			if ((x <= m.getPosX() + Util.slotSizeProperty.get() / 2 && x > m.getPosX() - Util.slotSizeProperty.get() /2) &&
+				(y <= m.getPosY() + Util.slotSizeProperty.get() / 2 && y > m.getPosY() - Util.slotSizeProperty.get() / 2))
 				return true;
-			}
+
 		}
 		return false;
-
 	}
 
 
