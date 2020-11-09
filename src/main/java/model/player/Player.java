@@ -17,6 +17,8 @@ public class Player {
    */
   private double x, y;
 
+
+
   /**
    * Direction courante du joueur
    */

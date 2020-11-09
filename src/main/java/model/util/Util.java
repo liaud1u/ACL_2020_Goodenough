@@ -13,7 +13,7 @@ public abstract class Util {
   //RATIOS
   public static double RATIO_PERSONNAGE = 0.8;  //Ratio de la taille du personnage par rapport à la taille d'une case
   public static double RATIO_PASTILLE = 0.3;  //Ratio de la taille d'une pastille par rapport à la taille d'une case
-
+  public static double RATIO_MONSTRE = 0.7;
 
   // PROPERTIES
   public static DoubleProperty windowSizeProperty = new SimpleDoubleProperty(); //Taille de la fenêtre

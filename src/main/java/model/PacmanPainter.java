@@ -4,6 +4,7 @@ import fxengine.GamePainter;
 import fxengine.GameTimer;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import model.monster.Monstre;
 import model.util.Util;
 import views.*;
 
@@ -45,6 +46,10 @@ public class PacmanPainter implements GamePainter {
   private List<PastilleView> pastillesView;
 
   /**
+   * Vue des monstres
+   */
+    private List<MonstreView> monstreView;
+  /**
    * Vue du score
    */
   private final ScoreView scoreView;
@@ -70,6 +75,8 @@ public class PacmanPainter implements GamePainter {
 
 
     this.addPastilles();
+    this.addMonstres();
+
 
     this.scoreView = new ScoreView(game,300,24,0,0);
     this.root.getChildren().add(this.scoreView);
@@ -91,6 +98,7 @@ public class PacmanPainter implements GamePainter {
       this.repaint();
     }
     for(PastilleView p : pastillesView)  p.draw();
+   // for(MonstreView mv : monstreView)
     this.playerView.draw();
     this.scoreView.draw();
     this.timerView.draw();
@@ -111,6 +119,7 @@ public class PacmanPainter implements GamePainter {
     // On rajoute les nouvelles vues
     this.root.getChildren().add(labyrintheView);
     this.addPastilles();
+    this.addMonstres();
     this.root.getChildren().add(scoreView);
     this.root.getChildren().add(playerView);
     this.root.getChildren().add(timerView);
@@ -122,6 +131,15 @@ public class PacmanPainter implements GamePainter {
     for(Pastille p : game.getPastille()) {
       PastilleView view = new PastilleView(p,p.getX(), p.getY());
       pastillesView.add(view);
+      this.root.getChildren().add(view);
+    }
+  }
+
+  private void addMonstres() {
+    this.monstreView = new ArrayList<>();
+    for(Monstre m : game.getMonstres()) {
+      MonstreView view = new MonstreView(m);
+      monstreView.add(view);
       this.root.getChildren().add(view);
     }
   }

@@ -111,7 +111,21 @@ public class Labyrinthe {
         updateLabyrinthe();
     }
 
-
+    /**
+     * Methodes qui retourne le nombre de cases
+     * @return entier représentant le nombre de cases vides du labyrinthe
+     */
+    public int getNbCasesVides() {
+        int nbCasesDisponibles = 0;
+        for(Case[] ligne : labyrinthe) {
+            for(Case c : ligne) {
+                if(!c.estUnMur()) {
+                    nbCasesDisponibles++;
+                }
+            }
+        }
+        return nbCasesDisponibles;
+    }
     public Case getCase(int x, int y) {
         try {
             return labyrintheFormation[x][y];

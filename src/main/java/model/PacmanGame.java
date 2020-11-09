@@ -3,6 +3,7 @@ package model;
 import fxengine.Cmd;
 import fxengine.Game;
 import fxengine.GameTimer;
+import model.monster.Monstre;
 import model.player.Direction;
 import model.player.Player;
 import model.util.RandomGenerator;
@@ -46,6 +47,15 @@ public class PacmanGame implements Game {
 	 */
 	private Labyrinthe labyrinthe;
 
+	public ArrayList<Monstre> getMonstres() {
+		return monstres;
+	}
+
+	/**
+	 * Liste des monstres
+	 */
+	private ArrayList<Monstre> monstres;
+
 
 
 	/**
@@ -84,9 +94,9 @@ public class PacmanGame implements Game {
 
 		player = new Player(this);
 
-		// TODO : when difficulty implemented, change hardcoded value here
-		generatePastilles(5);
-
+		// TODO : when difficulty implemented, change hardcoded values here
+		this.generatePastilles(5);
+		this.generateMonstres(3);
 
 		score = 0;
 		this.gameTimer.play();
@@ -105,28 +115,49 @@ public class PacmanGame implements Game {
 		if(allPastillesEaten()) {
 			gameState.setState(PacmanGameState.EtatJeu.VICTOIRE);
 			labyrinthe = new Labyrinthe(Util.MAZE_SIZE, Util.MAZE_SIZE);
-			// TODO : when difficulty implemented, change hardcoded value here
+			// TODO : when difficulty implemented, change hardcoded values here
 			generatePastilles(5);
+			generateMonstres(3);
 		} else {
 			gameState.setState(PacmanGameState.EtatJeu.EN_COURS);
 		}
 	}
 
+
 	/**
-	 * Méthode permettant de générer
+	 * Méthode permettant de générer des monstres
+	 * @param nbMonstres nombre de monstres à générer
+	 */
+	private void generateMonstres(int nbMonstres) {
+		monstres = new ArrayList<>();
+		Case[][] cases = labyrinthe.getLabyrintheVUE();
+		int nbCasesDisponibles = labyrinthe.getNbCasesVides();
+		if(nbCasesDisponibles < nbMonstres) {
+			System.err.println("ERREUR : Impossible de mettre " + nbMonstres + " monstres dans un labyrinthe possédant " + nbCasesDisponibles + " cases libres !");
+			return;
+		}
+		for(int i = 0 ; i < nbMonstres ; i ++) {
+			int x = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
+			int y = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
+			if(!cases[x][y].estUnMur()
+					&& !cases[x][y].possedePastille()) {
+				cases[x][y].setPossedePastille(true);
+				monstres.add(new Monstre(this,x,y));
+				i++;
+			}
+
+			i--;
+		}
+	}
+
+	/**
+	 * Méthode permettant de générer des pastilles
 	 * @param nbPastilles nombre de pastilles à générer
 	 */
 	private void generatePastilles(int nbPastilles) {
 		pastilles = new ArrayList<>();
 		Case[][] cases = labyrinthe.getLabyrintheVUE();
-		int nbCasesDisponibles = 0;
-		for(Case[] ligne : cases) {
-			for(Case c : ligne) {
-				if(!c.estUnMur()) {
-					nbCasesDisponibles++;
-				}
-			}
-		}
+		int nbCasesDisponibles = labyrinthe.getNbCasesVides();
 		if(nbCasesDisponibles < nbPastilles) {
 			System.err.println("ERREUR : Impossible de mettre " + nbPastilles + " pastilles dans un labyrinthe possédant " + nbCasesDisponibles + " cases libres !");
 			return;
