@@ -37,10 +37,6 @@ public class Case {
      */
     private boolean possedeEntite = false;
 
-    private Case casePrecedente;
-
-    private int distance;
-
     /**
      * Constructeur d'une case
      *
@@ -93,6 +89,9 @@ public class Case {
      * @return true si il y a un voisin à droite
      */
     public boolean voisinDroite() {
+        return this.voisins.contains(new Case(this.x + 1, this.y));
+    }
+    public boolean voisinDroiteVrai() {
         return this.voisins.contains(new Case(this.x + 1, this.y));
     }
 
@@ -200,14 +199,6 @@ public class Case {
         this.estUnMur = estUnMur;
     }
 
-    public Case getCasePrecedente() {
-        return casePrecedente;
-    }
-
-    public void setCasePrecedente(Case casePrecedente) {
-        this.casePrecedente = casePrecedente;
-    }
-
     /**
      * Vérifie si la case est vide
      *
@@ -235,13 +226,7 @@ public class Case {
                 '}';
     }
 
-    public int getDistance() {
-        return distance;
-    }
 
-    public void setDistance(int distance) {
-        this.distance = distance;
-    }
 
     public boolean possedeEntite() {
         return possedeEntite;

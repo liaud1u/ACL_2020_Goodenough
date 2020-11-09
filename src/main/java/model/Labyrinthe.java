@@ -1,5 +1,8 @@
 package model;
 
+import model.util.Util;
+import views.CaseView;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -198,6 +201,29 @@ public class Labyrinthe {
                         }
                     }
                 }
+            }
+        }
+
+        ArrayList<Case> casesVoisines = new ArrayList<>();
+        //Détermine voisin pour chaque case
+        for (int ligne = 0; ligne < Util.MAZE_SIZE-1; ligne++)
+        {
+            for (int colonne = 0; colonne < Util.MAZE_SIZE-1; colonne++) {
+
+                Case caseCourante = getCaseLabyrinthe(ligne,colonne);
+                Case[] voisinsPotentiel = new Case[]{
+                        getCaseLabyrinthe(caseCourante.getX() + 1, caseCourante.getY()),
+                        getCaseLabyrinthe(caseCourante.getX(), caseCourante.getY() + 1),
+                        getCaseLabyrinthe(caseCourante.getX() - 1, caseCourante.getY()),
+                        getCaseLabyrinthe(caseCourante.getX(), caseCourante.getY() - 1)
+                };
+
+                for (Case c1 : voisinsPotentiel)
+                {
+                    if (c1!=null)
+                        caseCourante.ajoutVoisin(c1);
+                }
+
             }
         }
     }
