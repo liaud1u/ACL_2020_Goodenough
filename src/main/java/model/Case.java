@@ -32,6 +32,11 @@ public class Case {
      */
     private boolean estVide = true;
 
+    /**
+     * Booléen, vrai si une entité (monstre ou pastille) est présente sur la case
+     */
+    private boolean possedeEntite = false;
+
     private Case casePrecedente;
 
     private int distance;
@@ -164,7 +169,7 @@ public class Case {
      *
      * @return true si la case est un mur, false sinon
      */
-    public boolean isEstUnMur() {
+    public boolean estUnMur() {
         return estUnMur;
     }
 
@@ -190,7 +195,7 @@ public class Case {
      *
      * @return true si la case est vide, false sinon
      */
-    public boolean isEstVide() {
+    public boolean estVide() {
         return estVide;
     }
 
@@ -218,5 +223,13 @@ public class Case {
 
     public void setDistance(int distance) {
         this.distance = distance;
+    }
+
+    public boolean possedeEntite() {
+        return possedeEntite;
+    }
+
+    public void setPossedeEntite(boolean possedePastille) {
+        this.possedeEntite = possedePastille;
     }
 }
