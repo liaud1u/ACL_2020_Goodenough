@@ -1,7 +1,6 @@
 package model;
 
 import model.util.Util;
-import views.CaseView;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -220,7 +219,7 @@ public class Labyrinthe {
 
                 for (Case c1 : voisinsPotentiel)
                 {
-                    if (c1!=null)
+                    if (c1!=null && c1.estUnMur())
                         caseCourante.ajoutVoisin(c1);
                 }
 

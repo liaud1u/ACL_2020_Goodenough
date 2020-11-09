@@ -91,9 +91,6 @@ public class Case {
     public boolean voisinDroite() {
         return this.voisins.contains(new Case(this.x + 1, this.y));
     }
-    public boolean voisinDroiteVrai() {
-        return this.voisins.contains(new Case(this.x + 1, this.y));
-    }
 
     /**
      * Vérifie si il y a un voisin à gauche
