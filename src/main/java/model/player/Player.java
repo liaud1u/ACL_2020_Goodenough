@@ -33,8 +33,7 @@ public class Player {
     this.game = game;
 
     // On récupère la moitié de la taille d'une case comme coordonnées par défaut
-    x = Util.slotSizeProperty.intValue() / 2;
-    y = Util.slotSizeProperty.intValue() / 2;
+    x = y = Util.slotSizeProperty.add(Util.slotSizeProperty.divide(2)).get();
   }
 
   /**

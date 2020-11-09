@@ -60,9 +60,6 @@ public class PlayerView extends Group {
    * Initialisation de la vue
    */
   private void init() {
-//    this.view.setTranslateX(Util.slotSizeProperty.multiply(Util.RATIO_PERSONNAGE).get());
-//    this.view.setTranslateY(Util.slotSizeProperty.multiply(Util.RATIO_PERSONNAGE).get());
-
     this.getChildren().add(view);
   }
 
