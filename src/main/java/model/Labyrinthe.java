@@ -8,17 +8,17 @@ import java.util.Random;
  */
 public class Labyrinthe {
 
-    // Ensemble des cases formant le labyrinthe
+    //Labyrinthe permettant la création du labyrinthe parfait
     public Case[][] labyrintheFormation;
 
-    //On utilise un tableau de CHAR pour pouvoir modifier le type des cases à volonté
+    // Ensemble des cases formant le labyrinthe
     public Case[][] labyrinthe;
 
 
+    int tailleLigneFormation;
+    int tailleColonneFormation;
     int tailleLigne;
     int tailleColonne;
-    int tailleLigneVue;
-    int tailleColonneVue;
     Random rand = new Random();
 
 
@@ -26,13 +26,13 @@ public class Labyrinthe {
 
     public Labyrinthe(int tailleL, int tailleC) {
 
-        this.tailleLigne = tailleL/2 - 1;
-        this.tailleColonne = tailleC/2 - 1;
+        this.tailleLigneFormation = tailleL/2 - 1;
+        this.tailleColonneFormation = tailleC/2 - 1;
 
-        this.tailleLigneVue = tailleLigne * 2 + 1;
-        this.tailleColonneVue = tailleColonne * 2 + 1;
+        this.tailleLigne = tailleLigneFormation * 2 + 1;
+        this.tailleColonne = tailleColonneFormation * 2 + 1;
 
-        labyrinthe = new Case[tailleLigneVue][tailleColonneVue];
+        labyrinthe = new Case[tailleLigne][tailleColonne];
         initialisationLaby();
         creationLabyrinthe();
     }
@@ -44,17 +44,17 @@ public class Labyrinthe {
     //Création des cases
     private void initialisationLaby() {
 
-        labyrintheFormation = new Case[tailleLigne][tailleColonne];
+        labyrintheFormation = new Case[tailleLigneFormation][tailleColonneFormation];
 
-        for (int i = 0; i < tailleLigne; i++)
+        for (int i = 0; i < tailleLigneFormation; i++)
         {
-            for (int j = 0; j < tailleColonne; j++)
+            for (int j = 0; j < tailleColonneFormation; j++)
             {
                 labyrintheFormation[i][j] = new Case(i,j,false);
             }
         }
-        for (int i = 0; i < tailleLigneVue; i++) {
-            for (int j = 0; j < tailleColonneVue; j++) {
+        for (int i = 0; i < tailleLigne; i++) {
+            for (int j = 0; j < tailleColonne; j++) {
                 labyrinthe[i][j] = new Case(i, j, false);
             }
         }
@@ -134,22 +134,17 @@ public class Labyrinthe {
         }
     }
 
-
-    //Seems good sauf les fonctions voisins droite et voisins dessous
     public void updateLabyrinthe() {
 
-        char vide = ' ';
-        char mur = 'X';
 
-        for (int x = 0; x < tailleLigneVue; x++) {
-            for (int y = 0; y < tailleColonneVue; y++) {
+        for (int x = 0; x < tailleLigne; x++) {
+            for (int y = 0; y < tailleColonne; y++) {
                 labyrinthe[x][y].setEstUnMur(false);
             }
         }
 
-        //Murs du milieu
-        for (int x = 0; x < tailleLigneVue; x++) {
-            for (int y = 0; y < tailleColonneVue; y++) {
+        for (int x = 0; x < tailleLigne; x++) {
+            for (int y = 0; y < tailleColonne; y++) {
 
                 if (x % 2 == 0 || y % 2 == 0)
                 {
@@ -160,8 +155,8 @@ public class Labyrinthe {
         }
 
         //Casse des murs pour rendre le labyrinthe parfait
-        for (int x = 0; x < tailleLigne; x++) {
-            for (int y = 0; y < tailleColonne; y++) {
+        for (int x = 0; x < tailleLigneFormation; x++) {
+            for (int y = 0; y < tailleColonneFormation; y++) {
 
                 Case caseCourante = getCase(x,y);
 
@@ -184,10 +179,10 @@ public class Labyrinthe {
 
         //On détruit des murs au hasard pour créer des cycles
         //Décalage de 1 pour éviter de taper dans les murs
-        for (int x = 1; x < tailleLigneVue - 1; x++) {
-            for (int y = 1; y < tailleColonneVue - 1; y++) {
-                if ((x != tailleLigneVue - 1 && y != 1 || x != 1 && y != tailleColonneVue - 1) && (x != 2 && y != tailleLigneVue -2 || x != tailleColonneVue -2 && y != 2)) {
-                    if (labyrinthe[x][y].estUnMur()) {
+        for (int x = 1; x < tailleLigne - 1; x++) {
+            for (int y = 1; y < tailleColonne - 1; y++) {
+                if ((x != tailleLigne - 1 && y != 1 || x != 1 && y != tailleColonne - 1) && (x != 2 && y != tailleLigne -2 || x != tailleColonne -2 && y != 2)) {
+                    if (labyrinthe[x][y].estUnMur() && !labyrinthe[x][y].voisinDessous() && !labyrinthe[x][y].voisinDroite() || labyrinthe[x][y].estUnMur() && !labyrinthe[x][y].voisinDessous() && !labyrinthe[x][y].voisinGauche() || labyrinthe[x][y].estUnMur() && !labyrinthe[x][y].voisinDessus() && !labyrinthe[x][y].voisinDroite() || labyrinthe[x][y].estUnMur() && !labyrinthe[x][y].voisinDessus() && !labyrinthe[x][y].voisinGauche()) {
                         int nbPourcentInt = 10;
                         int nbAleatoire = rand.nextInt(10);
                         if (nbAleatoire > nbPourcentInt) {

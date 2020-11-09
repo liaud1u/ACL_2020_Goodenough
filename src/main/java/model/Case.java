@@ -96,6 +96,24 @@ public class Case {
         return this.voisins.contains(new Case(this.x + 1, this.y));
     }
 
+    /**
+     * Vérifie si il y a un voisin à gauche
+     *
+     * @return true si il y a un voisin à gauche
+     */
+    public boolean voisinGauche() {
+        return this.voisins.contains(new Case(this.x - 1, this.y));
+    }
+
+    /**
+     * Vérifie si il y a un voisin au dessus
+     *
+     * @return true si il y a un voisin au dessus
+     */
+    public boolean voisinDessus() {
+        return this.voisins.contains(new Case(this.x, this.y - 1));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Case)) return false;
