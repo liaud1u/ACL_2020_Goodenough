@@ -23,259 +23,269 @@ import java.util.Random;
  */
 public class PacmanGame implements Game {
 
-	public PacmanGameState getGameState() {
-		return gameState;
-	}
+  public PacmanGameState getGameState() {
+    return gameState;
+  }
 
-	/**
-	 * Etat du jeu
-	 */
-	private PacmanGameState gameState;
+  /**
+   * Etat du jeu
+   */
+  private PacmanGameState gameState;
 
-	/**
-	 * Timer du jeu
-	 */
-	private GameTimer gameTimer = new GameTimer(Util.timer);
+  /**
+   * Timer du jeu
+   */
+  private GameTimer gameTimer = new GameTimer(Util.timer);
 
-	/**
-	 * Joueur principal
-	 */
-	private final Player player;
+  /**
+   * Joueur principal
+   */
+  private final Player player;
 
-	/**
-	 * Labyrinthe principal
-	 */
-	private Labyrinthe labyrinthe;
-
-
-
-	/**
-	 * Liste des pastilles restantes
-	 */
-	private ArrayList<Pastille> pastilles;
-
-	/**
-	 * Score
-	 */
-	private int score;
+  /**
+   * Labyrinthe principal
+   */
+  private Labyrinthe labyrinthe;
 
 
-	/**
-	 * constructeur avec fichier source pour le help
-	 */
-	public PacmanGame(String source) {
-		BufferedReader helpReader;
-		try {
-			helpReader = new BufferedReader(new FileReader(source));
-			String ligne;
-			while ((ligne = helpReader.readLine()) != null) {
-				System.out.println(ligne);
-			}
-			helpReader.close();
 
-		} catch (IOException e) {
-			System.out.println("Help not available");
-		}
+  /**
+   * Liste des pastilles restantes
+   */
+  private ArrayList<Pastille> pastilles;
 
-		this.gameState  = new PacmanGameState();
-
-		//changed = false;
-
-		labyrinthe = new Labyrinthe(Util.MAZE_SIZE, Util.MAZE_SIZE);
-
-		player = new Player(this);
-
-		// TODO : when difficulty implemented, change hardcoded value here
-		generatePastilles(5);
+  /**
+   * Score
+   */
+  private int score;
 
 
-		score = 0;
-		this.gameTimer.play();
-	}
+  /**
+   * constructeur avec fichier source pour le help
+   */
+  public PacmanGame(String source) {
+    BufferedReader helpReader;
+    try {
+      helpReader = new BufferedReader(new FileReader(source));
+      String ligne;
+      while ((ligne = helpReader.readLine()) != null) {
+        System.out.println(ligne);
+      }
+      helpReader.close();
 
-	/**
-	 * faire evoluer le jeu suite a une commande
-	 *
-	 * @param commande
-	 */
-	public void evolve(Cmd commande) {
-		//System.out.println("Execute "+commande);
-		if (commande != Cmd.IDLE)
-			player.setCurrentMoveDirection(Direction.valueOf(commande.name()));
-		player.go();
-		if(allPastillesEaten()) {
-			gameState.setState(PacmanGameState.EtatJeu.VICTOIRE);
-			labyrinthe = new Labyrinthe(Util.MAZE_SIZE, Util.MAZE_SIZE);
-			// TODO : when difficulty implemented, change hardcoded value here
-			generatePastilles(5);
-		} else {
-			gameState.setState(PacmanGameState.EtatJeu.EN_COURS);
-		}
-	}
+    } catch (IOException e) {
+      System.out.println("Help not available");
+    }
 
-	/**
-	 * Méthode permettant de générer
-	 * @param nbPastilles nombre de pastilles à générer
-	 */
-	private void generatePastilles(int nbPastilles) {
-		Case[][] cases = labyrinthe.getLabyrintheVUE();
-		pastilles = new ArrayList<>();
-		for(int i = 0 ; i < nbPastilles ; i ++) {
-			int x = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
-			int y = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
-				if(cases[x][y].isEstUnMur() == false) {
-					pastilles.add(new ScorePastille(x,y));
-					i++;
-				}
+    this.gameState  = new PacmanGameState();
 
-			i--;
-		}
-	}
+    //changed = false;
+
+    labyrinthe = new Labyrinthe(Util.MAZE_SIZE, Util.MAZE_SIZE);
+
+    player = new Player(this);
+
+    // TODO : when difficulty implemented, change hardcoded value here
+    generatePastilles(5);
 
 
-	/**
-	 * Méthode permettant de savoir si l'ensemble des pastilles ont été récupérées
-	 * par le joueur (le permettant de passer au niveau suivant)
-	 *
-	 * @return booleen vrai si toutes les pastilles ont été récupérées
-	 */
-	public boolean allPastillesEaten() {
-		for(Pastille p : pastilles) {
-			if(!p.isRamassee()) return false;
-		}
-		return true;
-	}
+    score = 0;
+    this.gameTimer.play();
+  }
 
-	/**
-	 * verifier si le jeu est fini
-	 */
-	public boolean isFinished() {
-		// le jeu n'est jamais fini
-		return false;
-	}
+  /**
+   * faire evoluer le jeu suite a une commande
+   *
+   * @param commande
+   */
+  public void evolve(Cmd commande) {
+    //System.out.println("Execute "+commande);
+    if (commande != Cmd.IDLE)
+      player.setCurrentMoveDirection(Direction.valueOf(commande.name()));
+    player.go();
+    if(allPastillesEaten()) {
+      gameState.setState(PacmanGameState.EtatJeu.VICTOIRE);
+      labyrinthe = new Labyrinthe(Util.MAZE_SIZE, Util.MAZE_SIZE);
+      // TODO : when difficulty implemented, change hardcoded value here
+      generatePastilles(5);
+    } else {
+      gameState.setState(PacmanGameState.EtatJeu.EN_COURS);
+    }
+  }
 
-	/**
-	 * Renvoie le joueur
-	 *
-	 * @return Player joueur principal
-	 */
-	public Player getPlayer() {
-		return player;
-	}
+  /**
+   * Méthode permettant de générer
+   * @param nbPastilles nombre de pastilles à générer
+   */
+  private void generatePastilles(int nbPastilles) {
+    Case[][] cases = labyrinthe.getLabyrintheVUE();
+    pastilles = new ArrayList<>();
+    for(int i = 0 ; i < nbPastilles ; i ++) {
+      int x = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
+      int y = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
+      if(cases[x][y].isEstUnMur() == false) {
+        pastilles.add(new ScorePastille(x,y));
+        i++;
+      }
 
-	/**
-	 * Renvoie le labyrinthe
-	 *
-	 * @return Labyrinthe labyrinthe principal
-	 */
-	public Labyrinthe getLabyrinthe() {
-		return labyrinthe;
-	}
-
-	/**
-	 * Tableau de pastille du jeu
-	 *
-	 * @return Tableau de pastille
-	 */
-	public List<Pastille> getPastille() {
-		return pastilles;
-	}
-
-	/**
-	 * Détermine si le joueur vas manger une pastille
-	 */
-	public void willPlayerEatPastille() {
-
-		double x = player.getX();
-		double y = player.getY();
+      i--;
+    }
+  }
 
 
-		ArrayList<Pastille> toRemove = new ArrayList<>();
+  /**
+   * Méthode permettant de savoir si l'ensemble des pastilles ont été récupérées
+   * par le joueur (le permettant de passer au niveau suivant)
+   *
+   * @return booleen vrai si toutes les pastilles ont été récupérées
+   */
+  public boolean allPastillesEaten() {
+    for(Pastille p : pastilles) {
+      if(!p.isRamassee()) return false;
+    }
+    return true;
+  }
 
-		for (Pastille p : pastilles) {
-			double dx = x - p.getPosX();
-			double dy = y - p.getPosY();
+  /**
+   * verifier si le jeu est fini
+   */
+  public boolean isFinished() {
+    // le jeu n'est jamais fini
+    return false;
+  }
 
+  /**
+   * Renvoie le joueur
+   *
+   * @return Player joueur principal
+   */
+  public Player getPlayer() {
+    return player;
+  }
 
-			//On calcule la distance entre chaque pastille et le joueur principal
-			double distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+  /**
+   * Renvoie le labyrinthe
+   *
+   * @return Labyrinthe labyrinthe principal
+   */
+  public Labyrinthe getLabyrinthe() {
+    return labyrinthe;
+  }
 
-			//Si les deux objets se touchent, alors la pastille est mangée
-		 	if (distance < (Util.slotSizeProperty.get() * Util.RATIO_PERSONNAGE)*0.6) {
-				if (!p.isRamassee()) {
-					p.ramasser();
-					score+=p.getValue();
-					toRemove.add(p);
-				}
-			}
+  /**
+   * Tableau de pastille du jeu
+   *
+   * @return Tableau de pastille
+   */
+  public List<Pastille> getPastille() {
+    return pastilles;
+  }
 
-		}
+  /**
+   * Détermine si le joueur vas manger une pastille
+   */
+  public void willPlayerEatPastille() {
 
-		pastilles.removeAll(toRemove);
-
-		if (pastilles.size() == 0)
-			System.out.println("VICTOIRE");
-	}
-
-	/**
-	 * Détermine si le joueur va rentrer en contact avec un mur
-	 *
-	 * @return true si contact avec un mur, false sinon
-	 */
-	public boolean willPlayerCollide() {
-		double x, y;
-
-		x = player.getX();
-		y = player.getY();
-
-
-		x += player.getCurrentMoveDirection().getX_dir();
-		y += player.getCurrentMoveDirection().getY_dir();
-
-
-		//System.out.println(x+" " +y);
-
-		//En cas de dépassement des bords
-		return x >= Util.MAZE_SIZE * Util.slotSizeProperty.get() - Util.slotSizeProperty.get()/2 + Util.wallSizeProperty.get()/2
-				|| y >= Util.MAZE_SIZE * Util.slotSizeProperty.get() - Util.slotSizeProperty.get()/2 + Util.wallSizeProperty.get()/2
-				|| y < Util.slotSizeProperty.get()/2 - Util.wallSizeProperty.get()/2
-				|| x < Util.slotSizeProperty.get()/2 - Util.wallSizeProperty.get()/2 ;
-
-
-		/**
-		 Direction currentDir = player.getCurrentMoveDirection();
-
-		 int currentCaseX = (x ) / 32 ;
-		 int currentCaseY = (y ) / 32 ;
-
-		 Case current  = getLabyrinthe().getPlateau()[currentCaseY][currentCaseX];
+    double x = player.getX();
+    double y = player.getY();
 
 
-		 System.out.println(currentCaseX+" "+currentCaseY+" "+current.isMurNord());
+    ArrayList<Pastille> toRemove = new ArrayList<>();
+
+    for (Pastille p : pastilles) {
+      double dx = x - p.getPosX();
+      double dy = y - p.getPosY();
 
 
-		 Rectangle player = new Rectangle(getPlayer().getX()-10,getPlayer().getY()-10,20,20);
+      //On calcule la distance entre chaque pastille et le joueur principal
+      double distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
 
-		 Rectangle haut = new  Rectangle(currentCaseY * 32,currentCaseX * 32,  32, 4);
+      //Si les deux objets se touchent, alors la pastille est mangée
+      if (distance < (Util.slotSizeProperty.get() * Util.RATIO_PERSONNAGE)*0.6) {
+        if (!p.isRamassee()) {
+          p.ramasser();
+          score+=p.getValue();
+          toRemove.add(p);
+        }
+      }
+
+    }
+
+    pastilles.removeAll(toRemove);
+
+    if (pastilles.size() == 0)
+      System.out.println("VICTOIRE");
+  }
+
+  /**
+   * Détermine si le joueur va rentrer en contact avec un mur
+   *
+   * @return true si contact avec un mur, false sinon
+   */
+  public boolean willPlayerCollide() {
+    double x, y;
+
+    x = player.getX();
+    y = player.getY();
 
 
-		 System.out.println(player.toRectBounds().intersects(haut.toRectBounds()));
-		 **/
-	}
+    x += player.getCurrentMoveDirection().getX_dir();
+    y += player.getCurrentMoveDirection().getY_dir();
 
-	/**
-	 * Getter de la valeur du score
-	 * @return int score
-	 */
-	public int getScore(){
-		return score;
-	}
 
-	/**
-	 * Getter du timer du jeu
-	 * @return GameTime timer
-	 */
-	public GameTimer getGameTimer() {
-		return gameTimer;
-	}
+    final double rightAndBottomBorder =
+      Util.slotSizeProperty
+        .multiply(Util.MAZE_SIZE)
+          .subtract(Util.slotSizeProperty.divide(2))
+            .add(Util.wallSizeProperty.divide(2))
+              .get();
+
+    final double leftAndTopBorder =
+      Util.slotSizeProperty
+        .divide(2)
+          .subtract(Util.wallSizeProperty.divide(2))
+            .get();
+
+    return
+      x >= rightAndBottomBorder || x < leftAndTopBorder ||
+      y >= rightAndBottomBorder || y < leftAndTopBorder;
+
+
+
+    /**
+     Direction currentDir = player.getCurrentMoveDirection();
+
+     int currentCaseX = (x ) / 32 ;
+     int currentCaseY = (y ) / 32 ;
+
+     Case current  = getLabyrinthe().getPlateau()[currentCaseY][currentCaseX];
+
+
+     System.out.println(currentCaseX+" "+currentCaseY+" "+current.isMurNord());
+
+
+     Rectangle player = new Rectangle(getPlayer().getX()-10,getPlayer().getY()-10,20,20);
+
+     Rectangle haut = new  Rectangle(currentCaseY * 32,currentCaseX * 32,  32, 4);
+
+
+     System.out.println(player.toRectBounds().intersects(haut.toRectBounds()));
+     **/
+  }
+
+  /**
+   * Getter de la valeur du score
+   * @return int score
+   */
+  public int getScore(){
+    return score;
+  }
+
+  /**
+   * Getter du timer du jeu
+   * @return GameTime timer
+   */
+  public GameTimer getGameTimer() {
+    return gameTimer;
+  }
 }
