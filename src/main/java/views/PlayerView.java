@@ -54,13 +54,15 @@ public class PlayerView extends Group {
     view.setViewport(new Rectangle2D(0, 0, size, size));
 
     this.init();
-
   }
 
   /**
    * Initialisation de la vue
    */
   private void init() {
+//    this.view.setTranslateX(Util.slotSizeProperty.multiply(Util.RATIO_PERSONNAGE).get());
+//    this.view.setTranslateY(Util.slotSizeProperty.multiply(Util.RATIO_PERSONNAGE).get());
+
     this.getChildren().add(view);
   }
 

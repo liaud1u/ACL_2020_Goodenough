@@ -60,7 +60,7 @@ public class Player {
    */
   public void go() {
     //Si il n'y a pas de collisions, on met à jour les coordonnées
-    if (!game.willPlayerCollideWall() && !game.willPlayerCollideMob()) {
+    if (!game.willPlayerCollide() && !game.willPlayerCollideMob()) {
       game.willPlayerEatPastille();
 
       x += currentMoveDirection.getX_dir() * Util.speedDifficulty;
