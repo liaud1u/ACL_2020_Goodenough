@@ -94,8 +94,8 @@ public class PacmanPainter implements GamePainter {
     if(game.getGameState().getState() == PacmanGameState.EtatJeu.VICTOIRE) {
       this.repaint();
     }
-    for(PastilleView p : pastillesView)  p.draw();
    // for(MonstreView mv : monstreView)
+
     this.playerView.draw(ratio);
     this.scoreView.draw();
     this.timerView.draw();

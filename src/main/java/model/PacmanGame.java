@@ -158,8 +158,8 @@ public class PacmanGame implements Game {
           monstres.add(new Monstre(this,x,y));
         }
         else {
-          cases[x][y].setPastille(true);
-          pastilles.add(new ScorePastille(x, y));
+          cases[x][y].setPastille(new ScorePastille(x, y));
+          this.labyrinthe.addPastille();
         }
 
         i++;
@@ -236,34 +236,18 @@ public class PacmanGame implements Game {
     return this.labyrinthe.getCaseLabyrinthe(x, y).hasMonster();
   }
 
-
   /**
    * Détermine si le joueur vas manger une pastille
    */
-  public void willPlayerEatPastille() {
+  public void isEatingAPastaga() {
+    final Case currentCase = this.labyrinthe.getCaseLabyrinthe(this.player.getX(), this.player.getY());
 
-    double x = player.getX();
-    double y = player.getY();
+    if (currentCase.hasPastille()) {
+      score += currentCase.getPastille().getValue();
+      currentCase.destroyPastille();
 
-
-    for (Pastille p : pastilles) {
-      double dx = x - p.getPosX();
-      double dy = y - p.getPosY();
-
-
-      //On calcule la distance entre chaque pastille et le joueur principal
-      double distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-
-      //Si les deux objets se touchent, alors la pastille est mangée
-      if (distance < (Util.slotSizeProperty.get() * Util.RATIO_PERSONNAGE)) {
-        if (!p.isRamassee()) {
-          p.ramasser();
-          score+=p.getValue();
-        }
-      }
-
+      this.labyrinthe.removePastille();
     }
-
   }
 
   public boolean willPlayerCollide() {

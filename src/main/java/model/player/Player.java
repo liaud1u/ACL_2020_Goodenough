@@ -65,7 +65,7 @@ public class Player {
     //Si il n'y a pas de collisions, on met à jour les coordonnées
 
     if (!game.willPlayerCollide() && !game.willPlayerCollideMob()) {
-      game.willPlayerEatPastille();
+      game.isEatingAPastaga();
       xPrec = x;
       yPrec = y;
       x += currentMoveDirection.getX_dir();

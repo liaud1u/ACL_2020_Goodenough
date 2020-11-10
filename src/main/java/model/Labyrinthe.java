@@ -9,6 +9,7 @@ import java.util.Random;
  * @author adrien & florian
  */
 public class Labyrinthe {
+    private int leftPastilles;
 
     //Labyrinthe permettant la création du labyrinthe parfait
     public Case[][] labyrintheFormation;
@@ -27,7 +28,6 @@ public class Labyrinthe {
 
 
     public Labyrinthe(int tailleL, int tailleC) {
-
         this.tailleLigneFormation = tailleL/2 - 1;
         this.tailleColonneFormation = tailleC/2 - 1;
 
@@ -37,6 +37,7 @@ public class Labyrinthe {
         labyrinthe = new Case[tailleLigne][tailleColonne];
         initialisationLaby();
         creationLabyrinthe();
+        this.leftPastilles = 0;
     }
 
     public Case[][] getLabyrintheVUE() {
@@ -293,6 +294,13 @@ public class Labyrinthe {
         }
     }
 
+    public void addPastille() {
+        this.leftPastilles++;
+    }
+
+    public void removePastille() {
+        if (this.leftPastilles > 0) this.leftPastilles--;
+    }
 }
 
 

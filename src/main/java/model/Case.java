@@ -1,6 +1,10 @@
 package model;
 
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+
 import java.util.ArrayList;
 
 /**
@@ -11,6 +15,8 @@ public class Case {
    * Coordonée x de la case
    */
   private int x;
+
+  private Pastille pastille;
 
   /**
    * Coordonnée y de la case
@@ -35,8 +41,7 @@ public class Case {
   /**
    * Booléen, vrai si une entité (monstre ou pastille) est présente sur la case
    */
-  private boolean hasMonster,   // if a monster is on the case
-                  hasPastille;  // if a pastille is on the case
+  private boolean hasMonster;  // if a monster is on the case
 
   /**
    * Constructeur d'une case
@@ -60,7 +65,7 @@ public class Case {
     this.y = y;
     this.estUnMur = bool;
     this.hasMonster = false;
-    this.hasPastille = false;
+    this.pastille = null;
   }
 
   /**
@@ -141,7 +146,7 @@ public class Case {
   }
   /** @return (:boolean) if the case has a pastille*/
   public boolean hasPastille() {
-    return hasPastille;
+    return this.pastille != null;
   }
 
   /**
@@ -228,12 +233,17 @@ public class Case {
   public void setMonster(boolean hasMonster) {
     this.hasMonster = hasMonster;
   }
-  /** @param hasPastille (:boolean) return if the case has a pastille*/
-  public void setPastille(boolean hasPastille) {
-    this.hasPastille = hasPastille;
+  /** @param pastille (:{@link Pastille}) set the new pastille (null if none) */
+  public void setPastille(Pastille pastille) {
+    this.hasPastilleProperty.set(pastille != null);
+    this.pastille = pastille;
   }
   /** @return (:boolean) if the case has either a monster or a pastille*/
-  public boolean hasEntity() { return this.hasPastille || this.hasMonster; }
+  public boolean hasEntity() { return this.hasPastille() || this.hasMonster; }
+
+  public Pastille getPastille() {
+    return pastille;
+  }
 
   @Override
   public String toString() {
@@ -242,5 +252,12 @@ public class Case {
       ", y=" + y +
       ", estUnMur=" + estUnMur +
       '}';
+  }
+
+  public BooleanProperty hasPastilleProperty = new SimpleBooleanProperty(false);
+
+  public void destroyPastille() {
+    this.pastille = null;
+    this.hasPastilleProperty.set(false);
   }
 }
