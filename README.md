@@ -3,7 +3,7 @@
 * POIREL Florian
 * LIAUD Alexis
 * RIBEYROLLES Matthieu
-* PALMIERI Adrien
+* PALMIERI Adrien (Akahiro54)
 * HYPPOLITE Ephraïm
 
 
