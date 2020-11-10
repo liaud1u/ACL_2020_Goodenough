@@ -1,14 +1,9 @@
 package views;
 
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.util.Duration;
 import model.player.Player;
 import model.util.Util;
 
@@ -39,9 +34,9 @@ public class PlayerView extends Group {
    */
   private int frame;
 
-  private double animX;
+  private final double animX;
 
-  private double animY;
+  private final double animY;
 
   /**
    * Constructeur de la vue
@@ -94,8 +89,8 @@ public class PlayerView extends Group {
         break;
     }
 
-    view.setX(Util.slotSizeProperty.multiply( player.getX()-1).get()); //+ ratio * this.player.getCurrentMoveDirection().getX_dir() ).get());
-    view.setY(Util.slotSizeProperty.multiply( player.getY()-1).get()); //+ ratio * this.player.getCurrentMoveDirection().getY_dir() ).get());
+    view.setX(Util.slotSizeProperty.get() * (player.getxPrec() + ratio * this.player.getCurrentMoveDirection().getX_dir()));
+    view.setY(Util.slotSizeProperty.get() * (player.getyPrec() + ratio * this.player.getCurrentMoveDirection().getY_dir()));
 
     int size = (int) (Util.slotSizeProperty.intValue() * Util.RATIO_PERSONNAGE);
 

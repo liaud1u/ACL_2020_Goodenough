@@ -23,7 +23,7 @@ public class Player {
    * Direction courante du joueur
    */
   private Direction currentMoveDirection = Direction.RIGHT;
-  private Direction lastKnownDirection = currentMoveDirection;
+  private final Direction lastKnownDirection = currentMoveDirection;
 
   /**
    * Constructeur du joueur
@@ -34,7 +34,7 @@ public class Player {
     this.game = game;
 
     // On récupère la moitié de la taille d'une case comme coordonnées par défaut
-    x = y = 1;
+    xPrec = yPrec = x = y = 1;
   }
 
   /**
@@ -62,10 +62,19 @@ public class Player {
     //Si il n'y a pas de collisions, on met à jour les coordonnées
     //if (!game.willPlayerCollide() && !game.willPlayerCollideMob()) {
     //  game.willPlayerEatPastille();
-
+    xPrec = x;
+    yPrec = y;
     x += currentMoveDirection.getX_dir();
     y += currentMoveDirection.getY_dir();
     //}
+  }
+
+  public double getxPrec() {
+    return xPrec;
+  }
+
+  public double getyPrec() {
+    return yPrec;
   }
 
   /**
