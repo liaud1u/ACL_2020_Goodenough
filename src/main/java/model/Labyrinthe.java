@@ -127,7 +127,7 @@ public class Labyrinthe {
         int nbCasesDisponibles = 0;
         for(Case[] ligne : labyrinthe) {
             for(Case c : ligne) {
-                if(!c.estUnMur() && !c.possedeEntite()) {
+                if(!c.estUnMur() && !c.hasEntity()) {
                     nbCasesDisponibles++;
                 }
             }

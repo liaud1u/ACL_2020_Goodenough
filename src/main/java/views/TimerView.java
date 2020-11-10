@@ -23,7 +23,7 @@ public class TimerView extends Group {
   // setters
 
   /**
-   * @param gameTimer (:{@link GameTimer}, the new GameTmer to set to this timer view
+   * @param gameTimer (:{@link GameTimer}), the new GameTmer to set to this timer view
    * */
   public void setGameTimer(GameTimer gameTimer) {
     this.gameTimer = gameTimer;
