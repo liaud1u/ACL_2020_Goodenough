@@ -43,7 +43,9 @@ public class Labyrinthe {
         return labyrinthe;
     }
 
-    //Création des cases
+    /**
+     * Methodes qui crée toutes les cases du labyrinthe
+     */
     private void initialisationLaby() {
 
         labyrintheFormation = new Case[tailleLigneFormation][tailleColonneFormation];
@@ -71,6 +73,10 @@ public class Labyrinthe {
     private void creationLabyrinthe(int x, int y) {
         creationLabyrinthe(getCase(x, y));
     }
+
+    /**
+     * Methodes qui crée le labyrinthe depuis une case de départ
+     */
     private void creationLabyrinthe(Case caseDepart) {
         if (caseDepart == null) return;
         caseDepart.setEstVide(true);
@@ -128,6 +134,11 @@ public class Labyrinthe {
         }
         return nbCasesDisponibles;
     }
+
+    /**
+     * Methodes qui retourne une case de labyrintheFormation
+     * @return Case représentant une case présente dans labyrintheFormation
+     */
     public Case getCase(int x, int y) {
         try {
             return labyrintheFormation[x][y];
@@ -136,6 +147,10 @@ public class Labyrinthe {
         }
     }
 
+    /**
+     * Methodes qui retourne une case du labyrinthe
+     * @return Case représentant une case dans le labyrinthe
+     */
     public Case getCaseLabyrinthe(int x, int y) {
         try {
             return labyrinthe[x][y];
@@ -170,17 +185,16 @@ public class Labyrinthe {
 
                 Case caseCourante = getCase(x,y);
 
-                int XGUI = x * 2 + 1;
-                int YGUI = y * 2 + 1;
-
+                int X = x * 2 + 1;
+                int Y = y * 2 + 1;
 
                 if (caseCourante.voisinDessous())
                 {
-                    labyrinthe[XGUI][YGUI + 1].setEstUnMur(false);
+                    labyrinthe[X][Y + 1].setEstUnMur(false);
                 }
                 if (caseCourante.voisinDroite())
                 {
-                    labyrinthe[XGUI + 1][YGUI].setEstUnMur(false);
+                    labyrinthe[X + 1][Y].setEstUnMur(false);
                 }
 
             }
@@ -192,7 +206,8 @@ public class Labyrinthe {
         for (int x = 1; x < tailleLigne - 1; x++) {
             for (int y = 1; y < tailleColonne - 1; y++) {
                 if ((x != tailleLigne - 1 && y != 1 || x != 1 && y != tailleColonne - 1) && (x != 2 && y != tailleLigne -2 || x != tailleColonne -2 && y != 2)) {
-                    if (labyrinthe[x][y].estUnMur() && !labyrinthe[x][y].voisinDessous() && !labyrinthe[x][y].voisinDroite() || labyrinthe[x][y].estUnMur() && !labyrinthe[x][y].voisinDessous() && !labyrinthe[x][y].voisinGauche() || labyrinthe[x][y].estUnMur() && !labyrinthe[x][y].voisinDessus() && !labyrinthe[x][y].voisinDroite() || labyrinthe[x][y].estUnMur() && !labyrinthe[x][y].voisinDessus() && !labyrinthe[x][y].voisinGauche()) {
+                    if (labyrinthe[x][y].estUnMur())
+                    {
                         int nbPourcentInt = 10;
                         int nbAleatoire = rand.nextInt(10);
                         if (nbAleatoire > nbPourcentInt) {
@@ -203,11 +218,11 @@ public class Labyrinthe {
             }
         }
 
-        ArrayList<Case> casesVoisines = new ArrayList<>();
+
         //Détermine voisin pour chaque case
-        for (int ligne = 0; ligne < Util.MAZE_SIZE-1; ligne++)
+        for (int ligne = 0; ligne < Util.MAZE_SIZE - 1; ligne++)
         {
-            for (int colonne = 0; colonne < Util.MAZE_SIZE-1; colonne++) {
+            for (int colonne = 0; colonne < Util.MAZE_SIZE - 1; colonne++) {
 
                 Case caseCourante = getCaseLabyrinthe(ligne,colonne);
                 Case[] voisinsPotentiel = new Case[]{
@@ -217,11 +232,14 @@ public class Labyrinthe {
                         getCaseLabyrinthe(caseCourante.getX(), caseCourante.getY() - 1)
                 };
 
+                ArrayList<Case> voisinsMur = new ArrayList<>();
                 for (Case c1 : voisinsPotentiel)
                 {
-                    if (c1!=null && c1.estUnMur())
-                        caseCourante.ajoutVoisin(c1);
+                    if (c1==null || !c1.estUnMur()) continue;
+                    voisinsMur.add(c1);
+
                 }
+                caseCourante.setVoisins(voisinsMur);
 
             }
         }

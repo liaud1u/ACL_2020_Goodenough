@@ -22,7 +22,7 @@ public class LabyrintheView extends Group {
         this.labyrinthe = l;
         for (int ligne = 0; ligne < Util.MAZE_SIZE-1; ligne++)
         {
-            for (int colonne = 0; colonne < Util.MAZE_SIZE-1; colonne++) {
+            for (int colonne = 0; colonne < Util.MAZE_SIZE-1; colonne++)
                 this.getChildren().add(new CaseView(l.labyrinthe[ligne][colonne]));
             }
         }
@@ -31,5 +31,4 @@ public class LabyrintheView extends Group {
 
 
 
-}
 
