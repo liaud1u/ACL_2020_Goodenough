@@ -1,11 +1,8 @@
 package model;
 
 import fxengine.GamePainter;
-import fxengine.GameTimer;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import model.monster.Monstre;
-import model.util.Util;
 import views.*;
 
 import java.util.ArrayList;
@@ -88,18 +85,18 @@ public class PacmanPainter implements GamePainter {
     this.root.getChildren().add(this.timerView);
   }
 
-
   /**
    * methode  redefinie de Afficheur retourne une image du jeu
+   * @param ratio
    */
-  public void draw() {
+  public void draw(double ratio) {
     // En cas de victoire, on change de labyrinthe et on génère de nouvelles pastilles.
     if(game.getGameState().getState() == PacmanGameState.EtatJeu.VICTOIRE) {
       this.repaint();
     }
     for(PastilleView p : pastillesView)  p.draw();
    // for(MonstreView mv : monstreView)
-    this.playerView.draw();
+    this.playerView.draw(ratio);
     this.scoreView.draw();
     this.timerView.draw();
   }

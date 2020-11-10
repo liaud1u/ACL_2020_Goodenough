@@ -1,9 +1,14 @@
 package views;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 import model.player.Player;
 import model.util.Util;
 
@@ -60,9 +65,6 @@ public class PlayerView extends Group {
     animX = (int) (Util.slotSizeProperty.get() / 2);
     animY = (int) (Util.slotSizeProperty.get() / 2);
 
-    animY = 0;
-    animX = 0;
-
     this.init();
   }
 
@@ -76,9 +78,7 @@ public class PlayerView extends Group {
   /**
    * Dessin de la vue
    */
-  public void draw() {
-    double rayon =  Util.slotSizeProperty.getValue()*Util.RATIO_PERSONNAGE /2;
-
+  public void draw(double ratio) {
     switch (player.getCurrentMoveDirection()){
       case DOWN:
         view.setImage(sprite[0]);
@@ -94,24 +94,8 @@ public class PlayerView extends Group {
         break;
     }
 
-    view.setX(player.getX() * Util.slotSizeProperty.get());
-    view.setY(player.getY() * Util.slotSizeProperty.get());
-
-    //System.out.println((player.getX()*Util.slotSizeProperty.get()+animX)+ " "+(player.getY()*Util.slotSizeProperty.get()+animY)+" "+animX+" " +animY);
-
-    /*TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1),view);
-    translateTransition.setFromX(player.getxPrec()*Util.slotSizeProperty.get());
-    translateTransition.setFromY(player.getyPrec()*Util.slotSizeProperty.get());
-    translateTransition.setToX(player.getX()*Util.slotSizeProperty.get());
-    translateTransition.setToY(player.getY()*Util.slotSizeProperty.get());
-
-    translateTransition.play();*/
-
-    //animX+=player.getCurrentMoveDirection().getX_dir();
-    //animY+=player.getCurrentMoveDirection().getY_dir();
-
-    // animX=  (animX%(Util.slotSizeProperty.get()/Util.speedDifficulty));
-    // animY=  (animY%(Util.slotSizeProperty.get()/Util.speedDifficulty));
+    view.setX(Util.slotSizeProperty.multiply( player.getX()-1).get()); //+ ratio * this.player.getCurrentMoveDirection().getX_dir() ).get());
+    view.setY(Util.slotSizeProperty.multiply( player.getY()-1).get()); //+ ratio * this.player.getCurrentMoveDirection().getY_dir() ).get());
 
     int size = (int) (Util.slotSizeProperty.intValue() * Util.RATIO_PERSONNAGE);
 

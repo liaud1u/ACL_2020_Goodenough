@@ -6,7 +6,9 @@ import javafx.animation.AnimationTimer;
  * Boucle principale du jeu
  */
 public class GameLoop extends AnimationTimer {
-    /**
+  private final long BILLION = 1_000_000_000L;
+
+  /**
      * Vue du jeu
      */
     private final GamePainter painter;
@@ -58,16 +60,17 @@ public class GameLoop extends AnimationTimer {
             lastCommand = controller.getCommand();
         }
 
-        if (lastSeconds != now / 1_000_000_000) {
+        if (lastSeconds != now / this.BILLION) {
             //System.out.println(frame+ "fps");
             frame = 0;
-            lastSeconds = now / 1_000_000_000;
+            lastSeconds = now / this.BILLION;
             game.evolve(lastCommand);
         } else {
             frame++;
         }
 
-        painter.draw();
-    }
+      final double ratio =  ((now % this.BILLION) * 1.) / this.BILLION;
 
+      painter.draw(ratio);
+    }
 }

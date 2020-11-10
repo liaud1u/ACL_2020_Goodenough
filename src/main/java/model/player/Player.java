@@ -23,6 +23,7 @@ public class Player {
    * Direction courante du joueur
    */
   private Direction currentMoveDirection = Direction.RIGHT;
+  private Direction lastKnownDirection = currentMoveDirection;
 
   /**
    * Constructeur du joueur
@@ -61,6 +62,7 @@ public class Player {
     //Si il n'y a pas de collisions, on met à jour les coordonnées
     //if (!game.willPlayerCollide() && !game.willPlayerCollideMob()) {
     //  game.willPlayerEatPastille();
+
     x += currentMoveDirection.getX_dir();
     y += currentMoveDirection.getY_dir();
     //}
