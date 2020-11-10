@@ -2,7 +2,6 @@ package model;
 
 import fxengine.Cmd;
 import fxengine.Game;
-import fxengine.GameTimer;
 import model.monster.Monstre;
 import model.player.Direction;
 import model.player.Player;
@@ -114,6 +113,9 @@ public class PacmanGame implements Game {
    */
   public void evolve(Cmd commande) {
     //System.out.println("Execute "+commande);
+
+    System.out.printf("Current timer: %d", this.gameTimer.getCurrentTimer());
+    if (this.gameTimer.isOver()) this.gameState.setState(PacmanGameState.EtatJeu.PERDU);
 
     if (commande != Cmd.IDLE)
       player.setCurrentMoveDirection(Direction.valueOf(commande.name()));

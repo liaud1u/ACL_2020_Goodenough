@@ -39,23 +39,7 @@ public class PacmanGameState {
         this.score = 0;
         this.tempsRestant = SECONDES_AU_DEBUT;
         this.nbPastillesNormalesAvalees = 0;
-
-        //Création et lancement du timer
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
-
-            @Override
-            public void run() {
-                // Compteur ici
-                if (etatJeu == EtatJeu.EN_COURS) {
-                    tempsRestant--;
-                }
-            }
-        };
-
-        timer.schedule(task, 0l, 1l);
     }
-
     /**
      * Getter de l'état actuel du jeu
      *

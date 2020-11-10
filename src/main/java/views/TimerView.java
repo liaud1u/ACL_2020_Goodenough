@@ -1,6 +1,6 @@
 package views;
 
-import fxengine.GameTimer;
+import model.GameTimer;
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 import model.util.SpriteTools;
