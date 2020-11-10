@@ -31,6 +31,8 @@ public class GameLoop extends AnimationTimer {
      */
     private long lastSeconds = 0;
 
+    private Cmd lastCommand = Cmd.IDLE;
+
     /**
      * Boucle principale du jeu
      *
@@ -51,11 +53,16 @@ public class GameLoop extends AnimationTimer {
      */
     public void handle(long now) {
         //Calcul des FPS
+
+        if (lastCommand != controller.getCommand() && controller.getCommand() != Cmd.IDLE) {
+            lastCommand = controller.getCommand();
+        }
+
         if (lastSeconds != now / 1_000_000_000) {
             //System.out.println(frame+ "fps");
             frame = 0;
             lastSeconds = now / 1_000_000_000;
-            game.evolve(controller.getCommand());
+            game.evolve(lastCommand);
         } else {
             frame++;
         }
