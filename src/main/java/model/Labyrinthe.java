@@ -40,7 +40,7 @@ public class Labyrinthe {
         this.leftPastilles = 0;
     }
 
-    public Case[][] getLabyrintheVUE() {
+    public Case[][] getLabyrinthe() {
         return labyrinthe;
     }
 
@@ -140,7 +140,7 @@ public class Labyrinthe {
      * Methodes qui retourne une case de labyrintheFormation
      * @return Case représentant une case présente dans labyrintheFormation
      */
-    public Case getCase(int x, int y) {
+    private Case getCase(int x, int y) {
         try {
             return labyrintheFormation[x][y];
         } catch (ArrayIndexOutOfBoundsException e) {

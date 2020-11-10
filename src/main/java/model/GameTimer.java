@@ -22,7 +22,6 @@ public class GameTimer {
 
   // getters
 
-
   /**
    * @return an integer value, the current time
    * */

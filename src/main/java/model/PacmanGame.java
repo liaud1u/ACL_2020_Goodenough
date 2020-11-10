@@ -114,7 +114,6 @@ public class PacmanGame implements Game {
   public void evolve(Cmd commande) {
     //System.out.println("Execute "+commande);
 
-    System.out.printf("Current timer: %d", this.gameTimer.getCurrentTimer());
     if (this.gameTimer.isOver()) this.gameState.setState(PacmanGameState.EtatJeu.PERDU);
 
     if (commande != Cmd.IDLE)
@@ -143,7 +142,7 @@ public class PacmanGame implements Game {
   }
 
   private void generateEntity(int entities, boolean areTheyMonsters) {
-    Case[][] cases = labyrinthe.getLabyrintheVUE();
+    Case[][] cases = labyrinthe.getLabyrinthe();
     int nbCasesDisponibles = labyrinthe.getNbCasesLibres();
 
     if(nbCasesDisponibles < entities) {
