@@ -1,9 +1,10 @@
 package views;
 
 import javafx.scene.Group;
-import model.Case;
+import javafx.scene.image.Image;
 import model.Labyrinthe;
 import model.util.Util;
+import views.caseview.CaseView;
 
 
 /**
@@ -11,7 +12,9 @@ import model.util.Util;
  */
 public class LabyrintheView extends Group {
 
-    private Labyrinthe labyrinthe;
+    private final Labyrinthe labyrinthe;
+
+    private final Image sprite;
 
     /**
      * Constructeur de la vue
@@ -20,12 +23,13 @@ public class LabyrintheView extends Group {
      */
     public LabyrintheView(Labyrinthe l) {
         this.labyrinthe = l;
-        for (int ligne = 0; ligne < Util.MAZE_SIZE-1; ligne++)
-        {
-            for (int colonne = 0; colonne < Util.MAZE_SIZE-1; colonne++)
-                this.getChildren().add(new CaseView(l.labyrinthe[ligne][colonne]));
-            }
+
+        sprite = new Image("maze.png", Util.slotSizeProperty.get() * 10, Util.slotSizeProperty.get() * 3, false, true);
+        for (int ligne = 0; ligne < Util.MAZE_SIZE - 1; ligne++) {
+            for (int colonne = 0; colonne < Util.MAZE_SIZE - 1; colonne++)
+                this.getChildren().add(new CaseView(sprite, l.getCaseLabyrinthe(ligne, colonne)));
         }
+    }
     }
 
 
