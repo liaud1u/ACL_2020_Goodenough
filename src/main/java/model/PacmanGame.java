@@ -95,6 +95,15 @@ public class PacmanGame implements Game {
 
 		player = new Player(this);
 
+		// FIXME
+		// FIXME : ici on spawn en [1,1] et les coordonnées sont pas set par rapport au labyrinthe
+		// FIXME : dans Player.java, donc comment dire que le joueur est présent sur la case
+		// FIXME : si son spawn est aléatoire :)
+		labyrinthe.getLabyrintheVUE()[1][1].setPossedeEntite(true);
+		// FIXME
+		// FIXME
+		// FIXME
+
 		// TODO : when difficulty implemented, change hardcoded values here
 		this.generatePastilles(5);
 		this.generateMonstres(3);
