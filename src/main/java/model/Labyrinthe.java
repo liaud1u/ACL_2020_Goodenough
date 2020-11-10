@@ -179,6 +179,8 @@ public class Labyrinthe {
             }
         }
 
+        labyrinthe[tailleLigne/2+2][tailleColonne/2+1].setEstUnMur(true);
+
         //Casse des murs pour rendre le labyrinthe parfait
         for (int x = 0; x < tailleLigneFormation; x++) {
             for (int y = 0; y < tailleColonneFormation; y++) {
@@ -205,9 +207,8 @@ public class Labyrinthe {
         //Décalage de 1 pour éviter de taper dans les murs
         for (int x = 1; x < tailleLigne - 1; x++) {
             for (int y = 1; y < tailleColonne - 1; y++) {
-                if ((x != tailleLigne - 1 && y != 1 || x != 1 && y != tailleColonne - 1) && (x != 2 && y != tailleLigne -2 || x != tailleColonne -2 && y != 2)) {
-                    if (labyrinthe[x][y].estUnMur())
-                    {
+                if ((x != tailleLigne - 1 && y != 1 || x != 1 && y != tailleColonne - 1) && (x != 2 && y != tailleLigne - 2 || x != tailleColonne - 2 && y != 2)) {
+                    if (labyrinthe[x][y].estUnMur()) {
                         int nbPourcentInt = 10;
                         int nbAleatoire = rand.nextInt(10);
                         if (nbAleatoire > nbPourcentInt) {
@@ -217,6 +218,53 @@ public class Labyrinthe {
                 }
             }
         }
+
+        //On crée la "boîte pour les monstres"
+
+        //Ligne du milieu
+        labyrinthe[tailleLigne/2][tailleColonne/2].setEstUnMur(false); //case milieu
+        labyrinthe[tailleLigne/2-1][tailleColonne/2].setEstUnMur(false); //case gauche milieu
+        labyrinthe[tailleLigne/2-2][tailleColonne/2].setEstUnMur(true); //case gauche milieu - 1
+        labyrinthe[tailleLigne/2-3][tailleColonne/2].setEstUnMur(false); //case gauche milieu - 2
+        labyrinthe[tailleLigne/2+1][tailleColonne/2].setEstUnMur(false); //case droite milieu
+        labyrinthe[tailleLigne/2+2][tailleColonne/2].setEstUnMur(true); //case droite milieu + 1
+        labyrinthe[tailleLigne/2+3][tailleColonne/2].setEstUnMur(false); //case droite milieu + 2
+
+        //Ligne du milieu - 1
+        labyrinthe[tailleLigne/2][tailleColonne/2-1].setEstUnMur(false); //case milieu
+        labyrinthe[tailleLigne/2-1][tailleColonne/2-1].setEstUnMur(true); //case gauche milieu
+        labyrinthe[tailleLigne/2-2][tailleColonne/2-1].setEstUnMur(true); //case gauche milieu - 1
+        labyrinthe[tailleLigne/2-3][tailleColonne/2-1].setEstUnMur(false); //case gauche milieu - 2
+        labyrinthe[tailleLigne/2+1][tailleColonne/2-1].setEstUnMur(true); //case droite milieu
+        labyrinthe[tailleLigne/2+2][tailleColonne/2-1].setEstUnMur(true); //case droite milieu + 1
+        labyrinthe[tailleLigne/2+3][tailleColonne/2-1].setEstUnMur(false); //case droite milieu + 2
+
+        //Ligne du milieu - 2
+        labyrinthe[tailleLigne/2][tailleColonne/2-2].setEstUnMur(false); //case milieu
+        labyrinthe[tailleLigne/2-1][tailleColonne/2-2].setEstUnMur(false); //case gauche milieu
+        labyrinthe[tailleLigne/2-2][tailleColonne/2-2].setEstUnMur(false); //case gauche milieu - 1
+        labyrinthe[tailleLigne/2-3][tailleColonne/2-2].setEstUnMur(false); //case gauche milieu - 2
+        labyrinthe[tailleLigne/2+1][tailleColonne/2-2].setEstUnMur(false); //case droite milieu
+        labyrinthe[tailleLigne/2+2][tailleColonne/2-2].setEstUnMur(false); //case droite milieu + 1
+        labyrinthe[tailleLigne/2+3][tailleColonne/2-2].setEstUnMur(false); //case droite milieu + 2
+
+        //Ligne du milieu + 1
+        labyrinthe[tailleLigne/2][tailleColonne/2+1].setEstUnMur(true); //case milieu
+        labyrinthe[tailleLigne/2-1][tailleColonne/2+1].setEstUnMur(true); //case gauche milieu
+        labyrinthe[tailleLigne/2-2][tailleColonne/2+1].setEstUnMur(true); //case gauche milieu - 1
+        labyrinthe[tailleLigne/2-3][tailleColonne/2+1].setEstUnMur(false); //case gauche milieu - 2
+        labyrinthe[tailleLigne/2+1][tailleColonne/2+1].setEstUnMur(true); //case droite milieu
+        labyrinthe[tailleLigne/2+2][tailleColonne/2+1].setEstUnMur(true); //case droite milieu + 1
+        labyrinthe[tailleLigne/2+3][tailleColonne/2+1].setEstUnMur(false); //case droite milieu + 2
+
+        //Ligne du milieu + 2
+        labyrinthe[tailleLigne/2][tailleColonne/2+2].setEstUnMur(false); //case milieu
+        labyrinthe[tailleLigne/2-1][tailleColonne/2+2].setEstUnMur(false); //case gauche milieu
+        labyrinthe[tailleLigne/2-2][tailleColonne/2+2].setEstUnMur(false); //case gauche milieu - 1
+        labyrinthe[tailleLigne/2-3][tailleColonne/2+2].setEstUnMur(false); //case gauche milieu - 2
+        labyrinthe[tailleLigne/2+1][tailleColonne/2+2].setEstUnMur(false); //case droite milieu
+        labyrinthe[tailleLigne/2+2][tailleColonne/2+2].setEstUnMur(false); //case droite milieu + 1
+        labyrinthe[tailleLigne/2+3][tailleColonne/2+2].setEstUnMur(false); //case droite milieu + 2
 
 
         //Détermine voisin pour chaque case
