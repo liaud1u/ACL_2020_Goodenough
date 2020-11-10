@@ -55,15 +55,12 @@ public class GameLoop extends AnimationTimer {
             //System.out.println(frame+ "fps");
             frame = 0;
             lastSeconds = now / 1_000_000_000;
+            game.evolve(controller.getCommand());
         } else {
             frame++;
         }
 
-
         painter.draw();
-
-        // On fait évoluer le jeu
-        game.evolve(controller.getCommand());
     }
 
 }

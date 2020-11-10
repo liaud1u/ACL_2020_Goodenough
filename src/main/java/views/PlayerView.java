@@ -34,6 +34,10 @@ public class PlayerView extends Group {
    */
   private int frame;
 
+  private double animX;
+
+  private double animY;
+
   /**
    * Constructeur de la vue
    *
@@ -52,6 +56,12 @@ public class PlayerView extends Group {
 
     view = new ImageView(sprite[0]);
     view.setViewport(new Rectangle2D(0, 0, size, size));
+
+    animX = (int) (Util.slotSizeProperty.get() / 2);
+    animY = (int) (Util.slotSizeProperty.get() / 2);
+
+    animY = 0;
+    animX = 0;
 
     this.init();
   }
@@ -84,9 +94,24 @@ public class PlayerView extends Group {
         break;
     }
 
-    view.setX(player.getX() - rayon);
-    view.setY(player.getY() - rayon);
+    view.setX(player.getX() * Util.slotSizeProperty.get());
+    view.setY(player.getY() * Util.slotSizeProperty.get());
 
+    //System.out.println((player.getX()*Util.slotSizeProperty.get()+animX)+ " "+(player.getY()*Util.slotSizeProperty.get()+animY)+" "+animX+" " +animY);
+
+    /*TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1),view);
+    translateTransition.setFromX(player.getxPrec()*Util.slotSizeProperty.get());
+    translateTransition.setFromY(player.getyPrec()*Util.slotSizeProperty.get());
+    translateTransition.setToX(player.getX()*Util.slotSizeProperty.get());
+    translateTransition.setToY(player.getY()*Util.slotSizeProperty.get());
+
+    translateTransition.play();*/
+
+    //animX+=player.getCurrentMoveDirection().getX_dir();
+    //animY+=player.getCurrentMoveDirection().getY_dir();
+
+    // animX=  (animX%(Util.slotSizeProperty.get()/Util.speedDifficulty));
+    // animY=  (animY%(Util.slotSizeProperty.get()/Util.speedDifficulty));
 
     int size = (int) (Util.slotSizeProperty.intValue() * Util.RATIO_PERSONNAGE);
 

@@ -1,7 +1,6 @@
 package model.player;
 
 import model.PacmanGame;
-import model.util.Util;
 
 /**
  * Classe du joueur
@@ -13,11 +12,12 @@ public class Player {
   private final PacmanGame game;
 
   /**
-   * Coordonnées actuelles du joueur dans la fenêtre
+   * Coordonnées actuelles du joueur dans le labyrinthe
    */
   private double x, y;
 
 
+  private double xPrec, yPrec;
 
   /**
    * Direction courante du joueur
@@ -33,7 +33,7 @@ public class Player {
     this.game = game;
 
     // On récupère la moitié de la taille d'une case comme coordonnées par défaut
-    x = y = Util.slotSizeProperty.add(Util.slotSizeProperty.divide(2)).get();
+    x = y = 1;
   }
 
   /**
@@ -59,12 +59,11 @@ public class Player {
    */
   public void go() {
     //Si il n'y a pas de collisions, on met à jour les coordonnées
-    if (!game.willPlayerCollide() && !game.willPlayerCollideMob()) {
-      game.willPlayerEatPastille();
-
-      x += currentMoveDirection.getX_dir() * Util.speedDifficulty;
-      y += currentMoveDirection.getY_dir() * Util.speedDifficulty;
-    }
+    //if (!game.willPlayerCollide() && !game.willPlayerCollideMob()) {
+    //  game.willPlayerEatPastille();
+    x += currentMoveDirection.getX_dir();
+    y += currentMoveDirection.getY_dir();
+    //}
   }
 
   /**

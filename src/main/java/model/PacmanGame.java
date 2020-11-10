@@ -31,12 +31,12 @@ public class PacmanGame implements Game {
 	/**
 	 * Etat du jeu
 	 */
-	private PacmanGameState gameState;
+	private final PacmanGameState gameState;
 
 	/**
 	 * Timer du jeu
 	 */
-	private GameTimer gameTimer = new GameTimer(Util.timer);
+	private final GameTimer gameTimer = new GameTimer(Util.timer);
 
 	/**
 	 * Joueur principal
@@ -119,18 +119,20 @@ public class PacmanGame implements Game {
 	 */
 	public void evolve(Cmd commande) {
 		//System.out.println("Execute "+commande);
+
 		if (commande != Cmd.IDLE)
 			player.setCurrentMoveDirection(Direction.valueOf(commande.name()));
+
 		player.go();
+		//System.out.println(player.getX()+" "+player.getY());
 
-
-		if(allPastillesEaten()) {
+		if (allPastillesEaten()) {
 			gameState.setState(PacmanGameState.EtatJeu.VICTOIRE);
 			labyrinthe = new Labyrinthe(Util.MAZE_SIZE, Util.MAZE_SIZE);
 			// TODO : when difficulty implemented, change hardcoded values here
 			generatePastilles(5);
 			generateMonstres(3);
-		} else if(willPlayerCollideMob()){
+		} else if (willPlayerCollideMob()) {
 			System.out.println("ATTACKED !");
 			gameState.setState(PacmanGameState.EtatJeu.PERDU);
 		} else {
