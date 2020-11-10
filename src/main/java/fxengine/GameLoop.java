@@ -1,12 +1,13 @@
 package fxengine;
 
 import javafx.animation.AnimationTimer;
+import model.util.Util;
 
 /**
  * Boucle principale du jeu
  */
 public class GameLoop extends AnimationTimer {
-  private final long FRAMERATE = 250_000_000L;
+  private final long FRAMERATE = 1_000_000_000 / Util.speedDifficulty;
 
   /**
      * Vue du jeu

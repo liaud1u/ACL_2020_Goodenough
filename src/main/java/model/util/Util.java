@@ -21,7 +21,7 @@ public abstract class Util {
   public static DoubleProperty wallSizeProperty = new SimpleDoubleProperty(); //Taille d'un mur
 
 
-  public static double speedDifficulty = 3.;  //Vitesse du personnage
+  public static int speedDifficulty = 3;  //Vitesse du personnage
   public static int SCORE_SIZE = 8; //Nombre de chiffre dans le score
   public static int timer = 10; // timer (seconds)
   public static int maxTimerSize = 3;
