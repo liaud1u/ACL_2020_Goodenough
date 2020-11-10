@@ -14,10 +14,10 @@ public class Player {
   /**
    * Coordonnées actuelles du joueur dans le labyrinthe
    */
-  private double x, y;
+  private int x, y;
 
 
-  private double xPrec, yPrec;
+  private int xPrec, yPrec;
 
   /**
    * Direction courante du joueur
@@ -55,25 +55,32 @@ public class Player {
     this.currentMoveDirection = currentMoveDirection;
   }
 
+  private boolean isStuck = false;
+  public boolean isStuck() { return this.isStuck; }
+
   /**
-   * Fait évoluer le joueur sur le terrai
+   * Fait évoluer le joueur sur le terrain
    */
   public void go() {
     //Si il n'y a pas de collisions, on met à jour les coordonnées
-    //if (!game.willPlayerCollide() && !game.willPlayerCollideMob()) {
-    //  game.willPlayerEatPastille();
-    xPrec = x;
-    yPrec = y;
-    x += currentMoveDirection.getX_dir();
-    y += currentMoveDirection.getY_dir();
-    //}
+
+    if (!game.willPlayerCollide() && !game.willPlayerCollideMob()) {
+      game.willPlayerEatPastille();
+      xPrec = x;
+      yPrec = y;
+      x += currentMoveDirection.getX_dir();
+      y += currentMoveDirection.getY_dir();
+      this.isStuck = false;
+    } else {
+      this.isStuck = true;
+    }
   }
 
-  public double getxPrec() {
+  public int getxPrec() {
     return xPrec;
   }
 
-  public double getyPrec() {
+  public int getyPrec() {
     return yPrec;
   }
 
@@ -82,7 +89,7 @@ public class Player {
    *
    * @return double coordonnée x
    */
-  public double getX() {
+  public int getX() {
     return x;
   }
 
@@ -91,7 +98,7 @@ public class Player {
    *
    * @return double coordonnée y du joueur
    */
-  public double getY() {
+  public int getY() {
     return y;
   }
 }

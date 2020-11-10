@@ -74,44 +74,47 @@ public class PlayerView extends Group {
    * Dessin de la vue
    */
   public void draw(double ratio) {
-    switch (player.getCurrentMoveDirection()){
-      case DOWN:
-        view.setImage(sprite[0]);
-        break;
-      case UP:
-        view.setImage(sprite[1]);
-        break;
-      case LEFT:
-        view.setImage(sprite[2]);
-        break;
-      case RIGHT:
-        view.setImage(sprite[3]);
-        break;
+
+      switch (player.getCurrentMoveDirection()){
+        case DOWN:
+          view.setImage(sprite[0]);
+          break;
+        case UP:
+          view.setImage(sprite[1]);
+          break;
+        case LEFT:
+          view.setImage(sprite[2]);
+          break;
+        case RIGHT:
+          view.setImage(sprite[3]);
+          break;
+      }
+
+      if (! this.player.isStuck()) {
+        view.setX(Util.slotSizeProperty.get() * (player.getxPrec() + ratio * this.player.getCurrentMoveDirection().getX_dir()));
+        view.setY(Util.slotSizeProperty.get() * (player.getyPrec() + ratio * this.player.getCurrentMoveDirection().getY_dir()));
+      }
+
+      int size = (int) (Util.slotSizeProperty.intValue() * Util.RATIO_PERSONNAGE);
+
+      frame = (frame + 1) % 20;
+
+      int printedFrame = frame / 5;
+
+      // Les image ne sont pas dans l'ordre dans la ressource, on remet les binds aux bonnes frames
+      switch (printedFrame) {
+        case 0:
+          printedFrame = 2;
+          break;
+        case 1:
+        case 3:
+          printedFrame = 0;
+          break;
+        case 2:
+          printedFrame = 1;
+          break;
+      }
+
+      view.setViewport(new Rectangle2D(printedFrame * size,0,size,size));
     }
-
-    view.setX(Util.slotSizeProperty.get() * (player.getxPrec() + ratio * this.player.getCurrentMoveDirection().getX_dir()));
-    view.setY(Util.slotSizeProperty.get() * (player.getyPrec() + ratio * this.player.getCurrentMoveDirection().getY_dir()));
-
-    int size = (int) (Util.slotSizeProperty.intValue() * Util.RATIO_PERSONNAGE);
-
-    frame = (frame + 1) % 20;
-
-    int printedFrame = frame / 5;
-
-    // Les image ne sont pas dans l'ordre dans la ressource, on remet les binds aux bonnes frames
-    switch (printedFrame) {
-      case 0:
-        printedFrame = 2;
-        break;
-      case 1:
-      case 3:
-        printedFrame = 0;
-        break;
-      case 2:
-        printedFrame = 1;
-        break;
-    }
-
-    view.setViewport(new Rectangle2D(printedFrame * size,0,size,size));
-  }
 }

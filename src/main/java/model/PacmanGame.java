@@ -23,7 +23,6 @@ import java.util.List;
  */
 public class PacmanGame implements Game {
 
-
   public PacmanGameState getGameState() {
     return gameState;
   }
@@ -95,14 +94,7 @@ public class PacmanGame implements Game {
 
     player = new Player(this);
 
-    // FIXME
-    // FIXME : ici on spawn en [1,1] et les coordonnées sont pas set par rapport au labyrinthe
-    // FIXME : dans Player.java, donc comment dire que le joueur est présent sur la case
-    // FIXME : si son spawn est aléatoire :)
 //    labyrinthe.getLabyrintheVUE()[1][1].setPossedeEntite(true);
-    // FIXME
-    // FIXME
-    // FIXME
 
     this.monstres = new ArrayList<>();
     this.pastilles = new ArrayList<>();
@@ -129,23 +121,23 @@ public class PacmanGame implements Game {
     player.go();
     //System.out.println(player.getX()+" "+player.getY());
 
-    if (allPastillesEaten()) {
-      gameState.setState(PacmanGameState.EtatJeu.VICTOIRE);
-      labyrinthe = new Labyrinthe(Util.MAZE_SIZE, Util.MAZE_SIZE);
-
-      // reset the lists
-      this.monstres = new ArrayList<>();
-      this.pastilles = new ArrayList<>();
-
-      // TODO : when difficulty implemented, change hardcoded values here
-      this.generateEntity(5, false);
-      this.generateEntity(3, true);
-    } else if (willPlayerCollideMob()) {
-      System.out.println("ATTACKED !");
-      gameState.setState(PacmanGameState.EtatJeu.PERDU);
-    } else {
-      gameState.setState(PacmanGameState.EtatJeu.EN_COURS);
-    }
+//    if (allPastillesEaten()) {
+//      gameState.setState(PacmanGameState.EtatJeu.VICTOIRE);
+//      labyrinthe = new Labyrinthe(Util.MAZE_SIZE, Util.MAZE_SIZE);
+//
+//      // reset the lists
+//      this.monstres = new ArrayList<>();
+//      this.pastilles = new ArrayList<>();
+//
+//      // TODO : when difficulty implemented, change hardcoded values here
+//      this.generateEntity(5, false);
+//      this.generateEntity(3, true);
+//    } else if (willPlayerCollideMob()) {
+//      System.out.println("ATTACKED !");
+//      gameState.setState(PacmanGameState.EtatJeu.PERDU);
+//    } else {
+//      gameState.setState(PacmanGameState.EtatJeu.EN_COURS);
+//    }
   }
 
   private void generateEntity(int entities, boolean areTheyMonsters) {
@@ -193,9 +185,13 @@ public class PacmanGame implements Game {
   /**
    * verifier si le jeu est fini
    */
-  public boolean isFinished() {
+  public boolean isGameOver() {
     // le jeu n'est jamais fini
-    return false;
+    return this.gameState.isGameOver();
+  }
+
+  public void setGameOver() {
+    this.gameState.setState(PacmanGameState.EtatJeu.PERDU);
   }
 
   /**
@@ -234,18 +230,10 @@ public class PacmanGame implements Game {
    * Détermine si le joueur va entrer en collision avec un monstre
    */
   public boolean willPlayerCollideMob() {
-    double x, y;
-    x = player.getX();
-    y = player.getY();
-    x += player.getCurrentMoveDirection().getX_dir();
-    y += player.getCurrentMoveDirection().getY_dir();
-    for(Monstre m : monstres) {
-      if ((x <= m.getPosX() + Util.slotSizeProperty.get() / 2 && x > m.getPosX() - Util.slotSizeProperty.get() /2) &&
-        (y <= m.getPosY() + Util.slotSizeProperty.get() / 2 && y > m.getPosY() - Util.slotSizeProperty.get() / 2))
-        return true;
+    int x = this.player.getX() + player.getCurrentMoveDirection().getX_dir();
+    int y = this.player.getY() + player.getCurrentMoveDirection().getY_dir();
 
-    }
-    return false;
+    return this.labyrinthe.getCaseLabyrinthe(x, y).hasMonster();
   }
 
 
@@ -279,18 +267,10 @@ public class PacmanGame implements Game {
   }
 
   public boolean willPlayerCollide() {
-    double x, y;
+    int x = this.player.getX() + player.getCurrentMoveDirection().getX_dir();
+    int y = this.player.getY() + player.getCurrentMoveDirection().getY_dir();
 
-    x = player.getX();
-    y = player.getY();
-
-    x += player.getCurrentMoveDirection().getX_dir();
-    y += player.getCurrentMoveDirection().getY_dir();
-
-    return this.willPlayerCollideWall(
-      (int)(x / Util.slotSizeProperty.get()),
-      (int) (y / Util.slotSizeProperty.get())
-    );
+    return this.willPlayerCollideWall(x, y);
   }
 
   /**
@@ -298,7 +278,7 @@ public class PacmanGame implements Game {
    * @param posY (:int), the y position to check
    * */
   private boolean willPlayerCollideWall(int posX, int posY) {
-    return this.labyrinthe.getLabyrintheVUE()[posX][posY].estUnMur();
+    return this.labyrinthe.getCaseLabyrinthe(posX, posY).estUnMur();
   }
 
   /**

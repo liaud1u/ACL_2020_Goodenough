@@ -72,6 +72,6 @@ public class GameLoop extends AnimationTimer {
 
       final double ratio =  ((now % this.FRAMERATE) * 1.) / this.FRAMERATE;
 
-      painter.draw(ratio);
+      if (! this.game.isGameOver()) painter.draw(ratio);
     }
 }
