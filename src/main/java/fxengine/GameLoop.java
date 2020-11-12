@@ -60,7 +60,6 @@ public class GameLoop extends AnimationTimer {
         if (lastCommand != controller.getCommand() && controller.getCommand() != Cmd.IDLE) {
             lastCommand = controller.getCommand();
         }
-
         if (lastSeconds != now / this.FRAMERATE) {
             //System.out.println(frame+ "fps");
             frame = 0;
@@ -72,6 +71,6 @@ public class GameLoop extends AnimationTimer {
 
       final double ratio =  ((now % this.FRAMERATE) * 1.) / this.FRAMERATE;
 
-      if (! this.game.isGameOver()) painter.draw(ratio);
+       painter.draw(ratio);
     }
 }

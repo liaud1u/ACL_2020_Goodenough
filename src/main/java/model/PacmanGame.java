@@ -84,25 +84,10 @@ public class PacmanGame implements Game {
     } catch (IOException e) {
       System.out.println("Help not available");
     }
-
+    this.changeLevel(); // Generate the maze, the coins and the monsters
     this.gameState  = new PacmanGameState();
-
-    //changed = false;
-
-    labyrinthe = new Labyrinthe(Util.MAZE_SIZE, Util.MAZE_SIZE);
-
-    player = new Player(this);
-
-//    labyrinthe.getLabyrintheVUE()[1][1].setPossedeEntite(true);
-
-    this.monstres = new ArrayList<>();
-    this.pastilles = new ArrayList<>();
-    // TODO : when difficulty implemented, change hardcoded values here
-
-    this.generateEntity(5, false);
-    this.generateEntity(3, true);
-
-    score = 0;
+    this.player = new Player(this);
+    this.score = 0;
     this.gameTimer.play();
   }
 
@@ -120,25 +105,39 @@ public class PacmanGame implements Game {
       player.setCurrentMoveDirection(Direction.valueOf(commande.name()));
 
     player.go();
-    //System.out.println(player.getX()+" "+player.getY());
+    if (allPastillesEaten()) {
+      this.changeLevel();
+      gameState.setState(PacmanGameState.EtatJeu.VICTOIRE);
+    } else if (willPlayerCollideMob() || gameTimer.isOver()) {
+      this.changeLevel();
+      gameTimer.reset();
+      gameState.setState(PacmanGameState.EtatJeu.PERDU);
+    } else {
+      gameState.setState(PacmanGameState.EtatJeu.EN_COURS);
+    }
+  }
 
-//    if (allPastillesEaten()) {
-//      gameState.setState(PacmanGameState.EtatJeu.VICTOIRE);
-//      labyrinthe = new Labyrinthe(Util.MAZE_SIZE, Util.MAZE_SIZE);
-//
-//      // reset the lists
-//      this.monstres = new ArrayList<>();
-//      this.pastilles = new ArrayList<>();
-//
-//      // TODO : when difficulty implemented, change hardcoded values here
-//      this.generateEntity(5, false);
-//      this.generateEntity(3, true);
-//    } else if (willPlayerCollideMob()) {
-//      System.out.println("ATTACKED !");
-//      gameState.setState(PacmanGameState.EtatJeu.PERDU);
-//    } else {
-//      gameState.setState(PacmanGameState.EtatJeu.EN_COURS);
-//    }
+
+
+  public void pauseTimer() {
+    gameTimer.pause();
+  }
+
+  public void restartTimer() {
+    gameTimer.play();
+  }
+  public void resetTimer() {
+    gameTimer.reset();
+  }
+  public void resetScore() {
+    score = 0;
+  }
+  private void changeLevel() {
+    labyrinthe = new Labyrinthe(Util.MAZE_SIZE, Util.MAZE_SIZE);
+    this.monstres = new ArrayList<>();
+    this.pastilles = new ArrayList<>();
+    this.generateEntity(3, false);
+    this.generateEntity(3, true);
   }
 
   private void generateEntity(int entities, boolean areTheyMonsters) {
@@ -159,7 +158,9 @@ public class PacmanGame implements Game {
           monstres.add(new Monstre(this,x,y));
         }
         else {
-          cases[x][y].setPastille(new ScorePastille(x, y));
+          Pastille p = new ScorePastille(x, y);
+          cases[x][y].setPastille(p);
+          this.pastilles.add(p);
           this.labyrinthe.addPastille();
         }
 
@@ -188,11 +189,23 @@ public class PacmanGame implements Game {
    */
   public boolean isGameOver() {
     // le jeu n'est jamais fini
-    return this.gameState.isGameOver();
+    return false;
   }
 
-  public void setGameOver() {
-    this.gameState.setState(PacmanGameState.EtatJeu.PERDU);
+  /**
+   * Méthode retournant vrai si le joueur a gagné le niveau actuel
+   * @return booleen representant la victoire
+   */
+  public boolean isWon() {
+    return gameState.getState() == PacmanGameState.EtatJeu.VICTOIRE;
+  }
+
+  /**
+   * Méthode retournant vrai si le joueur a perdu le niveau actuel
+   * @return booleen representant la defaite
+   */
+  public boolean isLost() {
+    return gameState.getState() == PacmanGameState.EtatJeu.PERDU;
   }
 
   /**
@@ -244,9 +257,10 @@ public class PacmanGame implements Game {
     final Case currentCase = this.labyrinthe.getCaseLabyrinthe(this.player.getX(), this.player.getY());
 
     if (currentCase.hasPastille()) {
-      score += currentCase.getPastille().getValue();
+      Pastille p = currentCase.getPastille();
+      p.setRamassee(true);
+      score += p.getValue();
       currentCase.destroyPastille();
-
       this.labyrinthe.removePastille();
     }
   }
