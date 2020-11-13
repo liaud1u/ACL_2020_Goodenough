@@ -141,6 +141,7 @@ public class PacmanGame implements Game {
       m.destroy();
 
     this.monstres = new ArrayList<>();
+
     this.generateEntity(3, false);
     this.generateEntity(3, true);
   }
@@ -227,14 +228,6 @@ public class PacmanGame implements Game {
     return labyrinthe;
   }
 
-  /**
-   * Tableau de pastille du jeu
-   *
-   * @return Tableau de pastille
-   */
-  public List<Pastille> getPastille() {
-    return pastilles;
-  }
 
 
 
