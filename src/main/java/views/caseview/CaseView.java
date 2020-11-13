@@ -5,7 +5,6 @@ import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import model.Case;
-import model.Pastille;
 import model.util.Util;
 import views.PastilleView;
 
@@ -24,55 +23,55 @@ public class CaseView extends Group {
 
     if (c.estUnMur()) {
       ImageView texture = new ImageView(sprite);
-      Rectangle2D view = CaseImageView.REVERSE_SQUARE.getView();
+      Rectangle2D view = CaseImageTiles.REVERSE_SQUARE.getView();
 
       if (!c.voisinDroite() && !c.voisinGauche() && !c.voisinDessous() && !c.voisinDessus())
-        view = CaseImageView.REVERSE_SQUARE.getView();
+        view = CaseImageTiles.REVERSE_SQUARE.getView();
 
       if (!c.voisinDroite() && !c.voisinGauche() && !c.voisinDessous() && c.voisinDessus())
-        view = CaseImageView.UP.getView();
+        view = CaseImageTiles.UP.getView();
 
       if (!c.voisinDroite() && !c.voisinGauche() && c.voisinDessous() && !c.voisinDessus())
-        view = CaseImageView.DOWN.getView();
+        view = CaseImageTiles.DOWN.getView();
 
       if (!c.voisinDroite() && c.voisinGauche() && !c.voisinDessous() && !c.voisinDessus())
-        view = CaseImageView.LEFT.getView();
+        view = CaseImageTiles.LEFT.getView();
 
       if (c.voisinDroite() && !c.voisinGauche() && !c.voisinDessous() && !c.voisinDessus())
-        view = CaseImageView.RIGHT.getView();
+        view = CaseImageTiles.RIGHT.getView();
 
       if (c.voisinDroite() && c.voisinGauche() && !c.voisinDessous() && !c.voisinDessus())
-        view = CaseImageView.RIGHT_LEFT.getView();
+        view = CaseImageTiles.RIGHT_LEFT.getView();
 
       if (!c.voisinDroite() && !c.voisinGauche() && c.voisinDessous() && c.voisinDessus())
-        view = CaseImageView.UP_DOWN.getView();
+        view = CaseImageTiles.UP_DOWN.getView();
 
       if (c.voisinDroite() && !c.voisinGauche() && c.voisinDessous() && !c.voisinDessus())
-        view = CaseImageView.RIGHT_DOWN_CORNER.getView();
+        view = CaseImageTiles.RIGHT_DOWN_CORNER.getView();
 
       if (c.voisinDroite() && !c.voisinGauche() && !c.voisinDessous() && c.voisinDessus())
-        view = CaseImageView.RIGHT_UP_CORNER.getView();
+        view = CaseImageTiles.RIGHT_UP_CORNER.getView();
 
       if (!c.voisinDroite() && c.voisinGauche() && c.voisinDessous() && !c.voisinDessus())
-        view = CaseImageView.LEFT_DOWN_CORNER.getView();
+        view = CaseImageTiles.LEFT_DOWN_CORNER.getView();
 
       if (!c.voisinDroite() && c.voisinGauche() && !c.voisinDessous() && c.voisinDessus())
-        view = CaseImageView.LEFT_UP_CORNER.getView();
+        view = CaseImageTiles.LEFT_UP_CORNER.getView();
 
       if (c.voisinDroite() && c.voisinGauche() && c.voisinDessous() && c.voisinDessus())
-        view = CaseImageView.SQUARE.getView();
+        view = CaseImageTiles.SQUARE.getView();
 
       if (c.voisinDroite() && !c.voisinGauche() && c.voisinDessous() && c.voisinDessus())
-        view = CaseImageView.RIGHT_DOWN_UP_T.getView();
+        view = CaseImageTiles.RIGHT_DOWN_UP_T.getView();
 
       if (c.voisinDroite() && c.voisinGauche() && !c.voisinDessous() && c.voisinDessus())
-        view = CaseImageView.UP_LEFT_RIGHT_T.getView();
+        view = CaseImageTiles.UP_LEFT_RIGHT_T.getView();
 
       if (!c.voisinDroite() && c.voisinGauche() && c.voisinDessous() && c.voisinDessus())
-        view = CaseImageView.LEFT_DOWN_UP_T.getView();
+        view = CaseImageTiles.LEFT_DOWN_UP_T.getView();
 
       if (c.voisinDroite() && c.voisinGauche() && c.voisinDessous() && !c.voisinDessus())
-        view = CaseImageView.DOWN_LEFT_RIGHT_T.getView();
+        view = CaseImageTiles.DOWN_LEFT_RIGHT_T.getView();
 
 
       texture.setViewport(view);

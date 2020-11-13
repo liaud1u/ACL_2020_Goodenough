@@ -15,13 +15,13 @@ public class MonstreView extends Group {
 
 
     private final double animX;
-
+    private final Rectangle2D[] frames;
     private final double animY;
 
     public MonstreView(Monstre monstre) {
         this.monstre = monstre;
         int size = (int) (Util.slotSizeProperty.intValue() * Util.RATIO_MONSTRE);
-        sprite = new Image("monsters/temp_monster.png", size, size, true, false);
+        sprite = new Image("monsters/red_ghost.png", size * 8, size, true, false);
         view = new ImageView(sprite);
 
         view.setViewport(new Rectangle2D(0, 0, size, size));
@@ -30,6 +30,12 @@ public class MonstreView extends Group {
 
         animX = (int) (Util.slotSizeProperty.get() / 2);
         animY = (int) (Util.slotSizeProperty.get() / 2);
+
+        frames = new Rectangle2D[8];
+        for (int i = 0; i < 8; i++)
+            frames[i] = new Rectangle2D(size * i, 0, size, size);
+
+
     }
 
     /**
@@ -48,5 +54,19 @@ public class MonstreView extends Group {
         view.setX(Util.slotSizeProperty.get() * (monstre.getxPrec() + ratio * this.monstre.getMovementStrategy().getDirection().getX_dir()));
         view.setY(Util.slotSizeProperty.get() * (monstre.getyPrec() + ratio * this.monstre.getMovementStrategy().getDirection().getY_dir()));
 
+        switch (monstre.getMovementStrategy().getDirection()) {
+            case DOWN:
+                view.setViewport(frames[2]);
+                break;
+            case UP:
+                view.setViewport(frames[0]);
+                break;
+            case LEFT:
+                view.setViewport(frames[4]);
+                break;
+            case RIGHT:
+                view.setViewport(frames[6]);
+                break;
+        }
     }
 }
