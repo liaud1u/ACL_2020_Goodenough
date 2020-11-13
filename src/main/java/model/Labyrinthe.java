@@ -12,6 +12,8 @@ import java.util.Set;
  * @author adrien & florian
  */
 public class Labyrinthe {
+
+
     private int leftPastilles;
 
     //Labyrinthe permettant la création du labyrinthe parfait
@@ -315,6 +317,14 @@ public class Labyrinthe {
         determineVoisins();
 
     }
+
+    /**
+     * nombre de pastilles restantes
+     */
+    public int getLeftPastilles() {
+        return leftPastilles;
+    }
+
 
     public void destructionImpasse()
     {
