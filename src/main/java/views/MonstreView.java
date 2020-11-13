@@ -26,7 +26,24 @@ public class MonstreView extends Group {
     public MonstreView(Monstre monstre) {
         this.monstre = monstre;
         int size = (int) (Util.slotSizeProperty.intValue() * Util.RATIO_MONSTRE);
-        sprite = new Image("monsters/red_ghost.png", size * 8, size, true, false);
+
+        switch (monstre.getType()) {
+            case RED:
+                sprite = new Image("monsters/red_ghost.png", size * 8, size, true, false);
+                break;
+            case BLUE:
+                sprite = new Image("monsters/blue_ghost.png", size * 8, size, true, false);
+                break;
+            case ORANGE:
+                sprite = new Image("monsters/orange_ghost.png", size * 8, size, true, false);
+                break;
+            case PINK:
+                sprite = new Image("monsters/pink_ghost.png", size * 8, size, true, false);
+                break;
+            default:
+                sprite = new Image("monsters/red_ghost.png", size * 8, size, true, false);
+                break;
+        }
         view = new ImageView(sprite);
 
         currentFrame = 0;

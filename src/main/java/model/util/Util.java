@@ -9,7 +9,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 public abstract class Util {
   // ELEMENTS SIZE
 
-  public static final int MAZE_SIZE = 19; //Taille du labyrinthe (cases)
+  public static final int MAZE_SIZE = 15; //Taille du labyrinthe (cases)
 
   //RATIOS
   public static double RATIO_PERSONNAGE = 1.;  //Ratio de la taille du personnage par rapport à la taille d'une case
@@ -22,7 +22,7 @@ public abstract class Util {
   public static DoubleProperty wallSizeProperty = new SimpleDoubleProperty(); //Taille d'un mur
 
 
-  public static int speedDifficulty = 3;  //Vitesse du personnage
+  public static int speedDifficulty = 1;  //Vitesse du personnage
   public static int SCORE_SIZE = 8; //Nombre de chiffre dans le score
   public static int timer = 10; // timer (seconds)
   public static int maxTimerSize = 3;

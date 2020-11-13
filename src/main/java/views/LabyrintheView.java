@@ -24,7 +24,7 @@ public class LabyrintheView extends Group {
     public LabyrintheView(Labyrinthe l) {
         this.labyrinthe = l;
 
-        sprite = new Image("maze.png", Util.slotSizeProperty.get() * 10, Util.slotSizeProperty.get() * 3, false, true);
+         sprite = new Image("maze.png", Util.slotSizeProperty.get() * 10, Util.slotSizeProperty.get() * 3, false, true);
         for (int ligne = 0; ligne < Util.MAZE_SIZE; ligne++) {
             for (int colonne = 0; colonne < Util.MAZE_SIZE; colonne++)
                 this.getChildren().add(new CaseView(sprite, l.getCaseLabyrinthe(ligne, colonne)));

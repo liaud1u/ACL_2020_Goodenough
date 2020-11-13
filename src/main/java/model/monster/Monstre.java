@@ -17,18 +17,25 @@ public class Monstre {
     private int x;
     private int y;
 
+    private final GhostType type;
 
     private int xPrec, yPrec;
 
-    public Monstre(PacmanGame game, int x, int y) {
+    public Monstre(PacmanGame game, int x, int y, GhostType type) {
         this.game = game;
         this.x = x;
         this.y = y;
         this.movementStrategy = new RandomMovementStrategy(this, game);
+        this.type = type;
     }
 
     public int getX() {
         return x;
+    }
+
+
+    public GhostType getType() {
+        return type;
     }
 
     public void setX(int x) {
