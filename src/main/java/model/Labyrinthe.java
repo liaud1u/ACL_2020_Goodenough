@@ -28,8 +28,8 @@ public class Labyrinthe {
 
     public Labyrinthe(int tailleL, int tailleC) {
 
-        this.tailleLigneFormation = tailleL/2 - 1;
-        this.tailleColonneFormation = tailleC/2 - 1;
+        this.tailleLigneFormation = tailleL/2;
+        this.tailleColonneFormation = tailleC/2;
 
         this.tailleLigne = tailleLigneFormation * 2 + 1;
         this.tailleColonne = tailleColonneFormation * 2 + 1;
@@ -203,21 +203,8 @@ public class Labyrinthe {
         }
 
 
-        //On détruit des murs au hasard pour créer des cycles
-        //Décalage de 1 pour éviter de taper dans les murs
-        for (int x = 1; x < tailleLigne - 1; x++) {
-            for (int y = 1; y < tailleColonne - 1; y++) {
-                if ((x != tailleLigne - 1 && y != 1 || x != 1 && y != tailleColonne - 1) && (x != 2 && y != tailleLigne - 2 || x != tailleColonne - 2 && y != 2)) {
-                    if (labyrinthe[x][y].estUnMur()) {
-                        int nbPourcentInt = 10;
-                        int nbAleatoire = rand.nextInt(10);
-                        if (nbAleatoire > nbPourcentInt) {
-                            labyrinthe[x][y].setEstUnMur(false);
-                        }
-                    }
-                }
-            }
-        }
+        determineVoisins();
+        destructionImpasse();
 
         //On crée la "boîte pour les monstres"
 
@@ -266,11 +253,66 @@ public class Labyrinthe {
         labyrinthe[tailleLigne/2+2][tailleColonne/2+2].setEstUnMur(false); //case droite milieu + 1
         labyrinthe[tailleLigne/2+3][tailleColonne/2+2].setEstUnMur(false); //case droite milieu + 2
 
+        //On fait des ouvertures sur certains murs
 
-        //Détermine voisin pour chaque case
-        for (int ligne = 0; ligne < Util.MAZE_SIZE - 1; ligne++)
+        //Mur de dessus et dessous
+        for (int x = 1;x < tailleLigne; x++)
         {
-            for (int colonne = 0; colonne < Util.MAZE_SIZE - 1; colonne++) {
+            if (!labyrinthe[x][1].estUnMur() && !labyrinthe[x][tailleColonne-2].estUnMur())
+            {
+                int nbPourcentInt = 8;
+                int nbAleatoire = rand.nextInt(10);
+                if (nbAleatoire > nbPourcentInt) {
+                    labyrinthe[x][0].setEstUnMur(false);
+                    labyrinthe[x][tailleColonne-1].setEstUnMur(false);
+                }
+            }
+        }
+
+        //Mur de gauche et droite
+        for (int y = 1;y < tailleLigne; y++)
+        {
+            if (!labyrinthe[1][y].estUnMur() && !labyrinthe[tailleLigne-2][y].estUnMur())
+            {
+                int nbPourcentInt = 8;
+                int nbAleatoire = rand.nextInt(10);
+                if (nbAleatoire > nbPourcentInt) {
+                    labyrinthe[0][y].setEstUnMur(false);
+                    labyrinthe[tailleLigne-1][y].setEstUnMur(false);
+                }
+            }
+        }
+
+        determineVoisins();
+
+    }
+
+    public void destructionImpasse()
+    {
+        //On détruit des murs pour enlever les impasses
+        //Décalage de 2 pour éviter de taper dans les murs
+        for (int x = 1; x < tailleLigne - 1; x++) {
+            for (int y = 1; y < tailleColonne - 1; y++) {
+                if ((x != tailleLigne - 1 && y != 1 || x != 1 && y != tailleColonne - 1) && (x != 2 && y != tailleLigne - 2 || x != tailleColonne - 2 && y != 2)) {
+                    if (!labyrinthe[x][y].estUnMur() && getCaseLabyrinthe(x,y).getVoisins().size() == 3)
+                    {
+                        if (x != tailleLigne - 2)
+                            labyrinthe[x+1][y].setEstUnMur(false);
+                        if (y != tailleColonne-2)
+                            labyrinthe[x][y+1].setEstUnMur(false);
+
+                    }
+                }
+            }
+        }
+    }
+
+    public void determineVoisins()
+    {
+        //Détermine voisin pour chaque case
+        for (int ligne = 0; ligne < tailleLigne; ligne++)
+        {
+            for (int colonne = 0; colonne < tailleColonne; colonne++) {
 
                 Case caseCourante = getCaseLabyrinthe(ligne,colonne);
                 Case[] voisinsPotentiel = new Case[]{
@@ -292,6 +334,7 @@ public class Labyrinthe {
             }
         }
     }
+
 
 }
 

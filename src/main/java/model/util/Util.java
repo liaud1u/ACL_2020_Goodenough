@@ -8,7 +8,7 @@ import javafx.beans.property.SimpleDoubleProperty;
  */
 public abstract class Util {
   // ELEMENTS SIZE
-  public static final int MAZE_SIZE = 20; //Taille du labyrinthe (cases)
+  public static final int MAZE_SIZE = 19; //Taille du labyrinthe (cases)
 
   //RATIOS
   public static double RATIO_PERSONNAGE = 1.;  //Ratio de la taille du personnage par rapport à la taille d'une case
