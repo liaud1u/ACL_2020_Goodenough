@@ -254,10 +254,12 @@ public class PacmanGame implements Game {
    * Détermine si le joueur va entrer en collision avec un monstre
    */
   public boolean willPlayerCollideMob() {
-    int x = this.player.getX() + player.getCurrentMoveDirection().getX_dir();
-    int y = this.player.getY() + player.getCurrentMoveDirection().getY_dir();
+    int ongoingX = this.player.getX() + player.getCurrentMoveDirection().getX_dir();
+    int ongoingY = this.player.getY() + player.getCurrentMoveDirection().getY_dir();
 
-    return this.labyrinthe.getCaseLabyrinthe(x, y).hasMonster();
+    return
+      this.labyrinthe.getCaseLabyrinthe(this.player.getX(), this.player.getY()).hasMonster() ||
+      this.labyrinthe.getCaseLabyrinthe(ongoingX, ongoingY).hasMonster();
   }
 
   /**
