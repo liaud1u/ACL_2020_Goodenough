@@ -21,7 +21,7 @@ public class MonstreView extends Group {
 
         view.setViewport(new Rectangle2D(0,0,size,size));
         view.setX(monstre.getX() * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2 - size/2);
-        view.setY(monstre.getY()* Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2 - size/2);
+        view.setY(monstre.getY() * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2 - size / 2);
         this.init();
     }
 
@@ -30,5 +30,11 @@ public class MonstreView extends Group {
      */
     private void init() {
         this.getChildren().add(view);
+    }
+
+    public void draw() {
+        int size = (int) (Util.slotSizeProperty.intValue() * Util.RATIO_MONSTRE);
+        view.setX(monstre.getX() * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2 - size / 2);
+        view.setY(monstre.getY() * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2 - size / 2);
     }
 }

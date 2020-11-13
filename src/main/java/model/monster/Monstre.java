@@ -1,7 +1,8 @@
 package model.monster;
 
 import model.PacmanGame;
-import model.util.Util;
+import model.monster.movementstrategy.MovementStrategy;
+import model.monster.movementstrategy.RandomMovementStrategy;
 
 public class Monstre {
     /**
@@ -9,49 +10,39 @@ public class Monstre {
      */
     private final PacmanGame game;
 
+    private final MovementStrategy movementStrategy;
     /**
-     * Coordonnées actuelles du monstre dans la fenêtre
+     * Coordonnées actuelles du monstre dans le labyrinthe
      */
-    private double x;
+    private int x;
+    private int y;
 
-    public double getX() {
-        return x;
-    }
-
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public void setY(double y) {
-        this.y = y;
-    }
-
-    private double y;
-
-    public Monstre(PacmanGame game, double x, double y) {
+    public Monstre(PacmanGame game, int x, int y) {
         this.game = game;
         this.x = x;
         this.y = y;
+        this.movementStrategy = new RandomMovementStrategy(this, game);
     }
 
-    /**
-     * Renvoie la coordonnée X du monstre pour la gestion du dessin et des collisions
-     * @return double x
-     */
-    public double getPosX() {
-        return (x * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2);
+    public int getX() {
+        return x;
     }
 
-    /**
-     * Renvoie la coordonnée Y du monstre pour la gestion du dessin et des collisions
-     * @return double y
-     */
-    public double getPosY() {
-        return (y * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2);
+    public void setX(int x) {
+        this.x = x;
     }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void actionMovement() {
+        movementStrategy.move();
+    }
+
 
 }

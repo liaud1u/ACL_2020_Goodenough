@@ -114,6 +114,10 @@ public class PacmanGame implements Game {
       gameState.setState(PacmanGameState.EtatJeu.PERDU);
     } else {
       gameState.setState(PacmanGameState.EtatJeu.EN_COURS);
+
+      for (Monstre monstre : monstres) {
+        monstre.actionMovement();
+      }
     }
   }
 
@@ -137,7 +141,7 @@ public class PacmanGame implements Game {
     this.monstres = new ArrayList<>();
     this.pastilles = new ArrayList<>();
     this.generateEntity(3, false);
-    this.generateEntity(3, true);
+    this.generateEntity(1, true);
   }
 
   private void generateEntity(int entities, boolean areTheyMonsters) {

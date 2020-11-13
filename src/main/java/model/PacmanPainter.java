@@ -15,12 +15,12 @@ import java.util.List;
  *
  */
 public class PacmanPainter implements GamePainter {
-  private TimerView timerView;
+  private final TimerView timerView;
 
   /**
    * Groupe racine ou ajouter les vues
    */
-  private  Group root;
+  private final Group root;
 
   /**
    * Jeu principal
@@ -35,7 +35,7 @@ public class PacmanPainter implements GamePainter {
   /**
    * Vue du joueur
    */
-  private  PlayerView playerView;
+  private final PlayerView playerView;
 
 
   /**
@@ -111,8 +111,8 @@ public class PacmanPainter implements GamePainter {
       game.restartTimer();
     }
 
-    if(transitionView != null) {
-      if(transitionView.timerOver()) {
+    if (transitionView != null) {
+      if (transitionView.timerOver()) {
         this.root.getChildren().remove(transitionView);
         this.transitionView = null;
       }
@@ -121,6 +121,10 @@ public class PacmanPainter implements GamePainter {
     this.playerView.draw(ratio);
     this.scoreView.draw();
     this.timerView.draw();
+
+    for (MonstreView monstre : monstreView) {
+      monstre.draw();
+    }
   }
 
 
