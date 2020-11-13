@@ -72,11 +72,14 @@ public class MonstreView extends Group {
 
     public void draw(double ratio) {
         int size = (int) (Util.slotSizeProperty.intValue() * Util.RATIO_MONSTRE);
-        //view.setX(monstre.getX() * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2 - size / 2);
-        //view.setY(monstre.getY() * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2 - size / 2);
 
-        view.setX(Util.slotSizeProperty.get() * (monstre.getxPrec() + ratio * this.monstre.getMovementStrategy().getDirection().getX_dir()));
-        view.setY(Util.slotSizeProperty.get() * (monstre.getyPrec() + ratio * this.monstre.getMovementStrategy().getDirection().getY_dir()));
+        if (monstre.getyPrec() == monstre.getY() && monstre.getX() == monstre.getxPrec()) {
+            view.setX(monstre.getX() * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2 - size / 2);
+            view.setY(monstre.getY() * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2 - size / 2);
+        } else {
+            view.setX(Util.slotSizeProperty.get() * (monstre.getxPrec() + ratio * this.monstre.getMovementStrategy().getDirection().getX_dir()));
+            view.setY(Util.slotSizeProperty.get() * (monstre.getyPrec() + ratio * this.monstre.getMovementStrategy().getDirection().getY_dir()));
+        }
 
         currentFrame = (currentFrame + 1) % 20;
         int printedFrame = currentFrame / 10;

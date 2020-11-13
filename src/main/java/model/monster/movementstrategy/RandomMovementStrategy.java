@@ -17,7 +17,6 @@ public class RandomMovementStrategy implements MovementStrategy {
     private Direction direction;
     private ArrayList<Direction> previousPossibleDirection;
     private Direction previousDirection;
-    private int cptInter = 6;
 
     public RandomMovementStrategy(Monstre monstre, PacmanGame game) {
         this.monstre = monstre;
@@ -41,15 +40,12 @@ public class RandomMovementStrategy implements MovementStrategy {
 
         if (!(nextX >= 0 && nextX < Util.MAZE_SIZE - 1 && nextY >= 0 && nextY < Util.MAZE_SIZE - 1 && previousPossibleDirection.equals(labyrinthe.getFreeDirection(monstre.getX(), monstre.getY())))) {
 
-            if (labyrinthe.getFreeDirection(monstre.getX(), monstre.getY()).contains(direction) && cptInter != 0) {
-                cptInter--;
-            } else {
-                chooseRandomDirection();
-            }
 
-            if (!(nextX >= 0 && nextX < Util.MAZE_SIZE - 1 && nextY >= 0 && nextY < Util.MAZE_SIZE - 1)) {
+            chooseRandomDirection();
+
+            /*if (!(nextX >= 0 && nextX < Util.MAZE_SIZE - 1 && nextY >= 0 && nextY < Util.MAZE_SIZE - 1)) {
                 chooseRandomDirection();
-            }
+            }*/
 
 
             nextX = monstre.getX() + direction.getX_dir();
@@ -70,7 +66,6 @@ public class RandomMovementStrategy implements MovementStrategy {
 
         ArrayList<Direction> directions = labyrinthe.getFreeDirection(monsterLocation.getX(), monsterLocation.getY());
 
-        cptInter = 6;
         direction = directions.get(RandomGenerator.getRandomValue(directions.size()));
 
         if (previousDirection != null && direction.equals(previousDirection.opposite()) && directions.size() != 1)

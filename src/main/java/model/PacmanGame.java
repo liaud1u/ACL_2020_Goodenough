@@ -153,14 +153,16 @@ public class PacmanGame implements Game {
       System.err.println("ERREUR : Impossible de mettre " + entities + ((areTheyMonsters) ? " monstres" : " pastilles") + " dans un labyrinthe possédant " + nbCasesDisponibles + " cases libres !");
       return;
     }
-    
+
     for(int i = 0 ; i < entities ; i ++) {
       int x = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
       int y = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
       if(!cases[x][y].estUnMur() && !cases[x][y].hasEntity()) {
         if ((areTheyMonsters)) {
           cases[x][y].setMonster(true);
-          monstres.add(new Monstre(this, x, y, GhostType.values()[RandomGenerator.getRandomValue(GhostType.values().length)]));
+
+          Case spawn = (Case) labyrinthe.getSpawnableCase().toArray()[i % 3];
+          monstres.add(new Monstre(this, spawn.getX(), spawn.getY(), GhostType.values()[RandomGenerator.getRandomValue(GhostType.values().length)]));
         }
         else {
           Pastille p = new ScorePastille(x, y);

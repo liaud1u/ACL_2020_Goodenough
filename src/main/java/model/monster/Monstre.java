@@ -25,6 +25,8 @@ public class Monstre {
         this.game = game;
         this.x = x;
         this.y = y;
+        this.yPrec = y;
+        this.xPrec = x;
         this.movementStrategy = new RandomMovementStrategy(this, game);
         this.type = type;
     }
