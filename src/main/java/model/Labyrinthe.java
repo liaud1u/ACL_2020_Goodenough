@@ -4,9 +4,8 @@ import model.player.Direction;
 import model.util.Util;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Random;
-import java.util.Set;
+import java.util.Stack;
 
 /**
  * @author adrien & florian
@@ -22,7 +21,7 @@ public class Labyrinthe {
     // Ensemble des cases formant le labyrinthe
     public Case[][] labyrinthe;
 
-    private final Set<Case> spawnableCase;
+    private final Stack<Case> spawnableCase;
 
 
     int tailleLigneFormation;
@@ -36,7 +35,7 @@ public class Labyrinthe {
 
     public Labyrinthe(int tailleL, int tailleC) {
 
-        spawnableCase = new HashSet<>();
+        spawnableCase = new Stack<>();
         this.tailleLigneFormation = tailleL / 2;
         this.tailleColonneFormation = tailleC/2;
 
@@ -282,9 +281,9 @@ public class Labyrinthe {
         labyrinthe[tailleLigne / 2 + 3][tailleColonne / 2 + 2].setEstUnMur(false); //case droite milieu + 2
 
         //On garde les case de spawn des monstres
+        spawnableCase.add(labyrinthe[tailleLigne / 2 + 1][tailleColonne / 2]);
         spawnableCase.add(labyrinthe[tailleLigne / 2 - 1][tailleColonne / 2]);
         spawnableCase.add(labyrinthe[tailleLigne / 2][tailleColonne / 2]);
-        spawnableCase.add(labyrinthe[tailleLigne / 2 + 1][tailleColonne / 2]);
 
         //On fait des ouvertures sur certains murs
 
@@ -383,7 +382,7 @@ public class Labyrinthe {
     }
 
 
-    public Set<Case> getSpawnableCase() {
+    public Stack<Case> getSpawnableCase() {
         return spawnableCase;
     }
 }

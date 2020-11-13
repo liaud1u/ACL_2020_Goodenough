@@ -4,6 +4,8 @@ import fxengine.Cmd;
 import fxengine.Game;
 import model.monster.GhostType;
 import model.monster.Monstre;
+import model.monster.movementstrategy.RandomMovementStrategy;
+import model.monster.movementstrategy.StaticMovementStrategy;
 import model.player.Direction;
 import model.player.Player;
 import model.util.RandomGenerator;
@@ -13,7 +15,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -56,20 +60,19 @@ public class PacmanGame implements Game {
    */
   private ArrayList<Monstre> monstres = new ArrayList<>();
 
-
-
-
-
   /**
    * Score
    */
   private int score;
+
+  private int level;
 
 
   /**
    * constructeur avec fichier source pour le help
    */
   public PacmanGame(String source) {
+    level = 0;
     BufferedReader helpReader;
     try {
       helpReader = new BufferedReader(new FileReader(source));
@@ -134,36 +137,70 @@ public class PacmanGame implements Game {
   public void resetScore() {
     score = 0;
   }
+
   private void changeLevel() {
     labyrinthe = new Labyrinthe(Util.MAZE_SIZE, Util.MAZE_SIZE);
 
     for (Monstre m : monstres)
       m.destroy();
 
+    Difficulty difficulty;
+
+    if (level < 1) {
+      difficulty = Difficulty.EASY;
+    } else {
+      if (level < 3) {
+        difficulty = Difficulty.MEDIUM;
+      } else {
+        difficulty = Difficulty.HARD;
+      }
+    }
+
     this.monstres = new ArrayList<>();
 
-    this.generateEntity(3, false);
-    this.generateEntity(3, true);
+    this.generatePastille(difficulty.getPastilleAmount());
+
+    generateMonster(difficulty.getNbMonstreStatic(), difficulty.getNbMonstreRandom());
+
+    this.gameTimer.setCurrentTimer(difficulty.getTime());
+
   }
 
-  private void generateEntity(int entities, boolean areTheyMonsters) {
+  private void generateMonster(int amountStatic, int amountRandom) {
+    List<GhostType> ghostTypes = Arrays.asList(GhostType.values());
+    Stack<Case> spawnable = labyrinthe.getSpawnableCase();
+    int cptType = 0;
+
+    for (int i = 0; i < amountRandom; i++) {
+      Case selected = spawnable.pop();
+      labyrinthe.getLabyrinthe()[selected.getX()][selected.getY()].setMonster(true);
+      Monstre monstre = new Monstre(this, selected.getX(), selected.getY(), ghostTypes.get(cptType++ % 4));
+      monstre.setMovementStrategy(new RandomMovementStrategy(monstre, this));
+
+      monstres.add(monstre);
+    }
+
+    for (int i = 0; i < amountStatic; i++) {
+      Case selected = spawnable.pop();
+      labyrinthe.getLabyrinthe()[selected.getX()][selected.getY()].setMonster(true);
+      Monstre monstre = new Monstre(this, selected.getX(), selected.getY(), ghostTypes.get(cptType++ % 4));
+      monstre.setMovementStrategy(new StaticMovementStrategy());
+
+      monstres.add(monstre);
+    }
+  }
+
+  private void generatePastille(int entities) {
     Case[][] cases = labyrinthe.getLabyrinthe();
     int nbCasesDisponibles = labyrinthe.getNbCasesLibres();
 
-    if(nbCasesDisponibles < entities) {
-      System.err.println("ERREUR : Impossible de mettre " + entities + ((areTheyMonsters) ? " monstres" : " pastilles") + " dans un labyrinthe possédant " + nbCasesDisponibles + " cases libres !");
+    if (nbCasesDisponibles < entities) {
+      System.err.println("ERREUR : Impossible de mettre  les pastilles  dans un labyrinthe possédant " + nbCasesDisponibles + " cases libres !");
       return;
     }
 
-    for(int i = 0 ; i < entities ; i ++) {
-        if ((areTheyMonsters)) {
-
-          Case spawn = (Case) labyrinthe.getSpawnableCase().toArray()[i % 3];
-          cases[spawn.getX()][spawn.getY()].setMonster(true);
-          monstres.add(new Monstre(this, spawn.getX(), spawn.getY(), GhostType.values()[RandomGenerator.getRandomValue(GhostType.values().length)]));
-        }
-        else {
-          int x = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
+    for (int i = 0; i < entities; i++) {
+      int x = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
           int y = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
           while (cases[x][y].estUnMur() || cases[x][y].hasEntity()) {
             x = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
@@ -172,7 +209,7 @@ public class PacmanGame implements Game {
           Pastille p = new ScorePastille(x, y);
           cases[x][y].setPastille(p);
           this.labyrinthe.addPastille();
-        }
+
     }
   }
 
@@ -199,6 +236,7 @@ public class PacmanGame implements Game {
    * @return booleen representant la victoire
    */
   public boolean isWon() {
+    level++;
     return gameState.getState() == PacmanGameState.EtatJeu.VICTOIRE;
   }
 
@@ -207,6 +245,7 @@ public class PacmanGame implements Game {
    * @return booleen representant la defaite
    */
   public boolean isLost() {
+    level = 0;
     return gameState.getState() == PacmanGameState.EtatJeu.PERDU;
   }
 

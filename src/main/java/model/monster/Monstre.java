@@ -10,7 +10,7 @@ public class Monstre {
      */
     private final PacmanGame game;
 
-    private final MovementStrategy movementStrategy;
+    private MovementStrategy movementStrategy;
     /**
      * Coordonnées actuelles du monstre dans le labyrinthe
      */
@@ -29,6 +29,10 @@ public class Monstre {
         this.xPrec = x;
         this.movementStrategy = new RandomMovementStrategy(this, game);
         this.type = type;
+    }
+
+    public void setMovementStrategy(MovementStrategy strategy) {
+        this.movementStrategy = strategy;
     }
 
     public int getX() {
