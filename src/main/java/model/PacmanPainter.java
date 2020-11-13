@@ -123,7 +123,7 @@ public class PacmanPainter implements GamePainter {
     this.timerView.draw();
 
     for (MonstreView monstre : monstreView) {
-      monstre.draw();
+      monstre.draw(ratio);
     }
   }
 

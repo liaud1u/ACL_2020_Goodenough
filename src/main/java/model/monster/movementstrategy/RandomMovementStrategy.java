@@ -27,7 +27,7 @@ public class RandomMovementStrategy implements MovementStrategy {
 
     @Override
     public void move() {
- 
+
 
         Labyrinthe labyrinthe = game.getLabyrinthe();
         Case monsterLocation = labyrinthe.getCaseLabyrinthe(monstre.getX(), monstre.getY());
@@ -46,7 +46,7 @@ public class RandomMovementStrategy implements MovementStrategy {
 
         monstre.setX(nextX);
         monstre.setY(nextY);
-
+ 
 
     }
 
@@ -60,5 +60,9 @@ public class RandomMovementStrategy implements MovementStrategy {
         direction = directions.get(RandomGenerator.getRandomValue(directions.size()));
 
         previousPossibleDirection = directions;
+    }
+
+    public Direction getDirection() {
+        return direction;
     }
 }

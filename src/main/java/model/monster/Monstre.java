@@ -17,6 +17,9 @@ public class Monstre {
     private int x;
     private int y;
 
+
+    private int xPrec, yPrec;
+
     public Monstre(PacmanGame game, int x, int y) {
         this.game = game;
         this.x = x;
@@ -29,6 +32,7 @@ public class Monstre {
     }
 
     public void setX(int x) {
+        this.xPrec = this.x;
         this.x = x;
     }
 
@@ -36,7 +40,20 @@ public class Monstre {
         return y;
     }
 
+    public int getxPrec() {
+        return xPrec;
+    }
+
+    public MovementStrategy getMovementStrategy() {
+        return movementStrategy;
+    }
+
+    public int getyPrec() {
+        return yPrec;
+    }
+
     public void setY(int y) {
+        this.yPrec = this.y;
         this.y = y;
     }
 
