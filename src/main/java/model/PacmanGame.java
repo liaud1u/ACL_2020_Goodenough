@@ -58,10 +58,7 @@ public class PacmanGame implements Game {
 
 
 
-  /**
-   * Liste des pastilles restantes
-   */
-  private ArrayList<Pastille> pastilles;
+
 
   /**
    * Score
@@ -144,7 +141,6 @@ public class PacmanGame implements Game {
       m.destroy();
 
     this.monstres = new ArrayList<>();
-    this.pastilles = new ArrayList<>();
     this.generateEntity(3, false);
     this.generateEntity(3, true);
   }
@@ -174,7 +170,6 @@ public class PacmanGame implements Game {
           }
           Pastille p = new ScorePastille(x, y);
           cases[x][y].setPastille(p);
-          this.pastilles.add(p);
           this.labyrinthe.addPastille();
         }
     }
@@ -187,11 +182,7 @@ public class PacmanGame implements Game {
    * @return booleen vrai si toutes les pastilles ont été récupérées
    */
   public boolean allPastillesEaten() {
-    if(pastilles.size() == 0) return false;
-    for(Pastille p : pastilles) {
-      if(!p.isRamassee()) return false;
-    }
-    return true;
+    return labyrinthe.getLeftPastilles() == 0;
   }
 
   /**
