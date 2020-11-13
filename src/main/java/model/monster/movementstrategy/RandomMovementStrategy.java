@@ -15,46 +15,50 @@ public class RandomMovementStrategy implements MovementStrategy {
     private final PacmanGame game;
     private final Monstre monstre;
     private Direction direction;
+    private ArrayList<Direction> previousPossibleDirection;
 
     public RandomMovementStrategy(Monstre monstre, PacmanGame game) {
         this.monstre = monstre;
         this.game = game;
+
+
+        chooseRandomDirection();
     }
 
     @Override
     public void move() {
-
-        System.out.println("MOVE");
+ 
 
         Labyrinthe labyrinthe = game.getLabyrinthe();
         Case monsterLocation = labyrinthe.getCaseLabyrinthe(monstre.getX(), monstre.getY());
 
+        int nextX = monstre.getX() + direction.getX_dir();
+        int nextY = monstre.getY() + direction.getY_dir();
 
-        chooseRandomDirection();
+        if (!(nextX >= 0 && nextX < Util.MAZE_SIZE - 1 && nextY >= 0 && nextY < Util.MAZE_SIZE - 1 && previousPossibleDirection.equals(labyrinthe.getFreeDirection(monstre.getX(), monstre.getY())))) {
+
+
+            chooseRandomDirection();
+
+            nextX = monstre.getX() + direction.getX_dir();
+            nextY = monstre.getY() + direction.getY_dir();
+        }
+
+        monstre.setX(nextX);
+        monstre.setY(nextY);
+
 
     }
 
+
     public void chooseRandomDirection() {
-        ArrayList<Direction> directionToFreeCase = new ArrayList<>();
         Labyrinthe labyrinthe = game.getLabyrinthe();
         Case monsterLocation = labyrinthe.getCaseLabyrinthe(monstre.getX(), monstre.getY());
 
-        if (monsterLocation.getX() - 1 >= 0 && !labyrinthe.getCaseLabyrinthe(monsterLocation.getX() - 1, monsterLocation.getY()).estUnMur()) {
-            directionToFreeCase.add(Direction.LEFT);
-        }
-        if (monsterLocation.getY() - 1 >= 0 && !labyrinthe.getCaseLabyrinthe(monsterLocation.getX(), monsterLocation.getY() - 1).estUnMur()) {
-            directionToFreeCase.add(Direction.UP);
-        }
-        if (monsterLocation.getX() + 1 < Util.MAZE_SIZE - 1 && !labyrinthe.getCaseLabyrinthe(monsterLocation.getX() + 1, monsterLocation.getY()).estUnMur()) {
-            directionToFreeCase.add(Direction.RIGHT);
-        }
-        if (monsterLocation.getY() + 1 < Util.MAZE_SIZE - 1 && !labyrinthe.getCaseLabyrinthe(monsterLocation.getX(), monsterLocation.getY() + 1).estUnMur()) {
-            directionToFreeCase.add(Direction.DOWN);
-        }
+        ArrayList<Direction> directions = labyrinthe.getFreeDirection(monsterLocation.getX(), monsterLocation.getY());
 
-        Direction direction = directionToFreeCase.get(RandomGenerator.getRandomValue(directionToFreeCase.size()));
+        direction = directions.get(RandomGenerator.getRandomValue(directions.size()));
 
-        //System.out.println(direction);
-
+        previousPossibleDirection = directions;
     }
 }
