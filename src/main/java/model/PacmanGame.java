@@ -141,7 +141,7 @@ public class PacmanGame implements Game {
     this.monstres = new ArrayList<>();
     this.pastilles = new ArrayList<>();
     this.generateEntity(3, false);
-    this.generateEntity(1, true);
+    this.generateEntity(3, true);
   }
 
   private void generateEntity(int entities, boolean areTheyMonsters) {

@@ -16,6 +16,8 @@ public class RandomMovementStrategy implements MovementStrategy {
     private final Monstre monstre;
     private Direction direction;
     private ArrayList<Direction> previousPossibleDirection;
+    private Direction previousDirection;
+    private int cptInter = 6;
 
     public RandomMovementStrategy(Monstre monstre, PacmanGame game) {
         this.monstre = monstre;
@@ -23,6 +25,7 @@ public class RandomMovementStrategy implements MovementStrategy {
 
 
         chooseRandomDirection();
+        previousDirection = direction;
     }
 
     @Override
@@ -35,10 +38,19 @@ public class RandomMovementStrategy implements MovementStrategy {
         int nextX = monstre.getX() + direction.getX_dir();
         int nextY = monstre.getY() + direction.getY_dir();
 
+
         if (!(nextX >= 0 && nextX < Util.MAZE_SIZE - 1 && nextY >= 0 && nextY < Util.MAZE_SIZE - 1 && previousPossibleDirection.equals(labyrinthe.getFreeDirection(monstre.getX(), monstre.getY())))) {
 
+            if (labyrinthe.getFreeDirection(monstre.getX(), monstre.getY()).contains(direction) && cptInter != 0) {
+                cptInter--;
+            } else {
+                chooseRandomDirection();
+            }
 
-            chooseRandomDirection();
+            if (!(nextX >= 0 && nextX < Util.MAZE_SIZE - 1 && nextY >= 0 && nextY < Util.MAZE_SIZE - 1)) {
+                chooseRandomDirection();
+            }
+
 
             nextX = monstre.getX() + direction.getX_dir();
             nextY = monstre.getY() + direction.getY_dir();
@@ -46,18 +58,23 @@ public class RandomMovementStrategy implements MovementStrategy {
 
         monstre.setX(nextX);
         monstre.setY(nextY);
- 
+
 
     }
 
 
     public void chooseRandomDirection() {
+        previousDirection = direction;
         Labyrinthe labyrinthe = game.getLabyrinthe();
         Case monsterLocation = labyrinthe.getCaseLabyrinthe(monstre.getX(), monstre.getY());
 
         ArrayList<Direction> directions = labyrinthe.getFreeDirection(monsterLocation.getX(), monsterLocation.getY());
 
+        cptInter = 6;
         direction = directions.get(RandomGenerator.getRandomValue(directions.size()));
+
+        if (previousDirection != null && direction.equals(previousDirection.opposite()) && directions.size() != 1)
+            chooseRandomDirection();
 
         previousPossibleDirection = directions;
     }

@@ -26,6 +26,21 @@ public enum Direction {
     this.y_dir = y_dir;
   }
 
+  public Direction opposite() {
+    switch (this) {
+      case RIGHT:
+        return LEFT;
+      case UP:
+        return DOWN;
+      case DOWN:
+        return UP;
+      case LEFT:
+        return RIGHT;
+      default:
+        return null;
+    }
+  }
+
   /**
    * Getter du vecteur de direction x
    *
