@@ -3,7 +3,7 @@ package views.caseview;
 import javafx.geometry.Rectangle2D;
 import model.util.Util;
 
-public enum CaseImageView {
+public enum CaseImageTiles {
     REVERSE_SQUARE(new Rectangle2D(7 * Util.slotSizeProperty.get(), Util.slotSizeProperty.get(), Util.slotSizeProperty.get(), Util.slotSizeProperty.get())),
     SQUARE(new Rectangle2D(4 * Util.slotSizeProperty.get(), Util.slotSizeProperty.get(), Util.slotSizeProperty.get(), Util.slotSizeProperty.get())),
 
@@ -28,7 +28,7 @@ public enum CaseImageView {
 
     private final Rectangle2D view;
 
-    CaseImageView(Rectangle2D view) {
+    CaseImageTiles(Rectangle2D view) {
         this.view = view;
     }
 

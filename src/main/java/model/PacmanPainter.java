@@ -1,11 +1,8 @@
 package model;
 
 import fxengine.GamePainter;
-import fxengine.GameTimer;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import model.monster.Monstre;
-import model.util.Util;
 import views.*;
 
 import java.util.ArrayList;
@@ -18,12 +15,12 @@ import java.util.List;
  *
  */
 public class PacmanPainter implements GamePainter {
-  private TimerView timerView;
+  private final TimerView timerView;
 
   /**
    * Groupe racine ou ajouter les vues
    */
-  private  Group root;
+  private final Group root;
 
   /**
    * Jeu principal
@@ -38,12 +35,8 @@ public class PacmanPainter implements GamePainter {
   /**
    * Vue du joueur
    */
-  private  PlayerView playerView;
+  private final PlayerView playerView;
 
-  /**
-   * Vue des pastilles
-   */
-  private List<PastilleView> pastillesView;
 
   /**
    * Vue des monstres
@@ -53,6 +46,8 @@ public class PacmanPainter implements GamePainter {
    * Vue du score
    */
   private final ScoreView scoreView;
+
+  private TransitionView transitionView;
 
   /**
    * Largeur
@@ -74,7 +69,7 @@ public class PacmanPainter implements GamePainter {
     this.root.getChildren().add(this.labyrintheView);
 
 
-    this.addPastilles();
+    //this.addPastilles();
     this.addMonstres();
 
 
@@ -86,23 +81,52 @@ public class PacmanPainter implements GamePainter {
 
     this.timerView = new TimerView(this.game.getGameTimer());
     this.root.getChildren().add(this.timerView);
+
+
+
   }
 
 
   /**
    * methode  redefinie de Afficheur retourne une image du jeu
+   * @param ratio
    */
-  public void draw() {
+  public void draw(double ratio) {
     // En cas de victoire, on change de labyrinthe et on génère de nouvelles pastilles.
-    if(game.getGameState().getState() == PacmanGameState.EtatJeu.VICTOIRE) {
+    if(game.isLost()) {
+      game.pauseTimer();
+      transitionView = new TransitionView("Perdu");
+      game.resetTimer();
+      game.resetScore();
       this.repaint();
+      this.root.getChildren().add(transitionView);
+      game.restartTimer();
+
     }
-    for(PastilleView p : pastillesView)  p.draw();
-   // for(MonstreView mv : monstreView)
-    this.playerView.draw();
+    if(game.isWon()) {
+      game.pauseTimer();
+      transitionView = new TransitionView("Gagné");
+      this.repaint();
+      this.root.getChildren().add(transitionView);
+      game.restartTimer();
+    }
+
+    if (transitionView != null) {
+      if (transitionView.timerOver()) {
+        this.root.getChildren().remove(transitionView);
+        this.transitionView = null;
+      }
+    }
+
+    this.playerView.draw(ratio);
     this.scoreView.draw();
     this.timerView.draw();
+
+    for (MonstreView monstre : monstreView) {
+      monstre.draw(ratio);
+    }
   }
+
 
   /**
    * Methode qui redessine l'interface
@@ -111,14 +135,12 @@ public class PacmanPainter implements GamePainter {
 
     // On récupère le nouveau labyrinthe et les nouvelles pastilles
     labyrintheView = new LabyrintheView(game.getLabyrinthe());
-    //pastillesView = new PastillesView(game.getPastille());
 
     // On nettoie la liste des vues
     this.root.getChildren().clear();
 
     // On rajoute les nouvelles vues
     this.root.getChildren().add(labyrintheView);
-    this.addPastilles();
     this.addMonstres();
     this.root.getChildren().add(scoreView);
     this.root.getChildren().add(playerView);
@@ -126,14 +148,7 @@ public class PacmanPainter implements GamePainter {
   }
 
 
-  private void addPastilles() {
-    this.pastillesView = new ArrayList<>();
-    for(Pastille p : game.getPastille()) {
-      PastilleView view = new PastilleView(p,p.getX(), p.getY());
-      pastillesView.add(view);
-      this.root.getChildren().add(view);
-    }
-  }
+
 
   private void addMonstres() {
     this.monstreView = new ArrayList<>();

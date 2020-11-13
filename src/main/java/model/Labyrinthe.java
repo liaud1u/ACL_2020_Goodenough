@@ -1,5 +1,6 @@
 package model;
 
+import model.player.Direction;
 import model.util.Util;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.Random;
  * @author adrien & florian
  */
 public class Labyrinthe {
+    private int leftPastilles;
 
     //Labyrinthe permettant la création du labyrinthe parfait
     public Case[][] labyrintheFormation;
@@ -37,9 +39,10 @@ public class Labyrinthe {
         labyrinthe = new Case[tailleLigne][tailleColonne];
         initialisationLaby();
         creationLabyrinthe();
+        this.leftPastilles = 0;
     }
 
-    public Case[][] getLabyrintheVUE() {
+    public Case[][] getLabyrinthe() {
         return labyrinthe;
     }
 
@@ -127,7 +130,7 @@ public class Labyrinthe {
         int nbCasesDisponibles = 0;
         for(Case[] ligne : labyrinthe) {
             for(Case c : ligne) {
-                if(!c.estUnMur() && !c.possedeEntite()) {
+                if(!c.estUnMur() && !c.hasEntity()) {
                     nbCasesDisponibles++;
                 }
             }
@@ -139,7 +142,7 @@ public class Labyrinthe {
      * Methodes qui retourne une case de labyrintheFormation
      * @return Case représentant une case présente dans labyrintheFormation
      */
-    public Case getCase(int x, int y) {
+    private Case getCase(int x, int y) {
         try {
             return labyrintheFormation[x][y];
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -147,8 +150,26 @@ public class Labyrinthe {
         }
     }
 
+    public ArrayList<Direction> getFreeDirection(int x, int y) {
+        ArrayList<Direction> directionToFreeCase = new ArrayList<>();
+        if (x - 1 >= 0 && !getCaseLabyrinthe(x - 1, y).estUnMur()) {
+            directionToFreeCase.add(Direction.LEFT);
+        }
+        if (y - 1 >= 0 && !getCaseLabyrinthe(x, y - 1).estUnMur()) {
+            directionToFreeCase.add(Direction.UP);
+        }
+        if (x + 1 < Util.MAZE_SIZE - 1 && !getCaseLabyrinthe(x + 1, y).estUnMur()) {
+            directionToFreeCase.add(Direction.RIGHT);
+        }
+        if (y + 1 < Util.MAZE_SIZE - 1 && !getCaseLabyrinthe(x, y + 1).estUnMur()) {
+            directionToFreeCase.add(Direction.DOWN);
+        }
+        return directionToFreeCase;
+    }
+
     /**
      * Methodes qui retourne une case du labyrinthe
+     *
      * @return Case représentant une case dans le labyrinthe
      */
     public Case getCaseLabyrinthe(int x, int y) {
@@ -335,6 +356,13 @@ public class Labyrinthe {
         }
     }
 
+    public void addPastille() {
+        this.leftPastilles++;
+    }
+
+    public void removePastille() {
+        if (this.leftPastilles > 0) this.leftPastilles--;
+    }
 
 }
 

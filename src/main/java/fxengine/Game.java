@@ -19,6 +19,5 @@ public interface Game {
 	/**
 	 * @return true si et seulement si le jeu est fini
 	 */
-    boolean isFinished();
-
+    boolean isGameOver();
 }

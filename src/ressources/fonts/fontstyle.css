@@ -1,0 +1,11 @@
+@font-face {
+    font-family: 'crackman';
+    src: url('crackman.ttf');
+}
+
+.label {
+    -fx-font-family: 'crackman';
+    -fx-font-size: 64;
+    -fx-background-color: transparent;
+    -fx-alignment: center;
+}

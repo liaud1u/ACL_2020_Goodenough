@@ -1,12 +1,15 @@
 package fxengine;
 
 import javafx.animation.AnimationTimer;
+import model.util.Util;
 
 /**
  * Boucle principale du jeu
  */
 public class GameLoop extends AnimationTimer {
-    /**
+  private final long FRAMERATE = 1_000_000_000 / Util.speedDifficulty;
+
+  /**
      * Vue du jeu
      */
     private final GamePainter painter;
@@ -31,6 +34,8 @@ public class GameLoop extends AnimationTimer {
      */
     private long lastSeconds = 0;
 
+    private Cmd lastCommand = Cmd.IDLE;
+
     /**
      * Boucle principale du jeu
      *
@@ -51,19 +56,21 @@ public class GameLoop extends AnimationTimer {
      */
     public void handle(long now) {
         //Calcul des FPS
-        if (lastSeconds != now / 1_000_000_000) {
+
+        if (lastCommand != controller.getCommand() && controller.getCommand() != Cmd.IDLE) {
+            lastCommand = controller.getCommand();
+        }
+        if (lastSeconds != now / this.FRAMERATE) {
             //System.out.println(frame+ "fps");
             frame = 0;
-            lastSeconds = now / 1_000_000_000;
+            lastSeconds = now / this.FRAMERATE;
+            game.evolve(lastCommand);
         } else {
             frame++;
         }
 
+      final double ratio =  ((now % this.FRAMERATE) * 1.) / this.FRAMERATE;
 
-        painter.draw();
-
-        // On fait évoluer le jeu
-        game.evolve(controller.getCommand());
+       painter.draw(ratio);
     }
-
 }

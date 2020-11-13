@@ -97,7 +97,7 @@ public class GameApplication extends Application {
     controller = new PacmanController();
 
     // Premier affichage
-    painter.draw();
+    painter.draw(0);
 
     // Actions à effectuer lors de la fermeture de l'application
     primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {

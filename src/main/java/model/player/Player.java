@@ -1,7 +1,6 @@
 package model.player;
 
 import model.PacmanGame;
-import model.util.Util;
 
 /**
  * Classe du joueur
@@ -13,16 +12,18 @@ public class Player {
   private final PacmanGame game;
 
   /**
-   * Coordonnées actuelles du joueur dans la fenêtre
+   * Coordonnées actuelles du joueur dans le labyrinthe
    */
-  private double x, y;
+  private int x, y;
 
 
+  private int xPrec, yPrec;
 
   /**
    * Direction courante du joueur
    */
   private Direction currentMoveDirection = Direction.RIGHT;
+  private final Direction lastKnownDirection = currentMoveDirection;
 
   /**
    * Constructeur du joueur
@@ -33,7 +34,7 @@ public class Player {
     this.game = game;
 
     // On récupère la moitié de la taille d'une case comme coordonnées par défaut
-    x = y = Util.slotSizeProperty.add(Util.slotSizeProperty.divide(2)).get();
+    xPrec = yPrec = x = y = 1;
   }
 
   /**
@@ -54,17 +55,33 @@ public class Player {
     this.currentMoveDirection = currentMoveDirection;
   }
 
+  private boolean isStuck = false;
+  public boolean isStuck() { return this.isStuck; }
+
   /**
-   * Fait évoluer le joueur sur le terrai
+   * Fait évoluer le joueur sur le terrain
    */
   public void go() {
     //Si il n'y a pas de collisions, on met à jour les coordonnées
-    if (!game.willPlayerCollide() && !game.willPlayerCollideMob()) {
-      game.willPlayerEatPastille();
 
-      x += currentMoveDirection.getX_dir() * Util.speedDifficulty;
-      y += currentMoveDirection.getY_dir() * Util.speedDifficulty;
+    if (!game.willPlayerCollide() && !game.willPlayerCollideMob()) {
+      game.isEatingAPastaga();
+      xPrec = x;
+      yPrec = y;
+      x += currentMoveDirection.getX_dir();
+      y += currentMoveDirection.getY_dir();
+      this.isStuck = false;
+    } else {
+      this.isStuck = true;
     }
+  }
+
+  public int getxPrec() {
+    return xPrec;
+  }
+
+  public int getyPrec() {
+    return yPrec;
   }
 
   /**
@@ -72,7 +89,7 @@ public class Player {
    *
    * @return double coordonnée x
    */
-  public double getX() {
+  public int getX() {
     return x;
   }
 
@@ -81,7 +98,7 @@ public class Player {
    *
    * @return double coordonnée y du joueur
    */
-  public double getY() {
+  public int getY() {
     return y;
   }
 }
