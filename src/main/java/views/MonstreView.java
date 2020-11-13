@@ -18,11 +18,18 @@ public class MonstreView extends Group {
     private final Rectangle2D[] frames;
     private final double animY;
 
+    /**
+     * Frame actuelle (pour les animations)
+     */
+    private int currentFrame;
+
     public MonstreView(Monstre monstre) {
         this.monstre = monstre;
         int size = (int) (Util.slotSizeProperty.intValue() * Util.RATIO_MONSTRE);
         sprite = new Image("monsters/red_ghost.png", size * 8, size, true, false);
         view = new ImageView(sprite);
+
+        currentFrame = 0;
 
         view.setViewport(new Rectangle2D(0, 0, size, size));
 
@@ -54,19 +61,24 @@ public class MonstreView extends Group {
         view.setX(Util.slotSizeProperty.get() * (monstre.getxPrec() + ratio * this.monstre.getMovementStrategy().getDirection().getX_dir()));
         view.setY(Util.slotSizeProperty.get() * (monstre.getyPrec() + ratio * this.monstre.getMovementStrategy().getDirection().getY_dir()));
 
+        currentFrame = (currentFrame + 1) % 20;
+        int printedFrame = currentFrame / 10;
+
         switch (monstre.getMovementStrategy().getDirection()) {
-            case DOWN:
-                view.setViewport(frames[2]);
-                break;
             case UP:
-                view.setViewport(frames[0]);
+                view.setViewport(frames[0 + printedFrame]);
+                break;
+            case DOWN:
+                view.setViewport(frames[2 + printedFrame]);
                 break;
             case LEFT:
-                view.setViewport(frames[4]);
+                view.setViewport(frames[4 + printedFrame]);
                 break;
             case RIGHT:
-                view.setViewport(frames[6]);
+                view.setViewport(frames[6 + printedFrame]);
                 break;
         }
+
+
     }
 }
