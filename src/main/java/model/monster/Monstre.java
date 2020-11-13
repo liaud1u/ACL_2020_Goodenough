@@ -35,14 +35,19 @@ public class Monstre {
         return x;
     }
 
+    public void destroy() {
+        game.getLabyrinthe().getCaseLabyrinthe(x, y).setMonster(false);
+    }
 
     public GhostType getType() {
         return type;
     }
 
     public void setX(int x) {
+        game.getLabyrinthe().getCaseLabyrinthe(this.x, this.y).setMonster(false);
         this.xPrec = this.x;
         this.x = x;
+        game.getLabyrinthe().getCaseLabyrinthe(x, y).setMonster(true);
     }
 
     public int getY() {
@@ -62,8 +67,10 @@ public class Monstre {
     }
 
     public void setY(int y) {
+        game.getLabyrinthe().getCaseLabyrinthe(this.x, this.y).setMonster(false);
         this.yPrec = this.y;
         this.y = y;
+        game.getLabyrinthe().getCaseLabyrinthe(x, y).setMonster(true);
     }
 
     public void actionMovement() {

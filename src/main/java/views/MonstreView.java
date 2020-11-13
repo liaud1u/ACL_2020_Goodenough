@@ -94,7 +94,7 @@ public class MonstreView extends Group {
             case LEFT:
                 view.setViewport(frames[4 + printedFrame]);
                 break;
-            case RIGHT:
+            default:
                 view.setViewport(frames[6 + printedFrame]);
                 break;
         }

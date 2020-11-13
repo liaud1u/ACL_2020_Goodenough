@@ -54,7 +54,7 @@ public class PacmanGame implements Game {
   /**
    * Liste des monstres
    */
-  private ArrayList<Monstre> monstres;
+  private ArrayList<Monstre> monstres = new ArrayList<>();
 
 
 
@@ -139,6 +139,10 @@ public class PacmanGame implements Game {
   }
   private void changeLevel() {
     labyrinthe = new Labyrinthe(Util.MAZE_SIZE, Util.MAZE_SIZE);
+
+    for (Monstre m : monstres)
+      m.destroy();
+
     this.monstres = new ArrayList<>();
     this.pastilles = new ArrayList<>();
     this.generateEntity(3, false);
@@ -155,25 +159,24 @@ public class PacmanGame implements Game {
     }
 
     for(int i = 0 ; i < entities ; i ++) {
-      int x = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
-      int y = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
-      if(!cases[x][y].estUnMur() && !cases[x][y].hasEntity()) {
         if ((areTheyMonsters)) {
-          cases[x][y].setMonster(true);
 
           Case spawn = (Case) labyrinthe.getSpawnableCase().toArray()[i % 3];
+          cases[spawn.getX()][spawn.getY()].setMonster(true);
           monstres.add(new Monstre(this, spawn.getX(), spawn.getY(), GhostType.values()[RandomGenerator.getRandomValue(GhostType.values().length)]));
         }
         else {
+          int x = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
+          int y = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
+          while (cases[x][y].estUnMur() || cases[x][y].hasEntity()) {
+            x = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
+            y = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
+          }
           Pastille p = new ScorePastille(x, y);
           cases[x][y].setPastille(p);
           this.pastilles.add(p);
           this.labyrinthe.addPastille();
         }
-
-        i++;
-      }
-      i--;
     }
   }
 

@@ -14,17 +14,13 @@ public class RandomMovementStrategy implements MovementStrategy {
 
     private final PacmanGame game;
     private final Monstre monstre;
-    private Direction direction;
+    private Direction direction = Direction.IDLE;
     private ArrayList<Direction> previousPossibleDirection;
-    private Direction previousDirection;
+    private Direction previousDirection = Direction.IDLE;
 
     public RandomMovementStrategy(Monstre monstre, PacmanGame game) {
         this.monstre = monstre;
         this.game = game;
-
-
-        chooseRandomDirection();
-        previousDirection = direction;
     }
 
     @Override
@@ -37,15 +33,13 @@ public class RandomMovementStrategy implements MovementStrategy {
         int nextX = monstre.getX() + direction.getX_dir();
         int nextY = monstre.getY() + direction.getY_dir();
 
+        if (direction == Direction.IDLE)
+            chooseRandomDirection();
 
         if (!(nextX >= 0 && nextX < Util.MAZE_SIZE - 1 && nextY >= 0 && nextY < Util.MAZE_SIZE - 1 && previousPossibleDirection.equals(labyrinthe.getFreeDirection(monstre.getX(), monstre.getY())))) {
 
 
             chooseRandomDirection();
-
-            /*if (!(nextX >= 0 && nextX < Util.MAZE_SIZE - 1 && nextY >= 0 && nextY < Util.MAZE_SIZE - 1)) {
-                chooseRandomDirection();
-            }*/
 
 
             nextX = monstre.getX() + direction.getX_dir();
@@ -54,7 +48,6 @@ public class RandomMovementStrategy implements MovementStrategy {
 
         monstre.setX(nextX);
         monstre.setY(nextY);
-
 
     }
 
@@ -66,10 +59,15 @@ public class RandomMovementStrategy implements MovementStrategy {
 
         ArrayList<Direction> directions = labyrinthe.getFreeDirection(monsterLocation.getX(), monsterLocation.getY());
 
-        direction = directions.get(RandomGenerator.getRandomValue(directions.size()));
-
-        if (previousDirection != null && direction.equals(previousDirection.opposite()) && directions.size() != 1)
-            chooseRandomDirection();
+        if (directions.size() != 0) {
+            if (directions.size() == 1) {
+                direction = directions.get(0);
+            } else {
+                directions.remove(previousDirection.opposite());
+                direction = directions.get(RandomGenerator.getRandomValue(directions.size()));
+            }
+        } else
+            direction = Direction.IDLE;
 
         previousPossibleDirection = directions;
     }

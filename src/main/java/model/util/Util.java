@@ -24,7 +24,7 @@ public abstract class Util {
 
   public static int speedDifficulty = 1;  //Vitesse du personnage
   public static int SCORE_SIZE = 8; //Nombre de chiffre dans le score
-  public static int timer = 10; // timer (seconds)
+  public static int timer = 3600; // timer (seconds)
   public static int maxTimerSize = 3;
   public static int DISPLAY_MSG_DURATION = 3;
 

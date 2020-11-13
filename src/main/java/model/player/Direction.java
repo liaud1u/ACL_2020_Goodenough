@@ -7,7 +7,8 @@ public enum Direction {
   UP(0, -1),
   LEFT(-1, 0),
   DOWN(0, 1),
-  RIGHT(1, 0);
+  RIGHT(1, 0),
+  IDLE(0, 0);
 
   /**
    * Champs privés correspondant aux directions du vecteur
@@ -37,7 +38,7 @@ public enum Direction {
       case LEFT:
         return RIGHT;
       default:
-        return null;
+        return IDLE;
     }
   }
 
