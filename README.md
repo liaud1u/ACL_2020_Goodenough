@@ -3,12 +3,16 @@
 * POIREL Florian
 * LIAUD Alexis
 * RIBEYROLLES Matthieu
-* PALMIERI Adrien
+* PALMIERI Adrien (Akahiro54)
 * HYPPOLITE Ephraïm
 
 
-Pour build le projet, il faut exécuter les commandes suivantes :
+Pour lancer le PacMan, il faut exécuter les commandes suivantes :
 
 mvn clean
 
-mvn install
+mvn javafx:compile
+
+mvn javafx:run
+
+
