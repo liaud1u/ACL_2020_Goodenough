@@ -6,13 +6,16 @@
 * PALMIERI Adrien (Akahiro54)
 * HYPPOLITE Ephraïm
 
+Pré-requis : 
+* Maven 4.0.0 
+* Java 11
 
 Pour lancer le PacMan, il faut exécuter les commandes suivantes :
 
-mvn clean
+* mvn clean
 
-mvn javafx:compile
+* mvn javafx:compile
 
-mvn javafx:run
+* mvn javafx:run
 
 
