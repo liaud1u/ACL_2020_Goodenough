@@ -85,9 +85,9 @@ public class PacmanGame implements Game {
     } catch (IOException e) {
       System.out.println("Help not available");
     }
+    this.player = new Player(this);
     this.changeLevel(); // Generate the maze, the coins and the monsters
     this.gameState  = new PacmanGameState();
-    this.player = new Player(this);
     this.score = 0;
     this.gameTimer.play();
   }
