@@ -140,7 +140,7 @@ public class PacmanGame implements Game {
 
   private void changeLevel() {
     labyrinthe = new Labyrinthe(Util.MAZE_SIZE, Util.MAZE_SIZE);
-
+    player.respawn();
     for (Monstre m : monstres)
       m.destroy();
 

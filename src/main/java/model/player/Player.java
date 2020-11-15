@@ -38,6 +38,12 @@ public class Player {
   }
 
   /**
+   * réinitialise la position du joueur dans le labyrinthe
+   */
+  public void respawn() {
+    xPrec = yPrec = x = y = 1;
+  }
+  /**
    * Getter de la direction de mouvement
    *
    * @return Direction direction du mouvement
