@@ -118,7 +118,6 @@ public class PacmanGame implements Game {
       gameState.setState(PacmanGameState.EtatJeu.PERDU);
       this.level = 0;
     } else {
-      //gameState.setState(PacmanGameState.EtatJeu.EN_COURS);
       for (Monstre monstre : monstres) {
         monstre.actionMovement();
       }
@@ -296,12 +295,7 @@ public class PacmanGame implements Game {
    * Détermine si le joueur va entrer en collision avec un monstre
    */
   public boolean willPlayerCollideMob() {
-    int ongoingX = this.player.getX() + player.getCurrentMoveDirection().getX_dir();
-    int ongoingY = this.player.getY() + player.getCurrentMoveDirection().getY_dir();
-
-    return
-      this.labyrinthe.getCaseLabyrinthe(this.player.getX(), this.player.getY()).hasMonster() ||
-      this.labyrinthe.getCaseLabyrinthe(ongoingX, ongoingY).hasMonster();
+    return this.labyrinthe.getCaseLabyrinthe(this.player.getX(), this.player.getY()).hasMonster();
   }
 
   /**

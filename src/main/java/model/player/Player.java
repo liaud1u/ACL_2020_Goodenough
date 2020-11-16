@@ -24,7 +24,6 @@ public class Player {
    * Direction courante du joueur
    */
   private Direction currentMoveDirection = Direction.RIGHT;
-  private final Direction lastKnownDirection = currentMoveDirection;
 
   /**
    * Constructeur du joueur
