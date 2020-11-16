@@ -25,6 +25,8 @@ public class LostLevelView extends EndLevelView{
       this.level,
       this.score
     ));
+
+    this.button.setText("Try again");
   }
 
   // public

@@ -2,6 +2,9 @@ package model.util;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ObservableValue;
+
+import java.net.DatagramSocket;
 
 /**
  * Classe contenant les valeurs utiles commune à tout le jeu
@@ -20,7 +23,10 @@ public abstract class Util {
   public static DoubleProperty windowSizeProperty = new SimpleDoubleProperty(); //Taille de la fenêtre
   public static DoubleProperty slotSizeProperty = new SimpleDoubleProperty(); //Taille d'une case
   public static DoubleProperty wallSizeProperty = new SimpleDoubleProperty(); //Taille d'un mur
-
+  public static DoubleProperty currentWindowWidthProperty = new SimpleDoubleProperty();
+  public static DoubleProperty currentWindowHeightProperty = new SimpleDoubleProperty();
+  public static DoubleProperty minWindowSizeProperty = new SimpleDoubleProperty(300.);
+  public static DoubleProperty rightWidthProperty = new SimpleDoubleProperty();
 
   public static int speedDifficulty = 3;  //Vitesse du personnage
   public static int SCORE_SIZE = 8; //Nombre de chiffre dans le score
@@ -34,5 +40,6 @@ public abstract class Util {
   public static void init() {
     Util.slotSizeProperty.bind(Util.windowSizeProperty.divide(MAZE_SIZE));
     Util.wallSizeProperty.bind(Util.slotSizeProperty.divide(10));
+    Util.rightWidthProperty.bind(Util.minWindowSizeProperty.divide(3));
   }
 }

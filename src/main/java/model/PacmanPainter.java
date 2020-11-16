@@ -1,10 +1,17 @@
 package model;
 
 import fxengine.GamePainter;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.Group;
+import javafx.util.Duration;
 import model.monster.Monstre;
 import views.*;
+import views.menus.EndLevelView;
+import views.menus.LostLevelView;
+import views.menus.WonLevelView;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +23,8 @@ import java.util.List;
  */
 public class PacmanPainter implements GamePainter {
   private final TimerView timerView;
+  private boolean inGame;
+  private EndLevelView endLevelView;
 
   /**
    * Groupe racine ou ajouter les vues
@@ -64,6 +73,7 @@ public class PacmanPainter implements GamePainter {
   public PacmanPainter(Group main, PacmanGame game) {
     this.root = main;
     this.game = game;
+    this.inGame = true; //TODO: init to false when we have a menu
 
     this.labyrintheView = new LabyrintheView(game.getLabyrinthe());
     this.root.getChildren().add(this.labyrintheView);
@@ -92,38 +102,48 @@ public class PacmanPainter implements GamePainter {
    * @param ratio
    */
   public void draw(double ratio) {
-    // En cas de victoire, on change de labyrinthe et on génère de nouvelles pastilles.
-    if(game.isLost()) {
-      game.pauseTimer();
-      transitionView = new TransitionView("Perdu");
-      game.resetTimer();
-      game.resetScore();
-      this.repaint();
-      this.root.getChildren().add(transitionView);
-      game.restartTimer();
-
-    }
-    if(game.isWon()) {
-      game.pauseTimer();
-      transitionView = new TransitionView("Gagné");
-      this.repaint();
-      this.root.getChildren().add(transitionView);
-      game.restartTimer();
-    }
-
-    if (transitionView != null) {
-      if (transitionView.timerOver()) {
-        this.root.getChildren().remove(transitionView);
-        this.transitionView = null;
+    if (! this.inGame) {  //check if we are in a end level view
+      if (this.endLevelView.isReadyToStart()) {
+        this.inGame = true;
+        this.repaint();
+        this.game.restartTimer(); // start the timer
       }
-    }
+    } else {  // if we're in game
 
-    this.playerView.draw(ratio);
-    this.scoreView.draw();
-    this.timerView.draw();
+      if(this.game.isLost() || this.game.isWon()) {
+        this.inGame = false;
 
-    for (MonstreView monstre : monstreView) {
-      monstre.draw(ratio);
+        this.endLevelView = (this.game.isLost())  // set the end level view depending of the win or loss
+          ? new LostLevelView(0, this.game.getScore(), this.game.getGameTimer().isOver())
+          : new WonLevelView(0, this.game.getScore());
+
+        this.root.getChildren().clear();  //clear current level
+        this.root.getChildren().add(this.endLevelView); //and add the end level view
+
+        this.game.pauseTimer(); //pause the timer
+        this.game.resetTimer(); //then rest it
+        if (this.game.isLost()) this.game.resetScore(); // and score too if we lost
+      } else {
+        this.playerView.draw(ratio);
+        this.scoreView.draw();
+        this.timerView.draw();
+
+        for (MonstreView monstre : monstreView) {
+          monstre.draw(ratio);
+        }
+      }
+//      if(game.isWon()) {
+//        game.pauseTimer();
+//        this.repaint();
+//        game.restartTimer();
+//      }
+
+//      if (transitionView != null) {
+//        if (transitionView.timerOver()) {
+//          this.root.getChildren().remove(transitionView);
+//          this.transitionView = null;
+//        }
+//      }
     }
   }
 
@@ -141,6 +161,8 @@ public class PacmanPainter implements GamePainter {
 
     // On rajoute les nouvelles vues
     this.root.getChildren().add(labyrintheView);
+
+    //TODO: add timer before the game starts
     this.addMonstres();
     this.root.getChildren().add(scoreView);
     this.root.getChildren().add(playerView);

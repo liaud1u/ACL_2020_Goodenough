@@ -70,6 +70,8 @@ public class GameApplication extends Application {
    */
   public void start(Stage primaryStage) throws Exception {
 
+    Util.currentWindowWidthProperty.bind(primaryStage.widthProperty());
+    Util.currentWindowHeightProperty.bind(primaryStage.heightProperty());
 
     this.primaryStage = primaryStage;
 
@@ -131,7 +133,8 @@ public class GameApplication extends Application {
     GameLoop loop = new GameLoop(painter,controller,game);
     loop.start();
 
-
+    primaryStage.minWidthProperty().bind(Util.minWindowSizeProperty.add(Util.rightWidthProperty));
+    primaryStage.minHeightProperty().bind(Util.minWindowSizeProperty);
 
     // Paramètrage et affichage de la fenêtre principale
     primaryStage.setScene(scene);

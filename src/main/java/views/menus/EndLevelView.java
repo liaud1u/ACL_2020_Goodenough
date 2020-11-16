@@ -1,8 +1,7 @@
 package views.menus;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -29,19 +28,29 @@ public abstract class EndLevelView extends VBox {
 
   protected void init() {
     this.isReadyToStart = false;
-//    this.getStylesheets().add("fonts/fontstyle.css");
+
+    this.minWidthProperty().bind(Util.currentWindowWidthProperty);
+    this.maxWidthProperty().bind(Util.currentWindowWidthProperty);
+    this.minHeightProperty().bind(Util.currentWindowHeightProperty);
+    this.maxHeightProperty().bind(Util.currentWindowHeightProperty);
+    this.setAlignment(Pos.CENTER);
+    this.setSpacing(50.d);
 
     //Text init
-    this.setAlignment(Pos.CENTER);
     this.text = new Text("");
     this.text.setTextAlignment(TextAlignment.CENTER);
     this.text.setFill(Color.WHITE);
-    this.text.setWrappingWidth(200.);
-    this.text.setFont(Font.font(50));
+    this.text.setFont(Font.font(40));
+    this.text.wrappingWidthProperty().bind(this.minWidthProperty().subtract(20.d));
 
     //Button init
     this.button = new Button("");
     this.button.setOnAction(event -> this.isReadyToStart = true);
+    this.button.setStyle(   //TODO: set this on an external stylesheet file
+      "-fx-cursor: hand;" +
+      "-fx-background-color: yellow;" +
+      "-fx-font-size: 20px"
+    );
   }
   // public
 

@@ -24,8 +24,8 @@ public class WonLevelView extends EndLevelView {
       this.level,
       this.score
     ));
-    this.text.setFont(Font.loadFont("fonts/crackman front.ttf", 15));
 
+    this.button.setText("Next level");
   }
 
 
