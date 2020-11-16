@@ -1,6 +1,7 @@
 package model.player;
 
 import model.PacmanGame;
+import model.util.Util;
 
 /**
  * Classe du joueur
@@ -75,8 +76,8 @@ public class Player {
       game.isEatingAPastaga();
       xPrec = x;
       yPrec = y;
-      x += currentMoveDirection.getX_dir();
-      y += currentMoveDirection.getY_dir();
+      x = (x + currentMoveDirection.getX_dir() + Util.MAZE_SIZE) % Util.MAZE_SIZE;
+      y = (y + currentMoveDirection.getY_dir() + Util.MAZE_SIZE) % Util.MAZE_SIZE;
       this.isStuck = false;
     } else {
       this.isStuck = true;
