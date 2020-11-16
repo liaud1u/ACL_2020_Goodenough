@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 import model.player.Player;
 import model.util.Util;
 
+//FIXME: extends ImageView instead of Group
 /** Class for the display of the player
  * */
 public class PlayerView extends Group {

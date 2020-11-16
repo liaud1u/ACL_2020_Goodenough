@@ -7,30 +7,33 @@ import model.util.Util;
 import views.caseview.CaseView;
 
 
-/**
- * Vue du labyrinthe
- */
+/** class used to display the labyrinth and its slots
+ * */
 public class LabyrintheView extends Group {
+  private final Labyrinthe labyrinthe;  // the labyrinth to display
+  private final Image sprite; // the sprites we'll used to display slots
 
-    private final Labyrinthe labyrinthe;
+  /** @param labyrinth (:{@link Labyrinthe}), the labyrinth to display
+   */
+  public LabyrintheView(Labyrinthe labyrinth) {
+    this.labyrinthe = labyrinth;
 
-    private final Image sprite;
+    // create the sprite
+    sprite = new Image(
+      "maze.png",
+      Util.slotSizeProperty.multiply(10).get(),
+      Util.slotSizeProperty.multiply(3).get(),
+      false,
+      true
+    );
 
-    /**
-     * Constructeur de la vue
-     *
-     * @param l Labyrinthe à dessiner
-     */
-    public LabyrintheView(Labyrinthe l) {
-        this.labyrinthe = l;
-
-         sprite = new Image("maze.png", Util.slotSizeProperty.get() * 10, Util.slotSizeProperty.get() * 3, false, true);
-        for (int ligne = 0; ligne < Util.MAZE_SIZE; ligne++) {
-            for (int colonne = 0; colonne < Util.MAZE_SIZE; colonne++)
-                this.getChildren().add(new CaseView(sprite, l.getCaseLabyrinthe(ligne, colonne)));
-        }
+    // add a new case display (CaseView) for each slot
+    for (int ligne = 0; ligne < Util.MAZE_SIZE; ligne++) {
+      for (int colonne = 0; colonne < Util.MAZE_SIZE; colonne++)
+        this.getChildren().add(new CaseView(sprite, labyrinth.getCaseLabyrinthe(ligne, colonne)));
     }
-    }
+  }
+}
 
 
 
