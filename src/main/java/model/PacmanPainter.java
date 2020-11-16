@@ -56,7 +56,6 @@ public class PacmanPainter implements GamePainter {
    */
   private final ScoreView scoreView;
 
-  private TransitionView transitionView;
 
   /**
    * Largeur
@@ -132,18 +131,6 @@ public class PacmanPainter implements GamePainter {
           monstre.draw(ratio);
         }
       }
-//      if(game.isWon()) {
-//        game.pauseTimer();
-//        this.repaint();
-//        game.restartTimer();
-//      }
-
-//      if (transitionView != null) {
-//        if (transitionView.timerOver()) {
-//          this.root.getChildren().remove(transitionView);
-//          this.transitionView = null;
-//        }
-//      }
     }
   }
 
