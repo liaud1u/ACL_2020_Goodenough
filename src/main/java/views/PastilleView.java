@@ -51,4 +51,5 @@ public class PastilleView extends Group {
     public void draw() {
         this.setVisible(!pastille.isRamassee());
     }
+    
 }

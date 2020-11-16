@@ -36,7 +36,7 @@ public class WonLevelView extends EndLevelView {
                             Constructors
    ------------------------------------------------------------------*/
 
-  public WonLevelView(int level, PacmanGame game) {
-    super(level, game);
+  public WonLevelView(PacmanGame game) {
+    super(game);
   }
 }

@@ -71,8 +71,8 @@ public abstract class EndLevelView extends VBox {
                             Constructors
    ------------------------------------------------------------------*/
 
-  public EndLevelView(int level, PacmanGame game) {
-    this.level = level;
+  public EndLevelView(PacmanGame game) {
+    this.level = game.getLevel();
     this.score = game.getScore();
     this.game = game;
     this.init();

@@ -71,6 +71,10 @@ public class PacmanGame implements Game {
    */
   private int score;
 
+  public int getLevel() {
+    return level;
+  }
+
   private int level;
 
 
@@ -112,6 +116,7 @@ public class PacmanGame implements Game {
       gameState.setState(PacmanGameState.EtatJeu.VICTOIRE);
     } else if (willPlayerCollideMob() || gameTimer.isOver()) {
       gameState.setState(PacmanGameState.EtatJeu.PERDU);
+      this.level = 0;
     } else {
       //gameState.setState(PacmanGameState.EtatJeu.EN_COURS);
       for (Monstre monstre : monstres) {
@@ -134,11 +139,8 @@ public class PacmanGame implements Game {
     gameTimer.reset();
   }
 
-  public void resetScore() {
-    score = 0;
-  }
-
   public void changeLevel() {
+    this.level++;
     gameState.setState(PacmanGameState.EtatJeu.EN_COURS);
     this.gameTimer.play();
     labyrinthe = new Labyrinthe(Util.MAZE_SIZE, Util.MAZE_SIZE);
@@ -147,15 +149,14 @@ public class PacmanGame implements Game {
 
     Difficulty difficulty;
 
-    if (level < 1) {
+    if (level <= 1) {
       difficulty = Difficulty.EASY;
-    } else {
-      if (level < 3) {
+    } else if (level <= 3) {
         difficulty = Difficulty.MEDIUM;
-      } else {
+    } else {
         difficulty = Difficulty.HARD;
-      }
     }
+
 
     this.monstres = new ArrayList<>();
 
@@ -256,7 +257,6 @@ public class PacmanGame implements Game {
    * @return booleen representant la victoire
    */
   public boolean isWon() {
-    level++;
     return gameState.getState() == PacmanGameState.EtatJeu.VICTOIRE;
   }
 
@@ -265,7 +265,6 @@ public class PacmanGame implements Game {
    * @return booleen representant la defaite
    */
   public boolean isLost() {
-    level = 0;
     return gameState.getState() == PacmanGameState.EtatJeu.PERDU;
   }
 

@@ -37,8 +37,8 @@ public class LostLevelView extends EndLevelView{
                             Constructors
    ------------------------------------------------------------------*/
 
-  public LostLevelView(int level, PacmanGame game) {
-    super(level, game);
+  public LostLevelView(PacmanGame game) {
+    super(game);
     this.lostCauseOfTimer = game.isGameOver();
 
     this.init();

@@ -102,8 +102,8 @@ public class PacmanPainter implements GamePainter {
   public void draw(double ratio) {
     if (this.game.isLost() || this.game.isWon()) {
       this.endLevelView = (this.game.isLost())  // set the end level view depending of the win or loss
-              ? new LostLevelView(0, this.game)
-              : new WonLevelView(0, this.game);
+              ? new LostLevelView(this.game)
+              : new WonLevelView(this.game);
       this.root.getChildren().clear();  //clear current level
       this.root.getChildren().add(this.endLevelView); //and add the end level view
     } else {
