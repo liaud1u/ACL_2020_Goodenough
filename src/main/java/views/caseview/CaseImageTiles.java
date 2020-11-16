@@ -3,36 +3,42 @@ package views.caseview;
 import javafx.geometry.Rectangle2D;
 import model.util.Util;
 
+import static model.util.Util.slotSizeProperty;
+
+/** enum used for the different slots sprites
+ * */
 public enum CaseImageTiles {
-    REVERSE_SQUARE(new Rectangle2D(7 * Util.slotSizeProperty.get(), Util.slotSizeProperty.get(), Util.slotSizeProperty.get(), Util.slotSizeProperty.get())),
-    SQUARE(new Rectangle2D(4 * Util.slotSizeProperty.get(), Util.slotSizeProperty.get(), Util.slotSizeProperty.get(), Util.slotSizeProperty.get())),
+  /** For each different sprite we can have, define the rect used
+   * */
+  REVERSE_SQUARE    (new Rectangle2D(7 * slotSizeProperty.get(), Util.slotSizeProperty.get(), slotSizeProperty.get(), slotSizeProperty.get())),
+  SQUARE            (new Rectangle2D(4 * slotSizeProperty.get(), Util.slotSizeProperty.get(), slotSizeProperty.get(), slotSizeProperty.get())),
 
-    DOWN(new Rectangle2D(6 * Util.slotSizeProperty.get(), 0, Util.slotSizeProperty.get(), Util.slotSizeProperty.get())),
-    RIGHT(new Rectangle2D(7 * Util.slotSizeProperty.get(), 0, Util.slotSizeProperty.get(), Util.slotSizeProperty.get())),
-    LEFT(new Rectangle2D(9 * Util.slotSizeProperty.get(), 0, Util.slotSizeProperty.get(), Util.slotSizeProperty.get())),
-    UP(new Rectangle2D(6 * Util.slotSizeProperty.get(), Util.slotSizeProperty.get() * 2, Util.slotSizeProperty.get(), Util.slotSizeProperty.get())),
+  DOWN              (new Rectangle2D(6 * slotSizeProperty.get(), 0, slotSizeProperty.get(), slotSizeProperty.get())),
+  RIGHT             (new Rectangle2D(7 * slotSizeProperty.get(), 0, slotSizeProperty.get(), slotSizeProperty.get())),
+  LEFT              (new Rectangle2D(9 * slotSizeProperty.get(), 0, slotSizeProperty.get(), slotSizeProperty.get())),
+  UP                (new Rectangle2D(6 * slotSizeProperty.get(), Util.slotSizeProperty.get() * 2, slotSizeProperty.get(), slotSizeProperty.get())),
 
-    RIGHT_DOWN_CORNER(new Rectangle2D(3 * Util.slotSizeProperty.get(), 0, Util.slotSizeProperty.get(), Util.slotSizeProperty.get())),
-    RIGHT_UP_CORNER(new Rectangle2D(3 * Util.slotSizeProperty.get(), Util.slotSizeProperty.get() * 2, Util.slotSizeProperty.get(), Util.slotSizeProperty.get())),
-    LEFT_DOWN_CORNER(new Rectangle2D(5 * Util.slotSizeProperty.get(), 0, Util.slotSizeProperty.get(), Util.slotSizeProperty.get())),
-    LEFT_UP_CORNER(new Rectangle2D(5 * Util.slotSizeProperty.get(), Util.slotSizeProperty.get() * 2, Util.slotSizeProperty.get(), Util.slotSizeProperty.get())),
+  RIGHT_DOWN_CORNER (new Rectangle2D(3 * slotSizeProperty.get(), 0, slotSizeProperty.get(), slotSizeProperty.get())),
+  RIGHT_UP_CORNER   (new Rectangle2D(3 * slotSizeProperty.get(), Util.slotSizeProperty.get() * 2, slotSizeProperty.get(), slotSizeProperty.get())),
+  LEFT_DOWN_CORNER  (new Rectangle2D(5 * slotSizeProperty.get(), 0, slotSizeProperty.get(), slotSizeProperty.get())),
+  LEFT_UP_CORNER    (new Rectangle2D(5 * slotSizeProperty.get(), Util.slotSizeProperty.get() * 2, slotSizeProperty.get(), slotSizeProperty.get())),
 
-    RIGHT_DOWN_UP_T(new Rectangle2D(3 * Util.slotSizeProperty.get(), Util.slotSizeProperty.get(), Util.slotSizeProperty.get(), Util.slotSizeProperty.get())),
-    UP_LEFT_RIGHT_T(new Rectangle2D(4 * Util.slotSizeProperty.get(), Util.slotSizeProperty.get() * 2, Util.slotSizeProperty.get(), Util.slotSizeProperty.get())),
-    LEFT_DOWN_UP_T(new Rectangle2D(5 * Util.slotSizeProperty.get(), Util.slotSizeProperty.get(), Util.slotSizeProperty.get(), Util.slotSizeProperty.get())),
-    DOWN_LEFT_RIGHT_T(new Rectangle2D(4 * Util.slotSizeProperty.get(), 0, Util.slotSizeProperty.get(), Util.slotSizeProperty.get())),
+  RIGHT_DOWN_UP_T   (new Rectangle2D(3 * slotSizeProperty.get(), Util.slotSizeProperty.get(), slotSizeProperty.get(), slotSizeProperty.get())),
+  UP_LEFT_RIGHT_T   (new Rectangle2D(4 * slotSizeProperty.get(), Util.slotSizeProperty.get() * 2, slotSizeProperty.get(), slotSizeProperty.get())),
+  LEFT_DOWN_UP_T    (new Rectangle2D(5 * slotSizeProperty.get(), Util.slotSizeProperty.get(), slotSizeProperty.get(), slotSizeProperty.get())),
+  DOWN_LEFT_RIGHT_T (new Rectangle2D(4 * slotSizeProperty.get(), 0, slotSizeProperty.get(), slotSizeProperty.get())),
 
-    RIGHT_LEFT(new Rectangle2D(8 * Util.slotSizeProperty.get(), 0, Util.slotSizeProperty.get(), Util.slotSizeProperty.get())),
-    UP_DOWN(new Rectangle2D(6 * Util.slotSizeProperty.get(), Util.slotSizeProperty.get(), Util.slotSizeProperty.get(), Util.slotSizeProperty.get()));
+  RIGHT_LEFT        (new Rectangle2D(8 * slotSizeProperty.get(), 0, slotSizeProperty.get(), slotSizeProperty.get())),
+  UP_DOWN           (new Rectangle2D(6 * slotSizeProperty.get(), Util.slotSizeProperty.get(), slotSizeProperty.get(), slotSizeProperty.get()));
 
 
-    private final Rectangle2D view;
+  private final Rectangle2D view;
 
-    CaseImageTiles(Rectangle2D view) {
-        this.view = view;
-    }
+  CaseImageTiles(Rectangle2D view) {
+    this.view = view;
+  }
 
-    public Rectangle2D getView() {
-        return view;
-    }
-}
+  public Rectangle2D getView() {
+    return view;
+  }
+  }
