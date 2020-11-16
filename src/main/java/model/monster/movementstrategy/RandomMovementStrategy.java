@@ -28,14 +28,16 @@ public class RandomMovementStrategy implements MovementStrategy {
 
 
         Labyrinthe labyrinthe = game.getLabyrinthe();
-        Case monsterLocation = labyrinthe.getCaseLabyrinthe(monstre.getX(), monstre.getY());
 
-        int nextX = monstre.getX() + direction.getX_dir();
-        int nextY = monstre.getY() + direction.getY_dir();
+        //On détermine le prochain x et y
+        int nextX = (monstre.getX() + direction.getX_dir() + Util.MAZE_SIZE) % Util.MAZE_SIZE;
+        int nextY = (monstre.getY() + direction.getY_dir() + Util.MAZE_SIZE) % Util.MAZE_SIZE;
 
+        //Si le monstre est statique, on choisis une direction
         if (direction == Direction.IDLE)
             chooseRandomDirection();
 
+        //Si la direction qu'empruntait le monstre précedement n'est plus disponible, on en choisis une nouvelle
         if (!(nextX >= 0 && nextX < Util.MAZE_SIZE - 1 && nextY >= 0 && nextY < Util.MAZE_SIZE - 1 && previousPossibleDirection.equals(labyrinthe.getFreeDirection(monstre.getX(), monstre.getY())))) {
 
 
@@ -47,6 +49,7 @@ public class RandomMovementStrategy implements MovementStrategy {
             nextY = (monstre.getY() + direction.getY_dir() + Util.MAZE_SIZE) % Util.MAZE_SIZE;
         }
 
+        //On fait avancer le monstre
         monstre.setX(nextX);
         monstre.setY(nextY);
 
@@ -55,21 +58,28 @@ public class RandomMovementStrategy implements MovementStrategy {
 
     public void chooseRandomDirection() {
         previousDirection = direction;
+
         Labyrinthe labyrinthe = game.getLabyrinthe();
         Case monsterLocation = labyrinthe.getCaseLabyrinthe(monstre.getX(), monstre.getY());
 
+        //On récupère les directions disponibles
         ArrayList<Direction> directions = labyrinthe.getFreeDirection(monsterLocation.getX(), monsterLocation.getY());
 
+        //Si il n'y a pas de directions disponibles, le monstre reste inactif, sinon il bouge
         if (directions.size() != 0) {
+
+            //On choisi une direction
             if (directions.size() == 1) {
                 direction = directions.get(0);
             } else {
+                //On enleve la direction opposée de la liste des directions possibles si elle n'est pas seule dans la liste, pour éviter les aller retours.
                 directions.remove(previousDirection.opposite());
                 direction = directions.get(RandomGenerator.getRandomValue(directions.size()));
             }
         } else
             direction = Direction.IDLE;
 
+        // On met à jours les anciennes directions
         previousPossibleDirection = directions;
     }
 
