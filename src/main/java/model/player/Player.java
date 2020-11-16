@@ -17,6 +17,8 @@ public class Player {
    */
   private int x, y;
 
+  private boolean isStuck;
+
 
   private int xPrec, yPrec;
 
@@ -35,6 +37,7 @@ public class Player {
 
     // On récupère la moitié de la taille d'une case comme coordonnées par défaut
     xPrec = yPrec = x = y = 1;
+    this.isStuck = false;
   }
 
   /**
@@ -43,7 +46,7 @@ public class Player {
   public void respawn() {
     xPrec = yPrec = x = y = 1;
     this.isStuck = false;
-    currentMoveDirection = Direction.IDLE;
+    currentMoveDirection = Direction.RIGHT;
   }
   /**
    * Getter de la direction de mouvement
@@ -63,7 +66,7 @@ public class Player {
     this.currentMoveDirection = currentMoveDirection;
   }
 
-  private boolean isStuck = false;
+
   public boolean isStuck() { return this.isStuck; }
 
   /**

@@ -207,6 +207,8 @@ public class PacmanGame implements Game {
   private void generatePastille(int entities) {
     Case[][] cases = labyrinthe.getLabyrinthe();
     int nbCasesDisponibles = labyrinthe.getNbCasesLibres();
+    Stack<Case> spawnable = labyrinthe.getSpawnableCase();
+    int[][] forbiddenCases = new int[spawnable.size()+1][spawnable.size()+1];
 
     if (nbCasesDisponibles < entities) {
       System.err.println("ERREUR : Impossible de mettre  les pastilles  dans un labyrinthe possédant " + nbCasesDisponibles + " cases libres !");
@@ -214,7 +216,7 @@ public class PacmanGame implements Game {
     }
 
     for (int i = 0; i < entities; i++) {
-      int x = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
+        int x = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
           int y = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
           while (cases[x][y].estUnMur() || cases[x][y].hasEntity()) {
             x = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
@@ -284,11 +286,6 @@ public class PacmanGame implements Game {
   public Labyrinthe getLabyrinthe() {
     return labyrinthe;
   }
-
-
-
-
-
 
 
   /**

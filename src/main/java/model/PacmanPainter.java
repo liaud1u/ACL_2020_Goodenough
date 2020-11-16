@@ -22,8 +22,8 @@ import java.util.List;
  *
  */
 public class PacmanPainter implements GamePainter {
+
   private final TimerView timerView;
-  private boolean inGame;
   private EndLevelView endLevelView;
 
   /**
@@ -72,7 +72,6 @@ public class PacmanPainter implements GamePainter {
   public PacmanPainter(Group main, PacmanGame game) {
     this.root = main;
     this.game = game;
-    this.inGame = true; //TODO: init to false when we have a menu
 
     this.labyrintheView = new LabyrintheView(game.getLabyrinthe());
     this.root.getChildren().add(this.labyrintheView);
@@ -108,7 +107,7 @@ public class PacmanPainter implements GamePainter {
       this.root.getChildren().add(this.endLevelView); //and add the end level view
     } else {
       if(this.game.hasJustChanged()) {
-        this.repaint(ratio);
+        this.repaint();
         this.game.setJustChanged(false);
       }
       this.playerView.draw(ratio);
@@ -125,8 +124,7 @@ public class PacmanPainter implements GamePainter {
   /**
    * Methode qui redessine l'interface
    */
-  private void repaint(double ratio) {
-
+  private void repaint() {
     // On récupère le nouveau labyrinthe et les nouvelles pastilles
     labyrintheView = new LabyrintheView(game.getLabyrinthe());
 
