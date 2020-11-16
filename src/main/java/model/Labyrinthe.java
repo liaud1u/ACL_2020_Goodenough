@@ -31,8 +31,6 @@ public class Labyrinthe {
     Random rand = new Random();
 
 
-
-
     public Labyrinthe(int tailleL, int tailleC) {
 
         spawnableCase = new Stack<>();

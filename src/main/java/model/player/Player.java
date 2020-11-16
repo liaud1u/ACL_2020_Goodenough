@@ -43,6 +43,7 @@ public class Player {
    */
   public void respawn() {
     xPrec = yPrec = x = y = 1;
+    this.isStuck = false;
     currentMoveDirection = Direction.IDLE;
   }
   /**

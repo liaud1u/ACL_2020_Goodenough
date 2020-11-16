@@ -78,7 +78,6 @@ public class PacmanPainter implements GamePainter {
     this.root.getChildren().add(this.labyrintheView);
 
 
-    //this.addPastilles();
     this.addMonstres();
 
 
@@ -101,44 +100,32 @@ public class PacmanPainter implements GamePainter {
    * @param ratio
    */
   public void draw(double ratio) {
-    if (! this.inGame) {  //check if we are in a end level view
-      if (this.endLevelView.isReadyToStart()) {
-        this.inGame = true;
-        this.repaint();
-        this.game.restartTimer(); // start the timer
+    if (this.game.isLost() || this.game.isWon()) {
+      this.endLevelView = (this.game.isLost())  // set the end level view depending of the win or loss
+              ? new LostLevelView(0, this.game)
+              : new WonLevelView(0, this.game);
+      this.root.getChildren().clear();  //clear current level
+      this.root.getChildren().add(this.endLevelView); //and add the end level view
+    } else {
+      if(this.game.hasJustChanged()) {
+        this.repaint(ratio);
+        this.game.setJustChanged(false);
       }
-    } else {  // if we're in game
-
-      if(this.game.isLost() || this.game.isWon()) {
-        this.inGame = false;
-
-        this.endLevelView = (this.game.isLost())  // set the end level view depending of the win or loss
-          ? new LostLevelView(0, this.game.getScore(), this.game.getGameTimer().isOver())
-          : new WonLevelView(0, this.game.getScore());
-
-        this.root.getChildren().clear();  //clear current level
-        this.root.getChildren().add(this.endLevelView); //and add the end level view
-
-        this.game.pauseTimer(); //pause the timer
-        this.game.resetTimer(); //then rest it
-        if (this.game.isLost()) this.game.resetScore(); // and score too if we lost
-      } else {
-        this.playerView.draw(ratio);
-        this.scoreView.draw();
-        this.timerView.draw();
-
-        for (MonstreView monstre : monstreView) {
-          monstre.draw(ratio);
-        }
+      this.playerView.draw(ratio);
+      this.scoreView.draw();
+      this.timerView.draw();
+      for (MonstreView monstre : monstreView) {
+        monstre.draw(ratio);
       }
     }
   }
 
 
+
   /**
    * Methode qui redessine l'interface
    */
-  private void repaint() {
+  private void repaint(double ratio) {
 
     // On récupère le nouveau labyrinthe et les nouvelles pastilles
     labyrintheView = new LabyrintheView(game.getLabyrinthe());

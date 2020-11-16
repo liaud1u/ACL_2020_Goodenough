@@ -1,5 +1,7 @@
 package views.menus;
 
+import model.PacmanGame;
+
 /**
  * @author Ribeyrolles Matthieu
  * 14/11/2020, 16:00
@@ -35,9 +37,9 @@ public class LostLevelView extends EndLevelView{
                             Constructors
    ------------------------------------------------------------------*/
 
-  public LostLevelView(int level, int score, boolean lostCauseOfTimer) {
-    super(level, score);
-    this.lostCauseOfTimer = lostCauseOfTimer;
+  public LostLevelView(int level, PacmanGame game) {
+    super(level, game);
+    this.lostCauseOfTimer = game.isGameOver();
 
     this.init();
   }

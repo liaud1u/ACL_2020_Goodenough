@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import model.PacmanGame;
 import model.util.Util;
 
 
@@ -18,6 +19,7 @@ public abstract class EndLevelView extends VBox {
   protected Text text;
   protected int level, score;
   private boolean isReadyToStart;
+  private PacmanGame game;
   /*------------------------------------------------------------------
                               Methods
    ------------------------------------------------------------------*/
@@ -45,7 +47,10 @@ public abstract class EndLevelView extends VBox {
 
     //Button init
     this.button = new Button("");
-    this.button.setOnAction(event -> this.isReadyToStart = true);
+    this.button.setOnMousePressed(event -> {
+      this.isReadyToStart = true;
+      this.game.changeLevel();
+    });
     this.button.setStyle(   //TODO: set this on an external stylesheet file
       "-fx-cursor: hand;" +
       "-fx-background-color: yellow;" +
@@ -57,15 +62,19 @@ public abstract class EndLevelView extends VBox {
   public boolean isReadyToStart() {
     return this.isReadyToStart;
   }
+
+  public void setReadyToStart(boolean readyToStart) {
+    isReadyToStart = readyToStart;
+  }
    
    /*------------------------------------------------------------------
                             Constructors
    ------------------------------------------------------------------*/
 
-  public EndLevelView(int level, int score) {
+  public EndLevelView(int level, PacmanGame game) {
     this.level = level;
-    this.score = score;
-
+    this.score = game.getScore();
+    this.game = game;
     this.init();
 
     this.getChildren().addAll(this.text, this.button);

@@ -1,6 +1,7 @@
 package views.menus;
 
 import javafx.scene.text.Font;
+import model.PacmanGame;
 
 /**
  * @author Ribeyrolles Matthieu
@@ -35,7 +36,7 @@ public class WonLevelView extends EndLevelView {
                             Constructors
    ------------------------------------------------------------------*/
 
-  public WonLevelView(int level, int score) {
-    super(level, score);
+  public WonLevelView(int level, PacmanGame game) {
+    super(level, game);
   }
 }

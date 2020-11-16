@@ -38,6 +38,11 @@ public class PacmanGame implements Game {
   private final PacmanGameState gameState;
 
   /**
+   * Booleen de changement de niveau
+   */
+  private boolean justChanged;
+
+  /**
    * Timer du jeu
    */
   private final GameTimer gameTimer = new GameTimer(Util.timer);
@@ -87,10 +92,10 @@ public class PacmanGame implements Game {
       System.out.println("Help not available");
     }
     this.player = new Player(this);
-    this.changeLevel(); // Generate the maze, the coins and the monsters
     this.gameState  = new PacmanGameState();
     this.score = 0;
-    this.gameTimer.play();
+    this.changeLevel(); // Generate the maze, the coins and the monsters
+    this.justChanged = false;
   }
 
   /**
@@ -99,31 +104,23 @@ public class PacmanGame implements Game {
    * @param commande
    */
   public void evolve(Cmd commande) {
-    //System.out.println("Execute "+commande);
-
-    if (this.gameTimer.isOver()) this.gameState.setState(PacmanGameState.EtatJeu.PERDU);
-
     if (commande != Cmd.IDLE)
       player.setCurrentMoveDirection(Direction.valueOf(commande.name()));
-
     player.go();
+
     if (allPastillesEaten()) {
-      this.changeLevel();
       gameState.setState(PacmanGameState.EtatJeu.VICTOIRE);
     } else if (willPlayerCollideMob() || gameTimer.isOver()) {
-      this.changeLevel();
-      gameTimer.reset();
       gameState.setState(PacmanGameState.EtatJeu.PERDU);
     } else {
-      gameState.setState(PacmanGameState.EtatJeu.EN_COURS);
-
+      //gameState.setState(PacmanGameState.EtatJeu.EN_COURS);
       for (Monstre monstre : monstres) {
         monstre.actionMovement();
       }
     }
+
+
   }
-
-
 
   public void pauseTimer() {
     gameTimer.pause();
@@ -132,14 +129,18 @@ public class PacmanGame implements Game {
   public void restartTimer() {
     gameTimer.play();
   }
+
   public void resetTimer() {
     gameTimer.reset();
   }
+
   public void resetScore() {
     score = 0;
   }
 
-  private void changeLevel() {
+  public void changeLevel() {
+    gameState.setState(PacmanGameState.EtatJeu.EN_COURS);
+    this.gameTimer.play();
     labyrinthe = new Labyrinthe(Util.MAZE_SIZE, Util.MAZE_SIZE);
     for (Monstre m : monstres)
       m.destroy();
@@ -167,7 +168,7 @@ public class PacmanGame implements Game {
     resetTimer();
     restartTimer();
     player.respawn();
-
+    this.justChanged = true;
   }
 
   private void generateMonster(int amountStatic, int amountRandom, int amountFollow) {
@@ -236,6 +237,12 @@ public class PacmanGame implements Game {
     return labyrinthe.getLeftPastilles() == 0;
   }
 
+  public void setJustChanged(boolean justChanged) {
+    this.justChanged = justChanged;
+  }
+  public boolean hasJustChanged() {
+    return this.justChanged;
+  }
   /**
    * verifier si le jeu est fini
    */
