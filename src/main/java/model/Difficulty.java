@@ -1,19 +1,21 @@
 package model;
 
 public enum Difficulty {
-    EASY(3, 2, 1, 50),
-    MEDIUM(6, 1, 2, 44),
-    HARD(9, 0, 3, 40);
+    EASY(3, 2, 1, 0, 50),
+    MEDIUM(6, 1, 1, 1, 44),
+    HARD(9, 0, 1, 2, 40);
 
     private final int pastilleAmount;
     private final int nbMonstreStatic;
     private final int nbMonstreRandom;
+    private final int nbMonstreFollow;
     private final int time;
 
-    Difficulty(int pastilleAmount, int nbMonstreStatic, int nbMonstreRandom, int time) {
+    Difficulty(int pastilleAmount, int nbMonstreStatic, int nbMonstreRandom, int nbMonstreFollowing, int time) {
         this.pastilleAmount = pastilleAmount;
         this.nbMonstreStatic = nbMonstreStatic;
         this.nbMonstreRandom = nbMonstreRandom;
+        this.nbMonstreFollow = nbMonstreFollowing;
         this.time = time;
     }
 
@@ -27,6 +29,10 @@ public enum Difficulty {
 
     public int getNbMonstreRandom() {
         return nbMonstreRandom;
+    }
+
+    public int getNbMonstreFollow() {
+        return nbMonstreFollow;
     }
 
     public int getTime() {

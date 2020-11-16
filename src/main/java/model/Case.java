@@ -1,7 +1,6 @@
 package model;
 
 
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
@@ -250,8 +249,8 @@ public class Case {
     return "Case{" +
       "x=" + x +
       ", y=" + y +
-      ", estUnMur=" + estUnMur +
-      '}';
+            ", estUnMur=" + estUnMur +
+            '}';
   }
 
   public BooleanProperty hasPastilleProperty = new SimpleBooleanProperty(false);
@@ -259,5 +258,15 @@ public class Case {
   public void destroyPastille() {
     this.pastille = null;
     this.hasPastilleProperty.set(false);
+  }
+
+  public int distance(Case c1) {
+    int distance;
+    int x = getX() - c1.getX();
+    int y = getY() - c1.getY();
+
+    distance = Math.abs(x) + Math.abs(y);
+
+    return distance;
   }
 }

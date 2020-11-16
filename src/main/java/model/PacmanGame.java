@@ -4,6 +4,7 @@ import fxengine.Cmd;
 import fxengine.Game;
 import model.monster.GhostType;
 import model.monster.Monstre;
+import model.monster.movementstrategy.FollowMovementStrategy;
 import model.monster.movementstrategy.RandomMovementStrategy;
 import model.monster.movementstrategy.StaticMovementStrategy;
 import model.player.Direction;
@@ -140,7 +141,6 @@ public class PacmanGame implements Game {
 
   private void changeLevel() {
     labyrinthe = new Labyrinthe(Util.MAZE_SIZE, Util.MAZE_SIZE);
-    player.respawn();
     for (Monstre m : monstres)
       m.destroy();
 
@@ -160,13 +160,17 @@ public class PacmanGame implements Game {
 
     this.generatePastille(difficulty.getPastilleAmount());
 
-    generateMonster(difficulty.getNbMonstreStatic(), difficulty.getNbMonstreRandom());
+    generateMonster(difficulty.getNbMonstreStatic(), difficulty.getNbMonstreRandom(), difficulty.getNbMonstreFollow());
+
 
     this.gameTimer.setCurrentTimer(difficulty.getTime());
+    resetTimer();
+    restartTimer();
+    player.respawn();
 
   }
 
-  private void generateMonster(int amountStatic, int amountRandom) {
+  private void generateMonster(int amountStatic, int amountRandom, int amountFollow) {
     List<GhostType> ghostTypes = Arrays.asList(GhostType.values());
     Stack<Case> spawnable = labyrinthe.getSpawnableCase();
     int cptType = 0;
@@ -176,6 +180,15 @@ public class PacmanGame implements Game {
       labyrinthe.getLabyrinthe()[selected.getX()][selected.getY()].setMonster(true);
       Monstre monstre = new Monstre(this, selected.getX(), selected.getY(), ghostTypes.get(cptType++ % 4));
       monstre.setMovementStrategy(new RandomMovementStrategy(monstre, this));
+
+      monstres.add(monstre);
+    }
+
+    for (int i = 0; i < amountFollow; i++) {
+      Case selected = spawnable.pop();
+      labyrinthe.getLabyrinthe()[selected.getX()][selected.getY()].setMonster(true);
+      Monstre monstre = new Monstre(this, selected.getX(), selected.getY(), ghostTypes.get(cptType++ % 4));
+      monstre.setMovementStrategy(new FollowMovementStrategy(monstre, this));
 
       monstres.add(monstre);
     }

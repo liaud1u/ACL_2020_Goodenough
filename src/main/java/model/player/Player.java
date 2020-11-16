@@ -42,6 +42,7 @@ public class Player {
    */
   public void respawn() {
     xPrec = yPrec = x = y = 1;
+    currentMoveDirection = Direction.IDLE;
   }
   /**
    * Getter de la direction de mouvement

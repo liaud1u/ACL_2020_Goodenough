@@ -22,9 +22,9 @@ public abstract class Util {
   public static DoubleProperty wallSizeProperty = new SimpleDoubleProperty(); //Taille d'un mur
 
 
-  public static int speedDifficulty = 1;  //Vitesse du personnage
+  public static int speedDifficulty = 3;  //Vitesse du personnage
   public static int SCORE_SIZE = 8; //Nombre de chiffre dans le score
-  public static int timer = 3600; // timer (seconds)
+  public static int timer = 45; // timer (seconds)
   public static int maxTimerSize = 3;
   public static int DISPLAY_MSG_DURATION = 3;
 

@@ -386,15 +386,6 @@ public class Labyrinthe {
         return spawnableCase;
     }
 
-    public static int distanceEntre2Cases(Case c1, Case c2){
-        int distance;
-        int x = c1.getX() - c2.getX();
-        int y = c1.getY() - c2.getY();
-
-            distance = Math.abs(x)+Math.abs(y);
-
-        return distance;
-    }
 }
 
 
