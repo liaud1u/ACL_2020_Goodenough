@@ -4,6 +4,8 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import model.Case;
 import model.util.Util;
 import views.PastilleView;
@@ -14,14 +16,20 @@ import views.PastilleView;
  */
 public class CaseView extends Group {
   public CaseView(Image sprite, Case c) {
+
+    Rectangle r = new Rectangle(c.getX() * Util.slotSizeProperty.get(), c.getY()* Util.slotSizeProperty.get(),
+            Util.slotSizeProperty.get(), Util.slotSizeProperty.get());
+    r.setStroke(Color.ALICEBLUE);
+    this.getChildren().add(r);
+
     if (c.hasPastille()) {
       final PastilleView pastilleView = new PastilleView(c.getPastille(), c.getX(), c.getY());
       pastilleView.visibleProperty().bind(c.hasPastilleProperty);
-
       this.getChildren().add(pastilleView);
     }
 
     if (c.estUnMur()) {
+
       ImageView texture = new ImageView(sprite);
       Rectangle2D view = CaseImageTiles.REVERSE_SQUARE.getView();
 

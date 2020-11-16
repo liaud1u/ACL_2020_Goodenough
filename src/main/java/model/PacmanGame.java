@@ -164,10 +164,10 @@ public class PacmanGame implements Game {
 
 
     this.monstres = new ArrayList<>();
+    this.generateMonster(difficulty.getNbMonstreStatic(), difficulty.getNbMonstreRandom(), difficulty.getNbMonstreFollow());
 
     this.generatePastille(difficulty.getPastilleAmount());
 
-    generateMonster(difficulty.getNbMonstreStatic(), difficulty.getNbMonstreRandom(), difficulty.getNbMonstreFollow());
 
 
     this.gameTimer.setCurrentTimer(difficulty.getTime());
