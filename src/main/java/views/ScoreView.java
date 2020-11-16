@@ -12,7 +12,7 @@ public class ScoreView extends Group {
   private PacmanGame game;  // The game
 
   private double width;
-  private double heigth;
+  private double height;
 
   /** @param game     (:{@link PacmanGame}) The current model
    *  @param width    (:int)
@@ -20,7 +20,7 @@ public class ScoreView extends Group {
    *  */
   public ScoreView(PacmanGame game, int width, int height, int x, int y) {
     this.game = game;
-    this.heigth = height;
+    this.height = height;
     this.width = width;
   }
 

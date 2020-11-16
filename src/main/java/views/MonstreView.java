@@ -7,28 +7,34 @@ import javafx.scene.image.ImageView;
 import model.monster.Monstre;
 import model.util.Util;
 
+//FIXME: extends from ImageView instead of Group
+/** Class used for the display of a monster
+ * */
 public class MonstreView extends Group {
+  private final Monstre monstre;  // the monster to display
+  private final Image sprite; // the current sprite for the monster
+  private final ImageView view; // the imageview used to display the monster
 
-  private final Monstre monstre;
-  private final Image sprite;
-  private final ImageView view;
 
+  private final double animX; //FIXME: dunno how to doc this
+  private final double animY; // same
 
-  private final double animX;
   private final Rectangle2D[] frames;
-  private final double animY;
 
-  /**
-   * Frame actuelle (pour les animations)
-   */
-  private int currentFrame;
+  private int currentFrame; // current fram for the animations
 
+  /** @param monstre (:{@link Monstre}) the monster to display
+   * */
   public MonstreView(Monstre monstre) {
     this.monstre = monstre;
     int size = (int) (Util.slotSizeProperty.intValue() * Util.RATIO_MONSTRE);
 
+    /** check the type of the monster
+     *  and pick the colour depending of the monster's type
+     *  */
     switch (monstre.getType()) {
-      case RED:
+      case RED: // red is used as default color
+      default:
         sprite = new Image("monsters/red_ghost.png", size * 8, size, true, false);
         break;
       case BLUE:
@@ -40,50 +46,50 @@ public class MonstreView extends Group {
       case PINK:
         sprite = new Image("monsters/pink_ghost.png", size * 8, size, true, false);
         break;
-      default:
-        sprite = new Image("monsters/red_ghost.png", size * 8, size, true, false);
-        break;
     }
-    view = new ImageView(sprite);
 
+    view = new ImageView(sprite); // init the view
     currentFrame = 0;
+    view.setViewport(new Rectangle2D(0, 0, size, size));  // set the viewport
 
-    view.setViewport(new Rectangle2D(0, 0, size, size));
+    this.init();  // we display the view
 
-    this.init();
-
-    animX = (int) (Util.slotSizeProperty.get() / 2);
-    animY = (int) (Util.slotSizeProperty.get() / 2);
+    animX = (int) (Util.slotSizeProperty.get() / 2);  //FIXME: dunno how to doc this
+    animY = (int) (Util.slotSizeProperty.get() / 2);  //same
 
     frames = new Rectangle2D[8];
-    for (int i = 0; i < 8; i++)
-      frames[i] = new Rectangle2D(size * i, 0, size, size);
-
-
+    for (int i = 0; i < 8; i++) frames[i] = new Rectangle2D(size * i, 0, size, size);
   }
 
-  /**
-   * Initialisation de la vue
-   */
+  /** init the view
+   * */
   private void init() {
     this.getChildren().add(view);
-
   }
 
+  /** @param ratio (:double), the second ratio the gameloop is currently in
+   *  the method draw the monster
+   * */
   public void draw(double ratio) {
-    int size = (int) (Util.slotSizeProperty.intValue() * Util.RATIO_MONSTRE);
+    int size = (int) (Util.slotSizeProperty.intValue() * Util.RATIO_MONSTRE); // set the size
 
-    if (monstre.getyPrec() == monstre.getY() && monstre.getX() == monstre.getxPrec()) {
-      view.setX(monstre.getX() * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2 - size / 2);
-      view.setY(monstre.getY() * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2 - size / 2);
-    } else {
-      view.setX(Util.slotSizeProperty.get() * (monstre.getxPrec() + ratio * this.monstre.getMovementStrategy().getDirection().getX_dir()));
-      view.setY(Util.slotSizeProperty.get() * (monstre.getyPrec() + ratio * this.monstre.getMovementStrategy().getDirection().getY_dir()));
+    /** set coords depending of ??????*/
+    if (  //FIXME: dunno how to doc this
+      monstre.getyPrec() == monstre.getY() &&
+      monstre.getX() == monstre.getxPrec())
+    {
+      view.setX(Util.slotSizeProperty.multiply(monstre.getX()).add(Util.slotSizeProperty.divide(2).subtract(size/2)).get());
+      view.setY(Util.slotSizeProperty.multiply(monstre.getY()).add(Util.slotSizeProperty.divide(2).subtract(size/2)).get());
+    } else
+      {
+      view.setX(Util.slotSizeProperty.multiply(monstre.getxPrec() + ratio * this.monstre.getMovementStrategy().getDirection().getX_dir()).get());
+      view.setY(Util.slotSizeProperty.multiply(monstre.getyPrec() + ratio * this.monstre.getMovementStrategy().getDirection().getY_dir()).get());
     }
 
-    currentFrame = (currentFrame + 1) % 20;
+    currentFrame = (currentFrame + 1) % 20; // set the frame
     int printedFrame = currentFrame / 10;
 
+    // set the viewport depending of the direction
     switch (monstre.getMovementStrategy().getDirection()) {
       case UP:
         view.setViewport(frames[0 + printedFrame]);
@@ -98,7 +104,5 @@ public class MonstreView extends Group {
         view.setViewport(frames[6 + printedFrame]);
         break;
     }
-
-
   }
 }
