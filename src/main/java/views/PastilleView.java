@@ -1,55 +1,34 @@
 package views;
 
-import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.shape.Circle;
 import model.Pastille;
 import model.util.Util;
 
-/**
- * Vue de la pastille
- */
-public class PastilleView extends Group {
+/** Class used for the display of the chip
+ * */
+public class PastilleView extends ImageView {
+  private final Pastille pastille; // the current item we want to display
 
-    /**
-     * Pastille à afficher
-     */
-    private final Pastille pastille;
+  /** @param pastille (:{@link Pastille}) the item to display
+   *  @param x        (:int)              item's x coordinate
+   *  @param y        (:int)              item's y coordinate
+   *  */
+  public PastilleView(Pastille pastille, int x, int y) {
+    this.pastille = pastille;
 
+    final double size = Util.slotSizeProperty.multiply(Util.RATIO_PASTILLE).get();
 
-    /**
-     * Vue de l'image à afficher
-     */
-    private ImageView view;
+    // set the image to display
+    this.setImage(new Image("pastille.png", size, size,true,false));
 
-
-    /**
-     * Constructeur de la vue
-     *
-     * @param pastille Pastille à afficher
-     * @param x        int coordonnée x de la pastille
-     * @param y        int coordonnée y de la pastille
-     */
-    public PastilleView(Pastille pastille, double x, double y) {
-        double size = Util.RATIO_PASTILLE * Util.slotSizeProperty.get();
-        Image image =new Image("pastille.png",size,size,true,false);
-
-        this.pastille = pastille;
-
-        view = new ImageView(image);
-
-        view.setX(x * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2 - size/2);
-        view.setY(y * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2 - size/2);
-
-        getChildren().add(view);
-    }
-
-    /**
-     * Draw de la pastille (pour la mise à jour lors d'un ramassage)
-     */
-    public void draw() {
-        this.setVisible(!pastille.isRamassee());
-    }
-    
+    // FIXME: why do we have /2 here?
+    // define the coordinates of the view
+    this.setX(
+      Util.slotSizeProperty.multiply(x).add(Util.slotSizeProperty.divide(2).subtract(size / 2)).get()
+    );
+    this.setY(
+      Util.slotSizeProperty.multiply(y).add(Util.slotSizeProperty.divide(2).subtract(size / 2)).get()
+    );
+  }
 }
