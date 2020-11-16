@@ -16,12 +16,12 @@ import views.PastilleView;
  */
 public class CaseView extends Group {
   public CaseView(Image sprite, Case c) {
-
+/*    TODO : ajouter un mode debug pour print les rectangles
     Rectangle r = new Rectangle(c.getX() * Util.slotSizeProperty.get(), c.getY()* Util.slotSizeProperty.get(),
             Util.slotSizeProperty.get(), Util.slotSizeProperty.get());
     r.setStroke(Color.ALICEBLUE);
     this.getChildren().add(r);
-
+*/
     if (c.hasPastille()) {
       final PastilleView pastilleView = new PastilleView(c.getPastille(), c.getX(), c.getY());
       pastilleView.visibleProperty().bind(c.hasPastilleProperty);

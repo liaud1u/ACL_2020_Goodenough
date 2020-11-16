@@ -48,7 +48,6 @@ public abstract class Pastille {
         this.typePastille = typePastille;
         this.x = x;
         this.y = y;
-        System.out.println(this.toString());
     }
 
     /**

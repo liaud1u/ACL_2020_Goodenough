@@ -74,9 +74,8 @@ public class Player {
    */
   public void go() {
     //Si il n'y a pas de collisions, on met à jour les coordonnées
-
+    game.isEatingAPastaga();
     if (!game.willPlayerCollide() && !game.willPlayerCollideMob()) {
-      game.isEatingAPastaga();
       xPrec = x;
       yPrec = y;
       x = (x + currentMoveDirection.getX_dir() + Util.MAZE_SIZE) % Util.MAZE_SIZE;
