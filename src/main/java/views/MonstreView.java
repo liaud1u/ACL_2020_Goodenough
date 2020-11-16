@@ -73,6 +73,7 @@ public class MonstreView extends Group {
   public void draw(double ratio) {
     int size = (int) (Util.slotSizeProperty.intValue() * Util.RATIO_MONSTRE); // set the size
 
+    /** set coords depending of ??????*/
     if (  //FIXME: dunno how to doc this
       monstre.getyPrec() == monstre.getY() &&
       monstre.getX() == monstre.getxPrec())

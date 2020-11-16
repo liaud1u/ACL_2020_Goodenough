@@ -15,8 +15,8 @@ public class PlayerView extends Group {
   private final Image[] sprite = new Image[4];  // The sprites for the player
   private final ImageView view; // The current sprite to display
 
-  private final double animX;
-  private final double animY;
+  private final double animX; //FIXME: dunno how to doc this
+  private final double animY; //same
 
   private int frame;  // Current frame (for animations)
 

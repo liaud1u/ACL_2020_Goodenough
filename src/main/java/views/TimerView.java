@@ -11,7 +11,7 @@ import static model.util.Util.maxTimerSize;
 /** The class implementing the view for the timer.
  * */
 public class TimerView extends Group {
-  private GameTimer gameTimer;
+  private GameTimer gameTimer;  // the current timer to display
 
   /*------------------------------------------------------------------
                               Methods
