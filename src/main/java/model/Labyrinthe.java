@@ -158,16 +158,16 @@ public class Labyrinthe {
 
     public ArrayList<Direction> getFreeDirection(int x, int y) {
         ArrayList<Direction> directionToFreeCase = new ArrayList<>();
-        if (x - 1 >= 0 && !getCaseLabyrinthe(x - 1, y).estUnMur() && !getCaseLabyrinthe(x - 1, y).hasMonster()) {
+        if (!getCaseLabyrinthe(x - 1, y).estUnMur() && !getCaseLabyrinthe(x - 1, y).hasMonster()) {
             directionToFreeCase.add(Direction.LEFT);
         }
-        if (y - 1 >= 0 && !getCaseLabyrinthe(x, y - 1).estUnMur() && !getCaseLabyrinthe(x, y - 1).hasMonster()) {
+        if (!getCaseLabyrinthe(x, y - 1).estUnMur() && !getCaseLabyrinthe(x, y - 1).hasMonster()) {
             directionToFreeCase.add(Direction.UP);
         }
-        if (x + 1 < Util.MAZE_SIZE - 1 && !getCaseLabyrinthe(x + 1, y).estUnMur() && !getCaseLabyrinthe(x + 1, y).hasMonster()) {
+        if (!getCaseLabyrinthe(x + 1, y).estUnMur() && !getCaseLabyrinthe(x + 1, y).hasMonster()) {
             directionToFreeCase.add(Direction.RIGHT);
         }
-        if (y + 1 < Util.MAZE_SIZE - 1 && !getCaseLabyrinthe(x, y + 1).estUnMur() && !getCaseLabyrinthe(x, y + 1).hasMonster()) {
+        if (!getCaseLabyrinthe(x, y + 1).estUnMur() && !getCaseLabyrinthe(x, y + 1).hasMonster()) {
             directionToFreeCase.add(Direction.DOWN);
         }
         return directionToFreeCase;
@@ -180,7 +180,7 @@ public class Labyrinthe {
      */
     public Case getCaseLabyrinthe(int x, int y) {
         try {
-            return labyrinthe[x][y];
+            return labyrinthe[(x + Util.MAZE_SIZE) % Util.MAZE_SIZE][(y + Util.MAZE_SIZE) % Util.MAZE_SIZE];
         } catch (ArrayIndexOutOfBoundsException e) {
             return null;
         }

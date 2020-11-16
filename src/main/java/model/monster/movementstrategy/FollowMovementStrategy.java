@@ -5,6 +5,7 @@ import model.Labyrinthe;
 import model.PacmanGame;
 import model.monster.Monstre;
 import model.player.Direction;
+import model.util.Util;
 
 import java.util.ArrayList;
 
@@ -26,8 +27,8 @@ public class FollowMovementStrategy implements MovementStrategy {
 
         chooseDirection();
 
-        int nextX = monstre.getX() + direction.getX_dir();
-        int nextY = monstre.getY() + direction.getY_dir();
+        int nextX = (monstre.getX() + direction.getX_dir() + Util.MAZE_SIZE) % Util.MAZE_SIZE;
+        int nextY = (monstre.getY() + direction.getY_dir() + Util.MAZE_SIZE) % Util.MAZE_SIZE;
 
 
         monstre.setX(nextX);
@@ -52,10 +53,10 @@ public class FollowMovementStrategy implements MovementStrategy {
 
             for (Direction d : directions) {
 
-                xFollowingDir = monstre.getX() + d.getX_dir();
-                yFollowingDir = monstre.getY() + d.getY_dir();
-                betterX = monstre.getX() + nearest.getX_dir();
-                betterY = monstre.getY() + nearest.getY_dir();
+                xFollowingDir = (monstre.getX() + d.getX_dir() + Util.MAZE_SIZE) % Util.MAZE_SIZE;
+                yFollowingDir = (monstre.getY() + d.getY_dir() + Util.MAZE_SIZE) % Util.MAZE_SIZE;
+                betterX = (monstre.getX() + nearest.getX_dir() + Util.MAZE_SIZE) % Util.MAZE_SIZE;
+                betterY = (monstre.getY() + nearest.getY_dir() + Util.MAZE_SIZE) % Util.MAZE_SIZE;
 
                 Case nearestCase = labyrinthe.getLabyrinthe()[betterX][betterY];
                 Case followingDir = labyrinthe.getLabyrinthe()[xFollowingDir][yFollowingDir];

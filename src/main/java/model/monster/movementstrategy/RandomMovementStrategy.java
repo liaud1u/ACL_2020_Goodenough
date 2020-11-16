@@ -42,8 +42,9 @@ public class RandomMovementStrategy implements MovementStrategy {
             chooseRandomDirection();
 
 
-            nextX = monstre.getX() + direction.getX_dir();
-            nextY = monstre.getY() + direction.getY_dir();
+            // Le modulo de java peux retourner un nombre négatif, on comble donc pour obtenir toujours des positifs
+            nextX = (monstre.getX() + direction.getX_dir() + Util.MAZE_SIZE) % Util.MAZE_SIZE;
+            nextY = (monstre.getY() + direction.getY_dir() + Util.MAZE_SIZE) % Util.MAZE_SIZE;
         }
 
         monstre.setX(nextX);
