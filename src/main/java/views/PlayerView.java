@@ -7,114 +7,83 @@ import javafx.scene.image.ImageView;
 import model.player.Player;
 import model.util.Util;
 
-/**
- * Vue du joueur
- */
+/** Class for the display of the player
+ * */
 public class PlayerView extends Group {
-
-
-  /**
-   * Joueur à afficher
-   */
-  private final Player player;
-
-  /**
-   * Liste des 4 différentes images décrivant le personnage
-   */
-  private final Image[] sprite = new Image[4];
-
-  /**
-   * Vue de l'image à afficher
-   */
-  private final ImageView view;
-
-
-  /**
-   * Frame actuelle (pour les animations)
-   */
-  private int frame;
+  private final Player player;  // The player we are currently displaying
+  private final Image[] sprite = new Image[4];  // The sprites for the player
+  private final ImageView view; // The current sprite to display
 
   private final double animX;
-
   private final double animY;
 
-  /**
-   * Constructeur de la vue
-   *
-   * @param player Player joueur à afficher
-   */
+  private int frame;  // Current frame (for animations)
+
+  /** @param player (:{@link Player}) the current player to display
+   * */
   public PlayerView(Player player) {
     this.player = player;
     this.frame = 0;
 
-    int size = (int) (Util.slotSizeProperty.intValue() * Util.RATIO_PERSONNAGE);
+    final int size = (int) Util.slotSizeProperty.multiply(Util.RATIO_PERSONNAGE).get();
+    final int spriteSize = size * 3;
 
-    sprite[0] = new Image("pacman/pacman_down.png", size * 3, size, true, false);
-    sprite[1] = new Image("pacman/pacman_up.png", size * 3, size, true, false);
-    sprite[2] = new Image("pacman/pacman_left.png", size * 3, size, true, false);
-    sprite[3] = new Image("pacman/pacman_right.png", size * 3, size, true, false);
+    // Initialize all the sprites
+    sprite[0] = new Image("pacman/pacman_down.png", spriteSize, size, true, false);   // going down sprite
+    sprite[1] = new Image("pacman/pacman_up.png", spriteSize, size, true, false);     // going up sprite
+    sprite[2] = new Image("pacman/pacman_left.png", spriteSize, size, true, false);   // going left sprite
+    sprite[3] = new Image("pacman/pacman_right.png", spriteSize, size, true, false);  // going right sprite
 
-    view = new ImageView(sprite[0]);
-    view.setViewport(new Rectangle2D(0, 0, size, size));
+    this.view = new ImageView(sprite[0]); // the current sprite to display
+    this.view.setViewport(new Rectangle2D(0, 0, size, size)); // set the viewport
 
+    // FIXME dunno how to doc this
     animX = (int) (Util.slotSizeProperty.get() / 2);
     animY = (int) (Util.slotSizeProperty.get() / 2);
 
-    this.init();
-  }
-
-  /**
-   * Initialisation de la vue
-   */
-  private void init() {
     this.getChildren().add(view);
   }
 
-  /**
-   * Dessin de la vue
-   */
+  /** @param ratio (:double)
+   *  The method display the current sprite for the player
+   *  */
   public void draw(double ratio) {
-
+      // define the player sprite to display depending of the current direction
       switch (player.getCurrentMoveDirection()){
-        case DOWN:
-          view.setImage(sprite[0]);
-          break;
-        case UP:
-          view.setImage(sprite[1]);
-          break;
-        case LEFT:
-          view.setImage(sprite[2]);
-          break;
-        case RIGHT:
-          view.setImage(sprite[3]);
-          break;
+        case DOWN:  view.setImage(sprite[0]);   break;
+        case UP:    view.setImage(sprite[1]);   break;
+        case LEFT:  view.setImage(sprite[2]);   break;
+        case RIGHT: view.setImage(sprite[3]);   break;
       }
 
+      // if the player is not stuck, refresh the coordinates
       if (! this.player.isStuck()) {
-        view.setX(Util.slotSizeProperty.get() * (player.getxPrec() + ratio * this.player.getCurrentMoveDirection().getX_dir()));
-        view.setY(Util.slotSizeProperty.get() * (player.getyPrec() + ratio * this.player.getCurrentMoveDirection().getY_dir()));
+        view.setX(
+          Util.slotSizeProperty.multiply(
+            this.player.getxPrec() + ratio * this.player.getCurrentMoveDirection().getX_dir()
+          ).get()
+        );
+
+        view.setY(
+          Util.slotSizeProperty.multiply(
+            player.getyPrec() + ratio * this.player.getCurrentMoveDirection().getY_dir()
+          ).get()
+        );
       }
 
       int size = (int) (Util.slotSizeProperty.intValue() * Util.RATIO_PERSONNAGE);
-
       frame = (frame + 1) % 20;
-
       int printedFrame = frame / 5;
 
-      // Les image ne sont pas dans l'ordre dans la ressource, on remet les binds aux bonnes frames
+      // frame ain't in the right order. We have to bind them to the good frames
       switch (printedFrame) {
-        case 0:
-          printedFrame = 2;
-          break;
+        case 0: printedFrame = 2; break;
         case 1:
-        case 3:
-          printedFrame = 0;
-          break;
-        case 2:
-          printedFrame = 1;
-          break;
+        case 3: printedFrame = 0; break;
+        case 2: printedFrame = 1; break;
       }
 
+      // we set the current viewport of the viewport
       view.setViewport(new Rectangle2D(printedFrame * size,0,size,size));
     }
 }
