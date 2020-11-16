@@ -2,6 +2,8 @@ package model;
 
 import fxengine.Cmd;
 import fxengine.Game;
+import javafx.geometry.Point2D;
+import javafx.geometry.Point3D;
 import model.monster.GhostType;
 import model.monster.Monstre;
 import model.monster.movementstrategy.FollowMovementStrategy;
@@ -116,7 +118,6 @@ public class PacmanGame implements Game {
       gameState.setState(PacmanGameState.EtatJeu.VICTOIRE);
     } else if (willPlayerCollideMob() || gameTimer.isOver()) {
       gameState.setState(PacmanGameState.EtatJeu.PERDU);
-      this.level = 0;
     } else {
       for (Monstre monstre : monstres) {
         monstre.actionMovement();
@@ -139,7 +140,12 @@ public class PacmanGame implements Game {
   }
 
   public void changeLevel() {
-    this.level++;
+    if(this.isWon()) {
+      this.level++;
+    } else {
+      this.level = 0;
+      this.score = 0;
+    }
     gameState.setState(PacmanGameState.EtatJeu.EN_COURS);
     this.gameTimer.play();
     labyrinthe = new Labyrinthe(Util.MAZE_SIZE, Util.MAZE_SIZE);
@@ -178,28 +184,26 @@ public class PacmanGame implements Game {
 
     for (int i = 0; i < amountRandom; i++) {
       Case selected = spawnable.pop();
-      labyrinthe.getLabyrinthe()[selected.getX()][selected.getY()].setMonster(true);
+      selected.setMonster(true);
       Monstre monstre = new Monstre(this, selected.getX(), selected.getY(), ghostTypes.get(cptType++ % 4));
       monstre.setMovementStrategy(new RandomMovementStrategy(monstre, this));
-
+      selected.setMonster(true);
       monstres.add(monstre);
     }
 
     for (int i = 0; i < amountFollow; i++) {
       Case selected = spawnable.pop();
-      labyrinthe.getLabyrinthe()[selected.getX()][selected.getY()].setMonster(true);
+      selected.setMonster(true);
       Monstre monstre = new Monstre(this, selected.getX(), selected.getY(), ghostTypes.get(cptType++ % 4));
       monstre.setMovementStrategy(new FollowMovementStrategy(monstre, this));
-
       monstres.add(monstre);
     }
 
     for (int i = 0; i < amountStatic; i++) {
       Case selected = spawnable.pop();
-      labyrinthe.getLabyrinthe()[selected.getX()][selected.getY()].setMonster(true);
+      selected.setMonster(true);
       Monstre monstre = new Monstre(this, selected.getX(), selected.getY(), ghostTypes.get(cptType++ % 4));
       monstre.setMovementStrategy(new StaticMovementStrategy());
-
       monstres.add(monstre);
     }
   }
@@ -207,9 +211,6 @@ public class PacmanGame implements Game {
   private void generatePastille(int entities) {
     Case[][] cases = labyrinthe.getLabyrinthe();
     int nbCasesDisponibles = labyrinthe.getNbCasesLibres();
-    Stack<Case> spawnable = labyrinthe.getSpawnableCase();
-    int[][] forbiddenCases = new int[spawnable.size()+1][spawnable.size()+1];
-
     if (nbCasesDisponibles < entities) {
       System.err.println("ERREUR : Impossible de mettre  les pastilles  dans un labyrinthe possédant " + nbCasesDisponibles + " cases libres !");
       return;
@@ -218,7 +219,9 @@ public class PacmanGame implements Game {
     for (int i = 0; i < entities; i++) {
         int x = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
           int y = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
-          while (cases[x][y].estUnMur() || cases[x][y].hasEntity()) {
+          while (cases[x][y].estUnMur() || cases[x][y].hasEntity() ||
+                  ( x == Util.MAZE_SIZE / 2 && y ==Util.MAZE_SIZE / 2- 1) // No coin on the monster output
+          ) {
             x = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
             y = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
           }
