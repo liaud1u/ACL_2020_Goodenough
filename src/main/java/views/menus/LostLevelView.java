@@ -2,13 +2,10 @@ package views.menus;
 
 import model.PacmanGame;
 
-/**
- * @author Ribeyrolles Matthieu
- * 14/11/2020, 16:00
- */
-public class LostLevelView extends EndLevelView{
-  private boolean lostCauseOfTimer;
 
+/** class used to display the lost level menu
+ * */
+public class LostLevelView extends EndLevelView{
   /*------------------------------------------------------------------
                               Methods
    ------------------------------------------------------------------*/
@@ -21,14 +18,14 @@ public class LostLevelView extends EndLevelView{
   protected void init() {
     super.init();
 
-    this.text.setText(String.format(
+    this.text.setText(String.format(  // set the text for a lost, with the level and the score reached
       "Level failed!\n%s\nYou reached the level %d, with a score of %d!\n\nReady to start again?",
-      (this.lostCauseOfTimer) ? "You ran out of time :(" : "",
-      this.level,
-      this.score
+      (this.game.getGameTimer().isOver()) ? "You ran out of time :(" : "",  // if timer is over, print a message
+      this.game.getLevel() + 1,
+      this.game.getScore()
     ));
 
-    this.button.setText("Try again");
+    this.button.setText("Try again"); // set text for the button
   }
 
   // public
@@ -37,9 +34,10 @@ public class LostLevelView extends EndLevelView{
                             Constructors
    ------------------------------------------------------------------*/
 
+  /** @param game (:{@link PacmanGame}) the current game
+   * */
   public LostLevelView(PacmanGame game) {
     super(game);
-    this.lostCauseOfTimer = game.isGameOver();
 
     this.init();
   }
