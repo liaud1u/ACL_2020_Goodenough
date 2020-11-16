@@ -25,7 +25,7 @@ public class Player {
   /**
    * Direction courante du joueur
    */
-  private Direction currentMoveDirection = Direction.RIGHT;
+  private Direction currentMoveDirection;
 
   /**
    * Constructeur du joueur
@@ -34,19 +34,16 @@ public class Player {
    */
   public Player(PacmanGame game) {
     this.game = game;
-
-    // On récupère la moitié de la taille d'une case comme coordonnées par défaut
-    xPrec = yPrec = x = y = 1;
-    this.isStuck = false;
+    this.spawn();
   }
 
   /**
    * réinitialise la position du joueur dans le labyrinthe
    */
-  public void respawn() {
+  public void spawn() {
     xPrec = yPrec = x = y = 1;
     this.isStuck = false;
-    currentMoveDirection = Direction.RIGHT;
+    currentMoveDirection = Direction.IDLE;
   }
   /**
    * Getter de la direction de mouvement

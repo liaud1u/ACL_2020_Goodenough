@@ -2,8 +2,6 @@ package model;
 
 import fxengine.Cmd;
 import fxengine.Game;
-import javafx.geometry.Point2D;
-import javafx.geometry.Point3D;
 import model.monster.GhostType;
 import model.monster.Monstre;
 import model.monster.movementstrategy.FollowMovementStrategy;
@@ -173,7 +171,7 @@ public class PacmanGame implements Game {
     this.gameTimer.setCurrentTimer(difficulty.getTime());
     resetTimer();
     restartTimer();
-    player.respawn();
+    player.spawn();
     this.justChanged = true;
   }
 
