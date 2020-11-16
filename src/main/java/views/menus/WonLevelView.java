@@ -1,12 +1,9 @@
 package views.menus;
 
-import javafx.scene.text.Font;
 import model.PacmanGame;
 
-/**
- * @author Ribeyrolles Matthieu
- * 14/11/2020, 15:30
- */
+/** class used to display a won level menu
+ * */
 public class WonLevelView extends EndLevelView {
   /*------------------------------------------------------------------
                               Methods
@@ -20,15 +17,14 @@ public class WonLevelView extends EndLevelView {
   protected void init() {
     super.init();
 
-    this.text.setText(String.format(
+    this.text.setText(String.format(  // set the text for a lost, with the level and the score reached
       "Congrats!\nYou're currently on level %d, with a score of %d!\n\nReady to continue?",
-      this.level,
-      this.score
+      this.game.getLevel() + 1,
+      this.game.getScore()
     ));
 
-    this.button.setText("Next level");
+    this.button.setText("Next level");  // set the button text
   }
-
 
   // public
    
@@ -36,6 +32,8 @@ public class WonLevelView extends EndLevelView {
                             Constructors
    ------------------------------------------------------------------*/
 
+  /** @param game (:{@link PacmanGame}) the current game
+   * */
   public WonLevelView(PacmanGame game) {
     super(game);
   }
