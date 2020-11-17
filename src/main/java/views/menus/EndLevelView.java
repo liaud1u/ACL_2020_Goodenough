@@ -2,10 +2,8 @@ package views.menus;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import model.PacmanGame;
 import model.util.Util;
@@ -16,7 +14,7 @@ import model.util.Util;
 public abstract class EndLevelView extends VBox {
   protected PacmanGame game;  //  the current game
   protected Button button;  // the button for exiting the menu
-  protected Text text;  //  the text displayed
+  protected Label text;  //  the text displayed
   /*------------------------------------------------------------------
                               Methods
    ------------------------------------------------------------------*/
@@ -30,6 +28,7 @@ public abstract class EndLevelView extends VBox {
   protected void init() {
     //set the size of the VBox to fit the window size
     //FIXME remove this
+    this.getStylesheets().add("fonts/fontstyle.css");
     this.minWidthProperty().bind(Util.currentWindowWidthProperty);
     this.maxWidthProperty().bind(Util.currentWindowWidthProperty);
     this.minHeightProperty().bind(Util.currentWindowHeightProperty);
@@ -39,20 +38,16 @@ public abstract class EndLevelView extends VBox {
     this.setSpacing(50.d);  // set a spacing between elements of the VBox
 
     //Text init
-    this.text = new Text(""); // init the text to an empty text
+    this.text = new Label(""); // init the text to an empty text
     this.text.setTextAlignment(TextAlignment.CENTER); // align the text on center
-    this.text.setFill(Color.WHITE); // text is now white
-    this.text.setFont(Font.font(40)); // change text font
-    this.text.wrappingWidthProperty().bind(this.minWidthProperty().subtract(20.d)); // wrap the text to almost the width of the window
+    this.text.setWrapText(true);
+    this.text.getStyleClass().add("text_");
+    this.text.getStyleClass().add("big_text_");
+  //  this.text.setWidthProperty().bind(this.minWidthProperty().subtract(20.d)); // wrap the text to almost the width of the window
 
     //Button init
     this.button = new Button(""); // init the button without text
     this.button.setOnMousePressed(event -> this.game.changeLevel() ); // on click, we change the name
-    this.button.setStyle(   //set the style for the button //TODO: set this on an external stylesheet file
-      "-fx-cursor: hand;" +
-      "-fx-background-color: yellow;" +
-      "-fx-font-size: 20px"
-    );
   }
   // public
 

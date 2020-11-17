@@ -2,13 +2,11 @@ package views.menus;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import model.util.SpriteTools;
 import model.util.Util;
 import views.ScoreView;
@@ -16,7 +14,7 @@ import views.TimerView;
 
 public class RightSideView extends VBox {
 
-
+    private Label buttonExit;
     private TimerView timerView;
     private ScoreView scoreView;
 
@@ -33,7 +31,7 @@ public class RightSideView extends VBox {
         this.init();
     }
 
-    private Label buttonExit;
+
     private void init(){
         this.scoreView = new ScoreView();
         this.timerView = new TimerView();
@@ -43,15 +41,12 @@ public class RightSideView extends VBox {
         scoreLabel.getStyleClass().add("text_");
         timerLabel.getStyleClass().add("text_");
         buttonExit.getStyleClass().add("button");
-        scoreLabel.setFont(Font.font(24));
-        timerLabel.setFont(Font.font(24));
         VBox scoreBox = new VBox(scoreLabel, this.scoreView);
         VBox timerBox = new VBox(timerLabel, this.timerView);
         scoreBox.setAlignment(Pos.TOP_CENTER);
         timerBox.setAlignment(Pos.TOP_CENTER);
         buttonExit.setTextFill(Color.BLACK);
         buttonExit.setOnMousePressed(event -> System.exit(0));
-        buttonExit.setCursor(Cursor.HAND);
 
         this.getChildren().addAll(scoreBox, timerBox, buttonExit);
     }
