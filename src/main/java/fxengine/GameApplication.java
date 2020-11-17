@@ -68,10 +68,10 @@ public class GameApplication extends Application {
    * @throws Exception
    */
   public void start(Stage primaryStage) throws Exception {
-
-
     this.primaryStage = primaryStage;
 
+    Util.currentWindowWidthProperty.bind(this.primaryStage.widthProperty());
+    Util.currentWindowHeightProperty.bind(this.primaryStage.heightProperty());
 
     // Création d'un groupe pour les canvas et ajout des canvas au groupe
     root = new Group();
@@ -96,7 +96,7 @@ public class GameApplication extends Application {
     controller = new PacmanController();
 
     // Premier affichage
-    painter.draw();
+    painter.draw(0);
 
     // Actions à effectuer lors de la fermeture de l'application
     primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -130,10 +130,14 @@ public class GameApplication extends Application {
     GameLoop loop = new GameLoop(painter,controller,game);
     loop.start();
 
+    primaryStage.minWidthProperty().bind(Util.minWindowSizeProperty.add(Util.rightWidthProperty));
+    primaryStage.minHeightProperty().bind(Util.minWindowSizeProperty);
+
     // Paramètrage et affichage de la fenêtre principale
     primaryStage.setScene(scene);
     primaryStage.setTitle("Pacman");
     primaryStage.sizeToScene();
+    //primaryStage.setResizable(false); // FIXME for responsive
     primaryStage.show();
   }
 }

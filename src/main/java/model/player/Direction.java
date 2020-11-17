@@ -7,7 +7,8 @@ public enum Direction {
   UP(0, -1),
   LEFT(-1, 0),
   DOWN(0, 1),
-  RIGHT(1, 0);
+  RIGHT(1, 0),
+  IDLE(0, 0);
 
   /**
    * Champs privés correspondant aux directions du vecteur
@@ -24,6 +25,21 @@ public enum Direction {
   Direction(int x_dir, int y_dir) {
     this.x_dir = x_dir;
     this.y_dir = y_dir;
+  }
+
+  public Direction opposite() {
+    switch (this) {
+      case RIGHT:
+        return LEFT;
+      case UP:
+        return DOWN;
+      case DOWN:
+        return UP;
+      case LEFT:
+        return RIGHT;
+      default:
+        return IDLE;
+    }
   }
 
   /**

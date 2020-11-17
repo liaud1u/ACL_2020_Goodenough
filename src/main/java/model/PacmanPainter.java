@@ -2,11 +2,17 @@ package model;
 
 import fxengine.GamePainter;
 import javafx.scene.Group;
+import model.monster.Monstre;
 import views.LabyrintheView;
-import views.PastilleView;
+import views.MonstreView;
 import views.PlayerView;
+import views.menus.EndLevelView;
+import views.menus.LostLevelView;
+import views.menus.RightSideView;
+import views.menus.WonLevelView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -16,26 +22,40 @@ import java.util.ArrayList;
  */
 public class PacmanPainter implements GamePainter {
 
+  private EndLevelView endLevelView;
+
   /**
    * Groupe racine ou ajouter les vues
    */
   private final Group root;
+
   /**
    * Jeu principal
    */
   private final PacmanGame game;
+
   /**
    * Vue du labyrinthe
    */
-  private final LabyrintheView labyrintheView;
+  private LabyrintheView labyrintheView;
+
   /**
    * Vue du joueur
    */
   private final PlayerView playerView;
+
+
   /**
-   * Liste des vues de Pastilles
+   * Vue des monstres
    */
-  private final ArrayList<PastilleView> pastillesView;
+    private List<MonstreView> monstreView;
+
+
+  /**
+   * Vue panneau latéral de droite
+   */
+    private final RightSideView rightSideView;
+
   /**
    * Largeur
    */
@@ -55,31 +75,71 @@ public class PacmanPainter implements GamePainter {
     this.labyrintheView = new LabyrintheView(game.getLabyrinthe());
     this.root.getChildren().add(this.labyrintheView);
 
-    Pastille[][] pastille = game.getPastille();
 
-    pastillesView = new ArrayList<>();
+    this.addMonstres();
 
-    for (int i = 0; i < pastille.length; i++) {
-      for (int j = 0; j < pastille.length; j++) {
-        PastilleView view = new PastilleView(pastille[i][j], i, j);
-        pastillesView.add(view);
-        this.root.getChildren().add(view);
-      }
-
-    }
 
     this.playerView = new PlayerView(game.getPlayer());
     this.root.getChildren().add(this.playerView);
 
+    this.rightSideView = new RightSideView();
+    this.root.getChildren().add(this.rightSideView);
   }
+
 
   /**
    * methode  redefinie de Afficheur retourne une image du jeu
+   * @param ratio
    */
-  public void draw() {
-    this.playerView.draw(this.game);
-    for (PastilleView pastilleView : pastillesView) {
-      pastilleView.draw();
+  public void draw(double ratio) {
+    if (this.game.isLost() || this.game.isWon()) {
+      this.endLevelView = (this.game.isLost())  // set the end level view depending of the win or loss
+              ? new LostLevelView(this.game)
+              : new WonLevelView(this.game);
+      this.root.getChildren().clear();  //clear current level
+      this.root.getChildren().add(this.endLevelView); //and add the end level view
+    } else {
+      if(this.game.hasJustChanged()) {
+        this.repaint();
+        this.game.setJustChanged(false);
+      }
+      this.playerView.draw(ratio);
+      this.rightSideView.draw(game.getScore(), game.getGameTimer().getCurrentTimer());
+      for (MonstreView monstre : monstreView) {
+        monstre.draw(ratio);
+      }
+    }
+  }
+
+
+
+  /**
+   * Methode qui redessine l'interface
+   */
+  private void repaint() {
+    // On récupère le nouveau labyrinthe et les nouvelles pastilles
+    labyrintheView = new LabyrintheView(game.getLabyrinthe());
+
+    // On nettoie la liste des vues
+    this.root.getChildren().clear();
+
+    // On rajoute les nouvelles vues
+    this.root.getChildren().add(labyrintheView);
+
+    this.addMonstres();
+    this.root.getChildren().add(playerView);
+    this.root.getChildren().add(rightSideView);
+  }
+
+
+
+
+  private void addMonstres() {
+    this.monstreView = new ArrayList<>();
+    for(Monstre m : game.getMonstres()) {
+      MonstreView view = new MonstreView(m);
+      monstreView.add(view);
+      this.root.getChildren().add(view);
     }
   }
 
@@ -128,12 +188,4 @@ public class PacmanPainter implements GamePainter {
     return playerView;
   }
 
-  /**
-   * Getter de la liste des vues de pastilles
-   *
-   * @return Liste des vues de pastilles
-   */
-  public ArrayList<PastilleView> getPastillesView() {
-    return pastillesView;
-  }
 }

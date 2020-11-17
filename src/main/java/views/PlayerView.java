@@ -1,46 +1,90 @@
 package views;
 
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import model.PacmanGame;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Group;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import model.player.Player;
 import model.util.Util;
 
-/**
- * Vue du joueur
- */
-public class PlayerView extends Circle {
+//FIXME: extends ImageView instead of Group
+/** Class for the display of the player
+ * */
+public class PlayerView extends Group {
+  private final Player player;  // The player we are currently displaying
+  private final Image[] sprite = new Image[4];  // The sprites for the player
+  private final ImageView view; // The current sprite to display
 
-  /**
-   * Joueur à afficher
-   */
-  private final Player player;
+  private final double animX; //FIXME: dunno how to doc this
+  private final double animY; //same
 
-  /**
-   * Constructeur de la vue
-   *
-   * @param player Player joueur à afficher
-   */
+  private int frame;  // Current frame (for animations)
+
+  /** @param player (:{@link Player}) the current player to display
+   * */
   public PlayerView(Player player) {
     this.player = player;
-    this.init();
+    this.frame = 0;
+
+    final int size = (int) Util.slotSizeProperty.multiply(Util.RATIO_PERSONNAGE).get();
+    final int spriteSize = size * 3;
+
+    // Initialize all the sprites
+    sprite[0] = new Image("pacman/pacman_down.png", spriteSize, size, true, false);   // going down sprite
+    sprite[1] = new Image("pacman/pacman_up.png", spriteSize, size, true, false);     // going up sprite
+    sprite[2] = new Image("pacman/pacman_left.png", spriteSize, size, true, false);   // going left sprite
+    sprite[3] = new Image("pacman/pacman_right.png", spriteSize, size, true, false);  // going right sprite
+
+    this.view = new ImageView(sprite[0]); // the current sprite to display
+    this.view.setViewport(new Rectangle2D(0, 0, size, size)); // set the viewport
+
+    // FIXME dunno how to doc this
+    animX = (int) (Util.slotSizeProperty.get() / 2);
+    animY = (int) (Util.slotSizeProperty.get() / 2);
+
+    this.getChildren().add(view);
   }
 
-  /**
-   * Initialisation de la vue
-   */
-  private void init() {
-    this.setRadius(Util.slotSizeProperty.get() * 0.3); //TODO: can be done through constructor but need an external way to get radius
-    this.setFill(Color.GOLDENROD);
-  }
+  /** @param ratio (:double)
+   *  The method display the current sprite for the player
+   *  */
+  public void draw(double ratio) {
+      // define the player sprite to display depending of the current direction
+      switch (player.getCurrentMoveDirection()){
+        case DOWN:  view.setImage(sprite[0]);   break;
+        case UP:    view.setImage(sprite[1]);   break;
+        case LEFT:  view.setImage(sprite[2]);   break;
+        case RIGHT: view.setImage(sprite[3]);   break;
+      }
 
-  /**
-   * Dessin de la vue
-   *
-   * @param game PacmanGame jeu principal
-   */
-  public void draw(PacmanGame game) {
-    this.setCenterX(player.getX());
-    this.setCenterY(player.getY());
-  }
+      // if the player is not stuck, refresh the coordinates
+      if (! this.player.isStuck()) {
+        view.setX(
+          Util.slotSizeProperty.multiply(
+            this.player.getxPrec() + ratio * this.player.getCurrentMoveDirection().getX_dir()
+          ).get()
+        );
+
+        view.setY(
+          Util.slotSizeProperty.multiply(
+            player.getyPrec() + ratio * this.player.getCurrentMoveDirection().getY_dir()
+          ).get()
+        );
+      }
+
+      int size = (int) (Util.slotSizeProperty.intValue() * Util.RATIO_PERSONNAGE);
+      frame = (frame + 1) % 20;
+      int printedFrame = frame / 5;
+
+      // frame ain't in the right order. We have to bind them to the good frames
+      switch (printedFrame) {
+        case 0: printedFrame = 2; break;
+        case 1:
+        case 3: printedFrame = 0; break;
+        case 2: printedFrame = 1; break;
+      }
+
+      // we set the current viewport of the viewport
+      view.setViewport(new Rectangle2D(printedFrame * size,0,size,size));
+    }
 }

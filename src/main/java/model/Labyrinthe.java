@@ -1,68 +1,93 @@
 package model;
 
+import model.player.Direction;
+import model.util.Util;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
+import java.util.Stack;
 
 /**
  * @author adrien & florian
  */
 public class Labyrinthe {
 
+
+    private int leftPastilles;
+
+    //Labyrinthe permettant la création du labyrinthe parfait
+    public Case[][] labyrintheFormation;
+
     // Ensemble des cases formant le labyrinthe
-    private Case[][] cases;
-    private Case[][] labyrinthe;
-    char[][] labyrintheGUI;
-    private int tailleLigne;
-    private int tailleColonne;
-    int tailleLigneGUI;
-    int tailleColonneGUI;
+    public Case[][] labyrinthe;
+
+    private final Stack<Case> spawnableCase;
+
+
+    int tailleLigneFormation;
+    int tailleColonneFormation;
+    int tailleLigne;
+    int tailleColonne;
     Random rand = new Random();
 
 
-    public Labyrinthe(int tailleLigne, int tailleColonne) {
-        this.tailleLigne = tailleLigne;
-        this.tailleColonne = tailleColonne;
-        tailleLigneGUI = tailleLigne * 2 ;
-        tailleColonneGUI = tailleColonne * 2 ;
-        labyrintheGUI = new char[tailleLigneGUI][tailleColonneGUI];
-        cases = new Case[tailleLigneGUI][tailleColonneGUI];
+    public Labyrinthe(int tailleL, int tailleC) {
+
+        spawnableCase = new Stack<>();
+        this.tailleLigneFormation = tailleL / 2;
+        this.tailleColonneFormation = tailleC/2;
+
+        this.tailleLigne = tailleLigneFormation * 2 + 1;
+        this.tailleColonne = tailleColonneFormation * 2 + 1;
+
+        labyrinthe = new Case[tailleLigne][tailleColonne];
         initialisationLaby();
         creationLabyrinthe();
+        this.leftPastilles = 0;
     }
 
     public Case[][] getLabyrinthe() {
-        return cases;
+        return labyrinthe;
     }
 
-
-    //Création des cases
+    /**
+     * Methodes qui crée toutes les cases du labyrinthe
+     */
     private void initialisationLaby() {
 
-        labyrinthe = new Case[tailleLigneGUI][tailleColonneGUI];
-        for (int i = 0; i < tailleLigne; i++)
+        labyrintheFormation = new Case[tailleLigneFormation][tailleColonneFormation];
+
+        for (int i = 0; i < tailleLigneFormation; i++)
         {
-            for (int j = 0; j < tailleColonne; j++)
+            for (int j = 0; j < tailleColonneFormation; j++)
             {
-                labyrinthe[i][j] = new Case(i, j, false);
-
-
+                labyrintheFormation[i][j] = new Case(i,j,false);
             }
         }
+        for (int i = 0; i < tailleLigne; i++) {
+            for (int j = 0; j < tailleColonne; j++) {
+                labyrinthe[i][j] = new Case(i, j, false);
+            }
+        }
+
     }
 
-    public void creationLabyrinthe() {
+
+    private void creationLabyrinthe() {
         creationLabyrinthe(0, 0);
     }
 
-    public void creationLabyrinthe(int x, int y) {
+    private void creationLabyrinthe(int x, int y) {
         creationLabyrinthe(getCase(x, y));
     }
 
-    public void creationLabyrinthe(Case caseDepart) {
+    /**
+     * Methodes qui crée le labyrinthe depuis une case de départ
+     */
+    private void creationLabyrinthe(Case caseDepart) {
         if (caseDepart == null) return;
-        caseDepart.setEstVide(false);
+        caseDepart.setEstVide(true);
+
         ArrayList<Case> listeCase = new ArrayList<>();
         listeCase.add(caseDepart);
 
@@ -84,9 +109,10 @@ public class Labyrinthe {
                     getCase(c.getX() - 1, c.getY()),
                     getCase(c.getX(), c.getY() - 1)
             };
+
             for (Case c1 : voisinsPotentiel)
             {
-                if (c1==null || c1.isEstUnMur() || !c1.isEstVide()) continue;
+                if (c1==null || c1.estUnMur()|| !c1.estVide()) continue;
                 voisins.add(c1);
             }
             if (voisins.isEmpty()) continue;
@@ -100,89 +126,273 @@ public class Labyrinthe {
         updateLabyrinthe();
     }
 
-    public Case getCase(int x, int y) {
+    /**
+     * Methodes qui retourne le nombre de cases
+     * @return entier représentant le nombre de cases vides du labyrinthe
+     */
+    public int getNbCasesLibres() {
+        int nbCasesDisponibles = 0;
+        for(Case[] ligne : labyrinthe) {
+            for(Case c : ligne) {
+                if(!c.estUnMur() && !c.hasEntity()) {
+                    nbCasesDisponibles++;
+                }
+            }
+        }
+        return nbCasesDisponibles;
+    }
+
+    /**
+     * Methodes qui retourne une case de labyrintheFormation
+     * @return Case représentant une case présente dans labyrintheFormation
+     */
+    private Case getCase(int x, int y) {
         try {
-            return labyrinthe[x][y];
+            return labyrintheFormation[x][y];
         } catch (ArrayIndexOutOfBoundsException e) {
             return null;
         }
     }
 
-    @Override
-    public String toString() {
-        return "Labyrinthe{" +
-                "labyrinthe=" + Arrays.toString(labyrinthe) +
-                ", labyrintheGUI=" + Arrays.toString(labyrintheGUI) +
-                ", tailleLigne=" + tailleLigne +
-                ", tailleColonne=" + tailleColonne +
-                ", tailleLigneGUI=" + tailleLigneGUI +
-                ", tailleColonneGUI=" + tailleColonneGUI +
-                ", rand=" + rand +
-                '}';
+    public ArrayList<Direction> getFreeDirection(int x, int y) {
+        ArrayList<Direction> directionToFreeCase = new ArrayList<>();
+        if (!getCaseLabyrinthe(x - 1, y).estUnMur() && !getCaseLabyrinthe(x - 1, y).hasMonster()) {
+            directionToFreeCase.add(Direction.LEFT);
+        }
+        if (!getCaseLabyrinthe(x, y - 1).estUnMur() && !getCaseLabyrinthe(x, y - 1).hasMonster()) {
+            directionToFreeCase.add(Direction.UP);
+        }
+        if (!getCaseLabyrinthe(x + 1, y).estUnMur() && !getCaseLabyrinthe(x + 1, y).hasMonster()) {
+            directionToFreeCase.add(Direction.RIGHT);
+        }
+        if (!getCaseLabyrinthe(x, y + 1).estUnMur() && !getCaseLabyrinthe(x, y + 1).hasMonster()) {
+            directionToFreeCase.add(Direction.DOWN);
+        }
+        return directionToFreeCase;
+    }
+
+    /**
+     * Methodes qui retourne une case du labyrinthe
+     *
+     * @return Case représentant une case dans le labyrinthe
+     */
+    public Case getCaseLabyrinthe(int x, int y) {
+        try {
+            return labyrinthe[(x + Util.MAZE_SIZE) % Util.MAZE_SIZE][(y + Util.MAZE_SIZE) % Util.MAZE_SIZE];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return null;
+        }
     }
 
     public void updateLabyrinthe() {
-        char vide = ' ';
-        char mur = 'X';
-        char casec = ' ';
-
-        for (int x = 0; x < tailleLigneGUI; x++) {
-            for (int y = 0; y < tailleColonneGUI; y++) {
-                labyrintheGUI[x][y] = vide;
-            }
-        }
-        for (int x = 0; x < tailleLigneGUI; x++) {
-            for (int y = 0; y < tailleColonneGUI; y++) {
 
 
-                if (x % 2 == 0 || y % 2 == 0 ) {
-                    labyrintheGUI[x][y] = mur;
-                }
-
-            }
-        }
         for (int x = 0; x < tailleLigne; x++) {
             for (int y = 0; y < tailleColonne; y++) {
-                Case caseCourante = getCase(x, y);
-                int XGUI = x * 2 + 1;
-                int YGUI = y * 2 + 1;
-                labyrintheGUI[XGUI][YGUI] = casec;
-                if (caseCourante.voisinDessous()) {
-                    labyrintheGUI[XGUI][YGUI + 1] = casec;
+                labyrinthe[x][y].setEstUnMur(false);
+            }
+        }
+
+        for (int x = 0; x < tailleLigne; x++) {
+            for (int y = 0; y < tailleColonne; y++) {
+
+                if (x % 2 == 0 || y % 2 == 0)
+                {
+                    labyrinthe[x][y].setEstUnMur(true);
                 }
-                if (caseCourante.voisinDroite()) {
-                    labyrintheGUI[XGUI + 1][YGUI] = casec;
+
+            }
+        }
+
+        labyrinthe[tailleLigne/2+2][tailleColonne/2+1].setEstUnMur(true);
+
+        //Casse des murs pour rendre le labyrinthe parfait
+        for (int x = 0; x < tailleLigneFormation; x++) {
+            for (int y = 0; y < tailleColonneFormation; y++) {
+
+                Case caseCourante = getCase(x,y);
+
+                int X = x * 2 + 1;
+                int Y = y * 2 + 1;
+
+                if (caseCourante.voisinDessous())
+                {
+                    labyrinthe[X][Y + 1].setEstUnMur(false);
+                }
+                if (caseCourante.voisinDroite())
+                {
+                    labyrinthe[X + 1][Y].setEstUnMur(false);
+                }
+
+            }
+        }
+
+
+        determineVoisins();
+        destructionImpasse();
+
+        //On crée la "boîte pour les monstres"
+
+        //Ligne du milieu
+        labyrinthe[tailleLigne / 2 - 3][tailleColonne / 2].setEstUnMur(false); //case gauche milieu - 2
+        labyrinthe[tailleLigne / 2 - 2][tailleColonne / 2].setEstUnMur(true); //case gauche milieu - 1
+        labyrinthe[tailleLigne / 2 - 1][tailleColonne / 2].setEstUnMur(false); //case gauche milieu
+        labyrinthe[tailleLigne / 2][tailleColonne / 2].setEstUnMur(false); //case milieu
+        labyrinthe[tailleLigne / 2 + 1][tailleColonne / 2].setEstUnMur(false); //case droite milieu
+        labyrinthe[tailleLigne / 2 + 2][tailleColonne / 2].setEstUnMur(true); //case droite milieu + 1
+        labyrinthe[tailleLigne / 2 + 3][tailleColonne / 2].setEstUnMur(false); //case droite milieu + 2
+
+        //Ligne du milieu - 1
+        labyrinthe[tailleLigne / 2 - 3][tailleColonne / 2 - 1].setEstUnMur(false); //case gauche milieu - 2
+        labyrinthe[tailleLigne / 2 - 2][tailleColonne / 2 - 1].setEstUnMur(true); //case gauche milieu - 1
+        labyrinthe[tailleLigne / 2 - 1][tailleColonne / 2 - 1].setEstUnMur(true); //case gauche milieu
+        labyrinthe[tailleLigne / 2][tailleColonne / 2 - 1].setEstUnMur(false); //case milieu
+        labyrinthe[tailleLigne / 2 + 1][tailleColonne / 2 - 1].setEstUnMur(true); //case droite milieu
+        labyrinthe[tailleLigne / 2 + 2][tailleColonne / 2 - 1].setEstUnMur(true); //case droite milieu + 1
+        labyrinthe[tailleLigne / 2 + 3][tailleColonne / 2 - 1].setEstUnMur(false); //case droite milieu + 2
+
+        //Ligne du milieu - 2
+        labyrinthe[tailleLigne / 2 - 3][tailleColonne / 2 - 2].setEstUnMur(false); //case gauche milieu - 2
+        labyrinthe[tailleLigne / 2 - 2][tailleColonne / 2 - 2].setEstUnMur(false); //case gauche milieu - 1
+        labyrinthe[tailleLigne / 2 - 1][tailleColonne / 2 - 2].setEstUnMur(false); //case gauche milieu
+        labyrinthe[tailleLigne / 2][tailleColonne / 2 - 2].setEstUnMur(false); //case milieu
+        labyrinthe[tailleLigne / 2 + 1][tailleColonne / 2 - 2].setEstUnMur(false); //case droite milieu
+        labyrinthe[tailleLigne / 2 + 2][tailleColonne / 2 - 2].setEstUnMur(false); //case droite milieu + 1
+        labyrinthe[tailleLigne / 2 + 3][tailleColonne / 2 - 2].setEstUnMur(false); //case droite milieu + 2
+
+        //Ligne du milieu + 1
+        labyrinthe[tailleLigne / 2 - 3][tailleColonne / 2 + 1].setEstUnMur(false); //case gauche milieu - 2
+        labyrinthe[tailleLigne / 2 - 2][tailleColonne / 2 + 1].setEstUnMur(true); //case gauche milieu - 1
+        labyrinthe[tailleLigne / 2 - 1][tailleColonne / 2 + 1].setEstUnMur(true); //case gauche milieu
+        labyrinthe[tailleLigne / 2][tailleColonne / 2 + 1].setEstUnMur(true); //case milieu
+        labyrinthe[tailleLigne / 2 + 1][tailleColonne / 2 + 1].setEstUnMur(true); //case droite milieu
+        labyrinthe[tailleLigne / 2 + 2][tailleColonne / 2 + 1].setEstUnMur(true); //case droite milieu + 1
+        labyrinthe[tailleLigne / 2 + 3][tailleColonne / 2 + 1].setEstUnMur(false); //case droite milieu + 2
+
+        //Ligne du milieu + 2
+        labyrinthe[tailleLigne / 2 - 3][tailleColonne / 2 + 2].setEstUnMur(false); //case gauche milieu - 2
+        labyrinthe[tailleLigne / 2 - 2][tailleColonne / 2 + 2].setEstUnMur(false); //case gauche milieu - 1
+        labyrinthe[tailleLigne / 2 - 1][tailleColonne / 2 + 2].setEstUnMur(false); //case gauche milieu
+        labyrinthe[tailleLigne / 2][tailleColonne / 2 + 2].setEstUnMur(false); //case milieu
+        labyrinthe[tailleLigne / 2 + 1][tailleColonne / 2 + 2].setEstUnMur(false); //case droite milieu
+        labyrinthe[tailleLigne / 2 + 2][tailleColonne / 2 + 2].setEstUnMur(false); //case droite milieu + 1
+        labyrinthe[tailleLigne / 2 + 3][tailleColonne / 2 + 2].setEstUnMur(false); //case droite milieu + 2
+
+        //On garde les case de spawn des monstres
+        spawnableCase.add(labyrinthe[tailleLigne / 2 + 1][tailleColonne / 2]);
+        spawnableCase.add(labyrinthe[tailleLigne / 2 - 1][tailleColonne / 2]);
+        spawnableCase.add(labyrinthe[tailleLigne / 2][tailleColonne / 2]);
+
+        //On fait des ouvertures sur certains murs
+
+        //Mur de dessus et dessous
+        for (int x = 1; x < tailleLigne; x++) {
+            if (!labyrinthe[x][1].estUnMur() && !labyrinthe[x][tailleColonne - 2].estUnMur()) {
+                int nbPourcentInt = 8;
+                int nbAleatoire = rand.nextInt(10);
+                if (nbAleatoire > nbPourcentInt) {
+                    labyrinthe[x][0].setEstUnMur(false);
+                    labyrinthe[x][tailleColonne-1].setEstUnMur(false);
                 }
             }
         }
 
-        //On détruit des murs au hasard pour créer des cycles
-        //Décalage de 1 pour éviter de taper dans les murs
-        for (int x = 1; x < tailleLigneGUI - 1; x++) {
-            for (int y = 1; y < tailleColonneGUI - 1; y++) {
-                if ((x != tailleLigneGUI - 1 && y != 1 || x != 1 && y != tailleColonneGUI - 1) && (x != 2 && y != tailleLigneGUI - 2 || x != tailleColonneGUI - 2 && y != 2)) {
-                    if (labyrintheGUI[x][y] == mur) {
-                        int nbPourcentInt = 5;
-                        int nbAleatoire = rand.nextInt(10);
-                        if (nbAleatoire > nbPourcentInt) {
-                            labyrintheGUI[x][y] = vide;
-                        }
+        //Mur de gauche et droite
+        for (int y = 1;y < tailleLigne; y++)
+        {
+            if (!labyrinthe[1][y].estUnMur() && !labyrinthe[tailleLigne-2][y].estUnMur())
+            {
+                int nbPourcentInt = 8;
+                int nbAleatoire = rand.nextInt(10);
+                if (nbAleatoire > nbPourcentInt) {
+                    labyrinthe[0][y].setEstUnMur(false);
+                    labyrinthe[tailleLigne-1][y].setEstUnMur(false);
+                }
+            }
+        }
+
+        determineVoisins();
+
+    }
+
+    /**
+     * nombre de pastilles restantes
+     */
+    public int getLeftPastilles() {
+        return leftPastilles;
+    }
+
+
+    public void destructionImpasse()
+    {
+        //On détruit des murs pour enlever les impasses
+        //Décalage de 2 pour éviter de taper dans les murs
+        for (int x = 1; x < tailleLigne - 1; x++) {
+            for (int y = 1; y < tailleColonne - 1; y++) {
+                    if (!labyrinthe[x][y].estUnMur() && getCaseLabyrinthe(x,y).getVoisins().size() == 3)
+                    {
+                        if (!labyrinthe[x-1][y].estUnMur() && x+1 != tailleLigne-1)
+                            labyrinthe[x+1][y].setEstUnMur(false);
+
+                        if (!labyrinthe[x][y-1].estUnMur() && y+1 != tailleColonne-1)
+                            labyrinthe[x][y+1].setEstUnMur(false);
+
+
+                        if (!labyrinthe[x+1][y].estUnMur() && x-1 != 0)
+                            labyrinthe[x-1][y].setEstUnMur(false);
+
+                        if (!labyrinthe[x][y+1].estUnMur() && y-1 != 0)
+                            labyrinthe[x][y-1].setEstUnMur(false);
+
                     }
-                }
-            }
-        }
-
-        for (int x = 0; x < tailleLigneGUI ; x++) {
-            for (int y = 0; y < tailleColonneGUI ; y++) {
-                if(labyrintheGUI[x][y] == 'X') {
-                    cases[x][y] = new Case(x, y, true);
-                } else {
-                    cases[x][y] = new Case(x, y, false);
-                }
             }
         }
     }
 
+    public void determineVoisins()
+    {
+        //Détermine voisin pour chaque case
+        for (int ligne = 0; ligne < tailleLigne; ligne++)
+        {
+            for (int colonne = 0; colonne < tailleColonne; colonne++) {
 
+                Case caseCourante = getCaseLabyrinthe(ligne,colonne);
+                Case[] voisinsPotentiel = new Case[]{
+                        getCaseLabyrinthe(caseCourante.getX() + 1, caseCourante.getY()),
+                        getCaseLabyrinthe(caseCourante.getX(), caseCourante.getY() + 1),
+                        getCaseLabyrinthe(caseCourante.getX() - 1, caseCourante.getY()),
+                        getCaseLabyrinthe(caseCourante.getX(), caseCourante.getY() - 1)
+                };
+
+                ArrayList<Case> voisinsMur = new ArrayList<>();
+                for (Case c1 : voisinsPotentiel)
+                {
+                    if (c1==null || !c1.estUnMur()) continue;
+                    voisinsMur.add(c1);
+
+                }
+                caseCourante.setVoisins(voisinsMur);
+
+            }
+        }
     }
+
+    public void addPastille() {
+        this.leftPastilles++;
+    }
+
+    public void removePastille() {
+        if (this.leftPastilles > 0) this.leftPastilles--;
+    }
+
+
+    public Stack<Case> getSpawnableCase() {
+        return spawnableCase;
+    }
+
+}
+
+
+
+
 

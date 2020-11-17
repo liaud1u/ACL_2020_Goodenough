@@ -1,41 +1,34 @@
 package views;
 
-import javafx.scene.shape.Circle;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import model.Pastille;
 import model.util.Util;
 
-/**
- * Vue de la pastille
- */
-public class PastilleView extends Circle {
+/** Class used for the display of the chip
+ * */
+public class PastilleView extends ImageView {
+  private final Pastille pastille; // the current item we want to display
 
-    /**
-     * Pastille à afficher
-     */
-    private final Pastille pastille;
+  /** @param pastille (:{@link Pastille}) the item to display
+   *  @param x        (:int)              item's x coordinate
+   *  @param y        (:int)              item's y coordinate
+   *  */
+  public PastilleView(Pastille pastille, int x, int y) {
+    this.pastille = pastille;
 
-    /**
-     * Constructeur de la vue
-     *
-     * @param pastille Pastille à afficher
-     * @param x        int coordonnée x de la pastille
-     * @param y        int coordonnée y de la pastille
-     */
-    public PastilleView(Pastille pastille, int x, int y) {
-        super(Util.slotSizeProperty.get() / 6);
+    final double size = Util.slotSizeProperty.multiply(Util.RATIO_PASTILLE).get();
 
-        this.pastille = pastille;
-        this.setFill(pastille.getCouleurPastille());
+    // set the image to display
+    this.setImage(new Image("pastille.png", size, size,true,false));
 
-        this.setCenterX(x * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2);
-        this.setCenterY(y * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2);
-
-    }
-
-    /**
-     * Draw de la pastille (pour la mise à jour lors d'un ramassage)
-     */
-    public void draw() {
-        this.setVisible(!pastille.isRamassee());
-    }
+    // FIXME: why do we have /2 here?
+    // define the coordinates of the view
+    this.setX(
+      Util.slotSizeProperty.multiply(x).add(Util.slotSizeProperty.divide(2).subtract(size / 2)).get()
+    );
+    this.setY(
+      Util.slotSizeProperty.multiply(y).add(Util.slotSizeProperty.divide(2).subtract(size / 2)).get()
+    );
+  }
 }

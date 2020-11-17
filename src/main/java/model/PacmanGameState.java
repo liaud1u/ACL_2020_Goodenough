@@ -1,18 +1,12 @@
 package model;
 
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 /**
  * Gère l'état actuel du jeu
  */
 public class PacmanGameState {
 
-    /**
-     * Nombre de seconde au début du niveau
-     */
-    private final int SECONDES_AU_DEBUT = 60;
+
     /**
      * Etat actuel du jeu
      */
@@ -21,10 +15,6 @@ public class PacmanGameState {
      * Score actuel
      */
     private int score;
-    /**
-     * Temps restant
-     */
-    private int tempsRestant;
     /**
      * Nb de pastille avalées au total
      */
@@ -37,25 +27,8 @@ public class PacmanGameState {
         //Initialisation des valeurs de jeu
         this.etatJeu = EtatJeu.ARRETER;
         this.score = 0;
-        this.tempsRestant = SECONDES_AU_DEBUT;
         this.nbPastillesNormalesAvalees = 0;
-
-        //Création et lancement du timer
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
-
-            @Override
-            public void run() {
-                // Compteur ici
-                if (etatJeu == EtatJeu.EN_COURS) {
-                    tempsRestant--;
-                }
-            }
-        };
-
-        timer.schedule(task, 0l, 1l);
     }
-
     /**
      * Getter de l'état actuel du jeu
      *
@@ -74,23 +47,7 @@ public class PacmanGameState {
         this.etatJeu = victoire;
     }
 
-    /**
-     * Retourne le temps de jeu restant
-     *
-     * @return int temps de jeu restant
-     */
-    public int getTempsRestant() {
-        return this.tempsRestant;
-    }
 
-    /**
-     * Définit le temps restant
-     *
-     * @param i int i temps restant
-     */
-    public void setTempsRestant(int i) {
-        this.tempsRestant = i;
-    }
 
     /**
      * Retourne le score actuel
@@ -138,4 +95,7 @@ public class PacmanGameState {
         ARRETER
     }
 
+    public boolean isGameOver() {
+        return this.etatJeu == EtatJeu.PERDU;
+    }
 }

@@ -1,0 +1,27 @@
+@font-face {
+    font-family: 'crackman';
+    src: url('crackman.ttf');
+}
+
+.text_ {
+    -fx-text-fill: rgb(213,213,245);
+    -fx-font-size: 24px;
+}
+
+.big_text_ {
+    -fx-font-size: 44px;
+}
+
+.text, .button {
+    -fx-font-family: 'crackman';
+    -fx-background-color: transparent;
+    -fx-alignment: center;
+}
+
+.button {
+    -fx-underline: true;
+    -fx-text-fill: yellow;
+    -fx-font-size: 32px;
+    -fx-padding: 3px;
+    -fx-cursor: hand;
+}

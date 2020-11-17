@@ -9,13 +9,13 @@ public interface GamePainter {
 
 	/**
 	 * Méthode de dessin de l'image
+	 * @param ratio
 	 */
-    void draw();
+    void draw(double ratio);
 
 	Group getRoot();
 
 	int getWidth();
 
 	int getHeight();
-	
 }
