@@ -1,9 +1,9 @@
 package model;
 
 public enum Difficulty {
-    EASY(15, 2, 1, 0, 50),
+    EASY(5, 2, 1, 0, 50),
     MEDIUM(10, 1, 1, 1, 44),
-    HARD(5, 0, 1, 2, 40);
+    HARD(15, 0, 1, 2, 40);
 
     private final int pastilleAmount;
     private final int nbMonstreStatic;

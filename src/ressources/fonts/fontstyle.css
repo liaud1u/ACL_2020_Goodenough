@@ -5,6 +5,7 @@
 
 .text_ {
     -fx-text-fill: rgb(213,213,245);
+    -fx-font-size: 24px;
 }
 
 .text, .button {
