@@ -140,7 +140,7 @@ public class GameApplication extends Application {
     primaryStage.setScene(scene);
     primaryStage.setTitle("Pacman");
     primaryStage.sizeToScene();
-    primaryStage.setResizable(false); // FIXME for responsive
+    //primaryStage.setResizable(false); // FIXME for responsive
     primaryStage.show();
   }
 }

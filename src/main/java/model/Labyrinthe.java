@@ -327,23 +327,23 @@ public class Labyrinthe {
     {
         //On détruit des murs pour enlever les impasses
         //Décalage de 2 pour éviter de taper dans les murs
-        for (int x = 1; x < tailleLigne - 1; x++) {
-            for (int y = 1; y < tailleColonne - 1; y++) {
+        for (int x = 2; x < tailleLigne - 2; x++) {
+            for (int y = 2; y < tailleColonne - 2; y++) {
                 if ((x != tailleLigne - 1 && y != 1 || x != 1 && y != tailleColonne - 1) && (x != 2 && y != tailleLigne - 2 || x != tailleColonne - 2 && y != 2)) {
                     if (!labyrinthe[x][y].estUnMur() && getCaseLabyrinthe(x,y).getVoisins().size() == 3)
                     {
-                        if (!labyrinthe[x-1][y].estUnMur() && x != tailleLigne -2)
+                        if (!labyrinthe[x-1][y].estUnMur())
                             labyrinthe[x+1][y].setEstUnMur(false);
 
-                        if (!labyrinthe[x][y-1].estUnMur() && y != tailleColonne -2)
+                        if (!labyrinthe[x][y-1].estUnMur())
                             labyrinthe[x][y+1].setEstUnMur(false);
 
-                        if (!labyrinthe[x+1][y].estUnMur() && x != tailleLigne -2)
+
+                        if (!labyrinthe[x+1][y].estUnMur())
                             labyrinthe[x-1][y].setEstUnMur(false);
 
-                        if (!labyrinthe[x][y+1].estUnMur() && y != tailleColonne -2)
+                        if (!labyrinthe[x][y+1].estUnMur())
                             labyrinthe[x][y-1].setEstUnMur(false);
-
 
                     }
                 }
