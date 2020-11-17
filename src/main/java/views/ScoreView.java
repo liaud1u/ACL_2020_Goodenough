@@ -9,26 +9,14 @@ import static model.util.Util.SCORE_SIZE;
 /** Class for the display of the score
  * */
 public class ScoreView extends Group {
-  private PacmanGame game;  // The game
 
-  private double width;
-  private double height;
 
-  /** @param game     (:{@link PacmanGame}) The current model
-   *  @param width    (:int)
-   *  @param height   (:int)
-   *  */
-  public ScoreView(PacmanGame game, int width, int height, int x, int y) {
-    this.game = game;
-    this.height = height;
-    this.width = width;
-  }
 
   /**
    * Méthode pour rafraichir le compteur
    */
-  public void draw(){
+  public void draw(int score){
     this.getChildren().clear(); //clear all the elements
-    this.getChildren().addAll(SpriteTools.getSpritedNumber(this.game.getScore(), SCORE_SIZE, 20.)); // add the digits sprites for the current score
+    this.getChildren().addAll(SpriteTools.getSpritedNumber((score), SCORE_SIZE, 20.)); // add the digits sprites for the current score
   }
 }

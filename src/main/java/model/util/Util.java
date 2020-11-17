@@ -2,19 +2,16 @@ package model.util;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ObservableValue;
-
-import java.net.DatagramSocket;
 
 /**
  * Classe contenant les valeurs utiles commune à tout le jeu
  */
 public abstract class Util {
-  // ELEMENTS SIZE
 
+  // ELEMENTS SIZE
   public static final int MAZE_SIZE = 15; //Taille du labyrinthe (cases)
 
-  //RATIOS
+  // RATIOS
   public static double RATIO_PERSONNAGE = 1.;  //Ratio de la taille du personnage par rapport à la taille d'une case
   public static double RATIO_PASTILLE = 0.3;  //Ratio de la taille d'une pastille par rapport à la taille d'une case
   public static double RATIO_MONSTRE = 1;
@@ -28,6 +25,8 @@ public abstract class Util {
   public static DoubleProperty minWindowSizeProperty = new SimpleDoubleProperty(300.);
   public static DoubleProperty rightWidthProperty = new SimpleDoubleProperty();
 
+  // VALUES
+  public static double rightTextHeight = 64;
   public static int speedDifficulty = 3;  //Vitesse du personnage
   public static int SCORE_SIZE = 8; //Nombre de chiffre dans le score
   public static int timer = 45; // timer (seconds)
@@ -40,6 +39,6 @@ public abstract class Util {
   public static void init() {
     Util.slotSizeProperty.bind(Util.windowSizeProperty.divide(MAZE_SIZE));
     Util.wallSizeProperty.bind(Util.slotSizeProperty.divide(10));
-    Util.rightWidthProperty.bind(Util.minWindowSizeProperty.divide(3));
+    Util.rightWidthProperty.bind(Util.minWindowSizeProperty.divide(1.5));
   }
 }

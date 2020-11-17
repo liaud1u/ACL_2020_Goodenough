@@ -3,9 +3,19 @@
     src: url('crackman.ttf');
 }
 
-.label {
+.text_ {
+    -fx-text-fill: rgb(213,213,245);
+}
+
+.text, .button {
     -fx-font-family: 'crackman';
-    -fx-font-size: 64;
     -fx-background-color: transparent;
     -fx-alignment: center;
+}
+
+.button {
+    -fx-underline: true;
+    -fx-text-fill: yellow;
+    -fx-font-size: 32px;
+    -fx-padding: 3px;
 }

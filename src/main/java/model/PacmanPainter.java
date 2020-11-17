@@ -1,17 +1,16 @@
 package model;
 
 import fxengine.GamePainter;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.scene.Group;
-import javafx.util.Duration;
 import model.monster.Monstre;
-import views.*;
+import views.LabyrintheView;
+import views.MonstreView;
+import views.PlayerView;
 import views.menus.EndLevelView;
 import views.menus.LostLevelView;
+import views.menus.RightSideView;
 import views.menus.WonLevelView;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +22,6 @@ import java.util.List;
  */
 public class PacmanPainter implements GamePainter {
 
-  private final TimerView timerView;
   private EndLevelView endLevelView;
 
   /**
@@ -51,11 +49,12 @@ public class PacmanPainter implements GamePainter {
    * Vue des monstres
    */
     private List<MonstreView> monstreView;
-  /**
-   * Vue du score
-   */
-  private final ScoreView scoreView;
 
+
+  /**
+   * Vue panneau latéral de droite
+   */
+    private final RightSideView rightSideView;
 
   /**
    * Largeur
@@ -80,17 +79,11 @@ public class PacmanPainter implements GamePainter {
     this.addMonstres();
 
 
-    this.scoreView = new ScoreView(game,300,24,0,0);
-    this.root.getChildren().add(this.scoreView);
-
     this.playerView = new PlayerView(game.getPlayer());
     this.root.getChildren().add(this.playerView);
 
-    this.timerView = new TimerView(this.game.getGameTimer());
-    this.root.getChildren().add(this.timerView);
-
-
-
+    this.rightSideView = new RightSideView();
+    this.root.getChildren().add(this.rightSideView);
   }
 
 
@@ -111,8 +104,7 @@ public class PacmanPainter implements GamePainter {
         this.game.setJustChanged(false);
       }
       this.playerView.draw(ratio);
-      this.scoreView.draw();
-      this.timerView.draw();
+      this.rightSideView.draw(game.getScore(), game.getGameTimer().getCurrentTimer());
       for (MonstreView monstre : monstreView) {
         monstre.draw(ratio);
       }
@@ -134,11 +126,9 @@ public class PacmanPainter implements GamePainter {
     // On rajoute les nouvelles vues
     this.root.getChildren().add(labyrintheView);
 
-    //TODO: add timer before the game starts
     this.addMonstres();
-    this.root.getChildren().add(scoreView);
     this.root.getChildren().add(playerView);
-    this.root.getChildren().add(timerView);
+    this.root.getChildren().add(rightSideView);
   }
 
 

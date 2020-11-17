@@ -14,7 +14,6 @@ import model.PacmanController;
 import model.PacmanGame;
 import model.PacmanPainter;
 import model.util.Util;
-import views.TimerView;
 
 /**
  * Application principale
@@ -69,12 +68,10 @@ public class GameApplication extends Application {
    * @throws Exception
    */
   public void start(Stage primaryStage) throws Exception {
-
-    Util.currentWindowWidthProperty.bind(primaryStage.widthProperty());
-    Util.currentWindowHeightProperty.bind(primaryStage.heightProperty());
-
     this.primaryStage = primaryStage;
 
+    Util.currentWindowWidthProperty.bind(this.primaryStage.widthProperty());
+    Util.currentWindowHeightProperty.bind(this.primaryStage.heightProperty());
 
     // Création d'un groupe pour les canvas et ajout des canvas au groupe
     root = new Group();
