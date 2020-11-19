@@ -1,8 +1,9 @@
-package model;
+package model.labyrinthe;
 
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import model.pastille.Pastille;
 
 import java.util.ArrayList;
 

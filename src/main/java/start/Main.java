@@ -1,12 +1,7 @@
 package start;
 
 import fxengine.GameApplication;
-import model.Labyrinthe;
-import model.PacmanGameState;
 import model.util.Util;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * lancement du moteur avec le jeu

@@ -1,4 +1,4 @@
-package model;
+package model.labyrinthe;
 
 import model.player.Direction;
 import model.util.Util;

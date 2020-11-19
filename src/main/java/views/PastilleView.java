@@ -2,7 +2,7 @@ package views;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import model.Pastille;
+import model.pastille.Pastille;
 import model.util.Util;
 
 /** Class used for the display of the chip

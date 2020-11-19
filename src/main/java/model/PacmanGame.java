@@ -2,11 +2,15 @@ package model;
 
 import fxengine.Cmd;
 import fxengine.Game;
+import model.labyrinthe.Case;
+import model.labyrinthe.Labyrinthe;
 import model.monster.GhostType;
 import model.monster.Monstre;
 import model.monster.movementstrategy.FollowMovementStrategy;
 import model.monster.movementstrategy.RandomMovementStrategy;
 import model.monster.movementstrategy.StaticMovementStrategy;
+import model.pastille.Pastille;
+import model.pastille.ScorePastille;
 import model.player.Direction;
 import model.player.Player;
 import model.util.RandomGenerator;

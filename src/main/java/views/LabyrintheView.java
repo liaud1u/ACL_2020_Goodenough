@@ -2,7 +2,7 @@ package views;
 
 import javafx.scene.Group;
 import javafx.scene.image.Image;
-import model.Labyrinthe;
+import model.labyrinthe.Labyrinthe;
 import model.util.Util;
 import views.caseview.CaseView;
 

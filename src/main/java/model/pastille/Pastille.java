@@ -1,4 +1,4 @@
-package model;
+package model.pastille;
 
 import javafx.scene.paint.Color;
 import model.util.Util;

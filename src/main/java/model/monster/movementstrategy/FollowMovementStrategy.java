@@ -1,8 +1,8 @@
 package model.monster.movementstrategy;
 
-import model.Case;
-import model.Labyrinthe;
 import model.PacmanGame;
+import model.labyrinthe.Case;
+import model.labyrinthe.Labyrinthe;
 import model.monster.Monstre;
 import model.player.Direction;
 import model.util.Util;

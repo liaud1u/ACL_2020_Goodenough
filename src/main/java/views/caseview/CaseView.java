@@ -4,7 +4,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import model.Case;
+import model.labyrinthe.Case;
 import model.util.Util;
 import views.PastilleView;
 
