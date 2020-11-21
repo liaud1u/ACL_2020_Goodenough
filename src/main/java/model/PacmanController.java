@@ -9,7 +9,7 @@ import javafx.scene.input.KeyEvent;
  * @author Horatiu Cirstea, Vincent Thomas
  *
  * controleur de type KeyListener
- * 
+ *
  */
 public class PacmanController implements GameController {
 
@@ -17,22 +17,28 @@ public class PacmanController implements GameController {
 	 * commande en cours
 	 */
 	private Cmd commandeEnCours;
-	
+	private Cmd commandComplementaire;
+
 	/**
 	 * construction du controleur par defaut le controleur n'a pas de commande
 	 */
 	public PacmanController() {
 		this.commandeEnCours = Cmd.IDLE;
+		this.commandComplementaire = Cmd.IDLE;
 	}
 
 	/**
 	 * quand on demande les commandes, le controleur retourne la commande en
 	 * cours
-	 * 
+	 *
 	 * @return commande faite par le joueur
 	 */
 	public Cmd getCommand() {
 		return this.commandeEnCours;
+	}
+
+	public Cmd getCommandComplementaire() {
+		return this.commandComplementaire;
 	}
 
 
@@ -54,6 +60,9 @@ public class PacmanController implements GameController {
 			case DOWN:
 				this.commandeEnCours = Cmd.DOWN;
 				break;
+			case SPACE:
+				this.commandComplementaire = Cmd.SHOOT;
+				break;
 		}
 	}
 
@@ -62,6 +71,7 @@ public class PacmanController implements GameController {
 	 */
 	public void keyReleased(KeyEvent e) {
 		this.commandeEnCours = Cmd.IDLE;
+		this.commandComplementaire = Cmd.IDLE;
 	}
 
 }

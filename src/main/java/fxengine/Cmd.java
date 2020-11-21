@@ -1,11 +1,13 @@
 package fxengine;
 
-/** Différentes commandes possibles
- * */
+/**
+ * Différentes commandes possibles
+ */
 public enum Cmd {
   LEFT,
   RIGHT,
   UP,
   DOWN,
-  IDLE
+  IDLE,
+  SHOOT
 }

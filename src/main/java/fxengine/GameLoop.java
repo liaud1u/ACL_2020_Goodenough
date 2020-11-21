@@ -1,6 +1,7 @@
 package fxengine;
 
 import javafx.animation.AnimationTimer;
+import model.PacmanGame;
 import model.util.Util;
 
 /**
@@ -34,7 +35,8 @@ public class GameLoop extends AnimationTimer {
      */
     private long lastSeconds = 0;
 
-    private Cmd lastCommand = Cmd.IDLE;
+    private Cmd lastMove = Cmd.IDLE;
+    private Cmd otherCommand = Cmd.IDLE;
 
     /**
      * Boucle principale du jeu
@@ -57,14 +59,24 @@ public class GameLoop extends AnimationTimer {
     public void handle(long now) {
         //Calcul des FPS
 
-        if (lastCommand != controller.getCommand() && controller.getCommand() != Cmd.IDLE) {
-            lastCommand = controller.getCommand();
+
+        if (lastMove != controller.getCommand() && controller.getCommand() != Cmd.IDLE) {
+            lastMove = controller.getCommand();
         }
+
+        otherCommand = controller.getCommandComplementaire();
+
         if (lastSeconds != now / this.FRAMERATE) {
             //System.out.println(frame+ "fps");
             frame = 0;
             lastSeconds = now / this.FRAMERATE;
-            game.evolve(lastCommand);
+            game.evolve(lastMove);
+            game.evolve(otherCommand);
+
+            otherCommand = Cmd.IDLE;
+
+            if (game instanceof PacmanGame)
+                ((PacmanGame) game).evolveTheWorld();
         } else {
             frame++;
         }

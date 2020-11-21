@@ -10,6 +10,7 @@ import views.menus.EndLevelView;
 import views.menus.LostLevelView;
 import views.menus.RightSideView;
 import views.menus.WonLevelView;
+import views.projectileview.ProjectileView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,22 +49,24 @@ public class PacmanPainter implements GamePainter {
   /**
    * Vue des monstres
    */
-    private List<MonstreView> monstreView;
+  private List<MonstreView> monstreView;
 
 
-  /**
-   * Vue panneau latéral de droite
-   */
+    /**
+     * Vue panneau latéral de droite
+     */
     private final RightSideView rightSideView;
 
-  /**
-   * Largeur
-   */
-  protected int WIDTH = 100;
-  /**
-   * Hauteur
-   */
-  protected int HEIGHT = 100;
+    private final ProjectileView projectileView;
+
+    /**
+     * Largeur
+     */
+    protected int WIDTH = 100;
+    /**
+     * Hauteur
+     */
+    protected int HEIGHT = 100;
 
   /**
    * appelle constructeur parent
@@ -76,14 +79,18 @@ public class PacmanPainter implements GamePainter {
     this.root.getChildren().add(this.labyrintheView);
 
 
-    this.addMonstres();
+      this.addMonstres();
 
 
-    this.playerView = new PlayerView(game.getPlayer());
-    this.root.getChildren().add(this.playerView);
+      this.playerView = new PlayerView(game.getPlayer());
+      this.root.getChildren().add(this.playerView);
 
-    this.rightSideView = new RightSideView();
-    this.root.getChildren().add(this.rightSideView);
+      this.rightSideView = new RightSideView();
+      this.root.getChildren().add(this.rightSideView);
+
+
+      this.projectileView = new ProjectileView(game.getProjectiles());
+      this.root.getChildren().add(this.projectileView);
   }
 
 
@@ -103,11 +110,13 @@ public class PacmanPainter implements GamePainter {
         this.repaint();
         this.game.setJustChanged(false);
       }
+
       this.playerView.draw(ratio);
       this.rightSideView.draw(game.getScore(), game.getGameTimer().getCurrentTimer());
       for (MonstreView monstre : monstreView) {
         monstre.draw(ratio);
       }
+        this.projectileView.draw();
     }
   }
 

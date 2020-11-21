@@ -18,6 +18,7 @@ public class Case {
 
   private Pastille pastille;
 
+
   /**
    * Coordonnée y de la case
    */

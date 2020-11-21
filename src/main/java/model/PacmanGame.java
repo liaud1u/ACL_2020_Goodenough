@@ -13,6 +13,8 @@ import model.pastille.Pastille;
 import model.pastille.ScorePastille;
 import model.player.Direction;
 import model.player.Player;
+import model.projectile.Fireball;
+import model.projectile.Projectile;
 import model.util.RandomGenerator;
 import model.util.Util;
 
@@ -70,6 +72,8 @@ public class PacmanGame implements Game {
    */
   private ArrayList<Monstre> monstres = new ArrayList<>();
 
+  private final ArrayList<Projectile> projectiles = new ArrayList<>();
+
   /**
    * Score
    */
@@ -112,10 +116,17 @@ public class PacmanGame implements Game {
    * @param commande
    */
   public void evolve(Cmd commande) {
-    if (commande != Cmd.IDLE)
-      player.setCurrentMoveDirection(Direction.valueOf(commande.name()));
-    player.go();
 
+    if (commande == Cmd.SHOOT) {
+      summonFireball();
+    } else {
+      if (commande != Cmd.IDLE && commande != Cmd.SHOOT)
+        player.setCurrentMoveDirection(Direction.valueOf(commande.name()));
+    }
+  }
+
+  public void evolveTheWorld() {
+    player.go();
     if (allPastillesEaten()) {
       gameState.setState(PacmanGameState.EtatJeu.VICTOIRE);
     } else if (willPlayerCollideMob() || gameTimer.isOver()) {
@@ -124,9 +135,20 @@ public class PacmanGame implements Game {
       for (Monstre monstre : monstres) {
         monstre.actionMovement();
       }
+
+      for (Projectile p : projectiles) {
+        p.move();
+      }
     }
+  }
 
+  public void summonFireball() {
+    Fireball fireball = new Fireball(player.getCurrentMoveDirection(), player.getX(), player.getY());
+    projectiles.add(fireball);
+  }
 
+  public List<Projectile> getProjectiles() {
+    return projectiles;
   }
 
   public void pauseTimer() {

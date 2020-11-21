@@ -7,7 +7,7 @@ import javafx.scene.input.KeyEvent;
  * @author Horatiu Cirstea
  * 
  * controleur qui envoie des commandes au jeu 
- * 
+ *
  */
 public interface GameController {
 
@@ -18,6 +18,8 @@ public interface GameController {
 	 * @return commande faite par le joueur
 	 */
 	Cmd getCommand();
+
+	Cmd getCommandComplementaire();
 
 	/**
 	 * Lorsqu'une touche est appuyée
