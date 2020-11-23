@@ -117,7 +117,7 @@ public class PacmanPainter implements GamePainter {
         monstre.draw(ratio);
       }
 
-      this.projectileView.draw();
+      this.projectileView.draw(ratio);
     }
   }
 

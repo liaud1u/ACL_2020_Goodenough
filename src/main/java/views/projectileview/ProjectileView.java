@@ -30,7 +30,7 @@ public class ProjectileView extends Group {
     }
 
 
-    public void draw() {
+    public void draw(double ratio) {
         //Affichage des projectiles
 
         //On stocke tout les projectiles à ne plus afficher
@@ -65,9 +65,7 @@ public class ProjectileView extends Group {
 
         //Enfin, on met à jour les vues
         for (FireballView view : fireballViews) {
-            view.draw();
+            view.draw(ratio);
         }
-
-        System.out.println(fireballViews);
     }
 }

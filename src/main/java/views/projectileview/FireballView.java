@@ -21,9 +21,9 @@ public class FireballView extends Circle {
     }
 
 
-    public void draw() {
-        setCenterX(fireball.getX() * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2);
-        setCenterY(fireball.getY() * Util.slotSizeProperty.get() + Util.slotSizeProperty.get() / 2);
+    public void draw(double ratio) {
+        setCenterX(Util.slotSizeProperty.multiply(fireball.getxPrec() + ratio * fireball.getDirection().getX_dir()).get() + Util.slotSizeProperty.get() / 2);
+        setCenterY(Util.slotSizeProperty.multiply(fireball.getyPrec() + ratio * fireball.getDirection().getY_dir()).get() + Util.slotSizeProperty.get() / 2);
     }
 
     public Fireball getFireball() {

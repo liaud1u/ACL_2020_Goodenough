@@ -43,6 +43,18 @@ public class Fireball implements Projectile {
 
     }
 
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public int getxPrec() {
+        return xPrec;
+    }
+
+    public int getyPrec() {
+        return yPrec;
+    }
+
     @Override
     public boolean isFireball() {
         return true;
