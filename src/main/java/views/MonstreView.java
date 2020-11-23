@@ -4,14 +4,15 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import model.monster.Monstre;
+import model.monster.Monster;
+import model.monster.MonsterState;
 import model.util.Util;
 
 //FIXME: extends from ImageView instead of Group
 /** Class used for the display of a monster
  * */
 public class MonstreView extends Group {
-  private final Monstre monstre;  // the monster to display
+  private final Monster monstre;  // the monster to display
   private final Image sprite; // the current sprite for the monster
   private final ImageView view; // the imageview used to display the monster
 
@@ -23,9 +24,10 @@ public class MonstreView extends Group {
 
   private int currentFrame; // current fram for the animations
 
-  /** @param monstre (:{@link Monstre}) the monster to display
-   * */
-  public MonstreView(Monstre monstre) {
+  /**
+   * @param monstre (:{@link Monster}) the monster to display
+   */
+  public MonstreView(Monster monstre) {
     this.monstre = monstre;
     int size = (int) (Util.slotSizeProperty.intValue() * Util.RATIO_MONSTRE);
 
@@ -103,6 +105,12 @@ public class MonstreView extends Group {
       default:
         view.setViewport(frames[6 + printedFrame]);
         break;
+
+
+    }
+
+    if (monstre.getLifeState() == MonsterState.DEAD) {
+      view.setVisible(false);
     }
   }
 }

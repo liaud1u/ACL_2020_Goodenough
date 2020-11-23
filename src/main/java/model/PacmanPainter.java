@@ -2,7 +2,7 @@ package model;
 
 import fxengine.GamePainter;
 import javafx.scene.Group;
-import model.monster.Monstre;
+import model.monster.Monster;
 import views.LabyrintheView;
 import views.MonstreView;
 import views.PlayerView;
@@ -146,7 +146,7 @@ public class PacmanPainter implements GamePainter {
 
   private void addMonstres() {
     this.monstreView = new ArrayList<>();
-    for(Monstre m : game.getMonstres()) {
+    for (Monster m : game.getMonstres()) {
       MonstreView view = new MonstreView(m);
       monstreView.add(view);
       this.root.getChildren().add(view);

@@ -5,7 +5,8 @@ import fxengine.Game;
 import model.labyrinthe.Case;
 import model.labyrinthe.Labyrinthe;
 import model.monster.GhostType;
-import model.monster.Monstre;
+import model.monster.Monster;
+import model.monster.MonsterState;
 import model.monster.movementstrategy.FollowMovementStrategy;
 import model.monster.movementstrategy.RandomMovementStrategy;
 import model.monster.movementstrategy.StaticMovementStrategy;
@@ -63,14 +64,14 @@ public class PacmanGame implements Game {
    */
   private Labyrinthe labyrinthe;
 
-  public ArrayList<Monstre> getMonstres() {
-    return monstres;
-  }
-
   /**
    * Liste des monstres
    */
-  private ArrayList<Monstre> monstres = new ArrayList<>();
+  private ArrayList<Monster> monstres = new ArrayList<>();
+
+  public ArrayList<Monster> getMonstres() {
+    return monstres;
+  }
 
   private final ArrayList<Projectile> projectiles = new ArrayList<>();
 
@@ -132,7 +133,7 @@ public class PacmanGame implements Game {
     } else if (willPlayerCollideMob() || gameTimer.isOver()) {
       gameState.setState(PacmanGameState.EtatJeu.PERDU);
     } else {
-      for (Monstre monstre : monstres) {
+      for (Monster monstre : monstres) {
         monstre.actionMovement();
       }
 
@@ -145,6 +146,13 @@ public class PacmanGame implements Game {
           p.destroy();
           toRemove.add(p);
         }
+
+        if (labyrinthe.getCaseLabyrinthe(p.getxPrec(), p.getyPrec()).getMonstre() != null) {
+          p.destroy();
+          toRemove.add(p);
+          labyrinthe.getCaseLabyrinthe(p.getxPrec(), p.getyPrec()).getMonstre().destroy();
+        }
+
       }
 
       for (Projectile p : toRemove)
@@ -154,7 +162,7 @@ public class PacmanGame implements Game {
   }
 
   public void summonFireball() {
-    Fireball fireball = new Fireball(player.getCurrentMoveDirection(), player.getX(), player.getY());
+    Fireball fireball = new Fireball(player.getCurrentMoveDirection(), player.getX() + player.getCurrentMoveDirection().getX_dir(), player.getY() + player.getCurrentMoveDirection().getY_dir());
     projectiles.add(fireball);
   }
 
@@ -184,7 +192,7 @@ public class PacmanGame implements Game {
     gameState.setState(PacmanGameState.EtatJeu.EN_COURS);
     this.gameTimer.play();
     labyrinthe = new Labyrinthe(Util.MAZE_SIZE, Util.MAZE_SIZE);
-    for (Monstre m : monstres)
+    for (Monster m : monstres)
       m.destroy();
 
     Difficulty difficulty;
@@ -219,27 +227,27 @@ public class PacmanGame implements Game {
 
     for (int i = 0; i < amountRandom; i++) {
       Case selected = spawnable.pop();
-      selected.setMonster(true);
-      Monstre monstre = new Monstre(this, selected.getX(), selected.getY(), ghostTypes.get(cptType++ % 4));
+      Monster monstre = new Monster(this, selected.getX(), selected.getY(), ghostTypes.get(cptType++ % 4));
       monstre.setMovementStrategy(new RandomMovementStrategy(monstre, this));
-      selected.setMonster(true);
+
+      selected.setMonster(monstre);
       monstres.add(monstre);
     }
 
     for (int i = 0; i < amountFollow; i++) {
       Case selected = spawnable.pop();
-      selected.setMonster(true);
-      Monstre monstre = new Monstre(this, selected.getX(), selected.getY(), ghostTypes.get(cptType++ % 4));
+      Monster monstre = new Monster(this, selected.getX(), selected.getY(), ghostTypes.get(cptType++ % 4));
       monstre.setMovementStrategy(new FollowMovementStrategy(monstre, this));
       monstres.add(monstre);
+      selected.setMonster(monstre);
     }
 
     for (int i = 0; i < amountStatic; i++) {
       Case selected = spawnable.pop();
-      selected.setMonster(true);
-      Monstre monstre = new Monstre(this, selected.getX(), selected.getY(), ghostTypes.get(cptType++ % 4));
+      Monster monstre = new Monster(this, selected.getX(), selected.getY(), ghostTypes.get(cptType++ % 4));
       monstre.setMovementStrategy(new StaticMovementStrategy());
       monstres.add(monstre);
+      selected.setMonster(monstre);
     }
   }
 
@@ -330,7 +338,11 @@ public class PacmanGame implements Game {
    * Détermine si le joueur va entrer en collision avec un monstre
    */
   public boolean willPlayerCollideMob() {
-    return this.labyrinthe.getCaseLabyrinthe(this.player.getX(), this.player.getY()).hasMonster();
+    if (this.labyrinthe.getCaseLabyrinthe(this.player.getX(), this.player.getY()).getMonstre() != null) {
+      Monster monster = labyrinthe.getCaseLabyrinthe(this.player.getX(), this.player.getY()).getMonstre();
+      return monster.getLifeState() == MonsterState.ALIVE;
+    }
+    return false;
   }
 
   /**

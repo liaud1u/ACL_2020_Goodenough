@@ -11,5 +11,9 @@ public interface Projectile {
 
     int getY();
 
+    int getxPrec();
+
+    int getyPrec();
+
     void destroy();
 }

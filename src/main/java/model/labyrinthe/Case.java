@@ -3,6 +3,7 @@ package model.labyrinthe;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import model.monster.Monster;
 import model.pastille.Pastille;
 
 import java.util.ArrayList;
@@ -39,10 +40,7 @@ public class Case {
    */
   private boolean estVide = true;
 
-  /**
-   * Booléen, vrai si une entité (monstre ou pastille) est présente sur la case
-   */
-  private boolean hasMonster;  // if a monster is on the case
+  private Monster monstre;
 
   /**
    * Constructeur d'une case
@@ -65,7 +63,7 @@ public class Case {
     this.x = x;
     this.y = y;
     this.estUnMur = bool;
-    this.hasMonster = false;
+    this.monstre = null;
     this.pastille = null;
   }
 
@@ -141,10 +139,6 @@ public class Case {
     return x;
   }
 
-  /** @return (:boolean) if the case has a monster*/
-  public boolean hasMonster() {
-    return hasMonster;
-  }
   /** @return (:boolean) if the case has a pastille*/
   public boolean hasPastille() {
     return this.pastille != null;
@@ -230,17 +224,30 @@ public class Case {
   public void setEstVide(boolean estVide) {
     this.estVide = estVide;
   }
-  /** @param hasMonster (:boolean) return if the case has a monster*/
-  public void setMonster(boolean hasMonster) {
-    this.hasMonster = hasMonster;
+
+
+  public void setMonster(Monster monstre) {
+    this.monstre = monstre;
   }
-  /** @param pastille (:{@link Pastille}) set the new pastille (null if none) */
+
+  public Monster getMonstre() {
+    return monstre;
+  }
+
+  /**
+   * @param pastille (:{@link Pastille}) set the new pastille (null if none)
+   */
   public void setPastille(Pastille pastille) {
     this.hasPastilleProperty.set(pastille != null);
     this.pastille = pastille;
   }
-  /** @return (:boolean) if the case has either a monster or a pastille*/
-  public boolean hasEntity() { return this.hasPastille() || this.hasMonster; }
+
+  /**
+   * @return (: boolean) if the case has either a monster or a pastille
+   */
+  public boolean hasEntity() {
+    return this.hasPastille() || this.monstre != null;
+  }
 
   public Pastille getPastille() {
     return pastille;

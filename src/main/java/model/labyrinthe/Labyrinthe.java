@@ -156,16 +156,16 @@ public class Labyrinthe {
 
     public ArrayList<Direction> getFreeDirection(int x, int y) {
         ArrayList<Direction> directionToFreeCase = new ArrayList<>();
-        if (!getCaseLabyrinthe(x - 1, y).estUnMur() && !getCaseLabyrinthe(x - 1, y).hasMonster()) {
+        if (!getCaseLabyrinthe(x - 1, y).estUnMur() && getCaseLabyrinthe(x - 1, y).getMonstre() == null) {
             directionToFreeCase.add(Direction.LEFT);
         }
-        if (!getCaseLabyrinthe(x, y - 1).estUnMur() && !getCaseLabyrinthe(x, y - 1).hasMonster()) {
+        if (!getCaseLabyrinthe(x, y - 1).estUnMur() && getCaseLabyrinthe(x, y - 1).getMonstre() == null) {
             directionToFreeCase.add(Direction.UP);
         }
-        if (!getCaseLabyrinthe(x + 1, y).estUnMur() && !getCaseLabyrinthe(x + 1, y).hasMonster()) {
+        if (!getCaseLabyrinthe(x + 1, y).estUnMur() && getCaseLabyrinthe(x + 1, y).getMonstre() == null) {
             directionToFreeCase.add(Direction.RIGHT);
         }
-        if (!getCaseLabyrinthe(x, y + 1).estUnMur() && !getCaseLabyrinthe(x, y + 1).hasMonster()) {
+        if (!getCaseLabyrinthe(x, y + 1).estUnMur() && getCaseLabyrinthe(x, y + 1).getMonstre() == null) {
             directionToFreeCase.add(Direction.DOWN);
         }
         return directionToFreeCase;

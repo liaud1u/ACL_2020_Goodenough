@@ -4,7 +4,7 @@ import model.PacmanGame;
 import model.monster.movementstrategy.MovementStrategy;
 import model.monster.movementstrategy.RandomMovementStrategy;
 
-public class Monstre {
+public class Monster {
     /**
      * PacmanGame jeu princial
      */
@@ -21,7 +21,9 @@ public class Monstre {
 
     private int xPrec, yPrec;
 
-    public Monstre(PacmanGame game, int x, int y, GhostType type) {
+    private MonsterState lifeState = MonsterState.ALIVE;
+
+    public Monster(PacmanGame game, int x, int y, GhostType type) {
         this.game = game;
         this.x = x;
         this.y = y;
@@ -40,7 +42,12 @@ public class Monstre {
     }
 
     public void destroy() {
-        game.getLabyrinthe().getCaseLabyrinthe(x, y).setMonster(false);
+        game.getLabyrinthe().getCaseLabyrinthe(x, y).setMonster(null);
+        lifeState = MonsterState.DEAD;
+    }
+
+    public MonsterState getLifeState() {
+        return lifeState;
     }
 
     public GhostType getType() {
@@ -48,10 +55,10 @@ public class Monstre {
     }
 
     public void setX(int x) {
-        game.getLabyrinthe().getCaseLabyrinthe(this.x, this.y).setMonster(false);
+        game.getLabyrinthe().getCaseLabyrinthe(this.x, this.y).setMonster(null);
         this.xPrec = this.x;
         this.x = x;
-        game.getLabyrinthe().getCaseLabyrinthe(x, y).setMonster(true);
+        game.getLabyrinthe().getCaseLabyrinthe(x, y).setMonster(this);
     }
 
     public int getY() {
@@ -71,10 +78,10 @@ public class Monstre {
     }
 
     public void setY(int y) {
-        game.getLabyrinthe().getCaseLabyrinthe(this.x, this.y).setMonster(false);
+        game.getLabyrinthe().getCaseLabyrinthe(this.x, this.y).setMonster(null);
         this.yPrec = this.y;
         this.y = y;
-        game.getLabyrinthe().getCaseLabyrinthe(x, y).setMonster(true);
+        game.getLabyrinthe().getCaseLabyrinthe(x, y).setMonster(this);
     }
 
     public void actionMovement() {

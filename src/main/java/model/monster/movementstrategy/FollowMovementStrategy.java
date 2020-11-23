@@ -3,7 +3,7 @@ package model.monster.movementstrategy;
 import model.PacmanGame;
 import model.labyrinthe.Case;
 import model.labyrinthe.Labyrinthe;
-import model.monster.Monstre;
+import model.monster.Monster;
 import model.player.Direction;
 import model.util.Util;
 
@@ -12,10 +12,10 @@ import java.util.ArrayList;
 public class FollowMovementStrategy implements MovementStrategy {
 
     private final PacmanGame game;
-    private final Monstre monstre;
+    private final Monster monstre;
     private Direction direction = Direction.IDLE;
 
-    public FollowMovementStrategy(Monstre monstre, PacmanGame game) {
+    public FollowMovementStrategy(Monster monstre, PacmanGame game) {
         this.monstre = monstre;
         this.game = game;
     }
