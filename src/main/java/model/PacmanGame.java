@@ -73,7 +73,7 @@ public class PacmanGame implements Game {
     return monstres;
   }
 
-  private ArrayList<Projectile> projectiles = new ArrayList<>();
+  private final ArrayList<Projectile> projectiles = new ArrayList<>();
 
   /**
    * Score
@@ -237,7 +237,6 @@ public class PacmanGame implements Game {
     for (Projectile p : projectiles)
       p.destroy();
 
-    projectiles = new ArrayList<>();
   }
 
   private void generateMonster(int amountStatic, int amountRandom, int amountFollow) {

@@ -139,6 +139,7 @@ public class PacmanPainter implements GamePainter {
     this.addMonstres();
     this.root.getChildren().add(playerView);
     this.root.getChildren().add(rightSideView);
+    this.root.getChildren().add(this.projectileView);
   }
 
 

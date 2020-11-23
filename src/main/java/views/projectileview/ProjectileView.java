@@ -68,5 +68,6 @@ public class ProjectileView extends Group {
         for (FireballView view : fireballViews) {
             view.draw(ratio);
         }
+
     }
 }
