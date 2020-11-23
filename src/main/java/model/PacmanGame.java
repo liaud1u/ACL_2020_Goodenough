@@ -136,9 +136,20 @@ public class PacmanGame implements Game {
         monstre.actionMovement();
       }
 
+      ArrayList<Projectile> toRemove = new ArrayList<>();
+
       for (Projectile p : projectiles) {
         p.move();
+
+        if (labyrinthe.getCaseLabyrinthe(p.getX(), p.getY()).estUnMur()) {
+          p.destroy();
+          toRemove.add(p);
+        }
       }
+
+      for (Projectile p : toRemove)
+        projectiles.remove(p);
+
     }
   }
 
@@ -147,7 +158,7 @@ public class PacmanGame implements Game {
     projectiles.add(fireball);
   }
 
-  public List<Projectile> getProjectiles() {
+  public ArrayList<Projectile> getProjectiles() {
     return projectiles;
   }
 

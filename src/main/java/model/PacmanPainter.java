@@ -106,7 +106,7 @@ public class PacmanPainter implements GamePainter {
       this.root.getChildren().clear();  //clear current level
       this.root.getChildren().add(this.endLevelView); //and add the end level view
     } else {
-      if(this.game.hasJustChanged()) {
+      if (this.game.hasJustChanged()) {
         this.repaint();
         this.game.setJustChanged(false);
       }
@@ -116,7 +116,8 @@ public class PacmanPainter implements GamePainter {
       for (MonstreView monstre : monstreView) {
         monstre.draw(ratio);
       }
-        this.projectileView.draw();
+
+      this.projectileView.draw();
     }
   }
 

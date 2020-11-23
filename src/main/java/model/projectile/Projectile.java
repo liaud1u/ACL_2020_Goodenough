@@ -6,4 +6,10 @@ public interface Projectile {
     void hit();
 
     boolean isFireball();
+
+    int getX();
+
+    int getY();
+
+    void destroy();
 }
