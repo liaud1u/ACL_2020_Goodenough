@@ -16,4 +16,5 @@ public interface Projectile {
     int getyPrec();
 
     void destroy();
+
 }

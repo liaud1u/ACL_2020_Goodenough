@@ -31,6 +31,7 @@ public class ProjectileView extends Group {
 
 
     public void draw(double ratio) {
+
         //Affichage des projectiles
 
         //On stocke tout les projectiles à ne plus afficher

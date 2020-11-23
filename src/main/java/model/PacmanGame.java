@@ -73,7 +73,7 @@ public class PacmanGame implements Game {
     return monstres;
   }
 
-  private final ArrayList<Projectile> projectiles = new ArrayList<>();
+  private ArrayList<Projectile> projectiles = new ArrayList<>();
 
   /**
    * Score
@@ -140,6 +140,12 @@ public class PacmanGame implements Game {
       ArrayList<Projectile> toRemove = new ArrayList<>();
 
       for (Projectile p : projectiles) {
+        if (labyrinthe.getCaseLabyrinthe(p.getX(), p.getY()).getMonstre() != null) {
+          p.destroy();
+          toRemove.add(p);
+          labyrinthe.getCaseLabyrinthe(p.getX(), p.getY()).getMonstre().destroy();
+        }
+
         p.move();
 
         if (labyrinthe.getCaseLabyrinthe(p.getX(), p.getY()).estUnMur()) {
@@ -147,10 +153,10 @@ public class PacmanGame implements Game {
           toRemove.add(p);
         }
 
-        if (labyrinthe.getCaseLabyrinthe(p.getxPrec(), p.getyPrec()).getMonstre() != null) {
+        if (labyrinthe.getCaseLabyrinthe(p.getX(), p.getY()).getMonstre() != null) {
           p.destroy();
           toRemove.add(p);
-          labyrinthe.getCaseLabyrinthe(p.getxPrec(), p.getyPrec()).getMonstre().destroy();
+          labyrinthe.getCaseLabyrinthe(p.getX(), p.getY()).getMonstre().destroy();
         }
 
       }
@@ -162,8 +168,18 @@ public class PacmanGame implements Game {
   }
 
   public void summonFireball() {
-    Fireball fireball = new Fireball(player.getCurrentMoveDirection(), player.getX() + player.getCurrentMoveDirection().getX_dir(), player.getY() + player.getCurrentMoveDirection().getY_dir());
-    projectiles.add(fireball);
+    Direction dir = player.getCurrentMoveDirection();
+
+    if (dir == Direction.IDLE)
+      dir = Direction.DOWN;
+
+    if (!labyrinthe.getCaseLabyrinthe(player.getX() + dir.getX_dir(), player.getY() + dir.getY_dir()).estUnMur()) {
+      Fireball fireball = new Fireball(dir, player.getX() + dir.getX_dir(), player.getY() + dir.getY_dir());
+      projectiles.add(fireball);
+
+      fireball.setxPrec(player.getX());
+      fireball.setyPrec(player.getY());
+    }
   }
 
   public ArrayList<Projectile> getProjectiles() {
@@ -212,12 +228,16 @@ public class PacmanGame implements Game {
     this.generatePastille(difficulty.getPastilleAmount());
 
 
-
     this.gameTimer.setCurrentTimer(difficulty.getTime());
     resetTimer();
     restartTimer();
     player.spawn();
     this.justChanged = true;
+
+    for (Projectile p : projectiles)
+      p.destroy();
+
+    projectiles = new ArrayList<>();
   }
 
   private void generateMonster(int amountStatic, int amountRandom, int amountFollow) {

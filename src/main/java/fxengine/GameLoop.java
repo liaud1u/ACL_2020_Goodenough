@@ -71,9 +71,6 @@ public class GameLoop extends AnimationTimer {
             frame = 0;
             lastSeconds = now / this.FRAMERATE;
             game.evolve(lastMove);
-            game.evolve(otherCommand);
-
-            otherCommand = Cmd.IDLE;
 
             if (game instanceof PacmanGame)
                 ((PacmanGame) game).evolveTheWorld();
@@ -81,8 +78,11 @@ public class GameLoop extends AnimationTimer {
             frame++;
         }
 
-      final double ratio =  ((now % this.FRAMERATE) * 1.) / this.FRAMERATE;
+        game.evolve(otherCommand);
+        otherCommand = Cmd.IDLE;
 
-       painter.draw(ratio);
+        final double ratio = ((now % this.FRAMERATE) * 1.) / this.FRAMERATE;
+
+        painter.draw(ratio);
     }
 }

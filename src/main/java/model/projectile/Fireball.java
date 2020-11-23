@@ -8,6 +8,8 @@ public class Fireball implements Projectile {
     private int x, y, xPrec, yPrec;
 
     public Fireball(Direction direction, int x, int y) {
+        xPrec = x;
+        yPrec = y;
         this.x = x;
         this.y = y;
 
@@ -15,6 +17,15 @@ public class Fireball implements Projectile {
 
         if (this.direction == Direction.IDLE)
             this.direction = Direction.DOWN;
+
+    }
+
+    public void setxPrec(int xPrec) {
+        this.xPrec = xPrec;
+    }
+
+    public void setyPrec(int yPrec) {
+        this.yPrec = yPrec;
     }
 
     @Override
