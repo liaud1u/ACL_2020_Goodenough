@@ -14,6 +14,7 @@ import model.util.Util;
 public class MonstreView extends Group {
   private final Monster monstre;  // the monster to display
   private final Image sprite; // the current sprite for the monster
+  private final Image deadSprite; // the current sprite for the monster
   private final ImageView view; // the imageview used to display the monster
 
 
@@ -50,6 +51,8 @@ public class MonstreView extends Group {
         break;
     }
 
+    deadSprite = new Image("monsters/dead_ghost.png", size * 4, size, true, false);
+
     view = new ImageView(sprite); // init the view
     currentFrame = 0;
     view.setViewport(new Rectangle2D(0, 0, size, size));  // set the viewport
@@ -81,9 +84,8 @@ public class MonstreView extends Group {
       monstre.getX() == monstre.getxPrec())
     {
       view.setX(Util.slotSizeProperty.multiply(monstre.getX()).add(Util.slotSizeProperty.divide(2).subtract(size/2)).get());
-      view.setY(Util.slotSizeProperty.multiply(monstre.getY()).add(Util.slotSizeProperty.divide(2).subtract(size/2)).get());
-    } else
-      {
+      view.setY(Util.slotSizeProperty.multiply(monstre.getY()).add(Util.slotSizeProperty.divide(2).subtract(size / 2)).get());
+    } else {
       view.setX(Util.slotSizeProperty.multiply(monstre.getxPrec() + ratio * this.monstre.getMovementStrategy().getDirection().getX_dir()).get());
       view.setY(Util.slotSizeProperty.multiply(monstre.getyPrec() + ratio * this.monstre.getMovementStrategy().getDirection().getY_dir()).get());
     }
@@ -91,26 +93,43 @@ public class MonstreView extends Group {
     currentFrame = (currentFrame + 1) % 20; // set the frame
     int printedFrame = currentFrame / 10;
 
+
+    if (monstre.getLifeState() == MonsterState.DEAD && view.getImage() != deadSprite) {
+      view.setImage(deadSprite);
+    }
+
+    if (monstre.getLifeState() == MonsterState.ALIVE && view.getImage() != sprite) {
+      view.setImage(sprite);
+    }
+
     // set the viewport depending of the direction
     switch (monstre.getMovementStrategy().getDirection()) {
       case UP:
-        view.setViewport(frames[0 + printedFrame]);
+        if (monstre.getLifeState() == MonsterState.ALIVE)
+          view.setViewport(frames[0 + printedFrame]);
+        else
+          view.setViewport(frames[0]);
+
         break;
       case DOWN:
-        view.setViewport(frames[2 + printedFrame]);
+        if (monstre.getLifeState() == MonsterState.ALIVE)
+          view.setViewport(frames[2 + printedFrame]);
+        else
+          view.setViewport(frames[1]);
         break;
       case LEFT:
-        view.setViewport(frames[4 + printedFrame]);
+        if (monstre.getLifeState() == MonsterState.ALIVE)
+          view.setViewport(frames[4 + printedFrame]);
+        else
+          view.setViewport(frames[2]);
         break;
       default:
-        view.setViewport(frames[6 + printedFrame]);
+        if (monstre.getLifeState() == MonsterState.ALIVE)
+          view.setViewport(frames[6 + printedFrame]);
+        else
+          view.setViewport(frames[3]);
         break;
-
-
     }
 
-    if (monstre.getLifeState() == MonsterState.DEAD) {
-      view.setVisible(false);
-    }
   }
 }
