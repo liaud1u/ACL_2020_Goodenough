@@ -153,12 +153,17 @@ public class PacmanGame implements Game {
           toRemove.add(p);
         }
 
-        if (labyrinthe.getCaseLabyrinthe(p.getX(), p.getY()).getMonstre() != null) {
+        if (labyrinthe.getCaseLabyrinthe(p.getxPrec(), p.getyPrec()).getMonstre() != null) {
+          p.destroy();
+          toRemove.add(p);
+          labyrinthe.getCaseLabyrinthe(p.getxPrec(), p.getyPrec()).getMonstre().destroy();
+        }
+
+        if (labyrinthe.getCaseLabyrinthe(p.getX(), p.getY()).getMonstre() != null && !toRemove.contains(p)) {
           p.destroy();
           toRemove.add(p);
           labyrinthe.getCaseLabyrinthe(p.getX(), p.getY()).getMonstre().destroy();
         }
-
       }
 
       for (Projectile p : toRemove)
