@@ -8,17 +8,36 @@ import model.util.Util;
 
 import java.util.ArrayList;
 
+/**
+ * View grouping all projectiles
+ */
 public class ProjectileView extends Group {
 
+    /**
+     * ArrayList of all FireballView
+     */
     private final ArrayList<FireballView> fireballViews;
 
+    /**
+     * Current projectiles of the model
+     */
     private final ArrayList<Projectile> projectiles;
 
+    /**
+     * Current printed projectiles
+     */
     private final ArrayList<Projectile> printedProjectiles;
 
-    private final Image[] fireballSprite = new Image[4];  // The sprites for the fireball, load here to avoid load image each time
+    /**
+     * Fireball sprite array, permit to avoid loading sprite for each view
+     */
+    private final Image[] fireballSprite = new Image[4];
 
-
+    /**
+     * Constructor
+     *
+     * @param projectileList list of all projectiles to print
+     */
     public ProjectileView(ArrayList<Projectile> projectileList) {
         this.projectiles = projectileList;
         fireballViews = new ArrayList<>();
@@ -34,7 +53,7 @@ public class ProjectileView extends Group {
         fireballSprite[2] = new Image("projectile/fireball/fireball_left.png", spriteSize, size, true, false);   // going left sprite
         fireballSprite[3] = new Image("projectile/fireball/fireball_right.png", spriteSize, size, true, false);  // going right sprite
 
-
+        //Register all projectiles to print
         for (Projectile p : projectileList) {
             if (p.isFireball()) {
                 Fireball fireball = (Fireball) p;
@@ -45,7 +64,11 @@ public class ProjectileView extends Group {
         }
     }
 
-
+    /**
+     * Draw all projectiles
+     *
+     * @param ratio double between 0 and 1, allow us to make a smooth animation between two cases
+     */
     public void draw(double ratio) {
 
         //Affichage des projectiles
