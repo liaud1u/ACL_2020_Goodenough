@@ -79,18 +79,19 @@ public class PacmanPainter implements GamePainter {
     this.root.getChildren().add(this.labyrintheView);
 
 
-      this.addMonstres();
+    this.addMonstres();
 
 
-      this.playerView = new PlayerView(game.getPlayer());
-      this.root.getChildren().add(this.playerView);
+    this.playerView = new PlayerView(game.getPlayer());
+    this.root.getChildren().add(this.playerView);
 
-      this.rightSideView = new RightSideView();
-      this.root.getChildren().add(this.rightSideView);
+    this.projectileView = new ProjectileView(game.getProjectiles());
+    this.root.getChildren().add(this.projectileView);
+
+    this.rightSideView = new RightSideView();
+    this.root.getChildren().add(this.rightSideView);
 
 
-      this.projectileView = new ProjectileView(game.getProjectiles());
-      this.root.getChildren().add(this.projectileView);
   }
 
 
@@ -112,12 +113,14 @@ public class PacmanPainter implements GamePainter {
       }
 
       this.playerView.draw(ratio);
+
+      this.projectileView.draw(ratio);
+
       this.rightSideView.draw(game.getScore(), game.getGameTimer().getCurrentTimer());
       for (MonstreView monstre : monstreView) {
         monstre.draw(ratio);
       }
 
-      this.projectileView.draw(ratio);
     }
   }
 

@@ -15,8 +15,6 @@ public class PlayerView extends Group {
   private final Image[] sprite = new Image[4];  // The sprites for the player
   private final ImageView view; // The current sprite to display
 
-  private final double animX; //FIXME: dunno how to doc this
-  private final double animY; //same
 
   private int frame;  // Current frame (for animations)
 
@@ -38,9 +36,6 @@ public class PlayerView extends Group {
     this.view = new ImageView(sprite[0]); // the current sprite to display
     this.view.setViewport(new Rectangle2D(0, 0, size, size)); // set the viewport
 
-    // FIXME dunno how to doc this
-    animX = (int) (Util.slotSizeProperty.get() / 2);
-    animY = (int) (Util.slotSizeProperty.get() / 2);
 
     this.getChildren().add(view);
   }

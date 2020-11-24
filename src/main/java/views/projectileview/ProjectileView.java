@@ -1,8 +1,10 @@
 package views.projectileview;
 
 import javafx.scene.Group;
+import javafx.scene.image.Image;
 import model.projectile.Fireball;
 import model.projectile.Projectile;
+import model.util.Util;
 
 import java.util.ArrayList;
 
@@ -14,15 +16,29 @@ public class ProjectileView extends Group {
 
     private final ArrayList<Projectile> printedProjectiles;
 
+    private final Image[] fireballSprite = new Image[4];  // The sprites for the fireball, load here to avoid load image each time
+
 
     public ProjectileView(ArrayList<Projectile> projectileList) {
         this.projectiles = projectileList;
         fireballViews = new ArrayList<>();
         printedProjectiles = new ArrayList<>();
+
+
+        final int size = (int) Util.slotSizeProperty.multiply(Util.RATIO_FIREBALL).get();
+        final int spriteSize = size * 8;
+
+        // Initialize all the sprites
+        fireballSprite[0] = new Image("projectile/fireball/fireball_down.png", spriteSize, size, true, false);   // going down sprite
+        fireballSprite[1] = new Image("projectile/fireball/fireball_up.png", spriteSize, size, true, false);     // going up sprite
+        fireballSprite[2] = new Image("projectile/fireball/fireball_left.png", spriteSize, size, true, false);   // going left sprite
+        fireballSprite[3] = new Image("projectile/fireball/fireball_right.png", spriteSize, size, true, false);  // going right sprite
+
+
         for (Projectile p : projectileList) {
             if (p.isFireball()) {
                 Fireball fireball = (Fireball) p;
-                FireballView fireballView = new FireballView(fireball);
+                FireballView fireballView = new FireballView(fireball, fireballSprite);
                 fireballViews.add(fireballView);
                 getChildren().add(fireballView);
             }
@@ -57,7 +73,7 @@ public class ProjectileView extends Group {
         for (Projectile p : projectiles) {
             if (p.isFireball() && !printedProjectiles.contains(p)) {
                 Fireball fireball = (Fireball) p;
-                FireballView fireballView = new FireballView(fireball);
+                FireballView fireballView = new FireballView(fireball, fireballSprite);
                 fireballViews.add(fireballView);
                 getChildren().add(fireballView);
                 printedProjectiles.add(p);
