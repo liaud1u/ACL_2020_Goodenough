@@ -239,8 +239,14 @@ public class PacmanGame implements Game {
     player.spawn();
     this.justChanged = true;
 
-    for (Projectile p : projectiles)
+    ArrayList<Projectile> toRemove = new ArrayList<>();
+
+    for (Projectile p : projectiles) {
       p.destroy();
+      toRemove.add(p);
+    }
+
+    projectiles.removeAll(toRemove);
 
   }
 
