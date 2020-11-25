@@ -5,6 +5,7 @@ import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import model.player.Player;
+import model.player.PlayerType;
 import model.util.Util;
 
 //FIXME: extends ImageView instead of Group
@@ -27,11 +28,16 @@ public class PlayerView extends Group {
     final int size = (int) Util.slotSizeProperty.multiply(Util.RATIO_PERSONNAGE).get();
     final int spriteSize = size * 3;
 
-    // Initialize all the sprites
-    sprite[0] = new Image("pacman/pacman_down.png", spriteSize, size, true, false);   // going down sprite
-    sprite[1] = new Image("pacman/pacman_up.png", spriteSize, size, true, false);     // going up sprite
-    sprite[2] = new Image("pacman/pacman_left.png", spriteSize, size, true, false);   // going left sprite
-    sprite[3] = new Image("pacman/pacman_right.png", spriteSize, size, true, false);  // going right sprite
+      // Initialize all the sprites
+
+      String path = ((player.getType()== PlayerType.PLAYER1)?"pacman":"pacgirl");
+
+            sprite[0] = new Image(path+"/"+path+"_down.png", spriteSize, size, true, false);   // going down sprite
+            sprite[1] = new Image(path+"/"+path+"_up.png", spriteSize, size, true, false);     // going up sprite
+            sprite[2] = new Image(path+"/"+path+"_left.png", spriteSize, size, true, false);   // going left sprite
+            sprite[3] = new Image(path+"/"+path+"_right.png", spriteSize, size, true, false);  // going right sprite
+
+
 
     this.view = new ImageView(sprite[0]); // the current sprite to display
     this.view.setViewport(new Rectangle2D(0, 0, size, size)); // set the viewport

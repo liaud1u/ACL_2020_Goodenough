@@ -14,6 +14,7 @@ import model.pastille.Pastille;
 import model.pastille.ScorePastille;
 import model.player.Direction;
 import model.player.Player;
+import model.player.PlayerType;
 import model.projectile.Fireball;
 import model.projectile.Projectile;
 import model.util.RandomGenerator;
@@ -104,7 +105,7 @@ public class PacmanGame implements Game {
     } catch (IOException e) {
       System.out.println("Help not available");
     }
-    this.player = new Player(this);
+    this.player = new Player(this, PlayerType.PLAYER2);
     this.gameState  = new PacmanGameState();
     this.score = 0;
     this.changeLevel(); // Generate the maze, the coins and the monsters

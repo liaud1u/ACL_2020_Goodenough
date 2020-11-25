@@ -27,14 +27,21 @@ public class Player {
    */
   private Direction currentMoveDirection;
 
+  private PlayerType type;
+
   /**
    * Constructeur du joueur
    *
    * @param game Game ou évolue le joueur
    */
-  public Player(PacmanGame game) {
+  public Player(PacmanGame game, PlayerType type) {
     this.game = game;
+    this.type = type;
     this.spawn();
+  }
+
+  public PlayerType getType() {
+    return type;
   }
 
   /**
