@@ -48,7 +48,11 @@ public class Player {
    * réinitialise la position du joueur dans le labyrinthe
    */
   public void spawn() {
-    xPrec = yPrec = x = y = 1;
+    y=yPrec=1;
+    if(type==PlayerType.PLAYER1)
+      xPrec = x   =  1;
+    else
+      xPrec = x   = Util.MAZE_SIZE-1;
     this.isStuck = false;
     currentMoveDirection = Direction.IDLE;
   }

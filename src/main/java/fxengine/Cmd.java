@@ -9,5 +9,5 @@ public enum Cmd {
   UP,
   DOWN,
   IDLE,
-  SHOOT
+  SHOOT,
 }

@@ -60,6 +60,12 @@ public class PacmanGame implements Game {
    */
   private final Player player;
 
+
+  /**
+   * Joueur secondaire
+   */
+  private Player secondPlayer;
+
   /**
    * Labyrinthe principal
    */
@@ -87,6 +93,8 @@ public class PacmanGame implements Game {
 
   private int level;
 
+  private int playerTurn = 1;
+
 
   /**
    * constructeur avec fichier source pour le help
@@ -105,11 +113,23 @@ public class PacmanGame implements Game {
     } catch (IOException e) {
       System.out.println("Help not available");
     }
-    this.player = new Player(this, PlayerType.PLAYER2);
+
+    this.player = new Player(this, PlayerType.PLAYER1);
+    if(Util.player >= 1)
+      this.secondPlayer = new Player(this, PlayerType.PLAYER2);
+
     this.gameState  = new PacmanGameState();
     this.score = 0;
     this.changeLevel(); // Generate the maze, the coins and the monsters
     this.justChanged = false;
+  }
+
+  public int getPlayerTurn() {
+    return playerTurn;
+  }
+
+  public void setPlayerTurn(int playerTurn) {
+    this.playerTurn = playerTurn;
   }
 
   /**
@@ -118,17 +138,27 @@ public class PacmanGame implements Game {
    * @param commande
    */
   public void evolve(Cmd commande) {
+    Player playerEvolving;
+
+    if(playerTurn==1)
+      playerEvolving=player;
+    else
+      playerEvolving=secondPlayer;
 
     if (commande == Cmd.SHOOT) {
       summonFireball();
     } else {
       if (commande != Cmd.IDLE && commande != Cmd.SHOOT)
-        player.setCurrentMoveDirection(Direction.valueOf(commande.name()));
+        playerEvolving.setCurrentMoveDirection(Direction.valueOf(commande.name()));
     }
   }
 
   public void evolveTheWorld() {
     player.go();
+
+    if(Util.player>1)
+    secondPlayer.go();
+
     if (allPastillesEaten()) {
       gameState.setState(PacmanGameState.EtatJeu.VICTOIRE);
     } else if (willPlayerCollideMob() || gameTimer.isOver()) {
@@ -174,17 +204,24 @@ public class PacmanGame implements Game {
   }
 
   public void summonFireball() {
-    Direction dir = player.getCurrentMoveDirection();
+    Player playerSummoning;
+
+    if(playerTurn==1)
+      playerSummoning = player;
+    else
+      playerSummoning=secondPlayer;
+
+    Direction dir = playerSummoning.getCurrentMoveDirection();
 
     if (dir == Direction.IDLE)
       dir = Direction.DOWN;
 
-    if (!labyrinthe.getCaseLabyrinthe(player.getX() + dir.getX_dir(), player.getY() + dir.getY_dir()).estUnMur()) {
-      Fireball fireball = new Fireball(dir, player.getX() + dir.getX_dir(), player.getY() + dir.getY_dir());
+    if (!labyrinthe.getCaseLabyrinthe(playerSummoning.getX() + dir.getX_dir(), playerSummoning.getY() + dir.getY_dir()).estUnMur()) {
+      Fireball fireball = new Fireball(dir, playerSummoning.getX() + dir.getX_dir(), playerSummoning.getY() + dir.getY_dir());
       projectiles.add(fireball);
 
-      fireball.setxPrec(player.getX());
-      fireball.setyPrec(player.getY());
+      fireball.setxPrec(playerSummoning.getX());
+      fireball.setyPrec(playerSummoning.getY());
     }
   }
 
@@ -238,6 +275,7 @@ public class PacmanGame implements Game {
     resetTimer();
     restartTimer();
     player.spawn();
+    secondPlayer.spawn();
     this.justChanged = true;
 
     ArrayList<Projectile> toRemove = new ArrayList<>();
@@ -353,6 +391,10 @@ public class PacmanGame implements Game {
    */
   public Player getPlayer() {
     return player;
+  }
+
+  public Player getSecondPlayer() {
+    return secondPlayer;
   }
 
   /**

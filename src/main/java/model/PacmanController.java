@@ -3,6 +3,7 @@ package model;
 import fxengine.Cmd;
 import fxengine.GameController;
 import javafx.scene.input.KeyEvent;
+import model.player.PlayerType;
 
 
 /**
@@ -18,13 +19,15 @@ public class PacmanController implements GameController {
 	 */
 	private Cmd commandeEnCours;
 	private Cmd commandComplementaire;
+	private PlayerType type;
 
 	/**
 	 * construction du controleur par defaut le controleur n'a pas de commande
 	 */
-	public PacmanController() {
+	public PacmanController(PlayerType type) {
 		this.commandeEnCours = Cmd.IDLE;
 		this.commandComplementaire = Cmd.IDLE;
+		this.type = type;
 	}
 
 	/**
@@ -41,6 +44,9 @@ public class PacmanController implements GameController {
 		return this.commandComplementaire;
 	}
 
+	public PlayerType getType() {
+		return type;
+	}
 
 	/**
 	 * met a jour les commandes en fonctions des touches appuyees
@@ -48,18 +54,23 @@ public class PacmanController implements GameController {
 	public void keyPressed(KeyEvent e) {
 
 		switch (e.getCode()) {
-			case LEFT:
+			case Q:
+			case LEFT :
 				this.commandeEnCours = Cmd.LEFT;
 				break;
+			case D:
 			case RIGHT:
 				this.commandeEnCours = Cmd.RIGHT;
 				break;
 			case UP:
+			case Z:
 				this.commandeEnCours = Cmd.UP;
 				break;
 			case DOWN:
+			case S:
 				this.commandeEnCours = Cmd.DOWN;
 				break;
+			case A:
 			case SPACE:
 				this.commandComplementaire = Cmd.SHOOT;
 				break;

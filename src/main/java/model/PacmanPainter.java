@@ -3,6 +3,7 @@ package model;
 import fxengine.GamePainter;
 import javafx.scene.Group;
 import model.monster.Monster;
+import model.util.Util;
 import views.LabyrintheView;
 import views.MonstreView;
 import views.PlayerView;
@@ -45,6 +46,7 @@ public class PacmanPainter implements GamePainter {
    */
   private final PlayerView playerView;
 
+  private PlayerView secondPlayerView;
 
   /**
    * Vue des monstres
@@ -85,6 +87,11 @@ public class PacmanPainter implements GamePainter {
     this.playerView = new PlayerView(game.getPlayer());
     this.root.getChildren().add(this.playerView);
 
+    if(Util.player>=1) {
+      this.secondPlayerView = new PlayerView(game.getSecondPlayer());
+      this.root.getChildren().add(this.secondPlayerView);
+    }
+
     this.projectileView = new ProjectileView(game.getProjectiles());
     this.root.getChildren().add(this.projectileView);
 
@@ -113,6 +120,9 @@ public class PacmanPainter implements GamePainter {
       }
 
       this.playerView.draw(ratio);
+
+      if(Util.player>1)
+        this.secondPlayerView.draw(ratio);
 
       this.projectileView.draw(ratio);
 

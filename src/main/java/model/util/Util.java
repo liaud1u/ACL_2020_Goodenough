@@ -32,7 +32,9 @@ public abstract class Util {
   public static int SCORE_SIZE = 8; //Nombre de chiffre dans le score
   public static int timer = 45; // timer (seconds)
   public static int maxTimerSize = 3;
+  public static int player = 2;
   public static int DISPLAY_MSG_DURATION = 3;
+
 
   /**
    * Initialisation des valeurs

@@ -6,6 +6,7 @@ import javafx.beans.binding.Bindings;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -13,7 +14,12 @@ import javafx.stage.WindowEvent;
 import model.PacmanController;
 import model.PacmanGame;
 import model.PacmanPainter;
+import model.player.PlayerType;
 import model.util.Util;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Application principale
@@ -43,6 +49,9 @@ public class GameApplication extends Application {
    * Controlleur du jeu permettant de récupérer les différentes actions
    */
   private GameController controller;
+
+
+  private GameController controllerP2;
 
   /**
    * Image principale du jeu
@@ -93,10 +102,15 @@ public class GameApplication extends Application {
 
     // Création de la vue et du controlleur
     painter = new PacmanPainter(root, game);
-    controller = new PacmanController();
+
+    controller = new PacmanController(PlayerType.PLAYER1);
+    controllerP2 = new PacmanController(PlayerType.PLAYER2);
 
     // Premier affichage
     painter.draw(0);
+
+    List<KeyCode> p1Code = Arrays.asList(KeyCode.LEFT, KeyCode.RIGHT,KeyCode.UP,KeyCode.SPACE,KeyCode.DOWN);
+    List<KeyCode> p2Code = Arrays.asList(KeyCode.Z, KeyCode.Q,KeyCode.S,KeyCode.D,KeyCode.A);
 
     // Actions à effectuer lors de la fermeture de l'application
     primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -112,7 +126,12 @@ public class GameApplication extends Application {
     scene.setOnKeyPressed(
       new EventHandler<KeyEvent>() {
         public void handle(KeyEvent event) {
-          controller.keyPressed(event);
+
+          if(p1Code.contains(event.getCode()))
+            controller.keyPressed(event);
+          else
+            controllerP2.keyPressed(event);
+
         }
       }
     );
@@ -121,13 +140,16 @@ public class GameApplication extends Application {
     scene.setOnKeyReleased(
       new EventHandler<KeyEvent>() {
         public void handle(KeyEvent event) {
-          controller.keyReleased(event);
+          if(p1Code.contains(event.getCode()))
+            controller.keyReleased(event);
+          else
+            controllerP2.keyReleased(event);
         }
       }
     );
 
     // Création et lancement de la boucle principale de gameplay
-    GameLoop loop = new GameLoop(painter,controller,game);
+    GameLoop loop = new GameLoop(painter,controller,controllerP2,game);
     loop.start();
 
     primaryStage.minWidthProperty().bind(Util.minWindowSizeProperty.add(Util.rightWidthProperty));
