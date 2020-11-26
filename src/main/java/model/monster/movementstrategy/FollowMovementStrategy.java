@@ -41,7 +41,23 @@ public class FollowMovementStrategy implements MovementStrategy {
 
         //On récupère les cases du monstre et du joueur
         Case monsterLocation = labyrinthe.getCaseLabyrinthe(monstre.getX(), monstre.getY());
-        Case playerLocation = labyrinthe.getCaseLabyrinthe(game.getPlayer().getX() + game.getPlayer().getCurrentMoveDirection().getX_dir(), game.getPlayer().getY() + game.getPlayer().getCurrentMoveDirection().getY_dir());
+
+        Case playerLocation;
+
+        //On prend le joueur le plus proche
+        if(Util.player>1){
+            Case firstPlayerLocation = labyrinthe.getCaseLabyrinthe(game.getPlayer().getX() + game.getPlayer().getCurrentMoveDirection().getX_dir(), game.getPlayer().getY() + game.getPlayer().getCurrentMoveDirection().getY_dir());
+            Case secondPlayerLocation = labyrinthe.getCaseLabyrinthe(game.getSecondPlayer().getX() + game.getSecondPlayer().getCurrentMoveDirection().getX_dir(), game.getSecondPlayer().getY() + game.getSecondPlayer().getCurrentMoveDirection().getY_dir());
+
+            if(monsterLocation.distance(firstPlayerLocation)>monsterLocation.distance(secondPlayerLocation))
+                playerLocation = secondPlayerLocation;
+            else
+                playerLocation = firstPlayerLocation;
+
+        }else {
+            playerLocation = labyrinthe.getCaseLabyrinthe(game.getPlayer().getX() + game.getPlayer().getCurrentMoveDirection().getX_dir(), game.getPlayer().getY() + game.getPlayer().getCurrentMoveDirection().getY_dir());
+        }
+
 
         //On récupère les directions que le monstre peut prendre
         ArrayList<Direction> directions = labyrinthe.getFreeDirection(monsterLocation.getX(), monsterLocation.getY());
