@@ -157,7 +157,7 @@ public class PacmanGame implements Game {
     player.go();
 
     if(Util.player>1)
-    secondPlayer.go();
+      secondPlayer.go();
 
     if (allPastillesEaten()) {
       gameState.setState(PacmanGameState.EtatJeu.VICTOIRE);
@@ -411,8 +411,16 @@ public class PacmanGame implements Game {
    * Détermine si le joueur va entrer en collision avec un monstre
    */
   public boolean willPlayerCollideMob() {
-    if (this.labyrinthe.getCaseLabyrinthe(this.player.getX(), this.player.getY()).getMonstre() != null) {
-      Monster monster = labyrinthe.getCaseLabyrinthe(this.player.getX(), this.player.getY()).getMonstre();
+    Player playerCheckCollide;
+
+    if(playerTurn==1)
+      playerCheckCollide=player;
+    else
+      playerCheckCollide=secondPlayer;
+
+
+    if (this.labyrinthe.getCaseLabyrinthe(playerCheckCollide.getX(), playerCheckCollide.getY()).getMonstre() != null) {
+      Monster monster = labyrinthe.getCaseLabyrinthe(playerCheckCollide.getX(), playerCheckCollide.getY()).getMonstre();
       return monster.getLifeState() == MonsterState.ALIVE;
     }
     return false;
@@ -422,7 +430,15 @@ public class PacmanGame implements Game {
    * Détermine si le joueur vas manger une pastille
    */
   public void isEatingAPastaga() {
-    final Case currentCase = this.labyrinthe.getCaseLabyrinthe(this.player.getX(), this.player.getY());
+
+    Player playerEat;
+
+    if(playerTurn==1)
+      playerEat=player;
+    else
+      playerEat=secondPlayer;
+
+    final Case currentCase = this.labyrinthe.getCaseLabyrinthe(playerEat.getX(), playerEat.getY());
 
     if (currentCase.hasPastille()) {
       Pastille p = currentCase.getPastille();
@@ -434,8 +450,15 @@ public class PacmanGame implements Game {
   }
 
   public boolean willPlayerCollide() {
-    int x = this.player.getX() + player.getCurrentMoveDirection().getX_dir();
-    int y = this.player.getY() + player.getCurrentMoveDirection().getY_dir();
+    Player playerCheckCollide;
+
+    if(playerTurn==1)
+      playerCheckCollide=player;
+    else
+      playerCheckCollide=secondPlayer;
+
+    int x = playerCheckCollide.getX() + playerCheckCollide.getCurrentMoveDirection().getX_dir();
+    int y = playerCheckCollide.getY() + playerCheckCollide.getCurrentMoveDirection().getY_dir();
 
     return this.willPlayerCollideWall(x, y);
   }

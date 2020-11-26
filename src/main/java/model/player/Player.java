@@ -52,7 +52,7 @@ public class Player {
     if(type==PlayerType.PLAYER1)
       xPrec = x   =  1;
     else
-      xPrec = x   = Util.MAZE_SIZE-1;
+      xPrec = x   = Util.MAZE_SIZE-2;
     this.isStuck = false;
     currentMoveDirection = Direction.IDLE;
   }
@@ -83,6 +83,7 @@ public class Player {
   public void go() {
     //Si il n'y a pas de collisions, on met à jour les coordonnées
     game.isEatingAPastaga();
+    game.setPlayerTurn(type==PlayerType.PLAYER1?1:2);
     if (!game.willPlayerCollide() && !game.willPlayerCollideMob()) {
       xPrec = x;
       yPrec = y;

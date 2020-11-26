@@ -87,7 +87,7 @@ public class PacmanPainter implements GamePainter {
     this.playerView = new PlayerView(game.getPlayer());
     this.root.getChildren().add(this.playerView);
 
-    if(Util.player>=1) {
+    if(Util.player>1) {
       this.secondPlayerView = new PlayerView(game.getSecondPlayer());
       this.root.getChildren().add(this.secondPlayerView);
     }
