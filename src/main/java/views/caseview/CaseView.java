@@ -4,9 +4,14 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import model.labyrinthe.Case;
 import model.util.Util;
-import views.PastilleView;
+import views.pastille.AmmoPastilleView;
+import views.pastille.PastilleView;
+import views.pastille.ScorePastilleView;
+import views.pastille.TimePastilleView;
 
 
 /** class used to display a slot
@@ -15,18 +20,28 @@ public class CaseView extends Group {
   /** @param sprite (:{@link Image}), the image to display
    *  @param c (:{@link Case})      , the Case to display
    *  */
-  public CaseView(Image sprite, Case c) {
-/*    TODO : ajouter un mode debug pour print les rectangles
-    Rectangle r = new Rectangle(c.getX() * Util.slotSizeProperty.get(), c.getY()* Util.slotSizeProperty.get(),
-            Util.slotSizeProperty.get(), Util.slotSizeProperty.get());
-    r.setStroke(Color.ALICEBLUE);
-    this.getChildren().add(r);
-*/
-    // if we have an item, we create a view and add it to the group root
-    if (c.hasPastille()) {
-      final PastilleView pastilleView = new PastilleView(c.getPastille(), c.getX(), c.getY());  // create the view
-      pastilleView.visibleProperty().bind(c.hasPastilleProperty); // if the slot has an item, it is visible. Otherwise it is not
 
+  public CaseView(Image sprite, Case c) {
+    if(Util.DEBUG_MODE) {
+      Rectangle r = new Rectangle(c.getX() * Util.slotSizeProperty.get(), c.getY()* Util.slotSizeProperty.get(),
+              Util.slotSizeProperty.get(), Util.slotSizeProperty.get());
+      r.setStroke(Color.ALICEBLUE);
+      this.getChildren().add(r);
+    }
+    // if we have an item, we create a view and add it to the group root
+    if (c.hasScorePastille()) {
+      final PastilleView pastilleView = new ScorePastilleView(c.getX(), c.getY());  // create the view
+      pastilleView.visibleProperty().bind(c.hasPastilleProperty); // if the slot has an item, it is visible. Otherwise it is not
+      this.getChildren().add(pastilleView); // add item to the group root
+    }
+    if (c.hasAmmoPastille()) {
+      final PastilleView pastilleView = new AmmoPastilleView(c.getX(), c.getY());  // create the view
+      pastilleView.visibleProperty().bind(c.hasPastilleProperty); // if the slot has an item, it is visible. Otherwise it is not
+      this.getChildren().add(pastilleView); // add item to the group root
+    }
+    if (c.hasTimePastille()) {
+      final PastilleView pastilleView = new TimePastilleView(c.getX(), c.getY());  // create the view
+      pastilleView.visibleProperty().bind(c.hasPastilleProperty); // if the slot has an item, it is visible. Otherwise it is not
       this.getChildren().add(pastilleView); // add item to the group root
     }
 

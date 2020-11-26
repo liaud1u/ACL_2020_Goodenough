@@ -10,8 +10,10 @@ import model.monster.MonsterState;
 import model.monster.movementstrategy.FollowMovementStrategy;
 import model.monster.movementstrategy.RandomMovementStrategy;
 import model.monster.movementstrategy.StaticMovementStrategy;
+import model.pastille.AmmoPastille;
 import model.pastille.Pastille;
 import model.pastille.ScorePastille;
+import model.pastille.TimePastille;
 import model.player.Direction;
 import model.player.Player;
 import model.player.PlayerType;
@@ -305,7 +307,8 @@ public class PacmanGame implements Game {
     this.monstres = new ArrayList<>();
     this.generateMonster(difficulty.getNbMonstreStatic(), difficulty.getNbMonstreRandom(), difficulty.getNbMonstreFollow());
 
-    this.generatePastille(difficulty.getPastilleAmount());
+
+    this.generateAllPastilles(difficulty.getScorePastilleAmount(), 5, 5);
 
 
     this.gameTimer.setCurrentTimer(difficulty.getTime());
@@ -346,7 +349,7 @@ public class PacmanGame implements Game {
       Monster monstre = new Monster(this, selected.getX(), selected.getY(), ghostTypes.get(cptType++ % 4));
       monstre.setMovementStrategy(new RandomMovementStrategy(monstre, labyrinthe));
 
-      selected.setMonster(monstre);
+      selected.addMonster(monstre);
       monstres.add(monstre);
     }
 
@@ -355,7 +358,7 @@ public class PacmanGame implements Game {
       Monster monstre = new Monster(this, selected.getX(), selected.getY(), ghostTypes.get(cptType++ % 4));
       monstre.setMovementStrategy(new FollowMovementStrategy(monstre, labyrinthe,player,secondPlayer));
       monstres.add(monstre);
-      selected.setMonster(monstre);
+      selected.addMonster(monstre);
     }
 
     for (int i = 0; i < amountStatic; i++) {
@@ -363,38 +366,56 @@ public class PacmanGame implements Game {
       Monster monstre = new Monster(this, selected.getX(), selected.getY(), ghostTypes.get(cptType++ % 4));
       monstre.setMovementStrategy(new StaticMovementStrategy());
       monstres.add(monstre);
-      selected.setMonster(monstre);
+      selected.addMonster(monstre);
     }
   }
 
   /**
    * Generate pastille in the maze
-   * @param amount amount of pastilles
+   * @param amountScore amount of score pastilles (increases when level becomes harder)
+   * @param amountTime amount of time pastilles (decreases when level becomes harder)
+   * @param amountAmmo amount of munitions pastilles (decreases when level becomes harder)
+   *
    */
-  private void generatePastille(int amount) {
-    Case[][] cases = labyrinthe.getLabyrinthe();
+  private void generateAllPastilles(int amountScore, int amountTime, int amountAmmo) {
+
     int nbCasesDisponibles = labyrinthe.getNbCasesLibres();
-    if (nbCasesDisponibles < amount) {
-      System.err.println("ERREUR : Impossible de mettre  les pastilles  dans un labyrinthe possédant " + nbCasesDisponibles + " cases libres !");
-      return;
-    }
-
-    for (int i = 0; i < amount; i++) {
-        int x = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
-          int y = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
-          while (cases[x][y].estUnMur() || cases[x][y].hasEntity() ||
-                  ( x == Util.MAZE_SIZE / 2 && y ==Util.MAZE_SIZE / 2- 1) // No coin on the monster output
-          ) {
-            x = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
-            y = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
-          }
-          Pastille p = new ScorePastille(x, y);
-          cases[x][y].setPastille(p);
-          this.labyrinthe.addPastille();
-
+    if (nbCasesDisponibles < (amountScore+amountTime+amountAmmo)) {
+      System.err.println("ERREUR : Impossible de mettre les pastilles  dans un labyrinthe possédant " + nbCasesDisponibles + " cases libres !");
+    } else {
+      this.generatePastille(Pastille.Type.SCORE, amountScore);
+      this.generatePastille(Pastille.Type.AMMO, amountAmmo);
+      this.generatePastille(Pastille.Type.TIME, amountTime);
     }
   }
 
+  private void generatePastille(Pastille.Type type, int amount){
+    Pastille p = null;
+    Case[][] cases = labyrinthe.getLabyrinthe();
+    for (int i = 0; i < amount; i++) {
+      int x = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
+      int y = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
+      while (cases[x][y].estUnMur() || cases[x][y].hasEntity() ||
+              ( x == Util.MAZE_SIZE / 2 && y ==Util.MAZE_SIZE / 2- 1) // No coin on the monster output
+      ) {
+        x = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
+        y = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
+      }
+      switch(type) {
+        case AMMO:
+          cases[x][y].addAmmoPastille(new AmmoPastille());
+        break;
+        case TIME:
+          cases[x][y].addTimePastille(new TimePastille(10)); // TODO : added time in difficulty
+        break;
+        case SCORE:
+        default:
+          cases[x][y].addScorePastille(new ScorePastille(10)); // TODO : added score in difficulty
+          this.labyrinthe.addPastille();
+        break;
+      }
+    }
+  }
   /**
    * Méthode permettant de savoir si l'ensemble des pastilles ont été récupérées
    * par le joueur (le permettant de passer au niveau suivant)
@@ -506,13 +527,21 @@ public class PacmanGame implements Game {
 
     final Case currentCase = this.labyrinthe.getCaseLabyrinthe(playerEat.getX(), playerEat.getY());
 
-    if (currentCase.hasPastille()) {
-      Pastille p = currentCase.getPastille();
-      p.setRamassee(true);
-      score += p.getValue();
-      currentCase.destroyPastille();
+    if (currentCase.hasScorePastille()) {
+      ScorePastille sp = currentCase.getScorePastille();
+      score += sp.getScore();
       this.labyrinthe.removePastille();
     }
+    if(currentCase.hasAmmoPastille()) {
+      AmmoPastille ap = currentCase.getAmmoPastille();
+      // TODO : AMMO MANAGEMENT
+    }
+    if(currentCase.hasTimePastille()) {
+      TimePastille tp = currentCase.getTimePastille();
+      gameTimer.addTime(tp.getTime());
+    }
+
+    currentCase.destroyPastilles();
   }
 
   /**

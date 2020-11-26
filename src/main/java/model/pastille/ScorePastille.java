@@ -1,26 +1,26 @@
 package model.pastille;
 
-import javafx.scene.paint.Color;
-
 /**
  * Pastille de score
  */
 public class ScorePastille extends Pastille {
 
-    /**
-     * Couleur de la pastille
-     */
-    private static final Color couleur = Color.BLUE;
+
+    private int score;
+
+    public ScorePastille(int score) {
+        super();
+        this.score = score;
+    }
 
     /**
-     * Pastille de score
-     *
-     * @param x double x coordonnée x de la pastille
-     * @param y double y coordonnée y de la pastille
+     * Getter de la valeur de la pastille
+     * @return int valeur
      */
-    public ScorePastille(double x, double y) {
-        super(couleur, "scorePastille", x, y);
-        value = 10;
+    public int getScore() {
+        return this.score;
     }
+
+
 
 }

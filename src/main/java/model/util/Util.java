@@ -27,6 +27,7 @@ public abstract class Util {
   public static DoubleProperty rightWidthProperty = new SimpleDoubleProperty();
 
   // VALUES
+  public static boolean DEBUG_MODE = false;
   public static double rightTextHeight = 64;
   public static int speedDifficulty = 3;  //Vitesse du personnage
   public static int SCORE_SIZE = 8; //Nombre de chiffre dans le score
@@ -34,6 +35,7 @@ public abstract class Util {
   public static int maxTimerSize = 3;
   public static int player = 2;
   public static int DISPLAY_MSG_DURATION = 3;
+
 
 
   /**

@@ -85,7 +85,7 @@ public class Monster {
      * Destroy the monster
      */
     public void destroy() {
-        game.getLabyrinthe().getCaseLabyrinthe(x, y).setMonster(null);
+        game.getLabyrinthe().getCaseLabyrinthe(x, y).addMonster(null);
         lifeState = MonsterState.DEAD;
     }
 
@@ -110,10 +110,10 @@ public class Monster {
      * @param x int x coord
      */
     public void setX(int x) {
-        game.getLabyrinthe().getCaseLabyrinthe(this.x, this.y).setMonster(null);
+        game.getLabyrinthe().getCaseLabyrinthe(this.x, this.y).addMonster(null);
         this.xPrec = this.x;
         this.x = x;
-        game.getLabyrinthe().getCaseLabyrinthe(x, y).setMonster(this);
+        game.getLabyrinthe().getCaseLabyrinthe(x, y).addMonster(this);
     }
 
     /**
@@ -153,10 +153,10 @@ public class Monster {
      * @param y coord y
      */
     public void setY(int y) {
-        game.getLabyrinthe().getCaseLabyrinthe(this.x, this.y).setMonster(null);
+        game.getLabyrinthe().getCaseLabyrinthe(this.x, this.y).addMonster(null);
         this.yPrec = this.y;
         this.y = y;
-        game.getLabyrinthe().getCaseLabyrinthe(x, y).setMonster(this);
+        game.getLabyrinthe().getCaseLabyrinthe(x, y).addMonster(this);
     }
 
     /**

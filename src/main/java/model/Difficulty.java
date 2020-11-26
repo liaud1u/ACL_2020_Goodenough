@@ -11,7 +11,7 @@ public enum Difficulty {
     /**
      * Amount of pastille
      */
-    private final int pastilleAmount;
+    private final int scorePastilleAmount;
 
     /**
      * Amount of static monster
@@ -35,14 +35,14 @@ public enum Difficulty {
 
     /**
      * Constructor of the difficulty
-     * @param pastilleAmount Amount of pastille with that difficulty
+     * @param scorePastilleAmount Amount of pastille with that difficulty
      * @param nbMonstreStatic amount of static monster with that difficulty
      * @param nbMonstreRandom amount of random monster with that difficulty
      * @param nbMonstreFollowing amount of following monster with that difficulty
      * @param time time with that difficulty
      */
-    Difficulty(int pastilleAmount, int nbMonstreStatic, int nbMonstreRandom, int nbMonstreFollowing, int time) {
-        this.pastilleAmount = pastilleAmount;
+    Difficulty(int scorePastilleAmount, int nbMonstreStatic, int nbMonstreRandom, int nbMonstreFollowing, int time) {
+        this.scorePastilleAmount = scorePastilleAmount;
         this.nbMonstreStatic = nbMonstreStatic;
         this.nbMonstreRandom = nbMonstreRandom;
         this.nbMonstreFollow = nbMonstreFollowing;
@@ -53,8 +53,8 @@ public enum Difficulty {
      * Getter of the amount of pastille
      * @return int amount of pastille
      */
-    public int getPastilleAmount() {
-        return pastilleAmount;
+    public int getScorePastilleAmount() {
+        return scorePastilleAmount;
     }
 
     /**

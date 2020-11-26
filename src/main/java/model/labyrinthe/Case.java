@@ -4,7 +4,9 @@ package model.labyrinthe;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import model.monster.Monster;
-import model.pastille.Pastille;
+import model.pastille.AmmoPastille;
+import model.pastille.ScorePastille;
+import model.pastille.TimePastille;
 
 import java.util.ArrayList;
 
@@ -18,14 +20,17 @@ public class Case {
   private int x;
 
   /**
-   * Optionnal pastille on the case
-   */
-  private Pastille pastille;
-
-  /**
    * Coordonnée y de la case
    */
   private int y;
+
+  /**
+   * Optionnal pastilles on the case
+   */
+  private ScorePastille scorePastille;
+  private TimePastille timePastille;
+  private AmmoPastille ammoPastille;
+
 
   /**
    * Liste des cases voisines de la case
@@ -48,10 +53,9 @@ public class Case {
   private Monster monstre;
 
   /**
-   * If the case has an pastille, true
+   * Property to get if there is a Pastille on the Case
    */
   public BooleanProperty hasPastilleProperty = new SimpleBooleanProperty(false);
-
 
   /**
    * Constructeur d'une case
@@ -76,7 +80,9 @@ public class Case {
     this.y = y;
     this.estUnMur = bool;
     this.monstre = null;
-    this.pastille = null;
+    this.scorePastille = null;
+    this.timePastille = null;
+    this.ammoPastille = null;
   }
 
   /**
@@ -148,13 +154,6 @@ public class Case {
    */
   public int getX() {
     return x;
-  }
-
-  /**
-   * @return (:boolean) if the case has a pastille
-   */
-  public boolean hasPastille() {
-    return this.pastille != null;
   }
 
   /**
@@ -242,7 +241,7 @@ public class Case {
    * Set the monster on the case
    * @param monstre Mosnter to set on the case
    */
-  public void setMonster(Monster monstre) {
+  public void addMonster(Monster monstre) {
     this.monstre = monstre;
   }
 
@@ -254,28 +253,63 @@ public class Case {
     return monstre;
   }
 
-  /**
-   * @param pastille (:{@link Pastille}) set the new pastille (null if none)
-   */
-  public void setPastille(Pastille pastille) {
-    this.hasPastilleProperty.set(pastille != null);
-    this.pastille = pastille;
+
+  public void addScorePastille(ScorePastille scorePastille) {
+    this.hasPastilleProperty.setValue(scorePastille != null);
+    this.scorePastille = scorePastille;
+  }
+
+  public void addTimePastille(TimePastille timePastille) {
+    this.hasPastilleProperty.setValue(timePastille != null);
+    this.timePastille = timePastille;
+  }
+
+  public void addAmmoPastille(AmmoPastille ammoPastille) {
+    this.hasPastilleProperty.setValue(ammoPastille != null);
+    this.ammoPastille = ammoPastille;
+  }
+
+  public TimePastille getTimePastille() {
+    return timePastille;
+  }
+
+  public AmmoPastille getAmmoPastille() {
+    return ammoPastille;
+  }
+
+  public ScorePastille getScorePastille() {
+    return scorePastille;
+  }
+
+
+  public boolean hasScorePastille() {
+    return scorePastille != null;
+  }
+
+  public boolean hasTimePastille() {
+    return timePastille != null;
+  }
+
+  public boolean hasAmmoPastille() {
+    return ammoPastille != null;
+  }
+
+
+  public void destroyPastilles() {
+    this.ammoPastille = null;
+    this.scorePastille = null;
+    this.timePastille = null;
+    this.hasPastilleProperty.setValue(false);
   }
 
   /**
    * @return (: boolean) if the case has either a monster or a pastille
    */
   public boolean hasEntity() {
-    return this.hasPastille() || this.monstre != null;
+    return this.scorePastille != null || this.timePastille != null || this.ammoPastille != null || this.monstre != null;
   }
 
-  /**
-   * Get the pastille on the case
-   * @return Pastille on the case
-   */
-  public Pastille getPastille() {
-    return pastille;
-  }
+
 
   @Override
   public String toString() {
@@ -284,14 +318,6 @@ public class Case {
       ", y=" + y +
             ", estUnMur=" + estUnMur +
             '}';
-  }
-
-  /**
-   * Destroy pastille on the case
-   */
-  public void destroyPastille() {
-    this.pastille = null;
-    this.hasPastilleProperty.set(false);
   }
 
   /**
