@@ -256,9 +256,9 @@ public class PacmanGame implements Game {
 
     Difficulty difficulty;
 
-    if (level <= 1) {
+    if (level < 1) {
       difficulty = Difficulty.EASY;
-    } else if (level <= 3) {
+    } else if (level < 2) {
         difficulty = Difficulty.MEDIUM;
     } else {
         difficulty = Difficulty.HARD;
@@ -274,8 +274,10 @@ public class PacmanGame implements Game {
     this.gameTimer.setCurrentTimer(difficulty.getTime());
     resetTimer();
     restartTimer();
+
     player.spawn();
     secondPlayer.spawn();
+
     this.justChanged = true;
 
     ArrayList<Projectile> toRemove = new ArrayList<>();
@@ -460,7 +462,7 @@ public class PacmanGame implements Game {
     int x = playerCheckCollide.getX() + playerCheckCollide.getCurrentMoveDirection().getX_dir();
     int y = playerCheckCollide.getY() + playerCheckCollide.getCurrentMoveDirection().getY_dir();
 
-    return this.willPlayerCollideWall(x, y);
+    return this.willPlayerCollideWall(x, y) ;
   }
 
   /**
