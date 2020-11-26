@@ -16,9 +16,13 @@ public class GameLoop extends AnimationTimer {
     private final GamePainter painter;
 
     /**
-     * Controlleur du jeu
+     * Game controller for 1st player
      */
     private final GameController controller;
+
+    /**
+     * Game controller for 2nd player
+     */
     private final GameController controllerP2;
 
     /**
@@ -36,9 +40,24 @@ public class GameLoop extends AnimationTimer {
      */
     private long lastSeconds = 0;
 
+    /**
+     * Last move of the first player
+     */
     private Cmd lastMove = Cmd.IDLE;
+
+    /**
+     * Last otherCommand (shoot) of the first player
+     */
     private Cmd otherCommand = Cmd.IDLE;
+
+    /**
+     * Last move of the second player
+     */
     private Cmd lastMoveP2 = Cmd.IDLE;
+
+    /**
+     * Last otherCommand (shoot) of the second player
+     */
     private Cmd otherCommandP2 = Cmd.IDLE;
 
     /**
@@ -61,21 +80,21 @@ public class GameLoop extends AnimationTimer {
      * @param now
      */
     public void handle(long now) {
-        //Calcul des FPS
-
-
-
-
+        //Checking if the new movement of the first player is different than the past
         if (lastMove != controller.getCommand() && controller.getCommand() != Cmd.IDLE) {
             lastMove = controller.getCommand();
         }
 
+        //Checking if the new movement of the second player is different than the past
         if (lastMoveP2 != controllerP2.getCommand() && controllerP2.getCommand() != Cmd.IDLE) {
             lastMoveP2 = controllerP2.getCommand();
         }
 
+        //Getting the complementary command (shoot) for both player
         otherCommand = controller.getCommandComplementaire();
         otherCommandP2 = controllerP2.getCommandComplementaire();
+
+        //Calcul des FPS
 
         if (lastSeconds != now / this.FRAMERATE) {
             //System.out.println(frame+ "fps");
@@ -84,29 +103,38 @@ public class GameLoop extends AnimationTimer {
             ((PacmanGame)game).setPlayerTurn(1);
             game.evolve(lastMove);
 
+            //If there's more than one player, than we evolve the second player
             if(Util.player>1){
                 ((PacmanGame)game).setPlayerTurn(2);
                 game.evolve(lastMoveP2);
             }
 
+            //Update the world
             if (game instanceof PacmanGame)
                 ((PacmanGame) game).evolveTheWorld();
+
         } else {
             frame++;
         }
 
+        //If needed, we shoot
         ((PacmanGame)game).setPlayerTurn(1);
         game.evolve(otherCommand);
+
+
+        //If needed and more than one player, we shoot
         if(Util.player>1){
             ((PacmanGame)game).setPlayerTurn(2);
             game.evolve(otherCommandP2);
         }
 
+        //Reseting the shooting command
         otherCommand = Cmd.IDLE;
         otherCommandP2 = Cmd.IDLE;
 
         final double ratio = ((now % this.FRAMERATE) * 1.) / this.FRAMERATE;
 
+        //Print all the scene
         painter.draw(ratio);
     }
 }

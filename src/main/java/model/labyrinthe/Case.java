@@ -17,8 +17,10 @@ public class Case {
    */
   private int x;
 
+  /**
+   * Optionnal pastille on the case
+   */
   private Pastille pastille;
-
 
   /**
    * Coordonnée y de la case
@@ -40,7 +42,16 @@ public class Case {
    */
   private boolean estVide = true;
 
+  /**
+   * Optionnal Monster on the case
+   */
   private Monster monstre;
+
+  /**
+   * If the case has an pastille, true
+   */
+  public BooleanProperty hasPastilleProperty = new SimpleBooleanProperty(false);
+
 
   /**
    * Constructeur d'une case
@@ -51,6 +62,7 @@ public class Case {
   public Case(int x, int y) {
     this(x, y, true);
   }
+
 
   /**
    * Constructeur d'une case
@@ -134,12 +146,13 @@ public class Case {
    *
    * @return int x
    */
-
   public int getX() {
     return x;
   }
 
-  /** @return (:boolean) if the case has a pastille*/
+  /**
+   * @return (:boolean) if the case has a pastille
+   */
   public boolean hasPastille() {
     return this.pastille != null;
   }
@@ -225,11 +238,18 @@ public class Case {
     this.estVide = estVide;
   }
 
-
+  /**
+   * Set the monster on the case
+   * @param monstre Mosnter to set on the case
+   */
   public void setMonster(Monster monstre) {
     this.monstre = monstre;
   }
 
+  /**
+   * Get the monster on the case
+   * @return Monster monster on the case
+   */
   public Monster getMonstre() {
     return monstre;
   }
@@ -249,6 +269,10 @@ public class Case {
     return this.hasPastille() || this.monstre != null;
   }
 
+  /**
+   * Get the pastille on the case
+   * @return Pastille on the case
+   */
   public Pastille getPastille() {
     return pastille;
   }
@@ -262,13 +286,19 @@ public class Case {
             '}';
   }
 
-  public BooleanProperty hasPastilleProperty = new SimpleBooleanProperty(false);
-
+  /**
+   * Destroy pastille on the case
+   */
   public void destroyPastille() {
     this.pastille = null;
     this.hasPastilleProperty.set(false);
   }
 
+  /**
+   * Determine distance between this Case and the arg
+   * @param c1 Case distant case to determine distance
+   * @return int distance
+   */
   public int distance(Case c1) {
     int distance;
     int x = getX() - c1.getX();

@@ -12,25 +12,56 @@ import java.util.Stack;
  */
 public class Labyrinthe {
 
-
+    /**
+     * Amount of leaving pastille on the labyrinthe
+     */
     private int leftPastilles;
 
-    //Labyrinthe permettant la création du labyrinthe parfait
-    public Case[][] labyrintheFormation;
+    /**
+     * Case[][] for the generation
+     */
+    private Case[][] labyrintheFormation;
 
-    // Ensemble des cases formant le labyrinthe
-    public Case[][] labyrinthe;
+    /**
+     * Case[][] for the final maze
+     */
+    private Case[][] labyrinthe;
 
+    /**
+     * Stack of all Case where Monster can spawn
+     */
     private final Stack<Case> spawnableCase;
 
+    /**
+     * Row size for the generation
+     */
+    private int tailleLigneFormation;
 
-    int tailleLigneFormation;
-    int tailleColonneFormation;
-    int tailleLigne;
-    int tailleColonne;
-    Random rand = new Random();
+    /**
+     * Column size for the generation
+     */
+    private int tailleColonneFormation;
 
+    /**
+     * Row size
+     */
+    private int tailleLigne;
 
+    /**
+     * Column size
+     */
+    private int tailleColonne;
+
+    /**
+     * Random generator
+     */
+    private Random rand = new Random();
+
+    /**
+     * Constructor of a labyrinthe
+     * @param tailleL Row size
+     * @param tailleC Column size
+     */
     public Labyrinthe(int tailleL, int tailleC) {
 
         spawnableCase = new Stack<>();
@@ -46,6 +77,10 @@ public class Labyrinthe {
         this.leftPastilles = 0;
     }
 
+    /**
+     * Getter of the Case[][] of the labyrinthe
+     * @return Case[][] of the labyrinthe
+     */
     public Case[][] getLabyrinthe() {
         return labyrinthe;
     }
@@ -57,6 +92,7 @@ public class Labyrinthe {
 
         labyrintheFormation = new Case[tailleLigneFormation][tailleColonneFormation];
 
+        //Initializing the maze for the generation
         for (int i = 0; i < tailleLigneFormation; i++)
         {
             for (int j = 0; j < tailleColonneFormation; j++)
@@ -64,6 +100,8 @@ public class Labyrinthe {
                 labyrintheFormation[i][j] = new Case(i,j,false);
             }
         }
+
+        //Initializing the maze
         for (int i = 0; i < tailleLigne; i++) {
             for (int j = 0; j < tailleColonne; j++) {
                 labyrinthe[i][j] = new Case(i, j, false);
@@ -72,11 +110,19 @@ public class Labyrinthe {
 
     }
 
-
+    /**
+     * Create a maze starting at x:0 y:0
+     */
     private void creationLabyrinthe() {
         creationLabyrinthe(0, 0);
     }
 
+
+    /**
+     * Create a maze starting at x y
+     * @param x int starting x
+     * @param y int starting y
+     */
     private void creationLabyrinthe(int x, int y) {
         creationLabyrinthe(getCase(x, y));
     }
@@ -154,6 +200,12 @@ public class Labyrinthe {
         }
     }
 
+    /**
+     * Getter for all the free direction for monster or player around a case
+     * @param x int x case x
+     * @param y int y case y
+     * @return List of all free direction
+     */
     public ArrayList<Direction> getFreeDirection(int x, int y) {
         ArrayList<Direction> directionToFreeCase = new ArrayList<>();
         if (!getCaseLabyrinthe(x - 1, y).estUnMur() && getCaseLabyrinthe(x - 1, y).getMonstre() == null) {
@@ -184,8 +236,10 @@ public class Labyrinthe {
         }
     }
 
+    /**
+     * Update maze for the generation
+     */
     public void updateLabyrinthe() {
-
 
         for (int x = 0; x < tailleLigne; x++) {
             for (int y = 0; y < tailleColonne; y++) {
@@ -322,7 +376,9 @@ public class Labyrinthe {
         return leftPastilles;
     }
 
-
+    /**
+     * Destruction of all Impasse of the maze
+     */
     public void destructionImpasse()
     {
         //On détruit des murs pour enlever les impasses
@@ -349,6 +405,9 @@ public class Labyrinthe {
         }
     }
 
+    /**
+     * Determine all Case neighboor
+     */
     public void determineVoisins()
     {
         //Détermine voisin pour chaque case
@@ -377,15 +436,24 @@ public class Labyrinthe {
         }
     }
 
+    /**
+     * Add a pastille to the counter
+     */
     public void addPastille() {
         this.leftPastilles++;
     }
 
+    /**
+     * Remove a pastille to the counter
+     */
     public void removePastille() {
         if (this.leftPastilles > 0) this.leftPastilles--;
     }
 
-
+    /**
+     * Getter of all spawnable case for monster
+     * @return
+     */
     public Stack<Case> getSpawnableCase() {
         return spawnableCase;
     }

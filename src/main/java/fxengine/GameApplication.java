@@ -46,11 +46,13 @@ public class GameApplication extends Application {
   private GamePainter painter;
 
   /**
-   * Controlleur du jeu permettant de récupérer les différentes actions
+   * Game controller to get differents action for the player 1
    */
   private GameController controller;
 
-
+  /**
+   * Game controller to get differents action for the player 2
+   */
   private GameController controllerP2;
 
   /**
@@ -79,6 +81,7 @@ public class GameApplication extends Application {
   public void start(Stage primaryStage) throws Exception {
     this.primaryStage = primaryStage;
 
+    //Setting the size of the window
     Util.currentWindowWidthProperty.bind(this.primaryStage.widthProperty());
     Util.currentWindowHeightProperty.bind(this.primaryStage.heightProperty());
 
@@ -103,12 +106,14 @@ public class GameApplication extends Application {
     // Création de la vue et du controlleur
     painter = new PacmanPainter(root, game);
 
+    //Create the two controllers
     controller = new PacmanController(PlayerType.PLAYER1);
     controllerP2 = new PacmanController(PlayerType.PLAYER2);
 
     // Premier affichage
     painter.draw(0);
 
+    //Liste of the keycode for the two player (to detect for wich player the input is)
     List<KeyCode> p1Code = Arrays.asList(KeyCode.LEFT, KeyCode.RIGHT,KeyCode.UP,KeyCode.SPACE,KeyCode.DOWN);
     List<KeyCode> p2Code = Arrays.asList(KeyCode.Z, KeyCode.Q,KeyCode.S,KeyCode.D,KeyCode.A);
 
@@ -126,7 +131,7 @@ public class GameApplication extends Application {
     scene.setOnKeyPressed(
       new EventHandler<KeyEvent>() {
         public void handle(KeyEvent event) {
-
+          //Checking if the KeyEvent is for the 1st player or the 2nd
           if(p1Code.contains(event.getCode()))
             controller.keyPressed(event);
           else
@@ -140,6 +145,7 @@ public class GameApplication extends Application {
     scene.setOnKeyReleased(
       new EventHandler<KeyEvent>() {
         public void handle(KeyEvent event) {
+          //Checking if the KeyEvent is for the 1st player or the 2nd
           if(p1Code.contains(event.getCode()))
             controller.keyReleased(event);
           else
@@ -159,7 +165,9 @@ public class GameApplication extends Application {
     primaryStage.setScene(scene);
     primaryStage.setTitle("Pacman");
     primaryStage.sizeToScene();
+
     //primaryStage.setResizable(false); // FIXME for responsive
+
     primaryStage.show();
   }
 }

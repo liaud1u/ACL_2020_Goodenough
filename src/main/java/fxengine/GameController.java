@@ -12,13 +12,17 @@ import javafx.scene.input.KeyEvent;
 public interface GameController {
 
 	/**
-	 * quand on demande les commandes, le controleur retourne la commande en
-	 * cours
+	 * when we ask commands, the game controller return the current maain command (deplacement)
 	 *
-	 * @return commande faite par le joueur
+	 * @return Cmd made by the player
 	 */
 	Cmd getCommand();
 
+	/**
+	 * when we ask commands, the game controller return the current secondary command (shoot, ...)
+	 *
+	 * @return Cmd made by the player (shoot)
+	 */
 	Cmd getCommandComplementaire();
 
 	/**
