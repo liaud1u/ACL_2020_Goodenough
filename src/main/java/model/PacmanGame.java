@@ -36,10 +36,6 @@ import java.util.Stack;
  */
 public class PacmanGame implements Game {
 
-  public PacmanGameState getGameState() {
-    return gameState;
-  }
-
   /**
    * Etat du jeu
    */
@@ -76,10 +72,10 @@ public class PacmanGame implements Game {
    */
   private ArrayList<Monster> monstres = new ArrayList<>();
 
-  public ArrayList<Monster> getMonstres() {
-    return monstres;
-  }
 
+  /**
+   * All projectiles of the game
+   */
   private final ArrayList<Projectile> projectiles = new ArrayList<>();
 
   /**
@@ -87,14 +83,15 @@ public class PacmanGame implements Game {
    */
   private int score;
 
-  public int getLevel() {
-    return level;
-  }
-
+  /**
+   * Current level of the game
+   */
   private int level;
 
+  /**
+   * Current player moving
+   */
   private int playerTurn = 1;
-
 
   /**
    * constructeur avec fichier source pour le help
@@ -124,10 +121,35 @@ public class PacmanGame implements Game {
     this.justChanged = false;
   }
 
+
+  /**
+   * Getter of the current level of the game
+   * @return int level
+   */
+  public int getLevel() {
+    return level;
+  }
+
+  /**
+   * Gettter of the monster
+   * @return List of all monster
+   */
+  public ArrayList<Monster> getMonstres() {
+    return monstres;
+  }
+
+  /**
+   * Get the current player wich move
+   * @return int playermoving
+   */
   public int getPlayerTurn() {
     return playerTurn;
   }
 
+  /**
+   * Set the current player moving
+   * @param playerTurn int player wich is moving
+   */
   public void setPlayerTurn(int playerTurn) {
     this.playerTurn = playerTurn;
   }
@@ -153,6 +175,9 @@ public class PacmanGame implements Game {
     }
   }
 
+  /**
+   * Update all the world
+   */
   public void evolveTheWorld() {
     player.go();
 
@@ -203,6 +228,9 @@ public class PacmanGame implements Game {
     }
   }
 
+  /**
+   * Create fireball ahead of the current player
+   */
   public void summonFireball() {
     Player playerSummoning;
 
@@ -225,22 +253,31 @@ public class PacmanGame implements Game {
     }
   }
 
+  /**
+   * Getter of all the projectiles of the game
+   * @return List of all the projectiles
+   */
   public ArrayList<Projectile> getProjectiles() {
     return projectiles;
   }
 
-  public void pauseTimer() {
-    gameTimer.pause();
-  }
-
+  /**
+   * Restart the timer
+   */
   public void restartTimer() {
     gameTimer.play();
   }
 
+  /**
+   * Reset the timer
+   */
   public void resetTimer() {
     gameTimer.reset();
   }
 
+  /**
+   * Change the level when winning or loosing
+   */
   public void changeLevel() {
     if(this.isWon()) {
       this.level++;
@@ -291,15 +328,23 @@ public class PacmanGame implements Game {
 
   }
 
+  /**
+   * Generate monster in the maze
+   * @param amountStatic Amount of static monster
+   * @param amountRandom Amount of random monster
+   * @param amountFollow Amount of following monster
+   */
   private void generateMonster(int amountStatic, int amountRandom, int amountFollow) {
     List<GhostType> ghostTypes = Arrays.asList(GhostType.values());
     Stack<Case> spawnable = labyrinthe.getSpawnableCase();
     int cptType = 0;
 
+    //We generate monster by priority order, to avoid monster block other monster
+
     for (int i = 0; i < amountRandom; i++) {
       Case selected = spawnable.pop();
       Monster monstre = new Monster(this, selected.getX(), selected.getY(), ghostTypes.get(cptType++ % 4));
-      monstre.setMovementStrategy(new RandomMovementStrategy(monstre, this));
+      monstre.setMovementStrategy(new RandomMovementStrategy(monstre, labyrinthe));
 
       selected.setMonster(monstre);
       monstres.add(monstre);
@@ -308,7 +353,7 @@ public class PacmanGame implements Game {
     for (int i = 0; i < amountFollow; i++) {
       Case selected = spawnable.pop();
       Monster monstre = new Monster(this, selected.getX(), selected.getY(), ghostTypes.get(cptType++ % 4));
-      monstre.setMovementStrategy(new FollowMovementStrategy(monstre, this));
+      monstre.setMovementStrategy(new FollowMovementStrategy(monstre, labyrinthe,player,secondPlayer));
       monstres.add(monstre);
       selected.setMonster(monstre);
     }
@@ -322,15 +367,19 @@ public class PacmanGame implements Game {
     }
   }
 
-  private void generatePastille(int entities) {
+  /**
+   * Generate pastille in the maze
+   * @param amount amount of pastilles
+   */
+  private void generatePastille(int amount) {
     Case[][] cases = labyrinthe.getLabyrinthe();
     int nbCasesDisponibles = labyrinthe.getNbCasesLibres();
-    if (nbCasesDisponibles < entities) {
+    if (nbCasesDisponibles < amount) {
       System.err.println("ERREUR : Impossible de mettre  les pastilles  dans un labyrinthe possédant " + nbCasesDisponibles + " cases libres !");
       return;
     }
 
-    for (int i = 0; i < entities; i++) {
+    for (int i = 0; i < amount; i++) {
         int x = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
           int y = RandomGenerator.getRandomValue(Util.MAZE_SIZE - 1);
           while (cases[x][y].estUnMur() || cases[x][y].hasEntity() ||
@@ -356,12 +405,22 @@ public class PacmanGame implements Game {
     return labyrinthe.getLeftPastilles() == 0;
   }
 
+  /**
+   * Setter to set if the level of the game just changed
+   * @param justChanged boolean
+   */
   public void setJustChanged(boolean justChanged) {
     this.justChanged = justChanged;
   }
+
+  /**
+   * Getter wich return if the game just changed
+   * @return boolean, justChanged
+   */
   public boolean hasJustChanged() {
     return this.justChanged;
   }
+
   /**
    * verifier si le jeu est fini
    */
@@ -395,6 +454,11 @@ public class PacmanGame implements Game {
     return player;
   }
 
+  /**
+   * Getter of the second player
+   *
+   * @return Secondary player
+   */
   public Player getSecondPlayer() {
     return secondPlayer;
   }
@@ -451,6 +515,10 @@ public class PacmanGame implements Game {
     }
   }
 
+  /**
+   * Check if the player will collide a wall
+   * @return true if collide, else false
+   */
   public boolean willPlayerCollide() {
     Player playerCheckCollide;
 

@@ -24,6 +24,9 @@ import java.util.List;
  */
 public class PacmanPainter implements GamePainter {
 
+  /**
+   * View of the end level menu
+   */
   private EndLevelView endLevelView;
 
   /**
@@ -46,6 +49,9 @@ public class PacmanPainter implements GamePainter {
    */
   private final PlayerView playerView;
 
+  /**
+   * View of the second player
+   */
   private PlayerView secondPlayerView;
 
   /**
@@ -53,22 +59,25 @@ public class PacmanPainter implements GamePainter {
    */
   private List<MonstreView> monstreView;
 
+  /**
+   * Vue panneau latéral de droite
+   */
+  private final RightSideView rightSideView;
 
-    /**
-     * Vue panneau latéral de droite
-     */
-    private final RightSideView rightSideView;
+  /**
+   * View of all prjectiles
+   */
+  private final ProjectileView projectileView;
 
-    private final ProjectileView projectileView;
+  /**
+   * Largeur
+   */
+  protected int WIDTH = 100;
 
-    /**
-     * Largeur
-     */
-    protected int WIDTH = 100;
-    /**
-     * Hauteur
-     */
-    protected int HEIGHT = 100;
+  /**
+   * Hauteur
+   */
+  protected int HEIGHT = 100;
 
   /**
    * appelle constructeur parent
@@ -161,9 +170,9 @@ public class PacmanPainter implements GamePainter {
 
   }
 
-
-
-
+  /**
+   * Add monster to the painter
+   */
   private void addMonstres() {
     this.monstreView = new ArrayList<>();
     for (Monster m : game.getMonstres()) {

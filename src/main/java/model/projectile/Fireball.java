@@ -58,6 +58,9 @@ public class Fireball implements Projectile {
         return direction;
     }
 
+    /**
+     * Make the fireball move
+     */
     @Override
     public void move() {
         xPrec = x;
@@ -66,16 +69,27 @@ public class Fireball implements Projectile {
         y = (y + direction.getY_dir() + Util.MAZE_SIZE) % Util.MAZE_SIZE;
     }
 
+    /**
+     * Getter of the x coord of the fireball
+     * @return int x coord
+     */
     @Override
     public int getX() {
         return x;
     }
 
+    /**
+     * Getter of the precedent x coord of the fireball
+     * @return int precedent x coord
+     */
     @Override
     public int getxPrec() {
         return xPrec;
     }
 
+    /**
+     * Destroy the fireball
+     */
     @Override
     public void destroy() {
     }
@@ -89,6 +103,10 @@ public class Fireball implements Projectile {
         this.xPrec = xPrec;
     }
 
+    /**
+     * Getter of the precedent y coord of the fireball
+     * @return int precedent y
+     */
     @Override
     public int getyPrec() {
         return yPrec;
@@ -103,6 +121,10 @@ public class Fireball implements Projectile {
         this.yPrec = yPrec;
     }
 
+    /**
+     * Return true
+     * @return true
+     */
     @Override
     public boolean isFireball() {
         return true;

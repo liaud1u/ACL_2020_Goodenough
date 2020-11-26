@@ -4,56 +4,111 @@ import model.PacmanGame;
 import model.monster.movementstrategy.MovementStrategy;
 import model.monster.movementstrategy.RandomMovementStrategy;
 
+/**
+ * Class for the Monster object
+ */
 public class Monster {
     /**
      * PacmanGame jeu princial
      */
     private final PacmanGame game;
 
-    private MovementStrategy movementStrategy;
     /**
-     * Coordonnées actuelles du monstre dans le labyrinthe
+     * Movement strategy of the monster
+     */
+    private MovementStrategy movementStrategy;
+
+    /**
+     * x coord of the monster
      */
     private int x;
+
+    /**
+     * y coord of the monster
+     */
     private int y;
 
+    /**
+     * previous x coord of the monster
+     */
+    private int xPrec;
+
+    /**
+     * previous y coord of the monster
+     */
+    private int yPrec;
+
+    /**
+     * GhostType (color of the ghost)
+     */
     private final GhostType type;
 
-    private int xPrec, yPrec;
-
+    /**
+     * Lifestate of the ghost (ALIVE, DEAD...)
+     */
     private MonsterState lifeState = MonsterState.ALIVE;
 
+    /**
+     * Constructor of the monster
+     * @param game PacmanGame
+     * @param x coord x of the monster at the beginning
+     * @param y coord y of the monster at the beginning
+     * @param type type of the monster (color)
+     */
     public Monster(PacmanGame game, int x, int y, GhostType type) {
         this.game = game;
         this.x = x;
         this.y = y;
         this.yPrec = y;
         this.xPrec = x;
-        this.movementStrategy = new RandomMovementStrategy(this, game);
+        this.movementStrategy = new RandomMovementStrategy(this, game.getLabyrinthe());
         this.type = type;
     }
 
+    /**
+     * Setter of the movement strategy of the ghost
+     * @param strategy Strategy of movement
+     */
     public void setMovementStrategy(MovementStrategy strategy) {
         this.movementStrategy = strategy;
     }
 
+    /**
+     * Getter of the coord x of the monster
+     * @return int x
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * Destroy the monster
+     */
     public void destroy() {
         game.getLabyrinthe().getCaseLabyrinthe(x, y).setMonster(null);
         lifeState = MonsterState.DEAD;
     }
 
+    /**
+     * Get the lifestate of the monster
+     * @return Lifestate
+     */
     public MonsterState getLifeState() {
         return lifeState;
     }
 
+    /**
+     * Get the type (color) of the monster
+     * @return GhostType
+     */
     public GhostType getType() {
         return type;
     }
 
+    /**
+     * Setter of the x coord of the monster
+     * @param x int x coord
+     */
     public void setX(int x) {
         game.getLabyrinthe().getCaseLabyrinthe(this.x, this.y).setMonster(null);
         this.xPrec = this.x;
@@ -61,22 +116,42 @@ public class Monster {
         game.getLabyrinthe().getCaseLabyrinthe(x, y).setMonster(this);
     }
 
+    /**
+     * Getter of the y coord of the monster
+     * @return int y
+     */
     public int getY() {
         return y;
     }
 
+    /***
+     * Getter of the precedent x coord of the monster
+     * @return int precedent x
+     */
     public int getxPrec() {
         return xPrec;
     }
 
+    /**
+     * Getter of the current movement strategy
+     * @return MovementStrategy current
+     */
     public MovementStrategy getMovementStrategy() {
         return movementStrategy;
     }
 
+    /**
+     * Getter of the precedent y coord
+     * @return int precedent y
+     */
     public int getyPrec() {
         return yPrec;
     }
 
+    /**
+     * Setter of the y coord of the monster
+     * @param y coord y
+     */
     public void setY(int y) {
         game.getLabyrinthe().getCaseLabyrinthe(this.x, this.y).setMonster(null);
         this.yPrec = this.y;
@@ -84,9 +159,10 @@ public class Monster {
         game.getLabyrinthe().getCaseLabyrinthe(x, y).setMonster(this);
     }
 
+    /**
+     * Make the monster move
+     */
     public void actionMovement() {
         movementStrategy.move();
     }
-
-
 }

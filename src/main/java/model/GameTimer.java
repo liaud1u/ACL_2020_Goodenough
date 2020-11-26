@@ -9,11 +9,17 @@ import javafx.util.Duration;
 import model.util.Util;
 
 /**
- * @author Ribeyrolles Matthieu
- * 05/11/2020, 16:01
+ * Class for the GameTimer
  */
 public class GameTimer {
-  private Timeline timeline;  // the timer loop
+  /**
+   * Timer of the loop
+   */
+  private Timeline timeline;
+
+  /**
+   * Current time
+   */
   private int timer;
 
   /*------------------------------------------------------------------
@@ -29,11 +35,16 @@ public class GameTimer {
     return this.timer;
   }
 
-  // setters
 
+  /**
+   * Set the current time
+   * @param currentTimer
+   */
   public void setCurrentTimer(int currentTimer) { this.timer = currentTimer; }
 
-  // private
+  /**
+   * Init the timer
+   */
   private void initTimer() {
     this.timer = Util.timer;
 
@@ -71,7 +82,14 @@ public class GameTimer {
     if (this.isOver()) this.timer = 0;
   }
 
+  /**
+   * Pause the timer
+   */
   public void pause() { this.timeline.pause(); }
+
+  /**
+   * Resume the timer
+   */
   public void play() { this.timeline.play(); }
 
   /**

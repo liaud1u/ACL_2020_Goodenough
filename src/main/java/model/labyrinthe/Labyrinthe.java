@@ -8,7 +8,7 @@ import java.util.Random;
 import java.util.Stack;
 
 /**
- * @author adrien & florian
+ * Maze class
  */
 public class Labyrinthe {
 

@@ -9,7 +9,7 @@ import model.pastille.Pastille;
 import java.util.ArrayList;
 
 /**
- * Objet case
+ * Case class
  */
 public class Case {
   /**

@@ -95,7 +95,4 @@ public class PacmanGameState {
         ARRETER
     }
 
-    public boolean isGameOver() {
-        return this.etatJeu == EtatJeu.PERDU;
-    }
 }

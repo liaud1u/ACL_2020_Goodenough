@@ -27,6 +27,10 @@ public enum Direction {
     this.y_dir = y_dir;
   }
 
+  /**
+   * Return the opposite of a direction
+   * @return Direction opposite
+   */
   public Direction opposite() {
     switch (this) {
       case RIGHT:

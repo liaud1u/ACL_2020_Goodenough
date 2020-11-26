@@ -17,16 +17,24 @@ public class Player {
    */
   private int x, y;
 
-  private boolean isStuck;
-
-
+  /**
+   * Past x and y coord of the player in the maze
+   */
   private int xPrec, yPrec;
+
+  /**
+   * Boolean to know if the player is stuck
+   */
+  private boolean isStuck;
 
   /**
    * Direction courante du joueur
    */
   private Direction currentMoveDirection;
 
+  /**
+   * Player type (PLAYER1 or PLAYER2)
+   */
   private PlayerType type;
 
   /**
@@ -40,6 +48,10 @@ public class Player {
     this.spawn();
   }
 
+  /**
+   * Getter of the type of the player
+   * @return PLAYER1 or PLAYER2
+   */
   public PlayerType getType() {
     return type;
   }
@@ -56,6 +68,7 @@ public class Player {
     this.isStuck = false;
     currentMoveDirection = Direction.IDLE;
   }
+
   /**
    * Getter de la direction de mouvement
    *
@@ -74,7 +87,10 @@ public class Player {
     this.currentMoveDirection = currentMoveDirection;
   }
 
-
+  /**
+   * Getter to know if the player is stuck
+   * @return boolean isStuck
+   */
   public boolean isStuck() { return this.isStuck; }
 
   /**
@@ -95,10 +111,18 @@ public class Player {
     }
   }
 
+  /**
+   * Getter of the precedent x of the player
+   * @return int precedent x
+   */
   public int getxPrec() {
     return xPrec;
   }
 
+  /**
+   * Getter of the precedent y of the player
+   * @return int precedent y
+   */
   public int getyPrec() {
     return yPrec;
   }

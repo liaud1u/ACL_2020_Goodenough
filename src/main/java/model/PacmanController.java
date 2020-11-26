@@ -18,7 +18,15 @@ public class PacmanController implements GameController {
 	 * commande en cours
 	 */
 	private Cmd commandeEnCours;
+
+	/**
+	 * Current complementay command (shoot)
+	 */
 	private Cmd commandComplementaire;
+
+	/**
+	 * Type of player (PLAYER1 or PLAYER2)
+	 */
 	private PlayerType type;
 
 	/**
@@ -40,10 +48,18 @@ public class PacmanController implements GameController {
 		return this.commandeEnCours;
 	}
 
+	/**
+	 * Getter of the complementary command (SHOOT)
+	 * @return Complementary command
+	 */
 	public Cmd getCommandComplementaire() {
 		return this.commandComplementaire;
 	}
 
+	/**
+	 * Get the playertype of that controller
+	 * @return PlayerType PLAYER1 or PLAYER2
+	 */
 	public PlayerType getType() {
 		return type;
 	}

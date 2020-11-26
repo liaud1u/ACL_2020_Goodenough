@@ -10,24 +10,51 @@ import model.util.Util;
 
 import java.util.ArrayList;
 
+/**
+ * Class for the Random movement Strategy of the Monster, with this strategy, the monster will moove randomly in the maze
+ */
 public class RandomMovementStrategy implements MovementStrategy {
 
-    private final PacmanGame game;
+    /**
+     * Maze where the Monster evolve
+     */
+    private final Labyrinthe labyrinthe;
+
+    /**
+     * Monster wich evolve in the maze
+     */
     private final Monster monstre;
+
+    /**
+     * Current direction of the monster
+     */
     private Direction direction = Direction.IDLE;
+
+    /**
+     * Arraylist of all the previous possible direction (to avoid the monster to go back)
+     */
     private ArrayList<Direction> previousPossibleDirection;
+
+    /**
+     * Previous direction (to avoid the monster to go back)
+     */
     private Direction previousDirection = Direction.IDLE;
 
-    public RandomMovementStrategy(Monster monstre, PacmanGame game) {
+    /**
+     * Constructor of the strategy
+     * @param monstre Monster wich evolve with this strategy
+     * @param labyrinthe Maze where the monster evolve
+     */
+    public RandomMovementStrategy(Monster monstre, Labyrinthe labyrinthe) {
         this.monstre = monstre;
-        this.game = game;
+        this.labyrinthe = labyrinthe;
     }
 
+    /**
+     * Make the monster move
+     */
     @Override
     public void move() {
-
-
-        Labyrinthe labyrinthe = game.getLabyrinthe();
 
         //On détermine le prochain x et y
         int nextX = (monstre.getX() + direction.getX_dir() + Util.MAZE_SIZE) % Util.MAZE_SIZE;
@@ -55,11 +82,12 @@ public class RandomMovementStrategy implements MovementStrategy {
 
     }
 
-
+    /**
+     * The strategy will choose a random direction (but will not go back, however it's the only solution)
+     */
     public void chooseRandomDirection() {
         previousDirection = direction;
 
-        Labyrinthe labyrinthe = game.getLabyrinthe();
         Case monsterLocation = labyrinthe.getCaseLabyrinthe(monstre.getX(), monstre.getY());
 
         //On récupère les directions disponibles
@@ -83,6 +111,10 @@ public class RandomMovementStrategy implements MovementStrategy {
         previousPossibleDirection = directions;
     }
 
+    /**
+     * Getter of the current direction
+     * @return Direction current direction
+     */
     public Direction getDirection() {
         return direction;
     }

@@ -5,21 +5,53 @@ import model.labyrinthe.Case;
 import model.labyrinthe.Labyrinthe;
 import model.monster.Monster;
 import model.player.Direction;
+import model.player.Player;
 import model.util.Util;
 
 import java.util.ArrayList;
 
+/**
+ * Class for the Following strategy, with this strategy, the monster will follow the nearest player
+ */
 public class FollowMovementStrategy implements MovementStrategy {
 
-    private final PacmanGame game;
+    /**
+     * Maze where the monster evolve
+     */
+    private final Labyrinthe labyrinthe;
+
+    /**
+     * Monster wich use the Strategy
+     */
     private final Monster monstre;
+
+    /**
+     * Direction to take
+     */
     private Direction direction = Direction.IDLE;
 
-    public FollowMovementStrategy(Monster monstre, PacmanGame game) {
+    /**
+     * The two potential target for the monster
+     */
+    private Player player1, player2;
+
+    /**
+     * Constructor of the strategy
+     * @param monstre Monster wich have this movement strategy
+     * @param labyrinthe Maze where the monster evolve
+     * @param p1 First player of the game
+     * @param p2 Second player of the game (or null)
+     */
+    public FollowMovementStrategy(Monster monstre, Labyrinthe labyrinthe, Player p1, Player p2) {
         this.monstre = monstre;
-        this.game = game;
+        this.labyrinthe = labyrinthe;
+        this.player1 =p1;
+        this.player2=p2;
     }
 
+    /**
+     * Movement of the monster
+     */
     @Override
     public void move() {
         //On choisit une direction permettant de se rapprocher au plus du joueur
@@ -35,9 +67,10 @@ public class FollowMovementStrategy implements MovementStrategy {
 
     }
 
-
+    /**
+     * Choose a direction for the monster
+     */
     public void chooseDirection() {
-        Labyrinthe labyrinthe = game.getLabyrinthe();
 
         //On récupère les cases du monstre et du joueur
         Case monsterLocation = labyrinthe.getCaseLabyrinthe(monstre.getX(), monstre.getY());
@@ -46,8 +79,8 @@ public class FollowMovementStrategy implements MovementStrategy {
 
         //On prend le joueur le plus proche
         if(Util.player>1){
-            Case firstPlayerLocation = labyrinthe.getCaseLabyrinthe(game.getPlayer().getX() + game.getPlayer().getCurrentMoveDirection().getX_dir(), game.getPlayer().getY() + game.getPlayer().getCurrentMoveDirection().getY_dir());
-            Case secondPlayerLocation = labyrinthe.getCaseLabyrinthe(game.getSecondPlayer().getX() + game.getSecondPlayer().getCurrentMoveDirection().getX_dir(), game.getSecondPlayer().getY() + game.getSecondPlayer().getCurrentMoveDirection().getY_dir());
+            Case firstPlayerLocation = labyrinthe.getCaseLabyrinthe(player1.getX() + player1.getCurrentMoveDirection().getX_dir(), player1.getY() + player1.getCurrentMoveDirection().getY_dir());
+            Case secondPlayerLocation = labyrinthe.getCaseLabyrinthe(player2.getX() + player2.getCurrentMoveDirection().getX_dir(), player2.getY() + player2.getCurrentMoveDirection().getY_dir());
 
             if(monsterLocation.distance(firstPlayerLocation)>monsterLocation.distance(secondPlayerLocation))
                 playerLocation = secondPlayerLocation;
@@ -55,7 +88,7 @@ public class FollowMovementStrategy implements MovementStrategy {
                 playerLocation = firstPlayerLocation;
 
         }else {
-            playerLocation = labyrinthe.getCaseLabyrinthe(game.getPlayer().getX() + game.getPlayer().getCurrentMoveDirection().getX_dir(), game.getPlayer().getY() + game.getPlayer().getCurrentMoveDirection().getY_dir());
+            playerLocation = labyrinthe.getCaseLabyrinthe(player1.getX() +player1.getCurrentMoveDirection().getX_dir(), player1.getY() + player1.getCurrentMoveDirection().getY_dir());
         }
 
 
@@ -103,6 +136,10 @@ public class FollowMovementStrategy implements MovementStrategy {
         }
     }
 
+    /**
+     * Getter of the current direction
+     * @return Direction current
+     */
     public Direction getDirection() {
         return direction;
     }

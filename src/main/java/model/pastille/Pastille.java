@@ -12,18 +12,22 @@ public abstract class Pastille {
      * double coordonnée x de la pastille
      */
     private final double x;
+
     /**
      * double coordonnée y de la pastille
      */
     private final double y;
+
     /**
      * Booléen, true si la pastille a été rammassée
      */
     private boolean ramassee;
+
     /**
      * Couleur de la pastille
      */
     private Color couleurPastille;
+
     /**
      * Type de la pastille
      */
@@ -163,7 +167,10 @@ public abstract class Pastille {
         return value;
     }
 
-
+    /**
+     * Setter to set if the pastille has been eaten
+     * @param ramassee boolean eaten
+     */
     public void setRamassee(boolean ramassee) { this.ramassee = ramassee;
     }
 }
