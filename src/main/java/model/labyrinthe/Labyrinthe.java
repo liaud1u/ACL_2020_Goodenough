@@ -1,11 +1,9 @@
 package model.labyrinthe;
 
-import model.comparerCaseDistance;
 import model.player.Direction;
 import model.util.Util;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
 import java.util.Stack;
 
@@ -59,11 +57,6 @@ public class Labyrinthe {
      */
     private Random rand = new Random();
 
-    //A mettre dans la classe ou tu veux éxecuter dijkstra (les 4)
-    private ArrayList<Case> graphe = new ArrayList();
-    private ArrayList<Case> sommetOuvert = new ArrayList();
-    private ArrayList<Case> sommetFerme = new ArrayList();
-    private boolean trouve = false;
 
     /**
      * Constructor of a labyrinthe
@@ -466,142 +459,6 @@ public class Labyrinthe {
         return spawnableCase;
     }
 
-
-    public void initDijkstra(Case caseDepart) {
-        trouve = false;
-        graphe.removeAll(graphe);
-        caseConnecte(caseDepart);
-        for (Case c: graphe) {
-            c.setDistance(9999);
-        }
-        graphe.get(estDansTab(graphe, caseDepart)).setDistance(0);
-        Collections.sort(graphe, new comparerCaseDistance());
-        sommetFerme.removeAll(sommetFerme);
-    }
-
-    public void caseConnecte(Case c){
-        Stack<Case> s;
-        s = new Stack();
-        ArrayList<Case> sucesseurs;
-        s.push(c);
-        graphe.add(c);
-        while(!s.isEmpty())
-        {
-            c = s.pop();
-            sucesseurs = creationSucc(c, true);
-            for (Case c1: sucesseurs)
-            {
-                if (estDansTab(graphe, c1) == -1)
-                {
-                    s.push(c1);
-                    graphe.add(c1);
-                }
-            }
-        }
-    }
-
-    public ArrayList<Case> creationSucc(Case casePosCourante, boolean sontConnecte) {
-        int lig = casePosCourante.getX();
-        int col = casePosCourante.getY();
-        ArrayList<Case> listeCasePosTemp = new ArrayList<>();
-        if (lig > 0 && !labyrinthe[lig - 1][col].estUnMur() && ((estDansTab(sommetOuvert, new Case(lig - 1, col)) == -1 && estDansTab(sommetFerme, new Case(lig - 1, col)) == -1))) {
-            Case c = new Case(lig - 1, col);
-
-            if (sontConnecte) {
-                listeCasePosTemp.add(c);
-            } else {
-                int indexGraphe = estDansTab(graphe, c);
-                if (indexGraphe > -1) {
-                    listeCasePosTemp.add(graphe.get(indexGraphe));
-                }
-            }
-        }
-        if (!labyrinthe[lig][col + 1].estUnMur() && (( estDansTab(sommetOuvert, new Case(lig, col + 1)) == -1 && estDansTab(sommetFerme, new Case(lig, col + 1)) == -1))) {
-            Case c1 = new Case(lig, col + 1);
-
-            if (sontConnecte) {
-                listeCasePosTemp.add(c1);
-            } else {
-                int indexGraphe = estDansTab(graphe, c1);
-                if (indexGraphe > -1) {
-                    listeCasePosTemp.add(graphe.get(indexGraphe));
-                }
-            }
-        }
-        if (!labyrinthe[lig + 1][col].estUnMur() && ((estDansTab(sommetOuvert, new Case(lig + 1, col)) == -1 && estDansTab(sommetFerme, new Case(lig + 1, col)) == -1))) {
-            Case c2 = new Case(lig + 1, col);
-            if (sontConnecte) {
-                listeCasePosTemp.add(c2);
-            } else {
-                int indexeGraphe = estDansTab(graphe, c2);
-                if (indexeGraphe > -1) {
-                    listeCasePosTemp.add(graphe.get(indexeGraphe));
-                }
-            }
-        }
-        if (!labyrinthe[lig][col - 1].estUnMur() && ((estDansTab(sommetOuvert, new Case(lig, col - 1)) == -1 && estDansTab(sommetFerme, new Case(lig, col - 1)) == -1))) {
-            Case c3 = new Case(lig, col - 1);
-            if (sontConnecte) {
-                listeCasePosTemp.add(c3);
-            } else {
-                int indexeGraphe = estDansTab(graphe, c3);
-                if (indexeGraphe > -1) {
-                    listeCasePosTemp.add(graphe.get(indexeGraphe));
-                }
-            }
-        }
-        return listeCasePosTemp;
-    }
-
-
-    public static int estDansTab (ArrayList < Case > listeCase, Case caseCourante){
-        int index = -1;
-        for (int i = 0; i < listeCase.size(); i++) {
-            if (caseCourante.getY() == listeCase.get(i).getY() && caseCourante.getX() == listeCase.get(i).getX()) {
-                index = i;
-                break;
-            }
-        }
-        return index;
-    }
-
-    public void succSommet(Case caseFinale){
-        Case c;
-        if (graphe.isEmpty())
-        {
-            return;
-        }
-        c = graphe.remove(0);
-        sommetOuvert.add(c);
-        sommetFerme.add(c);
-        if (c.getY() == caseFinale.getY() && c.getX() == caseFinale.getX())
-        {
-            trouve = true;
-            return;
-        }
-        if (c.getDistance() == 9999)
-        {
-            return;
-        }
-        ArrayList<Case> voisins = creationSucc(c, false);
-        for (Case c1: voisins){
-            int nouvelleDist = c.getDistance() + distanceEntre2Cases(c,c1);
-            if (nouvelleDist < c1.getDistance())
-            {
-                c1.setDistance(nouvelleDist);
-                Collections.sort(graphe, new comparerCaseDistance());
-            }
-        }
-    }
-    public int distanceEntre2Cases(Case c1, Case c2){
-        int distance;
-        int x = c1.getX() - c2.getX();
-        int y = c1.getY() - c2.getY();
-
-        distance = Math.abs(x)+Math.abs(y);
-
-        return distance;
-    }
 
 }
 
