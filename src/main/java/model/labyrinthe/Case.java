@@ -229,6 +229,11 @@ public class Case {
   }
 
   /**
+   * Distance à la prochaine case
+   */
+  private int distance;
+
+  /**
    * Permet de définir la case courante comme vidé
    *
    * @param estVide true si la case est vide, false sinon
@@ -333,5 +338,13 @@ public class Case {
     distance = Math.abs(x) + Math.abs(y);
 
     return distance;
+  }
+
+  public int getDistance() {
+    return distance;
+  }
+
+  public void setDistance(int distance) {
+    this.distance = distance;
   }
 }
