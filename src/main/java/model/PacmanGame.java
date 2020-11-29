@@ -558,6 +558,7 @@ public class PacmanGame implements Game {
 
   public void addScore(int score) {
     if(score >= 0) this.score += score;
+    labyrinthe.removePastille();
   }
 
   public void addTime(int time) {
