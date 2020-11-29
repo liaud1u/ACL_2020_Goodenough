@@ -43,8 +43,6 @@ public abstract class FileLoader {
     for (int i = 0; i < tags.getLength(); i++) {
       Node node = tags.item(i);
 
-      System.out.printf("Current node: %s\n", node.getNodeName());
-
       if (node.getNodeType() == Node.ELEMENT_NODE) {
         Element element = (Element) node;
 

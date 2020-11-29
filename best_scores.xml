@@ -8,9 +8,4 @@
     <player_name> Me1 </player_name>
     <score> 69 </score>
   </bestScore>
-
-  <bestScore>
-    <player_name> Me2 </player_name>
-    <score> 0 </score>
-  </bestScore>
 </bestScores>
