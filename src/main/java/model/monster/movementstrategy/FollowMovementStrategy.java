@@ -3,6 +3,7 @@ package model.monster.movementstrategy;
 import model.PacmanGame;
 import model.labyrinthe.Case;
 import model.labyrinthe.Labyrinthe;
+import model.labyrinthe.dijkstra.Dijkstra;
 import model.monster.Monster;
 import model.player.Direction;
 import model.player.Player;
@@ -72,6 +73,8 @@ public class FollowMovementStrategy implements MovementStrategy {
      */
     public void chooseDirection() {
 
+        Dijkstra dijkstra = new Dijkstra(labyrinthe);
+
         //On récupère les cases du monstre et du joueur
         Case monsterLocation = labyrinthe.getCaseLabyrinthe(monstre.getX(), monstre.getY());
 
@@ -82,7 +85,8 @@ public class FollowMovementStrategy implements MovementStrategy {
             Case firstPlayerLocation = labyrinthe.getCaseLabyrinthe(player1.getX() + player1.getCurrentMoveDirection().getX_dir(), player1.getY() + player1.getCurrentMoveDirection().getY_dir());
             Case secondPlayerLocation = labyrinthe.getCaseLabyrinthe(player2.getX() + player2.getCurrentMoveDirection().getX_dir(), player2.getY() + player2.getCurrentMoveDirection().getY_dir());
 
-            if(monsterLocation.distance(firstPlayerLocation)>monsterLocation.distance(secondPlayerLocation))
+
+            if(dijkstra.getDistance(monsterLocation,firstPlayerLocation)>dijkstra.getDistance(monsterLocation,secondPlayerLocation))
                 playerLocation = secondPlayerLocation;
             else
                 playerLocation = firstPlayerLocation;
@@ -120,12 +124,13 @@ public class FollowMovementStrategy implements MovementStrategy {
                 Case nearestCase = labyrinthe.getLabyrinthe()[betterX][betterY];
                 Case followingDir = labyrinthe.getLabyrinthe()[xFollowingDir][yFollowingDir];
 
+
                 //Si la distance entre le joueur et la direction actuelle est meilleure que la distance entre le joueur et la direction comparative, on met à jour la meilleure distance
-                if (nearestCase.distance(playerLocation) > followingDir.distance(playerLocation))
+                if (dijkstra.getDistance(nearestCase,playerLocation) > dijkstra.getDistance(followingDir,playerLocation))
                     nearest = d;
 
                 //Si les deux distance sont égales, on la prend avec équiprobabilitée
-                if (nearestCase.distance(playerLocation) == followingDir.distance(playerLocation))
+                if (dijkstra.getDistance(nearestCase,playerLocation) == dijkstra.getDistance(followingDir,playerLocation))
                     if (Math.random() < 1 / directions.size())
                         nearest = d;
             }
