@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -71,11 +72,26 @@ public class MainView extends Scene {
       this.startGame();
     });
 
+    // add a tooltip to 1player button
+    final Tooltip onePlayerTooltip = new Tooltip("Start a game for one player");
+    onePlayerPlay.setTooltip(onePlayerTooltip);
+//    onePlayerTooltip.getStyleClass().add("tooltip");
+
     // On action, we set the number of players to 2, and we start the game
     twoPlayersPLay.setOnAction(event -> {
       Util.player = 2;
       this.startGame();
     });
+
+    // add a tooltip to 2players button
+    final Tooltip twoPlayersTooltip = new Tooltip("Start a game for two players");
+    twoPlayersPLay.setTooltip(twoPlayersTooltip);
+    twoPlayersTooltip.getStyleClass().add("tooltip");
+
+    // add tooltip to exit button
+    final Tooltip exitTooltip = new Tooltip("Don't do it");
+    exit.setTooltip(exitTooltip);
+    exitTooltip.getStyleClass().add("tooltip");
 
     exit.setOnAction(event -> System.exit(0));  // exit button closes the app
 

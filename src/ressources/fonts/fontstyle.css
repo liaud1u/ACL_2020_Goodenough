@@ -3,9 +3,14 @@
     src: url('crackman.ttf');
 }
 
+.text_, .tooltip { -fx-text-fill: rgb(213,213,245); }
+
 .text_ {
-    -fx-text-fill: rgb(213,213,245);
     -fx-font-size: 24px;
+}
+
+.tooltip {
+    -fx-font-size: 20px;
 }
 
 .title {
