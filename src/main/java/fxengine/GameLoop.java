@@ -15,6 +15,7 @@ public class GameLoop extends AnimationTimer {
      */
     private final GamePainter painter;
 
+    private boolean isPaused;
     /**
      * Game controller for 1st player
      */
@@ -74,7 +75,21 @@ public class GameLoop extends AnimationTimer {
         this.game = game;
     }
 
-    /**
+  public boolean isPaused() {
+    return isPaused;
+  }
+
+  public void pause() {
+    isPaused = true;
+    this.stop();
+  }
+
+  public void play() {
+    isPaused = false;
+    this.start();
+  }
+
+  /**
      * A chaque frame, mise à jour de la vue et évolution de l'état du jeu
      *
      * @param now

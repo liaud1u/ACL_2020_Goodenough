@@ -7,17 +7,14 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.PacmanController;
 import model.PacmanGame;
-import model.PacmanPainter;
 import model.player.PlayerType;
 import model.util.Util;
+import views.menus.MainView;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -88,8 +85,17 @@ public class GameApplication extends Application {
     // Création d'un groupe pour les canvas et ajout des canvas au groupe
     root = new Group();
 
+    //Create the two controllers
+    controller = new PacmanController(PlayerType.PLAYER1);
+    controllerP2 = new PacmanController(PlayerType.PLAYER2);
+
+
+    //Liste of the keycode for the two player (to detect for wich player the input is)
+    List<KeyCode> p1Code = Arrays.asList(KeyCode.LEFT, KeyCode.RIGHT,KeyCode.UP,KeyCode.SPACE,KeyCode.DOWN);
+    List<KeyCode> p2Code = Arrays.asList(KeyCode.Z, KeyCode.Q,KeyCode.S,KeyCode.D,KeyCode.A);
+
     // Création de la scene principale contenant le groupe de canvas
-    Scene scene = new Scene(root, WIDTH, HEIGHT, Color.BLACK);
+    Scene scene = new MainView(root, WIDTH, HEIGHT, p1Code, controller, controllerP2);
 
     Util.windowSizeProperty.bind(
             Bindings
@@ -99,23 +105,6 @@ public class GameApplication extends Application {
     );
 
 
-    // Création du jeu
-    game = new PacmanGame("helpFilePacman.txt");
-
-
-    // Création de la vue et du controlleur
-    painter = new PacmanPainter(root, game);
-
-    //Create the two controllers
-    controller = new PacmanController(PlayerType.PLAYER1);
-    controllerP2 = new PacmanController(PlayerType.PLAYER2);
-
-    // Premier affichage
-    painter.draw(0);
-
-    //Liste of the keycode for the two player (to detect for wich player the input is)
-    List<KeyCode> p1Code = Arrays.asList(KeyCode.LEFT, KeyCode.RIGHT,KeyCode.UP,KeyCode.SPACE,KeyCode.DOWN);
-    List<KeyCode> p2Code = Arrays.asList(KeyCode.Z, KeyCode.Q,KeyCode.S,KeyCode.D,KeyCode.A);
 
     // Actions à effectuer lors de la fermeture de l'application
     primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -126,37 +115,6 @@ public class GameApplication extends Application {
       }
     });
 
-
-    // Actions à effectuer lors d'un click sur une touche
-    scene.setOnKeyPressed(
-      new EventHandler<KeyEvent>() {
-        public void handle(KeyEvent event) {
-          //Checking if the KeyEvent is for the 1st player or the 2nd
-          if(p1Code.contains(event.getCode()))
-            controller.keyPressed(event);
-          else
-            controllerP2.keyPressed(event);
-
-        }
-      }
-    );
-
-    // Actions à effectuer lors du relâchement d'une touche
-    scene.setOnKeyReleased(
-      new EventHandler<KeyEvent>() {
-        public void handle(KeyEvent event) {
-          //Checking if the KeyEvent is for the 1st player or the 2nd
-          if(p1Code.contains(event.getCode()))
-            controller.keyReleased(event);
-          else
-            controllerP2.keyReleased(event);
-        }
-      }
-    );
-
-    // Création et lancement de la boucle principale de gameplay
-    GameLoop loop = new GameLoop(painter,controller,controllerP2,game);
-    loop.start();
 
     primaryStage.minWidthProperty().bind(Util.minWindowSizeProperty.add(Util.rightWidthProperty));
     primaryStage.minHeightProperty().bind(Util.minWindowSizeProperty);
