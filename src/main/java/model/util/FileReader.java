@@ -19,7 +19,7 @@ import java.util.Collection;
  * @author Ribeyrolles Matthieu
  * 29/11/2020, 14:01
  */
-public abstract class FileLoader {
+public abstract class FileReader {
   /*------------------------------------------------------------------
                               Methods
    ------------------------------------------------------------------*/
@@ -28,6 +28,20 @@ public abstract class FileLoader {
   // setters
   // private
   // public
+  public static boolean canAddThisScore(int score) throws ParserConfigurationException, SAXException, IOException {
+    if (score == 0) return false;
+
+    Collection<BestScore> bestScores = loadBestScores();
+
+    if (bestScores.size() < 4) return true;
+
+    for (BestScore bs : bestScores) {
+      if (bs.getScore() < score) return true;
+    }
+
+    return false;
+  }
+
   public static Collection<BestScore> loadBestScores() throws IOException, ParserConfigurationException, SAXException {
     File file = new File(Util.BEST_SCORES_URL);
 

@@ -60,7 +60,7 @@ public abstract class FileWriter<result, source> {
     bestScoreElement.appendChild(scoreElement);
 
     // if we already have 4 best scores, then remove the last one, the worst one
-    if (FileLoader.loadBestScores().size() >= 4) {
+    if (FileReader.loadBestScores().size() >= 4) {
       root.removeChild(document.getElementsByTagName("bestScore").item(3));
     }
 
@@ -78,8 +78,6 @@ public abstract class FileWriter<result, source> {
           Element element = (Element) node;
           score = Integer.parseInt(element.getElementsByTagName("score").item(0).getTextContent().trim());
 
-          System.out.printf("Index: %d, score: %d\n", i, score);
-
           if (score <= bestScore.getScore()) {
             root.insertBefore(bestScoreElement, node);
             break;
@@ -95,8 +93,6 @@ public abstract class FileWriter<result, source> {
     DOMSource source = new DOMSource(document);
     StreamResult result = new StreamResult(new File(Util.BEST_SCORES_URL));
     transformer.transform(source, result);
-
-    System.out.println("\u001B[34m" + "best score successfully added.");
   }
    
    /*------------------------------------------------------------------

@@ -42,12 +42,12 @@ public abstract class EndLevelView extends VBox {
     this.text.setTextAlignment(TextAlignment.CENTER); // align the text on center
     this.text.setWrapText(true);
     this.text.getStyleClass().add("text_");
-    this.text.getStyleClass().add("big_text_");
   //  this.text.setWidthProperty().bind(this.minWidthProperty().subtract(20.d)); // wrap the text to almost the width of the window
 
     //Button init
     this.button = new Button(""); // init the button without text
     this.button.setOnMousePressed(event -> this.game.changeLevel() ); // on click, we change the name
+    this.getChildren().add(this.text);
   }
   // public
 
@@ -60,7 +60,6 @@ public abstract class EndLevelView extends VBox {
   public EndLevelView(PacmanGame game) {
     this.game = game;
     this.init();
-
-    this.getChildren().addAll(this.text, this.button);
+    this.getChildren().add(button); // in case of we wanna add something else before it
   }
 }
