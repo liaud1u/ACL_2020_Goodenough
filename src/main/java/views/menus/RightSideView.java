@@ -7,6 +7,9 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import model.BestScore;
+import model.util.FileLoader;
+import model.util.FileWriter;
 import model.util.SpriteTools;
 import model.util.Util;
 import views.ScoreView;
@@ -17,6 +20,7 @@ public class RightSideView extends VBox {
     private Label buttonExit;
     private TimerView timerView;
     private ScoreView scoreView;
+    private BestScoresView bestScoresView;
 
     public RightSideView() {
         SpriteTools.setImageSize(Util.rightWidthProperty.get(), 24);
@@ -33,8 +37,18 @@ public class RightSideView extends VBox {
 
 
     private void init(){
+        try {
+            FileWriter.addBestScore(new BestScore("Toi", 10000000));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         this.scoreView = new ScoreView();
         this.timerView = new TimerView();
+        try {
+            this.bestScoresView = new BestScoresView(FileLoader.loadBestScores());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Label scoreLabel = new Label("Score : ");
         Label timerLabel = new Label("Time left : ");
         buttonExit = new Label("QUIT");
@@ -48,12 +62,12 @@ public class RightSideView extends VBox {
         buttonExit.setTextFill(Color.BLACK);
         buttonExit.setOnMousePressed(event -> System.exit(0));
 
-        this.getChildren().addAll(scoreBox, timerBox, buttonExit);
+        this.getChildren().addAll(scoreBox, timerBox, bestScoresView, buttonExit);
     }
 
     public void draw(int score, int timer) {
         //FIXME : find out why currentWindowProperty is NaN in init()
-        if(buttonExit != null) buttonExit.setTranslateY(Util.currentWindowHeightProperty.multiply(.5).get());
+        if(buttonExit != null) buttonExit.setTranslateY(Util.currentWindowHeightProperty.multiply(.2).get());
         scoreView.draw(score);
         timerView.draw(timer);
     }

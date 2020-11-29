@@ -86,6 +86,13 @@ public class PacmanGame implements Game {
   private int score;
 
   /**
+   * Number of ammos
+   */
+  private int ammos;
+
+  private boolean hasShooted;
+
+  /**
    * Current level of the game
    */
   private int level;
@@ -119,8 +126,11 @@ public class PacmanGame implements Game {
 
     this.gameState  = new PacmanGameState();
     this.score = 0;
+
+    this.ammos = 1;
     this.changeLevel(); // Generate the maze, the coins and the monsters
     this.justChanged = false;
+    this.hasShooted = false;
   }
 
 
@@ -170,10 +180,21 @@ public class PacmanGame implements Game {
       playerEvolving=secondPlayer;
 
     if (commande == Cmd.SHOOT) {
-      summonFireball();
+      if(ammos > 0) {
+        summonFireball();
+        if(!hasShooted) {
+          ammos--;
+        }
+      }
+      this.hasShooted = true;
     } else {
-      if (commande != Cmd.IDLE && commande != Cmd.SHOOT)
+      if (commande != Cmd.IDLE && commande != Cmd.SHOOT) {
         playerEvolving.setCurrentMoveDirection(Direction.valueOf(commande.name()));
+        if(this.hasShooted) {
+          this.hasShooted = false;
+        }
+
+      }
     }
   }
 
@@ -236,7 +257,6 @@ public class PacmanGame implements Game {
 
       for (Projectile p : toRemove)
         projectiles.remove(p);
-
     }
   }
 
@@ -518,6 +538,10 @@ public class PacmanGame implements Game {
 
     if (this.labyrinthe.getCaseLabyrinthe(playerCheckCollide.getX(), playerCheckCollide.getY()).getMonstre() != null) {
       Monster monster = labyrinthe.getCaseLabyrinthe(playerCheckCollide.getX(), playerCheckCollide.getY()).getMonstre();
+      if(playerCheckCollide.isInvincible()) {
+        monster.destroy();
+        return false;
+      }
       return monster.getLifeState() == MonsterState.ALIVE;
     }
     return false;
@@ -544,7 +568,8 @@ public class PacmanGame implements Game {
     }
     if(currentCase.hasAmmoPastille()) {
       AmmoPastille ap = currentCase.getAmmoPastille();
-      // TODO : AMMO MANAGEMENT
+      if(ammos < Util.MAX_AMMOS) ammos++;
+      playerEat.setInvincible();
     }
     if(currentCase.hasTimePastille()) {
       TimePastille tp = currentCase.getTimePastille();

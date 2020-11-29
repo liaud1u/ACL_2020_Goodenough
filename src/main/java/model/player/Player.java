@@ -3,6 +3,9 @@ package model.player;
 import model.PacmanGame;
 import model.util.Util;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * Classe du joueur
  */
@@ -27,6 +30,12 @@ public class Player {
    */
   private boolean isStuck;
 
+
+  /**
+   * Boolean to know if the player is invincible
+   */
+  private boolean invincible;
+
   /**
    * Direction courante du joueur
    */
@@ -45,6 +54,7 @@ public class Player {
   public Player(PacmanGame game, PlayerType type) {
     this.game = game;
     this.type = type;
+    this.invincible = false;
     this.spawn();
   }
 
@@ -78,6 +88,17 @@ public class Player {
     return currentMoveDirection;
   }
 
+
+  public void setInvincible() {
+    this.invincible = true;
+    Timer timer = new Timer();
+    TimerTask invincibleTimer = new TimerTask() {
+      public void run() {
+       invincible = false;
+      }
+    };
+    timer.schedule(invincibleTimer, Util.INVINCIBLE_TIME * 1000L);
+  }
   /**
    * Setter de la direction en cours
    *
@@ -143,5 +164,9 @@ public class Player {
    */
   public int getY() {
     return y;
+  }
+
+  public boolean isInvincible() {
+    return invincible;
   }
 }
