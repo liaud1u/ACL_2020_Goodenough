@@ -90,6 +90,8 @@ public class PacmanGame implements Game {
    */
   private int ammos;
 
+  private boolean isShooting;
+
   /**
    * Current level of the game
    */
@@ -124,9 +126,11 @@ public class PacmanGame implements Game {
 
     this.gameState  = new PacmanGameState();
     this.score = 0;
+
     this.ammos = 1;
     this.changeLevel(); // Generate the maze, the coins and the monsters
     this.justChanged = false;
+    this.isShooting = false;
   }
 
 
@@ -176,11 +180,23 @@ public class PacmanGame implements Game {
       playerEvolving=secondPlayer;
 
     if (commande == Cmd.SHOOT) {
-      if(ammos > 0) summonFireball();
+      if(ammos > 0) {
+        summonFireball();
+        if(!isShooting) {
+          ammos--;
+        }
+      }
+      this.isShooting = true;
     } else {
-      if (commande != Cmd.IDLE && commande != Cmd.SHOOT)
+      if (commande != Cmd.IDLE && commande != Cmd.SHOOT) {
         playerEvolving.setCurrentMoveDirection(Direction.valueOf(commande.name()));
+        if(this.isShooting) {
+          this.isShooting = false;
+        }
+
+      }
     }
+    System.out.println("CURRENT AMMOS : "+ ammos);
   }
 
   /**
@@ -232,7 +248,6 @@ public class PacmanGame implements Game {
 
       for (Projectile p : toRemove)
         projectiles.remove(p);
-
     }
   }
 
@@ -259,7 +274,6 @@ public class PacmanGame implements Game {
       fireball.setxPrec(playerSummoning.getX());
       fireball.setyPrec(playerSummoning.getY());
     }
-    ammos--;
   }
 
   /**
