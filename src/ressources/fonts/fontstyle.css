@@ -8,6 +8,11 @@
     -fx-font-size: 24px;
 }
 
+.title {
+    -fx-text-fill: rgb(213,213,245);
+    -fx-font-size: 70px;
+}
+
 .big_text_ {
     -fx-font-size: 44px;
 }
