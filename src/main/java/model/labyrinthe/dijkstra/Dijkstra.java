@@ -20,11 +20,14 @@ public class Dijkstra {
 
     }
 
-    public void getDistance(Case from, Case target){
+    public int getDistance(Case from, Case target){
         initDijkstra(from);
         while(!trouve){
             succSommet(target);
         }
+
+        int distance = cheminFinal(from, target);
+        return distance;
     }
 
     private void initDijkstra(Case caseDepart) {
@@ -155,5 +158,18 @@ public class Dijkstra {
                 Collections.sort(graphe, new CompareDistance());
             }
         }
+    }
+
+    private int cheminFinal(Case caseDepart, Case caseFinale){
+
+        int distanceFinale = 0;
+        int index = estDansTab(sommetFerme, caseFinale);
+        Case caseCourante = sommetFerme.get(index);
+        //On part de la case finale pour retracer le chemin parcouru
+        do {
+            distanceFinale++ ;
+        } while (!(caseCourante.getX() == caseDepart.getX() && caseCourante.getY() == caseDepart.getY()));
+
+        return distanceFinale;
     }
 }

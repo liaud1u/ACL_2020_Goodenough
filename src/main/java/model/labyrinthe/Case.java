@@ -347,4 +347,5 @@ public class Case {
   public void setDistance(int distance) {
     this.distance = distance;
   }
+
 }
