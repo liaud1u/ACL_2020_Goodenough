@@ -15,6 +15,7 @@ public class MonstreView extends Group {
   private final Monster monstre;  // the monster to display
   private final Image sprite; // the current sprite for the monster
   private final Image deadSprite; // the current sprite for the monster
+  private final Image[] fearSprite; // the current sprite for the monster
   private final ImageView view; // the imageview used to display the monster
 
 
@@ -31,6 +32,7 @@ public class MonstreView extends Group {
   public MonstreView(Monster monstre) {
     this.monstre = monstre;
     int size = (int) (Util.slotSizeProperty.intValue() * Util.RATIO_MONSTRE);
+    fearSprite=new Image[2];
 
     /** check the type of the monster
      *  and pick the colour depending of the monster's type
@@ -52,6 +54,8 @@ public class MonstreView extends Group {
     }
 
     deadSprite = new Image("monsters/dead_ghost.png", size * 4, size, true, false);
+    fearSprite[0] = new Image("monsters/fear1.png", size * 2, size, true, false);
+    fearSprite[1] = new Image("monsters/fear2.png", size * 2, size, true, false);
 
     view = new ImageView(sprite); // init the view
     currentFrame = 0;
@@ -102,33 +106,45 @@ public class MonstreView extends Group {
       view.setImage(sprite);
     }
 
-    // set the viewport depending of the direction
-    switch (monstre.getMovementStrategy().getDirection()) {
-      case UP:
-        if (monstre.getLifeState() == MonsterState.ALIVE)
-          view.setViewport(frames[0 + printedFrame]);
-        else
-          view.setViewport(frames[0]);
+    if (monstre.getLifeState() == MonsterState.FEAR1 && view.getImage() != fearSprite[0]) {
+      view.setImage(fearSprite[0]);
+    }
 
-        break;
-      case DOWN:
-        if (monstre.getLifeState() == MonsterState.ALIVE)
-          view.setViewport(frames[2 + printedFrame]);
-        else
-          view.setViewport(frames[1]);
-        break;
-      case LEFT:
-        if (monstre.getLifeState() == MonsterState.ALIVE)
-          view.setViewport(frames[4 + printedFrame]);
-        else
-          view.setViewport(frames[2]);
-        break;
-      default:
-        if (monstre.getLifeState() == MonsterState.ALIVE)
-          view.setViewport(frames[6 + printedFrame]);
-        else
-          view.setViewport(frames[3]);
-        break;
+    if (monstre.getLifeState() == MonsterState.FEAR2 && view.getImage() != fearSprite[1]) {
+      view.setImage(fearSprite[1]);
+    }
+
+    if(monstre.getLifeState()!=MonsterState.FEAR1 && monstre.getLifeState()!=MonsterState.FEAR2) {
+      // set the viewport depending of the direction
+      switch (monstre.getMovementStrategy().getDirection()) {
+        case UP:
+          if (monstre.getLifeState() == MonsterState.ALIVE)
+            view.setViewport(frames[0 + printedFrame]);
+          else
+            view.setViewport(frames[0]);
+
+          break;
+        case DOWN:
+          if (monstre.getLifeState() == MonsterState.ALIVE)
+            view.setViewport(frames[2 + printedFrame]);
+          else
+            view.setViewport(frames[1]);
+          break;
+        case LEFT:
+          if (monstre.getLifeState() == MonsterState.ALIVE)
+            view.setViewport(frames[4 + printedFrame]);
+          else
+            view.setViewport(frames[2]);
+          break;
+        default:
+          if (monstre.getLifeState() == MonsterState.ALIVE)
+            view.setViewport(frames[6 + printedFrame]);
+          else
+            view.setViewport(frames[3]);
+          break;
+      }
+    }else{
+      view.setViewport(frames[printedFrame]);
     }
 
   }
