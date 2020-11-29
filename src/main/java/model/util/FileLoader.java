@@ -29,23 +29,25 @@ public abstract class FileLoader {
   // private
   // public
   public static Collection<BestScore> loadBestScores() throws IOException, ParserConfigurationException, SAXException {
-    File file = new File("best_scores.xml");
+    File file = new File(Util.BEST_SCORES_URL);
 
+    // create all instances for the reading of the xml file
     DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
     Document document = documentBuilder.parse(file);
-    document.getDocumentElement().normalize();
+    document.getDocumentElement().normalize();  // optional
 
-    final NodeList tags = document.getElementsByTagName("bestScore");
+    final NodeList tags = document.getElementsByTagName("bestScore"); // get all bestScore tags
 
-    BestScore[] bestScores = new BestScore[tags.getLength()];
+    BestScore[] bestScores = new BestScore[tags.getLength()]; // the array to return
 
     for (int i = 0; i < tags.getLength(); i++) {
       Node node = tags.item(i);
 
-      if (node.getNodeType() == Node.ELEMENT_NODE) {
+      if (node.getNodeType() == Node.ELEMENT_NODE) { // if the node is an element
         Element element = (Element) node;
 
+        // create the best score and add it to the array
         bestScores[i] = new BestScore(
           element.getElementsByTagName("player_name").item(0).getTextContent().trim(),
           Integer.parseInt(element.getElementsByTagName("score").item(0).getTextContent().trim())
@@ -53,7 +55,7 @@ public abstract class FileLoader {
       }
     }
 
-    return Arrays.asList(bestScores);
+    return Arrays.asList(bestScores); //return the collection containing the best scores
   }
    
    /*------------------------------------------------------------------

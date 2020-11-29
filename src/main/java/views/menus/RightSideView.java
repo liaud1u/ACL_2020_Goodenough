@@ -7,7 +7,9 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import model.BestScore;
 import model.util.FileLoader;
+import model.util.FileWriter;
 import model.util.SpriteTools;
 import model.util.Util;
 import views.ScoreView;
@@ -35,6 +37,11 @@ public class RightSideView extends VBox {
 
 
     private void init(){
+        try {
+            FileWriter.addBestScore(new BestScore("Toi", 10000000));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         this.scoreView = new ScoreView();
         this.timerView = new TimerView();
         try {
