@@ -186,9 +186,19 @@ public class PacmanGame implements Game {
     if(Util.player>1)
       secondPlayer.go();
 
+    boolean willHitMob;
+
+    setPlayerTurn(1);
+    willHitMob=willPlayerCollideMob();
+
+    if(Util.player>1) {
+      setPlayerTurn(2);
+      willHitMob=willHitMob||willPlayerCollideMob();
+    }
+
     if (allPastillesEaten()) {
       gameState.setState(PacmanGameState.EtatJeu.VICTOIRE);
-    } else if (willPlayerCollideMob() || gameTimer.isOver()) {
+    } else if (willHitMob || gameTimer.isOver()) {
       gameState.setState(PacmanGameState.EtatJeu.PERDU);
     } else {
       for (Monster monstre : monstres) {
