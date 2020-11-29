@@ -34,7 +34,9 @@ public abstract class Util {
   public static int timer = 45; // timer (seconds)
   public static int maxTimerSize = 3;
   public static int player = 2;
+
   public static int MAX_AMMOS = 3;
+  public static int INVINCIBLE_TIME = 5;
 
 
   /**

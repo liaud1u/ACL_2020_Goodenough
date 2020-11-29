@@ -196,7 +196,6 @@ public class PacmanGame implements Game {
 
       }
     }
-    System.out.println("CURRENT AMMOS : "+ ammos);
   }
 
   /**
@@ -210,7 +209,7 @@ public class PacmanGame implements Game {
 
     if (allPastillesEaten()) {
       gameState.setState(PacmanGameState.EtatJeu.VICTOIRE);
-    } else if (willPlayerCollideMob() || gameTimer.isOver()) {
+    } else if ( willPlayerCollideMob() || gameTimer.isOver()) {
       gameState.setState(PacmanGameState.EtatJeu.PERDU);
     } else {
       for (Monster monstre : monstres) {
@@ -529,6 +528,10 @@ public class PacmanGame implements Game {
 
     if (this.labyrinthe.getCaseLabyrinthe(playerCheckCollide.getX(), playerCheckCollide.getY()).getMonstre() != null) {
       Monster monster = labyrinthe.getCaseLabyrinthe(playerCheckCollide.getX(), playerCheckCollide.getY()).getMonstre();
+      if(playerCheckCollide.isInvincible()) {
+        monster.destroy();
+        return false;
+      }
       return monster.getLifeState() == MonsterState.ALIVE;
     }
     return false;
@@ -556,6 +559,7 @@ public class PacmanGame implements Game {
     if(currentCase.hasAmmoPastille()) {
       AmmoPastille ap = currentCase.getAmmoPastille();
       if(ammos < Util.MAX_AMMOS) ammos++;
+      playerEat.setInvincible();
     }
     if(currentCase.hasTimePastille()) {
       TimePastille tp = currentCase.getTimePastille();
