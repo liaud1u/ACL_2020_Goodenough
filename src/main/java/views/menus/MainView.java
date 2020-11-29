@@ -29,6 +29,7 @@ public class MainView extends Scene {
   private final Collection<KeyCode> player1_codes;
   private final GameController controllerP1;
   private final GameController controllerP2;
+  private GameLoop loop;
 
   /*------------------------------------------------------------------
                               Methods
@@ -50,7 +51,7 @@ public class MainView extends Scene {
     GamePainter painter = new PacmanPainter((Group) this.getRoot(), game);  // create the painter
     painter.draw(0);  // first draw
 
-    GameLoop loop = new GameLoop(painter, this.controllerP1, this.controllerP2, game);  //creates the game loop
+    loop = new GameLoop(painter, this.controllerP1, this.controllerP2, game);  //creates the game loop
     loop.start();
   }
 
@@ -145,6 +146,11 @@ public class MainView extends Scene {
         this.controllerP1.keyPressed(event);
       else
         this.controllerP2.keyPressed(event);
+
+      if (event.getCode().equals(KeyCode.ESCAPE)) {
+        if (this.loop.isPaused()) this.loop.play();
+        else this.loop.pause();
+      }
     });
 
     // actions when jey is released
