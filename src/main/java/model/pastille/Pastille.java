@@ -1,16 +1,15 @@
 package model.pastille;
 
+import model.PacmanGame;
+
 /**
  * Pastille
  */
 public abstract class Pastille {
 
-    /**
-     * type des pastilles
-     */
-    public enum Type {
-        SCORE, AMMO, TIME
-    }
+    protected PacmanGame game;
+
+    protected PastilleType type;
 
     /**
      * Booléen, true si la pastille a été rammassée
@@ -20,8 +19,10 @@ public abstract class Pastille {
     /**
      * Constructeur d'une pastille
      */
-    public Pastille() {
+    public Pastille(PacmanGame game, PastilleType type) {
         this.ramassee = false;
+        this.game = game;
+        this.type = type;
     }
 
     /**
@@ -43,6 +44,10 @@ public abstract class Pastille {
     }
 
 
+    public PastilleType getType() {
+        return type;
+    }
+    
     /**
      * Setter to set if the pastille has been eaten
      * @param ramassee boolean eaten

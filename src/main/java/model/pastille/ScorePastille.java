@@ -1,5 +1,7 @@
 package model.pastille;
 
+import model.PacmanGame;
+
 /**
  * Pastille de score
  */
@@ -8,19 +10,14 @@ public class ScorePastille extends Pastille {
 
     private int score;
 
-    public ScorePastille(int score) {
-        super();
+    public ScorePastille(PacmanGame game, PastilleType type, int score) {
+        super(game, type);
         this.score = score;
     }
 
-    /**
-     * Getter de la valeur de la pastille
-     * @return int valeur
-     */
-    public int getScore() {
-        return this.score;
+    @Override
+    public void ramasser() {
+        super.ramasser();
+        game.addScore(this.score);
     }
-
-
-
 }

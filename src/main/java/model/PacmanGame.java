@@ -10,10 +10,7 @@ import model.monster.MonsterState;
 import model.monster.movementstrategy.FollowMovementStrategy;
 import model.monster.movementstrategy.RandomMovementStrategy;
 import model.monster.movementstrategy.StaticMovementStrategy;
-import model.pastille.AmmoPastille;
-import model.pastille.Pastille;
-import model.pastille.ScorePastille;
-import model.pastille.TimePastille;
+import model.pastille.*;
 import model.player.Direction;
 import model.player.Player;
 import model.player.PlayerType;
@@ -338,7 +335,7 @@ public class PacmanGame implements Game {
     this.generateMonster(difficulty.getNbMonstreStatic(), difficulty.getNbMonstreRandom(), difficulty.getNbMonstreFollow());
 
 
-    this.generateAllPastilles(difficulty.getScorePastilleAmount(), 5, 5);
+    this.generateAllPastilles(difficulty.getScorePastilleAmount(), 4, 3, 2);
 
 
     this.gameTimer.setCurrentTimer(difficulty.getTime());
@@ -407,19 +404,20 @@ public class PacmanGame implements Game {
    * @param amountAmmo amount of munitions pastilles (decreases when level becomes harder)
    *
    */
-  private void generateAllPastilles(int amountScore, int amountTime, int amountAmmo) {
+  private void generateAllPastilles(int amountScore, int amountTime, int amountAmmo, int amountInvincibility) {
 
     int nbCasesDisponibles = labyrinthe.getNbCasesLibres();
     if (nbCasesDisponibles < (amountScore+amountTime+amountAmmo)) {
       System.err.println("ERREUR : Impossible de mettre les pastilles  dans un labyrinthe possédant " + nbCasesDisponibles + " cases libres !");
     } else {
-      this.generatePastille(Pastille.Type.SCORE, amountScore);
-      this.generatePastille(Pastille.Type.AMMO, amountAmmo);
-      this.generatePastille(Pastille.Type.TIME, amountTime);
+      this.generatePastille(PastilleType.SCORE, amountScore);
+      this.generatePastille(PastilleType.AMMO, amountAmmo);
+      this.generatePastille(PastilleType.TIME, amountTime);
+      this.generatePastille(PastilleType.INVINCIBILITY, amountInvincibility);
     }
   }
 
-  private void generatePastille(Pastille.Type type, int amount){
+  private void generatePastille(PastilleType type, int amount){
     Pastille p = null;
     Case[][] cases = labyrinthe.getLabyrinthe();
     for (int i = 0; i < amount; i++) {
@@ -433,14 +431,17 @@ public class PacmanGame implements Game {
       }
       switch(type) {
         case AMMO:
-          cases[x][y].addAmmoPastille(new AmmoPastille());
+          cases[x][y].addPastille(new AmmoPastille(this, type));
         break;
         case TIME:
-          cases[x][y].addTimePastille(new TimePastille(10)); // TODO : added time in difficulty
+          cases[x][y].addPastille(new TimePastille(this, type,10)); // TODO : added time in difficulty
         break;
+        case INVINCIBILITY:
+          cases[x][y].addPastille(new InvinciblePastille(this,type));
+          break;
         case SCORE:
         default:
-          cases[x][y].addScorePastille(new ScorePastille(10)); // TODO : added score in difficulty
+          cases[x][y].addPastille(new ScorePastille(this, type, 10)); // TODO : added score in difficulty
           this.labyrinthe.addPastille();
         break;
       }
@@ -547,6 +548,24 @@ public class PacmanGame implements Game {
     return false;
   }
 
+
+  public void addAmmos() {
+    if(ammos < Util.MAX_AMMOS) ammos++;
+  }
+
+  public void addScore(int score) {
+    if(score >= 0) this.score += score;
+  }
+
+  public void addTime(int time) {
+    if(time >= 0) this.gameTimer.addTime(time);
+  }
+
+  public void setPlayerInvincible() {
+    Player playerInvincible = (playerTurn==1) ? player : secondPlayer;
+    playerInvincible.setInvincible();
+  }
+
   /**
    * Détermine si le joueur vas manger une pastille
    */
@@ -560,23 +579,7 @@ public class PacmanGame implements Game {
       playerEat=secondPlayer;
 
     final Case currentCase = this.labyrinthe.getCaseLabyrinthe(playerEat.getX(), playerEat.getY());
-
-    if (currentCase.hasScorePastille()) {
-      ScorePastille sp = currentCase.getScorePastille();
-      score += sp.getScore();
-      this.labyrinthe.removePastille();
-    }
-    if(currentCase.hasAmmoPastille()) {
-      AmmoPastille ap = currentCase.getAmmoPastille();
-      if(ammos < Util.MAX_AMMOS) ammos++;
-      playerEat.setInvincible();
-    }
-    if(currentCase.hasTimePastille()) {
-      TimePastille tp = currentCase.getTimePastille();
-      gameTimer.addTime(tp.getTime());
-    }
-
-    currentCase.destroyPastilles();
+    currentCase.eatPastille();
   }
 
   /**

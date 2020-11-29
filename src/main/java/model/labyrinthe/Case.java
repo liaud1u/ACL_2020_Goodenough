@@ -4,9 +4,7 @@ package model.labyrinthe;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import model.monster.Monster;
-import model.pastille.AmmoPastille;
-import model.pastille.ScorePastille;
-import model.pastille.TimePastille;
+import model.pastille.*;
 
 import java.util.ArrayList;
 
@@ -27,9 +25,7 @@ public class Case {
   /**
    * Optionnal pastilles on the case
    */
-  private ScorePastille scorePastille;
-  private TimePastille timePastille;
-  private AmmoPastille ammoPastille;
+  private Pastille pastille;
 
 
   /**
@@ -80,9 +76,7 @@ public class Case {
     this.y = y;
     this.estUnMur = bool;
     this.monstre = null;
-    this.scorePastille = null;
-    this.timePastille = null;
-    this.ammoPastille = null;
+    this.pastille = null;
   }
 
   /**
@@ -259,59 +253,29 @@ public class Case {
   }
 
 
-  public void addScorePastille(ScorePastille scorePastille) {
-    this.hasPastilleProperty.setValue(scorePastille != null);
-    this.scorePastille = scorePastille;
+  public void addPastille(Pastille p ) {
+    this.pastille = p;
+    this.hasPastilleProperty.setValue(true);
   }
 
-  public void addTimePastille(TimePastille timePastille) {
-    this.hasPastilleProperty.setValue(timePastille != null);
-    this.timePastille = timePastille;
-  }
-
-  public void addAmmoPastille(AmmoPastille ammoPastille) {
-    this.hasPastilleProperty.setValue(ammoPastille != null);
-    this.ammoPastille = ammoPastille;
-  }
-
-  public TimePastille getTimePastille() {
-    return timePastille;
-  }
-
-  public AmmoPastille getAmmoPastille() {
-    return ammoPastille;
-  }
-
-  public ScorePastille getScorePastille() {
-    return scorePastille;
-  }
-
-
-  public boolean hasScorePastille() {
-    return scorePastille != null;
-  }
-
-  public boolean hasTimePastille() {
-    return timePastille != null;
-  }
-
-  public boolean hasAmmoPastille() {
-    return ammoPastille != null;
-  }
-
-
-  public void destroyPastilles() {
-    this.ammoPastille = null;
-    this.scorePastille = null;
-    this.timePastille = null;
+  public void eatPastille() {
+    if(this.pastille != null) this.pastille.ramasser();
+    this.pastille = null;
     this.hasPastilleProperty.setValue(false);
   }
+
+  public boolean hasPastille() {
+    return pastille != null;
+  }
+
+  public Pastille getPastille() { return this.pastille; }
+
 
   /**
    * @return (: boolean) if the case has either a monster or a pastille
    */
   public boolean hasEntity() {
-    return this.scorePastille != null || this.timePastille != null || this.ammoPastille != null || this.monstre != null;
+    return this.pastille != null  || this.monstre != null;
   }
 
 
