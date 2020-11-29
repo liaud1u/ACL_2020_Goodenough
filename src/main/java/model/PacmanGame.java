@@ -204,6 +204,39 @@ public class PacmanGame implements Game {
     if(Util.player>1)
       secondPlayer.go();
 
+
+    ArrayList<Projectile> toRemove = new ArrayList<>();
+
+    for (Projectile p : projectiles) {
+      if (labyrinthe.getCaseLabyrinthe(p.getX(), p.getY()).getMonstre() != null) {
+        p.destroy();
+        toRemove.add(p);
+        labyrinthe.getCaseLabyrinthe(p.getX(), p.getY()).getMonstre().destroy();
+      }
+
+      p.move();
+
+      if (labyrinthe.getCaseLabyrinthe(p.getX(), p.getY()).estUnMur()) {
+        p.destroy();
+        toRemove.add(p);
+      }
+
+      if (labyrinthe.getCaseLabyrinthe(p.getxPrec(), p.getyPrec()).getMonstre() != null) {
+        p.destroy();
+        toRemove.add(p);
+        labyrinthe.getCaseLabyrinthe(p.getxPrec(), p.getyPrec()).getMonstre().destroy();
+      }
+
+      if (labyrinthe.getCaseLabyrinthe(p.getX(), p.getY()).getMonstre() != null && !toRemove.contains(p)) {
+        p.destroy();
+        toRemove.add(p);
+        labyrinthe.getCaseLabyrinthe(p.getX(), p.getY()).getMonstre().destroy();
+      }
+    }
+
+    for (Projectile p : toRemove)
+      projectiles.remove(p);
+
     boolean willHitMob;
 
     setPlayerTurn(1);
@@ -214,6 +247,7 @@ public class PacmanGame implements Game {
       willHitMob=willHitMob||willPlayerCollideMob();
     }
 
+
     if (allPastillesEaten()) {
       gameState.setState(PacmanGameState.EtatJeu.VICTOIRE);
     } else if (willHitMob || gameTimer.isOver()) {
@@ -223,37 +257,6 @@ public class PacmanGame implements Game {
         monstre.actionMovement();
       }
 
-      ArrayList<Projectile> toRemove = new ArrayList<>();
-
-      for (Projectile p : projectiles) {
-        if (labyrinthe.getCaseLabyrinthe(p.getX(), p.getY()).getMonstre() != null) {
-          p.destroy();
-          toRemove.add(p);
-          labyrinthe.getCaseLabyrinthe(p.getX(), p.getY()).getMonstre().destroy();
-        }
-
-        p.move();
-
-        if (labyrinthe.getCaseLabyrinthe(p.getX(), p.getY()).estUnMur()) {
-          p.destroy();
-          toRemove.add(p);
-        }
-
-        if (labyrinthe.getCaseLabyrinthe(p.getxPrec(), p.getyPrec()).getMonstre() != null) {
-          p.destroy();
-          toRemove.add(p);
-          labyrinthe.getCaseLabyrinthe(p.getxPrec(), p.getyPrec()).getMonstre().destroy();
-        }
-
-        if (labyrinthe.getCaseLabyrinthe(p.getX(), p.getY()).getMonstre() != null && !toRemove.contains(p)) {
-          p.destroy();
-          toRemove.add(p);
-          labyrinthe.getCaseLabyrinthe(p.getX(), p.getY()).getMonstre().destroy();
-        }
-      }
-
-      for (Projectile p : toRemove)
-        projectiles.remove(p);
     }
   }
 
