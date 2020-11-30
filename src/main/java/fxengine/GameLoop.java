@@ -82,11 +82,13 @@ public class GameLoop extends AnimationTimer {
   public void pause() {
     isPaused = true;
     this.stop();
+    ((PacmanGame) this.game).pauseAllInstances();
   }
 
   public void play() {
     isPaused = false;
     this.start();
+    ((PacmanGame) this.game).replayAllInstances();
   }
 
   /**

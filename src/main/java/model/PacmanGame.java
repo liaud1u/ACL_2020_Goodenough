@@ -149,6 +149,14 @@ public class PacmanGame implements Game {
     return level;
   }
 
+  public void pauseAllInstances() {
+    this.gameTimer.pause();
+  }
+
+  public void replayAllInstances() {
+    this.gameTimer.play();
+  }
+
   /**
    * Gettter of the monster
    * @return List of all monster
