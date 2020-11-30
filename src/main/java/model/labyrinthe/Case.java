@@ -53,6 +53,17 @@ public class Case {
   private Monster monstre;
 
   /**
+   * Case précédente à la case actuelle
+   */
+  private Case casePrecedente;
+
+  /**
+   * poids du sommet
+   */
+  private int distance;
+
+
+  /**
    * Property to get if there is a Pastille on the Case
    */
   public BooleanProperty hasPastilleProperty = new SimpleBooleanProperty(false);
@@ -228,10 +239,6 @@ public class Case {
     return estVide;
   }
 
-  /**
-   * Distance à la prochaine case
-   */
-  private int distance;
 
   /**
    * Permet de définir la case courante comme vidé
@@ -348,4 +355,11 @@ public class Case {
     this.distance = distance;
   }
 
+  public Case getCasePrecedente() {
+    return casePrecedente;
+  }
+
+  public void setCasePrecedente(Case casePrecedente) {
+    this.casePrecedente = casePrecedente;
+  }
 }

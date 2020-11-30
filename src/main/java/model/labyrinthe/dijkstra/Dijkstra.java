@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Stack;
 
+import static model.util.Util.MAZE_SIZE;
+
 public class Dijkstra {
 
     private ArrayList<Case> graphe = new ArrayList();
@@ -22,7 +24,7 @@ public class Dijkstra {
 
     public int getDistance(Case from, Case target){
         initDijkstra(from);
-        while(!trouve){
+        while(!graphe.isEmpty()){
             succSommet(target);
         }
 
@@ -36,6 +38,7 @@ public class Dijkstra {
         caseConnecte(caseDepart);
         for (Case c: graphe) {
             c.setDistance(9999);
+            c.setCasePrecedente(null);
         }
         graphe.get(estDansTab(graphe, caseDepart)).setDistance(0);
         Collections.sort(graphe, new CompareDistance());
@@ -70,51 +73,61 @@ public class Dijkstra {
         int col = casePosCourante.getY();
         ArrayList<Case> listeCasePosTemp = new ArrayList<>();
         Case[][] labyrinthe = maze.getLabyrinthe();
-        if (lig > 0 && !labyrinthe[lig - 1][col].estUnMur() && ((estDansTab(sommetOuvert, new Case(lig - 1, col)) == -1 && estDansTab(sommetFerme, new Case(lig - 1, col)) == -1))) {
-            Case c = new Case(lig - 1, col);
 
-            if (sontConnecte) {
-                listeCasePosTemp.add(c);
-            } else {
-                int indexGraphe = estDansTab(graphe, c);
-                if (indexGraphe > -1) {
-                    listeCasePosTemp.add(graphe.get(indexGraphe));
-                }
-            }
-        }
-        if (!labyrinthe[lig][col + 1].estUnMur() && (( estDansTab(sommetOuvert, new Case(lig, col + 1)) == -1 && estDansTab(sommetFerme, new Case(lig, col + 1)) == -1))) {
-            Case c1 = new Case(lig, col + 1);
+        if (lig > 0) {
+            if (lig > 0 && !labyrinthe[lig - 1][col].estUnMur() && ((estDansTab(sommetOuvert, new Case(lig - 1, col)) == -1 && estDansTab(sommetFerme, new Case(lig - 1, col)) == -1))) {
+                Case c = new Case(lig - 1, col);
 
-            if (sontConnecte) {
-                listeCasePosTemp.add(c1);
-            } else {
-                int indexGraphe = estDansTab(graphe, c1);
-                if (indexGraphe > -1) {
-                    listeCasePosTemp.add(graphe.get(indexGraphe));
+                if (sontConnecte) {
+                    listeCasePosTemp.add(c);
+                } else {
+                    int indexGraphe = estDansTab(graphe, c);
+                    if (indexGraphe > -1) {
+                        listeCasePosTemp.add(graphe.get(indexGraphe));
+                    }
                 }
             }
         }
-        if (!labyrinthe[lig + 1][col].estUnMur() && ((estDansTab(sommetOuvert, new Case(lig + 1, col)) == -1 && estDansTab(sommetFerme, new Case(lig + 1, col)) == -1))) {
-            Case c2 = new Case(lig + 1, col);
-            if (sontConnecte) {
-                listeCasePosTemp.add(c2);
-            } else {
-                int indexeGraphe = estDansTab(graphe, c2);
-                if (indexeGraphe > -1) {
-                    listeCasePosTemp.add(graphe.get(indexeGraphe));
+        if (col < MAZE_SIZE - 1) {
+            if (!labyrinthe[lig][col + 1].estUnMur() && ((estDansTab(sommetOuvert, new Case(lig, col + 1)) == -1 && estDansTab(sommetFerme, new Case(lig, col + 1)) == -1))) {
+                Case c1 = new Case(lig, col + 1);
+
+                if (sontConnecte) {
+                    listeCasePosTemp.add(c1);
+                } else {
+                    int indexGraphe = estDansTab(graphe, c1);
+                    if (indexGraphe > -1) {
+                        listeCasePosTemp.add(graphe.get(indexGraphe));
+                    }
                 }
             }
         }
-        if (!labyrinthe[lig][col - 1].estUnMur() && ((estDansTab(sommetOuvert, new Case(lig, col - 1)) == -1 && estDansTab(sommetFerme, new Case(lig, col - 1)) == -1))) {
-            Case c3 = new Case(lig, col - 1);
-            if (sontConnecte) {
-                listeCasePosTemp.add(c3);
-            } else {
-                int indexeGraphe = estDansTab(graphe, c3);
-                if (indexeGraphe > -1) {
-                    listeCasePosTemp.add(graphe.get(indexeGraphe));
+        if (lig < MAZE_SIZE - 1) {
+            if (!labyrinthe[lig + 1][col].estUnMur() && ((estDansTab(sommetOuvert, new Case(lig + 1, col)) == -1 && estDansTab(sommetFerme, new Case(lig + 1, col)) == -1))) {
+                Case c2 = new Case(lig + 1, col);
+                if (sontConnecte) {
+                    listeCasePosTemp.add(c2);
+                } else {
+                    int indexeGraphe = estDansTab(graphe, c2);
+                    if (indexeGraphe > -1) {
+                        listeCasePosTemp.add(graphe.get(indexeGraphe));
+                    }
                 }
             }
+        }
+        if (col > 0) {
+            if (!labyrinthe[lig][col - 1].estUnMur() && ((estDansTab(sommetOuvert, new Case(lig, col - 1)) == -1 && estDansTab(sommetFerme, new Case(lig, col - 1)) == -1))) {
+                Case c3 = new Case(lig, col - 1);
+                if (sontConnecte) {
+                    listeCasePosTemp.add(c3);
+                } else {
+                    int indexeGraphe = estDansTab(graphe, c3);
+                    if (indexeGraphe > -1) {
+                        listeCasePosTemp.add(graphe.get(indexeGraphe));
+                    }
+                }
+            }
+
         }
         return listeCasePosTemp;
     }
@@ -155,6 +168,7 @@ public class Dijkstra {
             if (nouvelleDist < c1.getDistance())
             {
                 c1.setDistance(nouvelleDist);
+                c1.setCasePrecedente(c);
                 Collections.sort(graphe, new CompareDistance());
             }
         }
@@ -163,13 +177,20 @@ public class Dijkstra {
     private int cheminFinal(Case caseDepart, Case caseFinale){
 
         int distanceFinale = 0;
+        System.out.println("Case de départ");
+        System.out.println(caseDepart.toString());
+        System.out.println("Case d'arrivé");
+        System.out.println(caseFinale.toString());
         int index = estDansTab(sommetFerme, caseFinale);
         Case caseCourante = sommetFerme.get(index);
         //On part de la case finale pour retracer le chemin parcouru
         do {
-            distanceFinale++ ;
+            distanceFinale++;
+            caseCourante = caseCourante.getCasePrecedente();
+
         } while (!(caseCourante.getX() == caseDepart.getX() && caseCourante.getY() == caseDepart.getY()));
 
+        System.out.println(distanceFinale);
         return distanceFinale;
     }
 }
