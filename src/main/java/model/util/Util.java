@@ -7,8 +7,6 @@ import javafx.beans.property.SimpleDoubleProperty;
  * Classe contenant les valeurs utiles commune à tout le jeu
  */
 public abstract class Util {
-  public final static String BEST_SCORES_URL = "best_scores.xml";
-
   // ELEMENTS SIZE
   public static final int MAZE_SIZE = 15; //Taille du labyrinthe (cases)
 
@@ -28,6 +26,8 @@ public abstract class Util {
   public static DoubleProperty rightWidthProperty = new SimpleDoubleProperty();
 
   // VALUES
+  public final static int maxBestScores = 4;
+  public final static int maxPlayerNameSize = 4;
   public static boolean DEBUG_MODE = false;
   public static double rightTextHeight = 64;
   public static int speedDifficulty = 3;  //Vitesse du personnage

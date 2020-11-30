@@ -7,8 +7,10 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.HBox;
 import model.BestScore;
 import model.PacmanGame;
-import model.util.FileReader;
-import model.util.FileWriter;
+import model.monster.movementstrategy.ConcreteFileFactory;
+import model.util.Util;
+import model.util.files.BestScoreFileXMLDAO;
+import model.util.files.FileType;
 
 
 /** class used to display the lost level menu
@@ -41,10 +43,14 @@ public class LostLevelView extends EndLevelView{
 
   private void addBestScoreView() {
     try {
-      this.bestScoresView = new BestScoresView(FileReader.loadBestScores());
+      BestScoreFileXMLDAO bestScoresDAO = (BestScoreFileXMLDAO) new ConcreteFileFactory().getLeaderboardDAO(FileType.XML);
+      FileType fileType = FileType.XML;
+
+      this.bestScoresView = new BestScoresView(bestScoresDAO.load());
+
       this.getChildren().add(bestScoresView);
 
-      if (FileReader.canAddThisScore(this.game.getScore())) {
+      if (bestScoresDAO.isNewBestScore(this.game.getScore())) {
         TextField nameField = new TextField();
         nameField.setPrefColumnCount(10);
         nameField.setPromptText("NAME");
@@ -52,8 +58,8 @@ public class LostLevelView extends EndLevelView{
 
         // prevent more than (max size) characters for the name
         nameField.textProperty().addListener((observableValue, oldValue, newValue) -> {
-          if (nameField.getText().length() > 4) { //TODO: Util it
-            nameField.setText( nameField.getText().substring(0, 4));
+          if (nameField.getText().length() > Util.maxPlayerNameSize) {
+            nameField.setText( nameField.getText().substring(0, Util.maxPlayerNameSize));
           }
         });
 
@@ -66,10 +72,10 @@ public class LostLevelView extends EndLevelView{
 
         Button addButton = new Button("Add score");
         addButton.setOnAction(event -> {
-          if (! this.hasAScoreBeenAdded) {
+          if (! this.hasAScoreBeenAdded) {  // prevent multiple adding of score
             try {
-              FileWriter.addBestScore(new BestScore(nameField.getText(), this.game.getScore()));
-              this.getChildren().set(this.getChildren().indexOf(this.bestScoresView), new BestScoresView(FileReader.loadBestScores()));
+              bestScoresDAO.save(new BestScore(nameField.getText(), this.game.getScore())); //save the new score
+              this.getChildren().set(this.getChildren().indexOf(this.bestScoresView), new BestScoresView(bestScoresDAO.load()));
             } catch (Exception e) {
               e.printStackTrace();
             }

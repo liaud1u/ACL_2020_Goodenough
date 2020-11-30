@@ -7,9 +7,10 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import model.util.FileReader;
+import model.monster.movementstrategy.ConcreteFileFactory;
 import model.util.SpriteTools;
 import model.util.Util;
+import model.util.files.FileType;
 import views.ScoreView;
 import views.TimerView;
 
@@ -38,7 +39,7 @@ public class RightSideView extends VBox {
         this.scoreView = new ScoreView();
         this.timerView = new TimerView();
         try {
-            this.bestScoresView = new BestScoresView(FileReader.loadBestScores());
+            this.bestScoresView = new BestScoresView(new ConcreteFileFactory().getLeaderboardDAO(FileType.XML).load());
         } catch (Exception e) {
             e.printStackTrace();
         }
