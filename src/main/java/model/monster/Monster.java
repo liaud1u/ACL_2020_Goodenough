@@ -119,6 +119,23 @@ public class Monster {
     }
 
     /**
+     * Pause the invincibility timer when pausing
+     */
+    public void pauseTimer() {
+        if(fearTimeline.getStatus() == Animation.Status.RUNNING) 
+            this.fearTimeline.pause();
+
+    }
+
+    /**
+     *  Relaunch the invincibility timer after pause
+     */
+    public void restartTimer() {
+        if(fearTimeline.getStatus() == Animation.Status.PAUSED)
+            this.fearTimeline.play();
+
+    }
+    /**
      * Remove the fear mode for the mob
      */
     public void removeFear(){

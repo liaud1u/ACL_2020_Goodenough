@@ -1,5 +1,6 @@
 package model.player;
 
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
@@ -107,6 +108,22 @@ public class Player {
     this.invincibleTimeline.play(); // starts a new timer for 5 seconds
     this.invincibleTimeline.setCycleCount(1); // the timer is executed 1 time
     this.invincible = true; // the player is currently invincible
+  }
+
+  /**
+   *  Relaunch the invincibility timer after pause
+   */
+  public void restartTimer() {
+    if(this.invincibleTimeline.getStatus() == Animation.Status.PAUSED)
+      this.invincibleTimeline.play();
+  }
+
+  /**
+   * Pause the invincibility timer when pausing
+   */
+  public void pauseTimer() {
+    if(this.invincibleTimeline.getStatus() == Animation.Status.RUNNING)
+      this.invincibleTimeline.pause();
   }
   /**
    * Setter de la direction en cours

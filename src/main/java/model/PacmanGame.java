@@ -151,10 +151,14 @@ public class PacmanGame implements Game {
 
   public void pauseAllInstances() {
     this.gameTimer.pause();
+    this.player.pauseTimer();
+    for(Monster m : monstres) m.pauseTimer();
   }
 
   public void replayAllInstances() {
     this.gameTimer.play();
+    this.player.restartTimer();
+    for(Monster m : monstres) m.restartTimer();
   }
 
   /**
@@ -305,12 +309,7 @@ public class PacmanGame implements Game {
     return projectiles;
   }
 
-  /**
-   * Restart the timer
-   */
-  public void restartTimer() {
-    gameTimer.play();
-  }
+
 
   /**
    * Reset the timer
@@ -355,7 +354,7 @@ public class PacmanGame implements Game {
 
     this.gameTimer.setCurrentTimer(difficulty.getTime());
     resetTimer();
-    restartTimer();
+    replayAllInstances();
 
     player.spawn();
     secondPlayer.spawn();
