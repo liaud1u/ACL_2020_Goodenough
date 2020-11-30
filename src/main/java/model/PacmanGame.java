@@ -186,7 +186,6 @@ public class PacmanGame implements Game {
     else
       playerEvolving=secondPlayer;
 
-    System.out.println(playerEvolving.isInvincible() + " -- " + (int)(System.currentTimeMillis()/1000));
     if (commande == Cmd.SHOOT) {
         summonFireball();
     } else {
@@ -343,7 +342,7 @@ public class PacmanGame implements Game {
     this.generateMonster(difficulty.getNbMonstreStatic(), difficulty.getNbMonstreRandom(), difficulty.getNbMonstreFollow());
 
 
-    this.generateAllPastilles(difficulty.getScorePastilleAmount(), 4, 3, 20);
+    this.generateAllPastilles(difficulty.getScorePastilleAmount(), 4, 3, 2);
 
 
     this.gameTimer.setCurrentTimer(difficulty.getTime());
@@ -563,7 +562,6 @@ public class PacmanGame implements Game {
     if (this.labyrinthe.getCaseLabyrinthe(playerCheckCollide.getX(), playerCheckCollide.getY()).getMonstre() != null) {
       Monster monster = labyrinthe.getCaseLabyrinthe(playerCheckCollide.getX(), playerCheckCollide.getY()).getMonstre();
       if(playerCheckCollide.isInvincible()) {
-        System.out.println("poussin piou");
         monster.destroy();
         return false;
       }
