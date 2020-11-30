@@ -594,7 +594,7 @@ public class PacmanGame implements Game {
       playerEat=secondPlayer;
 
     final Case currentCase = this.labyrinthe.getCaseLabyrinthe(playerEat.getX(), playerEat.getY());
-    currentCase.eatPastille();
+    currentCase.removePastille();
   }
 
   /**

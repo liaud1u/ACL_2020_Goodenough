@@ -195,7 +195,7 @@ public class Labyrinthe {
      * @param y int y
      * @return Nearest case at the position
      */
-    public Case getNearestButNotWall(int x, int y){
+    public Case getNearestInternal(int x, int y){
         if(x==0)
             x++;
         if(x>=Util.MAZE_SIZE-1)

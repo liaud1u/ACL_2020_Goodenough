@@ -9,22 +9,52 @@ import java.util.Stack;
 
 import static model.util.Util.MAZE_SIZE;
 
+/**
+ * Disjktra class for determining best way throught two cases
+ */
 public class Dijkstra {
-
+    /**
+     * Graph of the maze
+     */
     private ArrayList<Case> graphe = new ArrayList();
+
+    /**
+     * List of open edge of the graph
+     */
     private ArrayList<Case> sommetOuvert = new ArrayList();
+
+    /**
+     * List of all closed edge of the graph
+     */
     private ArrayList<Case> sommetFerme = new ArrayList();
+
+    /**
+     * if have found a way through the two cases
+     */
     private boolean trouve = false;
+
+    /**
+     * Maze to apply dijsktra
+     */
     private Labyrinthe maze;
 
+    /**
+     * Constructor
+     * @param labyrinthe Maze to apply algorithm
+     */
     public Dijkstra(Labyrinthe labyrinthe){
         this.maze = labyrinthe;
-
     }
 
+    /**
+     * Get distance between two cases
+     * @param from Case from
+     * @param target Case target
+     * @return int distance
+     */
     public int getDistance(Case from, Case target){
-        Case nearestFrom = maze.getNearestButNotWall(from.getX(),from.getY());
-        Case nearestTarget = maze.getNearestButNotWall(target.getX(),target.getY());
+        Case nearestFrom = maze.getNearestInternal(from.getX(),from.getY());
+        Case nearestTarget = maze.getNearestInternal(target.getX(),target.getY());
 
         initDijkstra(nearestFrom);
         while(!graphe.isEmpty()){
@@ -35,21 +65,27 @@ public class Dijkstra {
         return distance;
     }
 
+    /**
+     * Initialization of the algorithm
+     * @param caseDepart Case Starting case
+     */
     private void initDijkstra(Case caseDepart) {
         trouve = false;
         graphe.removeAll(graphe);
         caseConnecte(caseDepart);
         for (Case c: graphe) {
-            c.setDistance(9999);
+            c.setWeight(9999);
             c.setCasePrecedente(null);
         }
-        graphe.get(estDansTab(graphe, caseDepart)).setDistance(0);
+        graphe.get(estDansTab(graphe, caseDepart)).setWeight(0);
         Collections.sort(graphe, new CompareDistance());
         sommetFerme.removeAll(sommetFerme);
     }
 
-
-
+    /**
+     *
+     * @param c
+     */
     private void caseConnecte(Case c){
         Stack<Case> s;
         s = new Stack();
@@ -71,6 +107,12 @@ public class Dijkstra {
         }
     }
 
+    /**
+     *
+     * @param casePosCourante
+     * @param sontConnecte
+     * @return
+     */
     private ArrayList<Case> creationSucc(Case casePosCourante, boolean sontConnecte) {
         int lig = casePosCourante.getX();
         int col = casePosCourante.getY();
@@ -136,6 +178,12 @@ public class Dijkstra {
     }
 
 
+    /**
+     * Check if the case is in the Arraylist
+     * @param listeCase List to check
+     * @param caseCourante Case to check
+     * @return index of the case
+     */
     private int estDansTab (ArrayList < Case > listeCase, Case caseCourante){
         int index = -1;
         for (int i = 0; i < listeCase.size(); i++) {
@@ -147,6 +195,10 @@ public class Dijkstra {
         return index;
     }
 
+    /**
+     *
+     * @param caseFinale
+     */
     private void succSommet(Case caseFinale){
         Case c;
         if (graphe.isEmpty())
@@ -161,22 +213,28 @@ public class Dijkstra {
             trouve = true;
             return;
         }
-        if (c.getDistance() == 9999)
+        if (c.getWeight() == 9999)
         {
             return;
         }
         ArrayList<Case> voisins = creationSucc(c, false);
         for (Case c1: voisins){
-            int nouvelleDist = c.getDistance() + c.distance(c1);
-            if (nouvelleDist < c1.getDistance())
+            int nouvelleDist = c.getWeight() + c.distance(c1);
+            if (nouvelleDist < c1.getWeight())
             {
-                c1.setDistance(nouvelleDist);
+                c1.setWeight(nouvelleDist);
                 c1.setCasePrecedente(c);
                 Collections.sort(graphe, new CompareDistance());
             }
         }
     }
 
+    /**
+     * Return the weight between the two cases
+     * @param caseDepart Starting case
+     * @param caseFinale Target case
+     * @return int distance
+     */
     private int cheminFinal(Case caseDepart, Case caseFinale){
 
         System.out.println("Case de départ");

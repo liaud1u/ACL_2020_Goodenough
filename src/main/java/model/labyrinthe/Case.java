@@ -56,7 +56,7 @@ public class Case {
   /**
    * poids du sommet
    */
-  private int distance;
+  private int weight;
 
 
   /**
@@ -258,24 +258,37 @@ public class Case {
     return monstre;
   }
 
-
+  /**
+   * Add a pastille to the case
+   * @param p Pastille to add
+   */
   public void addPastille(Pastille p ) {
     this.pastille = p;
     this.hasPastilleProperty.setValue(true);
   }
 
-  public void eatPastille() {
+  /**
+   *  Remove pastille in the case
+   */
+  public void removePastille() {
     if(this.pastille != null) this.pastille.ramasser();
     this.pastille = null;
     this.hasPastilleProperty.setValue(false);
   }
 
+  /**
+   * Getter to know if case have a pastille
+   * @return boolean true if there's a pastille
+   */
   public boolean hasPastille() {
     return pastille != null;
   }
 
+  /**
+   * Getter to get pastille in the case
+   * @return Pastille pastille in the case
+   */
   public Pastille getPastille() { return this.pastille; }
-
 
   /**
    * @return (: boolean) if the case has either a monster or a pastille
@@ -310,18 +323,34 @@ public class Case {
     return distance;
   }
 
-  public int getDistance() {
-    return distance;
+  /**
+   * Get weight of the case
+   * @return int weight of the case
+   */
+  public int getWeight() {
+    return weight;
   }
 
-  public void setDistance(int distance) {
-    this.distance = distance;
+  /**
+   * Set weight of the case
+   * @param weight int weight of the case
+   */
+  public void setWeight(int weight) {
+    this.weight = weight;
   }
 
+  /**
+   * Get previous case for Dijsktra
+   * @return Case previous
+   */
   public Case getCasePrecedente() {
     return casePrecedente;
   }
 
+  /**
+   * Set next case for Dijsktra
+   * @param casePrecedente Next case
+   */
   public void setCasePrecedente(Case casePrecedente) {
     this.casePrecedente = casePrecedente;
   }
