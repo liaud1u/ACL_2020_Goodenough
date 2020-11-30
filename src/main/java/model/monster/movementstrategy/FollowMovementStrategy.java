@@ -85,7 +85,6 @@ public class FollowMovementStrategy implements MovementStrategy {
             Case firstPlayerLocation = labyrinthe.getCaseLabyrinthe(player1.getX() + player1.getCurrentMoveDirection().getX_dir(), player1.getY() + player1.getCurrentMoveDirection().getY_dir());
             Case secondPlayerLocation = labyrinthe.getCaseLabyrinthe(player2.getX() + player2.getCurrentMoveDirection().getX_dir(), player2.getY() + player2.getCurrentMoveDirection().getY_dir());
 
-
             if(dijkstra.getDistance(monsterLocation,firstPlayerLocation)>dijkstra.getDistance(monsterLocation,secondPlayerLocation))
                 playerLocation = secondPlayerLocation;
             else

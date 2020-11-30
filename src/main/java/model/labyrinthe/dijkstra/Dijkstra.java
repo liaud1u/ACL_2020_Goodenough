@@ -23,12 +23,15 @@ public class Dijkstra {
     }
 
     public int getDistance(Case from, Case target){
-        initDijkstra(from);
+        Case nearestFrom = maze.getNearestButNotWall(from.getX(),from.getY());
+        Case nearestTarget = maze.getNearestButNotWall(target.getX(),target.getY());
+
+        initDijkstra(nearestFrom);
         while(!graphe.isEmpty()){
-            succSommet(target);
+            succSommet(nearestTarget);
         }
 
-        int distance = cheminFinal(from, target);
+        int distance = cheminFinal(nearestFrom, nearestTarget);
         return distance;
     }
 
@@ -176,11 +179,12 @@ public class Dijkstra {
 
     private int cheminFinal(Case caseDepart, Case caseFinale){
 
-        int distanceFinale = 0;
         System.out.println("Case de départ");
         System.out.println(caseDepart.toString());
         System.out.println("Case d'arrivé");
         System.out.println(caseFinale.toString());
+
+        int distanceFinale = 0;
         int index = estDansTab(sommetFerme, caseFinale);
         Case caseCourante = sommetFerme.get(index);
         //On part de la case finale pour retracer le chemin parcouru

@@ -190,6 +190,26 @@ public class Labyrinthe {
     }
 
     /**
+     * Return nearest case stricly inside the maze (not a external wall)
+     * @param x int x
+     * @param y int y
+     * @return Nearest case at the position
+     */
+    public Case getNearestButNotWall(int x, int y){
+        if(x==0)
+            x++;
+        if(x>=Util.MAZE_SIZE-1)
+            x--;
+
+        if(y==0)
+            y++;
+        if(y>=Util.MAZE_SIZE-1)
+            y--;
+
+        return labyrinthe[x][y];
+    }
+
+    /**
      * Methodes qui retourne une case de labyrintheFormation
      * @return Case représentant une case présente dans labyrintheFormation
      */

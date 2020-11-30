@@ -233,7 +233,6 @@ public class Case {
     return estVide;
   }
 
-
   /**
    * Permet de définir la case courante comme vidé
    *
