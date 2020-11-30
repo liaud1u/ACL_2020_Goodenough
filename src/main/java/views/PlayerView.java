@@ -1,9 +1,12 @@
 package views;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 import model.player.Player;
 import model.player.PlayerType;
 import model.util.Util;
@@ -16,7 +19,7 @@ public class PlayerView extends Group {
   private final Image[] sprite = new Image[4];  // The sprites for the player
   private final ImageView view; // The current sprite to display
 
-
+    private Timeline blinkingTimer;
   private int frame;  // Current frame (for animations)
 
   /** @param player (:{@link Player}) the current player to display
@@ -44,6 +47,12 @@ public class PlayerView extends Group {
 
 
     this.getChildren().add(view);
+
+    this.blinkingTimer = new Timeline(
+              new KeyFrame(Duration.millis(100), ae -> {
+                  this.setVisible(!this.isVisible());
+              })
+      );
   }
 
   /** @param ratio (:double)
@@ -51,6 +60,13 @@ public class PlayerView extends Group {
    *  */
   public void draw(double ratio) {
       // define the player sprite to display depending of the current direction
+
+      if(player.isInvincible()) {
+          blinkingTimer.play();
+      } else {
+          blinkingTimer.stop();
+          this.setVisible(true);
+      }
       switch (player.getCurrentMoveDirection()){
         case DOWN:  view.setImage(sprite[0]);   break;
         case UP:    view.setImage(sprite[1]);   break;
