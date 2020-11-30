@@ -244,12 +244,6 @@ public class PacmanGame implements Game {
     }
   }
 
-  /**
-   * Evolve projectile
-   */
-  public void evolveProjectile(){
-
-  }
 
   /**
    * Create fireball ahead of the current player
@@ -638,4 +632,6 @@ public class PacmanGame implements Game {
   public GameTimer getGameTimer() {
     return gameTimer;
   }
+
+
 }

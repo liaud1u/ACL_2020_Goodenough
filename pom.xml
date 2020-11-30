@@ -22,12 +22,22 @@
       <artifactId>javafx-fxml</artifactId>
       <version>11</version>
     </dependency>
-      <dependency>
+
+    <dependency>
           <groupId>org.junit.jupiter</groupId>
           <artifactId>junit-jupiter</artifactId>
           <version>RELEASE</version>
           <scope>test</scope>
       </dependency>
+
+
+    <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymock</artifactId>
+      <version>4.2</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
   <build>
