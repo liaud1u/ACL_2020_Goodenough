@@ -119,7 +119,7 @@ public class Player {
    */
   public void go() {
     //Si il n'y a pas de collisions, on met à jour les coordonnées
-    game.isEatingAPastaga();
+    game.isEatingAPastille();
     game.setPlayerTurn(type==PlayerType.PLAYER1?1:2);
     if (!game.willPlayerCollide() && !game.willPlayerCollideMob()) {
       xPrec = x;

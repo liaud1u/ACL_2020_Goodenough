@@ -100,6 +100,16 @@ public class PacmanGame implements Game {
   private int playerTurn = 1;
 
   /**
+   * Last second where the player has summon projectile (for the cooldown)
+   */
+  private int lastSecondSummoningProjectileP1 = -1;
+
+  /**
+   * Last second where the player has summon projectile (for the cooldown)
+   */
+  private int lastSecondSummoningProjectileP2 = -1;
+
+  /**
    * constructeur avec fichier source pour le help
    */
   public PacmanGame(String source) {
@@ -177,20 +187,10 @@ public class PacmanGame implements Game {
       playerEvolving=secondPlayer;
 
     if (commande == Cmd.SHOOT) {
-      if(ammos > 0) {
         summonFireball();
-        if(!hasShooted) {
-          ammos--;
-        }
-      }
-      this.hasShooted = true;
     } else {
-      if (commande != Cmd.IDLE && commande != Cmd.SHOOT) {
+      if (commande != Cmd.IDLE ) {
         playerEvolving.setCurrentMoveDirection(Direction.valueOf(commande.name()));
-        if(this.hasShooted) {
-          this.hasShooted = false;
-        }
-
       }
     }
   }
@@ -208,30 +208,14 @@ public class PacmanGame implements Game {
     ArrayList<Projectile> toRemove = new ArrayList<>();
 
     for (Projectile p : projectiles) {
-      if (labyrinthe.getCaseLabyrinthe(p.getX(), p.getY()).getMonstre() != null) {
-        p.destroy();
-        toRemove.add(p);
-        labyrinthe.getCaseLabyrinthe(p.getX(), p.getY()).getMonstre().destroy();
-      }
+        p.evolve(labyrinthe);
 
-      p.move();
+        if(!p.isAlive()) {
+          toRemove.add(p);
 
-      if (labyrinthe.getCaseLabyrinthe(p.getX(), p.getY()).estUnMur()) {
-        p.destroy();
-        toRemove.add(p);
-      }
-
-      if (labyrinthe.getCaseLabyrinthe(p.getxPrec(), p.getyPrec()).getMonstre() != null) {
-        p.destroy();
-        toRemove.add(p);
-        labyrinthe.getCaseLabyrinthe(p.getxPrec(), p.getyPrec()).getMonstre().destroy();
-      }
-
-      if (labyrinthe.getCaseLabyrinthe(p.getX(), p.getY()).getMonstre() != null && !toRemove.contains(p)) {
-        p.destroy();
-        toRemove.add(p);
-        labyrinthe.getCaseLabyrinthe(p.getX(), p.getY()).getMonstre().destroy();
-      }
+          if(p.hasDestroyMonster())
+            addScore(500);
+        }
     }
 
     for (Projectile p : toRemove)
@@ -261,27 +245,48 @@ public class PacmanGame implements Game {
   }
 
   /**
+   * Evolve projectile
+   */
+  public void evolveProjectile(){
+
+  }
+
+  /**
    * Create fireball ahead of the current player
    */
   public void summonFireball() {
     Player playerSummoning;
 
-    if(playerTurn==1)
-      playerSummoning = player;
-    else
-      playerSummoning=secondPlayer;
+    if(ammos>0) {
 
-    Direction dir = playerSummoning.getCurrentMoveDirection();
+      if (playerTurn == 1) {
+        playerSummoning = player;
+        //If player has shoot a fireball in the previous second, cancel
+        if (lastSecondSummoningProjectileP1 == gameTimer.getCurrentTimer())
+          return;
+        lastSecondSummoningProjectileP1 = gameTimer.getCurrentTimer();
+      } else {
+        playerSummoning = secondPlayer;
+        //If player has shoot a fireball in the previous second, cancel
+        if (lastSecondSummoningProjectileP2 == gameTimer.getCurrentTimer())
+          return;
+        lastSecondSummoningProjectileP2 = gameTimer.getCurrentTimer();
+      }
 
-    if (dir == Direction.IDLE)
-      dir = Direction.DOWN;
+      Direction dir = playerSummoning.getCurrentMoveDirection();
 
-    if (!labyrinthe.getCaseLabyrinthe(playerSummoning.getX() + dir.getX_dir(), playerSummoning.getY() + dir.getY_dir()).estUnMur()) {
-      Fireball fireball = new Fireball(dir, playerSummoning.getX() + dir.getX_dir(), playerSummoning.getY() + dir.getY_dir());
-      projectiles.add(fireball);
+      if (dir == Direction.IDLE)
+        dir = Direction.DOWN;
 
-      fireball.setxPrec(playerSummoning.getX());
-      fireball.setyPrec(playerSummoning.getY());
+      if (!labyrinthe.getCaseLabyrinthe(playerSummoning.getX() + dir.getX_dir(), playerSummoning.getY() + dir.getY_dir()).estUnMur()) {
+        Fireball fireball = new Fireball(dir, playerSummoning.getX() + dir.getX_dir(), playerSummoning.getY() + dir.getY_dir());
+        projectiles.add(fireball);
+
+        fireball.setxPrec(playerSummoning.getX());
+        fireball.setyPrec(playerSummoning.getY());
+
+        ammos--;
+      }
     }
   }
 
@@ -316,9 +321,9 @@ public class PacmanGame implements Game {
     } else {
       this.level = 0;
       this.score = 0;
+      this.ammos = 1;
     }
-    gameState.setState(PacmanGameState.EtatJeu.EN_COURS);
-    this.gameTimer.play();
+
     labyrinthe = new Labyrinthe(Util.MAZE_SIZE, Util.MAZE_SIZE);
     for (Monster m : monstres)
       m.destroy();
@@ -348,7 +353,7 @@ public class PacmanGame implements Game {
     player.spawn();
     secondPlayer.spawn();
 
-    this.justChanged = true;
+    lastSecondSummoningProjectileP1 = lastSecondSummoningProjectileP2 = -1;
 
     ArrayList<Projectile> toRemove = new ArrayList<>();
 
@@ -358,6 +363,12 @@ public class PacmanGame implements Game {
     }
 
     projectiles.removeAll(toRemove);
+
+    this.justChanged = true;
+
+
+    gameState.setState(PacmanGameState.EtatJeu.EN_COURS);
+    this.gameTimer.play();
 
   }
 
@@ -369,7 +380,7 @@ public class PacmanGame implements Game {
    */
   private void generateMonster(int amountStatic, int amountRandom, int amountFollow) {
     List<GhostType> ghostTypes = Arrays.asList(GhostType.values());
-    Stack<Case> spawnable = labyrinthe.getSpawnableCase();
+    Stack<Case> spawnable = (Stack<Case>) labyrinthe.getSpawnableCase().clone();
     int cptType = 0;
 
     //We generate monster by priority order, to avoid monster block other monster
@@ -573,7 +584,7 @@ public class PacmanGame implements Game {
   /**
    * Détermine si le joueur vas manger une pastille
    */
-  public void isEatingAPastaga() {
+  public void isEatingAPastille() {
 
     Player playerEat;
 

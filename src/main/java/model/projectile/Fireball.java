@@ -1,5 +1,6 @@
 package model.projectile;
 
+import model.labyrinthe.Labyrinthe;
 import model.player.Direction;
 import model.util.Util;
 
@@ -24,6 +25,16 @@ public class Fireball implements Projectile {
     private int xPrec, yPrec;
 
     /**
+     * If fireball has not already explose
+     */
+    private boolean alive = true;
+
+    /**
+     * If fireball has destroy monster or not
+     */
+    private boolean hasDestroyMonster = false;
+
+    /**
      * Constructor of a fireball
      *
      * @param direction Direction of the fireball
@@ -42,6 +53,22 @@ public class Fireball implements Projectile {
         if (this.direction == Direction.IDLE)
             this.direction = Direction.DOWN;
 
+    }
+
+    /**
+     * Getter to know if fireball is alive or not
+     * @return boolean true if alive, false if not
+     */
+    public boolean isAlive() {
+        return alive;
+    }
+
+    /**
+     * Getter to know if fireball has destroy monster or not
+     * @return boolean true if has, false if not
+     */
+    public boolean hasDestroyMonster() {
+        return hasDestroyMonster;
     }
 
     @Override
@@ -92,6 +119,34 @@ public class Fireball implements Projectile {
      */
     @Override
     public void destroy() {
+        alive=false;
+    }
+
+    @Override
+    public void evolve(Labyrinthe labyrinthe) {
+        if (labyrinthe.getCaseLabyrinthe(getX(), getY()).getMonstre() != null) {
+            destroy();
+            labyrinthe.getCaseLabyrinthe(getX(), getY()).getMonstre().destroy();
+            hasDestroyMonster = true;
+        }
+
+        move();
+
+        if (labyrinthe.getCaseLabyrinthe(getX(), getY()).estUnMur()) {
+            destroy();
+        }
+
+        if (labyrinthe.getCaseLabyrinthe(getxPrec(), getyPrec()).getMonstre() != null) {
+            destroy();
+            labyrinthe.getCaseLabyrinthe(getxPrec(),getyPrec()).getMonstre().destroy();
+            hasDestroyMonster = true;
+        }
+
+        if (labyrinthe.getCaseLabyrinthe(getX(), getY()).getMonstre() != null && alive) {
+            destroy();
+            labyrinthe.getCaseLabyrinthe(getX(), getY()).getMonstre().destroy();
+            hasDestroyMonster = true;
+        }
     }
 
     /**
