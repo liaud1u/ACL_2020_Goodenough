@@ -186,6 +186,7 @@ public class PacmanGame implements Game {
     else
       playerEvolving=secondPlayer;
 
+    System.out.println(playerEvolving.isInvincible() + " -- " + (int)(System.currentTimeMillis()/1000));
     if (commande == Cmd.SHOOT) {
         summonFireball();
     } else {
@@ -239,6 +240,11 @@ public class PacmanGame implements Game {
     } else {
       for (Monster monstre : monstres) {
         monstre.actionMovement();
+        if(player.isInvincible() || secondPlayer.isInvincible()) {
+          monstre.setFear();
+        } else {
+          monstre.removeFear();
+        }
       }
 
     }
@@ -337,7 +343,7 @@ public class PacmanGame implements Game {
     this.generateMonster(difficulty.getNbMonstreStatic(), difficulty.getNbMonstreRandom(), difficulty.getNbMonstreFollow());
 
 
-    this.generateAllPastilles(difficulty.getScorePastilleAmount(), 4, 3, 2);
+    this.generateAllPastilles(difficulty.getScorePastilleAmount(), 4, 3, 20);
 
 
     this.gameTimer.setCurrentTimer(difficulty.getTime());
@@ -406,10 +412,14 @@ public class PacmanGame implements Game {
   }
 
   /**
-   * Generate pastille in the maze
-   * @param amountScore amount of score pastilles (increases when level becomes harder)
-   * @param amountTime amount of time pastilles (decreases when level becomes harder)
-   * @param amountAmmo amount of munitions pastilles (decreases when level becomes harder)
+   * Generate all coins for the maze
+   * This method checks if there is enough space to place the coins in the maze and if
+   * there is enough space calls another method to place each type of coin
+   *
+   * @param amountScore amount of score coins (increases when level becomes harder)
+   * @param amountTime amount of time coins (decreases when level becomes harder)
+   * @param amountAmmo amount of munitions coins (decreases when level becomes harder)
+   * @param amountInvincibility amount of invicibility coins (decreases when level becomes harder)
    *
    */
   private void generateAllPastilles(int amountScore, int amountTime, int amountAmmo, int amountInvincibility) {
@@ -425,6 +435,11 @@ public class PacmanGame implements Game {
     }
   }
 
+  /**
+   * Method to place the coins in the maze
+   * @param type type of coins to place
+   * @param amount amount of coins to place
+   */
   private void generatePastille(PastilleType type, int amount){
     Pastille p = null;
     Case[][] cases = labyrinthe.getLabyrinthe();
@@ -548,6 +563,7 @@ public class PacmanGame implements Game {
     if (this.labyrinthe.getCaseLabyrinthe(playerCheckCollide.getX(), playerCheckCollide.getY()).getMonstre() != null) {
       Monster monster = labyrinthe.getCaseLabyrinthe(playerCheckCollide.getX(), playerCheckCollide.getY()).getMonstre();
       if(playerCheckCollide.isInvincible()) {
+        System.out.println("poussin piou");
         monster.destroy();
         return false;
       }
@@ -557,22 +573,36 @@ public class PacmanGame implements Game {
   }
 
 
+  /**
+   * Method used to add ammos to both players called by the coin when eaten
+   */
   public void addAmmos() {
     if(ammos < Util.MAX_AMMOS) ammos++;
   }
 
+  /**
+   * Method used to add score to the game called by the coin when eaten
+   * @param score amount of score given
+   */
   public void addScore(int score) {
     if(score >= 0) this.score += score;
     labyrinthe.removePastille();
   }
 
+  /**
+   * Method used to add time to the game called by the coin when eaten
+   * @param time amount of time added
+   */
   public void addTime(int time) {
     if(time >= 0) this.gameTimer.addTime(time);
   }
 
+  /**
+   * Methode used to make all the players invincibles by the coin when eaten
+   */
   public void setPlayerInvincible() {
-    Player playerInvincible = (playerTurn==1) ? player : secondPlayer;
-    playerInvincible.setInvincible();
+    player.setInvincible();
+    secondPlayer.setInvincible();
   }
 
   /**

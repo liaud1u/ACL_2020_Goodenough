@@ -1,10 +1,10 @@
 package model.player;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 import model.PacmanGame;
 import model.util.Util;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Classe du joueur
@@ -47,6 +47,11 @@ public class Player {
   private PlayerType type;
 
   /**
+   * Timer to manage invincibility
+   */
+  private Timeline invincibleTimeline;
+
+  /**
    * Constructeur du joueur
    *
    * @param game Game ou évolue le joueur
@@ -56,6 +61,11 @@ public class Player {
     this.type = type;
     this.invincible = false;
     this.spawn();
+    invincibleTimeline = new Timeline(
+            new KeyFrame(Duration.seconds(Util.INVINCIBLE_TIME), ae -> {
+              this.invincible = false;
+            })
+    );
   }
 
   /**
@@ -89,15 +99,14 @@ public class Player {
   }
 
 
+  /**
+   * Sets the player invincible (called when he eats an invincible pastille)
+   */
   public void setInvincible() {
-    this.invincible = true;
-    Timer timer = new Timer();
-    TimerTask invincibleTimer = new TimerTask() {
-      public void run() {
-       invincible = false;
-      }
-    };
-    timer.schedule(invincibleTimer, Util.INVINCIBLE_TIME * 1000L);
+    this.invincibleTimeline.stop(); // stop the timer if another coin was eaten less than 5 seconds ago
+    this.invincibleTimeline.play(); // starts a new timer for 5 seconds
+    this.invincibleTimeline.setCycleCount(1); // the timer is executed 1 time
+    this.invincible = true; // the player is currently invincible
   }
   /**
    * Setter de la direction en cours
@@ -166,6 +175,10 @@ public class Player {
     return y;
   }
 
+  /**
+   * Getter de l'etat invincible du joueur
+   * @return booleen etat invincible du joueur
+   */
   public boolean isInvincible() {
     return invincible;
   }

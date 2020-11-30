@@ -1,5 +1,9 @@
 package model.monster;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 import model.PacmanGame;
 import model.monster.movementstrategy.MovementStrategy;
 import model.monster.movementstrategy.RandomMovementStrategy;
@@ -49,6 +53,11 @@ public class Monster {
     private MonsterState lifeState = MonsterState.ALIVE;
 
     /**
+     * Timer to manage fear switching
+     */
+    private Timeline fearTimeline;
+
+    /**
      * Constructor of the monster
      * @param game PacmanGame
      * @param x coord x of the monster at the beginning
@@ -63,6 +72,11 @@ public class Monster {
         this.xPrec = x;
         this.movementStrategy = new RandomMovementStrategy(this, game.getLabyrinthe());
         this.type = type;
+        fearTimeline = new Timeline(
+                new KeyFrame(Duration.seconds(0.5), ae -> {
+                    lifeState = (lifeState==MonsterState.FEAR1) ? MonsterState.FEAR2 : MonsterState.FEAR1;
+                })
+        );
     }
 
     /**
@@ -85,8 +99,41 @@ public class Monster {
      * Destroy the monster
      */
     public void destroy() {
+        fearTimeline.stop();
         game.getLabyrinthe().getCaseLabyrinthe(x, y).addMonster(null);
         lifeState = MonsterState.DEAD;
+    }
+
+
+    /**
+     * Enable the fear mode for the mob
+     */
+    public void setFear() {
+        if(lifeState == MonsterState.ALIVE) {
+            lifeState = MonsterState.FEAR1;
+            if(fearTimeline.getStatus() != Animation.Status.RUNNING) {
+                fearTimeline.setCycleCount(Animation.INDEFINITE);
+                fearTimeline.play();
+            }
+        }
+    }
+
+    /**
+     * Remove the fear mode for the mob
+     */
+    public void removeFear(){
+        fearTimeline.stop();
+        if(lifeState == MonsterState.FEAR1 || lifeState == MonsterState.FEAR2) {
+            lifeState = MonsterState.ALIVE;
+        }
+
+    }
+
+    /**
+     * Setter for the monster state
+     */
+    public void setMonsterState(MonsterState state) {
+        this.lifeState = state;
     }
 
     /**
