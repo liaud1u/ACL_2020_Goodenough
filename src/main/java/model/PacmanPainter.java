@@ -62,7 +62,7 @@ public class PacmanPainter implements GamePainter {
   /**
    * Vue panneau latéral de droite
    */
-  private final RightSideView rightSideView;
+  private RightSideView rightSideView;
 
   /**
    * View of all prjectiles
@@ -106,10 +106,9 @@ public class PacmanPainter implements GamePainter {
 
     this.rightSideView = new RightSideView();
     this.root.getChildren().add(this.rightSideView);
-
-
   }
 
+  public boolean isGameLost = false;
 
   /**
    * methode  redefinie de Afficheur retourne une image du jeu
@@ -117,12 +116,17 @@ public class PacmanPainter implements GamePainter {
    */
   public void draw(double ratio) {
     if (this.game.isLost() || this.game.isWon()) {
-      this.endLevelView = (this.game.isLost())  // set the end level view depending of the win or loss
-              ? new LostLevelView(this.game)
-              : new WonLevelView(this.game);
-      this.root.getChildren().clear();  //clear current level
-      this.root.getChildren().add(this.endLevelView); //and add the end level view
+      if (!isGameLost) {
+        isGameLost = true;
+
+        this.endLevelView = (this.game.isLost())  // set the end level view depending of the win or loss
+          ? new LostLevelView(this.game)
+          : new WonLevelView(this.game);
+        this.root.getChildren().clear();  //clear current level
+        this.root.getChildren().add(this.endLevelView); //and add the end level view
+      }
     } else {
+      isGameLost = false;
       if (this.game.hasJustChanged()) {
         this.repaint();
         this.game.setJustChanged(false);
@@ -165,7 +169,8 @@ public class PacmanPainter implements GamePainter {
       this.root.getChildren().add(this.secondPlayerView);
     }
 
-    this.root.getChildren().add(rightSideView);
+    this.rightSideView = new RightSideView();
+    this.root.getChildren().add(this.rightSideView);
     this.root.getChildren().add(this.projectileView);
 
   }

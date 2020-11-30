@@ -33,6 +33,13 @@ public class BestScoresView extends VBox {
       this.getChildren().add(scoreLabel);
     }
 
+    while (this.getChildren().size() <= 4) { //TODO Util this, and check in the Writer too
+      Label scoreLabel = new Label("----: ----");
+      scoreLabel.getStyleClass().add("text_");
+
+      this.getChildren().add(scoreLabel);
+    }
+
     this.setAlignment(Pos.CENTER);
   }
   // public

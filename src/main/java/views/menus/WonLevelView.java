@@ -23,6 +23,8 @@ public class WonLevelView extends EndLevelView {
       this.game.getScore()
     ));
 
+    this.text.getStyleClass().add("big_text_");
+
     this.button.setText("Next level");  // set the button text
   }
 
