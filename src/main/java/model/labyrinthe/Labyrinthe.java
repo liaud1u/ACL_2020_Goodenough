@@ -57,6 +57,27 @@ public class Labyrinthe {
      */
     private Random rand = new Random();
 
+    public Labyrinthe(int[][] labyrinthe)
+    {
+        spawnableCase = new Stack<>();
+        Case[][] laby = new Case[labyrinthe.length][labyrinthe.length];
+        for (int i=0; i<labyrinthe.length;i++)
+        {
+            for (int j=0; j<labyrinthe.length; j++)
+            {
+                if (labyrinthe[i][j] == 1)
+                {
+                    laby[i][j] = new Case(i,j,true);
+                }
+                else
+                {
+                    laby[i][j] = new Case(i,j,false);
+                }
+            }
+        }
+
+
+    }
 
     /**
      * Constructor of a labyrinthe

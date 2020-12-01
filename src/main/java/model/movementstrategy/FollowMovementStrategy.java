@@ -120,7 +120,7 @@ public class FollowMovementStrategy implements MovementStrategy {
 
 
 
-        if(path.size()==1)
+        if(path.size()<=1)
         {
             direction = Direction.IDLE;
 

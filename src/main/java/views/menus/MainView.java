@@ -57,19 +57,31 @@ public class MainView extends Scene {
     loop.start();
   }
 
-  private VBox pauseContainer;
-  private Label pauseLabel;
+  private VBox pauseContainer;  // pause container for the display
+  private Label pauseLabel; // the label to display on pause menu
 
+  /** change opacity for the content and display the label*/
   private void pause() {
-    for (Node n : this.getRoot().getChildrenUnmodifiable())
-      n.setOpacity(.3);
+    for (Node n : this.getRoot().getChildrenUnmodifiable()) {
+      if (n instanceof RightSideView) {
+        for (Node nn : ((RightSideView) n).getChildren()) {
+          if (nn.getStyleClass().contains("button")) n.setOpacity(1.);  // if this is the menu button, don't change the opacity
+          else nn.setOpacity(.3);
+        }
+      }
+      else n.setOpacity(.3);
+    }
 
     ((Group) this.getRoot()).getChildren().add(this.pauseContainer);
   }
 
+  /** reset opacity to 1, and remove the label */
   private void play() {
     for (Node n : this.getRoot().getChildrenUnmodifiable())
-      n.setOpacity(1.);
+      if (n instanceof RightSideView) {
+        for (Node nn : ((RightSideView) n).getChildren()) nn.setOpacity(1.);
+      }
+      else n.setOpacity(1.);
 
     ((Group) this.getRoot()).getChildren().remove(this.pauseContainer);
   }
@@ -206,5 +218,6 @@ public class MainView extends Scene {
     this.pauseContainer.setAlignment(Pos.CENTER);
     this.pauseContainer.prefHeightProperty().bind(Util.currentWindowHeightProperty);
     this.pauseContainer.prefWidthProperty().bind(Util.currentWindowWidthProperty);
+    this.pauseContainer.setMouseTransparent(true);
   }
 }
