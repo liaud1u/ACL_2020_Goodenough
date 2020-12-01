@@ -1,6 +1,5 @@
 package model.monster.movementstrategy;
 
-import model.PacmanGame;
 import model.labyrinthe.Case;
 import model.labyrinthe.Labyrinthe;
 import model.labyrinthe.dijkstra.Dijkstra;
@@ -86,15 +85,17 @@ public class FollowMovementStrategy implements MovementStrategy {
             Case firstPlayerLocation = labyrinthe.getCaseLabyrinthe(player1.getX() + player1.getCurrentMoveDirection().getX_dir(), player1.getY() + player1.getCurrentMoveDirection().getY_dir());
             Case secondPlayerLocation = labyrinthe.getCaseLabyrinthe(player2.getX() + player2.getCurrentMoveDirection().getX_dir(), player2.getY() + player2.getCurrentMoveDirection().getY_dir());
 
-            dijkstra =  new Dijkstra(labyrinthe,monsterLocation);
+           // dijkstra =  new Dijkstra(labyrinthe,monsterLocation);
 
-            if(dijkstra.getDistance(monsterLocation,firstPlayerLocation)>dijkstra.getDistance(monsterLocation,secondPlayerLocation))
-                playerLocation = secondPlayerLocation;
-            else
-                playerLocation = firstPlayerLocation;
+         //   if(dijkstra.getChemin(monsterLocation,firstPlayerLocation)>dijkstra.getChemin(monsterLocation,secondPlayerLocation))
+             //   playerLocation = secondPlayerLocation;
+            // else
+              //  playerLocation = firstPlayerLocation;
 
         }else {
             playerLocation = labyrinthe.getCaseLabyrinthe(player1.getX() +player1.getCurrentMoveDirection().getX_dir(), player1.getY() + player1.getCurrentMoveDirection().getY_dir());
+            dijkstra = new Dijkstra(labyrinthe,playerLocation);
+            dijkstra.getChemin(playerLocation,monsterLocation);
         }
 
 
@@ -103,11 +104,11 @@ public class FollowMovementStrategy implements MovementStrategy {
 
         Direction nearest;
 
-        dijkstra = new Dijkstra(labyrinthe,playerLocation);
+
 
         //Si il n'y a pas de directions le monstre devient inactif
         //Sinon, on détermine la meilleure direction
-        if (directions.size() != 0) {
+       /* if (directions.size() != 0) {
 
             //On récupère la première direction pour la comparer aux autres
             nearest = directions.get(0);
@@ -143,7 +144,9 @@ public class FollowMovementStrategy implements MovementStrategy {
         } else {
             direction = Direction.IDLE;
         }
+        */
     }
+
 
     /**
      * Getter of the current direction
