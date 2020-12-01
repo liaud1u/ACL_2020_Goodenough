@@ -125,6 +125,14 @@ public class Player {
     if(this.invincibleTimeline.getStatus() == Animation.Status.RUNNING)
       this.invincibleTimeline.pause();
   }
+
+  /**
+   * Get invincible timer
+   */
+  public Duration getTimerInvincible() {
+    return invincibleTimeline.getCurrentTime();
+  }
+
   /**
    * Setter de la direction en cours
    *
@@ -133,6 +141,8 @@ public class Player {
   public void setCurrentMoveDirection(Direction currentMoveDirection) {
     this.currentMoveDirection = currentMoveDirection;
   }
+
+
 
   /**
    * Getter to know if the player is stuck

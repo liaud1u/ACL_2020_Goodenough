@@ -52,10 +52,6 @@ public class Monster {
      */
     private MonsterState lifeState = MonsterState.ALIVE;
 
-    /**
-     * Timer to manage fear switching
-     */
-    private Timeline fearTimeline;
 
     /**
      * Constructor of the monster
@@ -72,11 +68,6 @@ public class Monster {
         this.xPrec = x;
         this.movementStrategy = new RandomMovementStrategy(this, game.getLabyrinthe());
         this.type = type;
-        fearTimeline = new Timeline(
-                new KeyFrame(Duration.seconds(0.5), ae -> {
-                    lifeState = (lifeState==MonsterState.FEAR1) ? MonsterState.FEAR2 : MonsterState.FEAR1;
-                })
-        );
     }
 
     /**
@@ -99,7 +90,6 @@ public class Monster {
      * Destroy the monster
      */
     public void destroy() {
-        fearTimeline.stop();
         game.getLabyrinthe().getCaseLabyrinthe(x, y).addMonster(null);
         lifeState = MonsterState.DEAD;
     }
@@ -107,39 +97,21 @@ public class Monster {
 
     /**
      * Enable the fear mode for the mob
+     * @param v
      */
-    public void setFear() {
-        if(lifeState == MonsterState.ALIVE) {
-            lifeState = MonsterState.FEAR1;
-            if(fearTimeline.getStatus() != Animation.Status.RUNNING) {
-                fearTimeline.setCycleCount(Animation.INDEFINITE);
-                fearTimeline.play();
-            }
-        }
-    }
-
-    /**
-     * Pause the invincibility timer when pausing
-     */
-    public void pauseTimer() {
-        if(fearTimeline.getStatus() == Animation.Status.RUNNING) 
-            this.fearTimeline.pause();
+    public void setFear(int v) {
+            if(v==0)
+                 lifeState = MonsterState.FEAR1;
+            else
+                lifeState = MonsterState.FEAR2;
 
     }
 
-    /**
-     *  Relaunch the invincibility timer after pause
-     */
-    public void restartTimer() {
-        if(fearTimeline.getStatus() == Animation.Status.PAUSED)
-            this.fearTimeline.play();
 
-    }
     /**
      * Remove the fear mode for the mob
      */
     public void removeFear(){
-        fearTimeline.stop();
         if(lifeState == MonsterState.FEAR1 || lifeState == MonsterState.FEAR2) {
             lifeState = MonsterState.ALIVE;
         }

@@ -152,13 +152,11 @@ public class PacmanGame implements Game {
   public void pauseAllInstances() {
     this.gameTimer.pause();
     this.player.pauseTimer();
-    for(Monster m : monstres) m.pauseTimer();
   }
 
   public void replayAllInstances() {
     this.gameTimer.play();
     this.player.restartTimer();
-    for(Monster m : monstres) m.restartTimer();
   }
 
   /**
@@ -256,7 +254,14 @@ public class PacmanGame implements Game {
       for (Monster monstre : monstres) {
         monstre.actionMovement();
         if(player.isInvincible() || secondPlayer.isInvincible()) {
-          monstre.setFear();
+
+
+          if(player.getTimerInvincible().toSeconds()>Util.INVINCIBLE_TIME-4) {
+            monstre.setFear((int) ((player.getTimerInvincible().toSeconds()) % 2));
+          }
+          else {
+            monstre.setFear(0);
+          }
         } else {
           monstre.removeFear();
         }
