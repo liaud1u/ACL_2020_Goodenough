@@ -209,4 +209,12 @@ public class Player {
   public boolean isInvincible() {
     return invincible;
   }
+
+  /**
+   * Returns true when 75% of the invincibility time has been already given
+   * @return boolean when 25% near the end
+   */
+  public boolean isNearEndInvincible() {
+    return invincible && invincibleTimeline.getCurrentTime().greaterThan(Duration.seconds(Util.INVINCIBLE_TIME * 0.75));
+  }
 }

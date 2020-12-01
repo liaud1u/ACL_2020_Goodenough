@@ -61,7 +61,7 @@ public class PlayerView extends Group {
   public void draw(double ratio) {
       // define the player sprite to display depending of the current direction
 
-      if(player.isInvincible()) {
+      if(player.isNearEndInvincible()) {
           blinkingTimer.play();
       } else {
           blinkingTimer.stop();

@@ -69,9 +69,6 @@ public class Monster {
         this.xPrec = x;
         this.movementStrategy = new RandomMovementStrategy(this, game.getLabyrinthe());
         this.type = type;
-
-
-
     }
 
     /**
@@ -110,11 +107,12 @@ public class Monster {
      * @param v
      */
     public void setFear(int v) {
-        if(v==0)
-            lifeState = MonsterState.FEAR1;
-        else
-            lifeState = MonsterState.FEAR2;
-
+        if(lifeState == MonsterState.ALIVE) {
+            if(v==0)
+                lifeState = MonsterState.FEAR1;
+            else
+                lifeState = MonsterState.FEAR2;
+        }
     }
 
 
@@ -122,8 +120,10 @@ public class Monster {
      * Remove the fear mode for the mob
      */
     public void removeFear(){
-        if(lifeState==MonsterState.FEAR1 || lifeState==MonsterState.FEAR2)
+        if(lifeState == MonsterState.FEAR1 || lifeState == MonsterState.FEAR2) {
             lifeState = MonsterState.ALIVE;
+        }
+
     }
 
     /**
@@ -154,7 +154,6 @@ public class Monster {
      * @param x int x coord
      */
     public void setX(int x) {
-
         game.getLabyrinthe().getCaseLabyrinthe(this.x, this.y).addMonster(null);
         this.xPrec = this.x;
         this.x = x;
