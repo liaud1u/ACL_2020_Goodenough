@@ -3,6 +3,7 @@ package views;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -16,6 +17,10 @@ import model.util.Util;
 public class AmmoView extends HBox {
   private ImageView ammoView;
   private Group counter;
+  private HBox container;
+  private ImageView[] maxAmmo;
+  private Label dividerLabel;
+  private int displayDigitsSize;
   /*------------------------------------------------------------------
                               Methods
    ------------------------------------------------------------------*/
@@ -30,11 +35,17 @@ public class AmmoView extends HBox {
    * This method redraw the counter by calling an external method
    * */
   public void draw(int ammo) {
-    this.getChildren().remove(this.counter);  // remove current counter
+    if (this.counter != null) this.getChildren().remove(this.counter);  // remove current counter
+    if (this.dividerLabel != null) this.getChildren().remove(this.dividerLabel);
+    if (this.maxAmmo != null) this.getChildren().removeAll(this.maxAmmo);
 
-    this.counter = new Group(SpriteTools.getSpritedNumber(ammo, 2, 0)); // add the digits (many images)
+    this.counter = new Group(SpriteTools.getSpritedNumber(ammo, this.displayDigitsSize, 0)); // add the digits (many images)
+    this.dividerLabel = new Label("/");
+    this.dividerLabel.getStyleClass().add("text_");
+    this.maxAmmo = SpriteTools.getSpritedNumber(Util.MAX_AMMOS, this.displayDigitsSize, 0);
 
-    this.getChildren().addAll(this.counter);  // add it ti the root
+    this.getChildren().addAll(this.counter, this.dividerLabel);  // add it to the root
+    this.getChildren().addAll(this.maxAmmo);
   }
    
    /*------------------------------------------------------------------
@@ -52,8 +63,10 @@ public class AmmoView extends HBox {
         false));
     this.ammoView.setViewport(new Rectangle2D(0, 0, size, size)); // set the viewport
 
+    this.displayDigitsSize = String.valueOf(Util.MAX_AMMOS).length();
+
     this.setAlignment(Pos.CENTER);  // center elements on root
-    this.setSpacing(15.); // spacing between elements
+    this.setSpacing(5.); // spacing between elements
     this.getChildren().addAll(ammoView);  // add view to the children
   }
 }
