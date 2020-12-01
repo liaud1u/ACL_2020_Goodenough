@@ -4,6 +4,7 @@ import model.Direction;
 import model.util.Util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Stack;
 
@@ -499,7 +500,6 @@ public class Labyrinthe {
     public Stack<Case> getSpawnableCase() {
         return spawnableCase;
     }
-
 
 }
 

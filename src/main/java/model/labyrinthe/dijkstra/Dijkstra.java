@@ -58,7 +58,6 @@ public class Dijkstra {
         Case nearestFrom = maze.getNearestInternal(from.getX(),from.getY());
         Case nearestTarget = maze.getNearestInternal(target.getX(),target.getY());
 
-        //initDijkstra(nearestFrom);
         while(!graphe.isEmpty()){
             succSommet(nearestTarget);
         }
@@ -243,7 +242,8 @@ public class Dijkstra {
             ArrayList<Case> chemin = new ArrayList();
 
             int index = estDansTab(sommetFerme, caseFinale);
-        if (index >= 0) {
+        if (index >= 0)
+        {
             Case caseCourante = sommetFerme.get(index);
             //On part de la case finale pour retracer le chemin parcouru
 
@@ -251,7 +251,6 @@ public class Dijkstra {
 
             while (caseCourante.getX() != caseDepart.getX() || caseCourante.getY() != caseDepart.getY()) {
                 caseCourante = caseCourante.getCasePrecedente();
-                //System.out.println(caseCourante.toString());
                 chemin.add(caseCourante);
 
             }
