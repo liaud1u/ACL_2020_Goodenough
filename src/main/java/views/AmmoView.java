@@ -24,12 +24,17 @@ public class AmmoView extends HBox {
   // setters
   // private
   // public
+
+  /**
+   * @param ammo (:int): the number of ammo the player has
+   * This method redraw the counter by calling an external method
+   * */
   public void draw(int ammo) {
-    this.getChildren().remove(this.counter);
+    this.getChildren().remove(this.counter);  // remove current counter
 
-    this.counter = new Group(SpriteTools.getSpritedNumber(ammo, 2, 0));
+    this.counter = new Group(SpriteTools.getSpritedNumber(ammo, 2, 0)); // add the digits (many images)
 
-    this.getChildren().addAll(this.counter);
+    this.getChildren().addAll(this.counter);  // add it ti the root
   }
    
    /*------------------------------------------------------------------
@@ -39,7 +44,7 @@ public class AmmoView extends HBox {
   public AmmoView() {
     final double size = Util.slotSizeProperty.multiply(Util.RATIO_FIREBALL).get();
 
-    this.ammoView = new ImageView(
+    this.ammoView = new ImageView(  // create the imageView for the ammos
       new Image("projectile/fireball/fireball_right.png",
       200.,
       200.,
@@ -47,8 +52,8 @@ public class AmmoView extends HBox {
         false));
     this.ammoView.setViewport(new Rectangle2D(0, 0, size, size)); // set the viewport
 
-    this.setAlignment(Pos.CENTER);
-    this.setSpacing(15.);
-    this.getChildren().addAll(ammoView);
+    this.setAlignment(Pos.CENTER);  // center elements on root
+    this.setSpacing(15.); // spacing between elements
+    this.getChildren().addAll(ammoView);  // add view to the children
   }
 }
