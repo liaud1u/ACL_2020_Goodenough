@@ -72,6 +72,8 @@ public class LostLevelView extends EndLevelView{
 
         Button addButton = new Button("Add score");
         addButton.setOnAction(event -> {
+          if (nameField.getText().trim().length() == 0) return; // prevent null or full spaced text
+
           if (! this.hasAScoreBeenAdded) {  // prevent multiple adding of score
             try {
               bestScoresDAO.save(new BestScore(nameField.getText(), this.game.getScore())); //save the new score
