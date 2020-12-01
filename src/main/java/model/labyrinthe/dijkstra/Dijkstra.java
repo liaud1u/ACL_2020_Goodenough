@@ -251,7 +251,7 @@ public class Dijkstra {
             while (caseCourante.getX() != caseDepart.getX() || caseCourante.getY() != caseDepart.getY())
             {
                 caseCourante = caseCourante.getCasePrecedente();
-                System.out.println(caseCourante.toString());
+                //System.out.println(caseCourante.toString());
                 chemin.add(caseCourante);
 
             }

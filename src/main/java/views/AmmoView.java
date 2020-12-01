@@ -54,11 +54,13 @@ public class AmmoView extends HBox {
 
   public AmmoView() {
     final double size = Util.slotSizeProperty.multiply(Util.RATIO_FIREBALL).get();
+    final int spriteSize = (int) (size * 8);
+
 
     this.ammoView = new ImageView(  // create the imageView for the ammos
       new Image("projectile/fireball/fireball_right.png",
-      200.,
-      200.,
+              spriteSize,
+      size,
       true,
         false));
     this.ammoView.setViewport(new Rectangle2D(0, 0, size, size)); // set the viewport

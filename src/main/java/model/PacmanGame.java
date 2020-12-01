@@ -478,7 +478,7 @@ public class PacmanGame implements Game {
           break;
         case SCORE:
         default:
-          cases[x][y].addPastille(new ScorePastille(this, type, 100));
+          cases[x][y].addPastille(new ScorePastille(this, type, 50));
           this.labyrinthe.addPastille();
         break;
       }
@@ -654,7 +654,13 @@ public class PacmanGame implements Game {
     int x = playerCheckCollide.getX() + playerCheckCollide.getCurrentMoveDirection().getX_dir();
     int y = playerCheckCollide.getY() + playerCheckCollide.getCurrentMoveDirection().getY_dir();
 
-    return this.willPlayerCollideWall(x, y) ;
+    boolean collideSpawnable;
+
+    Case cases = labyrinthe.getCaseLabyrinthe(x,y);
+
+    collideSpawnable= labyrinthe.getSpawnableCase().contains(cases);
+
+    return this.willPlayerCollideWall(x, y) || collideSpawnable;
   }
 
   /**
