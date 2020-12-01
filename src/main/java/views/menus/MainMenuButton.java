@@ -24,11 +24,16 @@ public class MainMenuButton extends Button {
                             Constructors
    ------------------------------------------------------------------*/
 
+  /**
+   * @param text (:String)                                    : the text to dislay on the button
+   * @param tooltip (:String)                                 : the text to display on the tooltip
+   * @param event (:{@link EventHandler}<{@link ActionEvent}) : the event to trigger when action is done on the button
+   * */
   public MainMenuButton(String text, String tooltip, EventHandler<ActionEvent> event) {
     super(text);
-    this.tooltip = new Tooltip(tooltip);
+    this.tooltip = new Tooltip(tooltip);  // create a tooltip
 
-    this.setTooltip(this.tooltip);
-    this.setOnAction(event);
+    this.setTooltip(this.tooltip);  // add the tooltip on the button
+    this.setOnAction(event);  //set up the event to trigger on action
   }
 }
