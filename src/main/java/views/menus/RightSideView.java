@@ -85,7 +85,7 @@ public class RightSideView extends VBox {
         //FIXME : find out why currentWindowProperty is NaN in init()
 
         // if button not null, set a translation to set it to the bottom of the window
-        if(buttonExit != null) buttonExit.setTranslateY(Util.currentWindowHeightProperty.multiply(.1).get());
+        if(buttonExit != null) buttonExit.setTranslateY(Util.currentWindowHeightProperty.multiply(0.05).get());
         scoreView.draw(score);  // call draw method fot the score
         timerView.draw(timer);  // call draw method for the timer
         this.ammoView.draw(ammos);  // call the draw method for the ammo view
