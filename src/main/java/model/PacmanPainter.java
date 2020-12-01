@@ -139,7 +139,7 @@ public class PacmanPainter implements GamePainter {
 
       this.projectileView.draw(ratio);
 
-      this.rightSideView.draw(game.getScore(), game.getGameTimer().getCurrentTimer());
+      this.rightSideView.draw(game.getScore(), game.getGameTimer().getCurrentTimer(), this.game.getAmmos());
       for (MonstreView monstre : monstreView) {
         monstre.draw(ratio);
       }
@@ -172,7 +172,6 @@ public class PacmanPainter implements GamePainter {
     this.rightSideView = new RightSideView();
     this.root.getChildren().add(this.rightSideView);
     this.root.getChildren().add(this.projectileView);
-
   }
 
   /**

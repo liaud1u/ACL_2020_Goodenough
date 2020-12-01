@@ -11,6 +11,7 @@ import model.util.DAO.ConcreteFileFactory;
 import model.util.SpriteTools;
 import model.util.Util;
 import model.util.DAO.files.FileType;
+import views.AmmoView;
 import views.ScoreView;
 import views.TimerView;
 
@@ -20,6 +21,7 @@ public class RightSideView extends VBox {
     private TimerView timerView;
     private ScoreView scoreView;
     private BestScoresView bestScoresView;
+    private AmmoView ammoView;
 
     public RightSideView() {
         SpriteTools.setImageSize(Util.rightWidthProperty.get(), 24);
@@ -38,6 +40,7 @@ public class RightSideView extends VBox {
     private void init(){
         this.scoreView = new ScoreView();
         this.timerView = new TimerView();
+        this.ammoView = new AmmoView();
         try {
             this.bestScoresView = new BestScoresView(new ConcreteFileFactory().getLeaderboardDAO(FileType.XML).load());
         } catch (Exception e) {
@@ -46,8 +49,10 @@ public class RightSideView extends VBox {
         Label scoreLabel = new Label("Score : ");
         Label timerLabel = new Label("Time left : ");
         buttonExit = new Label("QUIT");
+
         scoreLabel.getStyleClass().add("text_");
         timerLabel.getStyleClass().add("text_");
+
         buttonExit.getStyleClass().add("button");
         VBox scoreBox = new VBox(scoreLabel, this.scoreView);
         VBox timerBox = new VBox(timerLabel, this.timerView);
@@ -56,13 +61,14 @@ public class RightSideView extends VBox {
         buttonExit.setTextFill(Color.BLACK);
         buttonExit.setOnMousePressed(event -> System.exit(0));
 
-        this.getChildren().addAll(scoreBox, timerBox, bestScoresView, buttonExit);
+        this.getChildren().addAll(scoreBox, timerBox, this.ammoView, bestScoresView, buttonExit);
     }
 
-    public void draw(int score, int timer) {
+    public void draw(int score, int timer, int ammos) {
         //FIXME : find out why currentWindowProperty is NaN in init()
         if(buttonExit != null) buttonExit.setTranslateY(Util.currentWindowHeightProperty.multiply(.2).get());
         scoreView.draw(score);
         timerView.draw(timer);
+        this.ammoView.draw(ammos);
     }
 }
