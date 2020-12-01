@@ -61,8 +61,15 @@ public class MainView extends Scene {
   private Label pauseLabel;
 
   private void pause() {
-    for (Node n : this.getRoot().getChildrenUnmodifiable())
-      n.setOpacity(.3);
+    for (Node n : this.getRoot().getChildrenUnmodifiable()) {
+      if (n instanceof RightSideView) {
+        for (Node nn : ((RightSideView) n).getChildren()) {
+          if (nn.getStyleClass().contains("button")) n.setOpacity(1.);
+          else nn.setOpacity(.3);
+        }
+      }
+      else n.setOpacity(.3);
+    }
 
     ((Group) this.getRoot()).getChildren().add(this.pauseContainer);
   }
@@ -206,5 +213,6 @@ public class MainView extends Scene {
     this.pauseContainer.setAlignment(Pos.CENTER);
     this.pauseContainer.prefHeightProperty().bind(Util.currentWindowHeightProperty);
     this.pauseContainer.prefWidthProperty().bind(Util.currentWindowWidthProperty);
+    this.pauseContainer.setMouseTransparent(true);
   }
 }
