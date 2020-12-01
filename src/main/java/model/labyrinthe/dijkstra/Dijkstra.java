@@ -261,7 +261,6 @@ public class Dijkstra {
             //System.out.println(caseCourante.toString());
             distanceFinale++;
             caseCourante = caseCourante.getCasePrecedente();
-            caseCourante.setEstUnMur(false);
             chemin.add(caseCourante);
 
 
