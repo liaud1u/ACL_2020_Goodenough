@@ -4,7 +4,7 @@ package model;
  * Enum for the difficulty
  */
 public enum Difficulty {
-    EASY(5, 2, 1, 0, 50),
+    EASY(5, 1, 1, 1, 50),
     MEDIUM(10, 1, 1, 1, 44),
     HARD(15, 0, 1, 2, 40);
 

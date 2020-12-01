@@ -42,8 +42,10 @@ public class Dijkstra {
      * Constructor
      * @param labyrinthe Maze to apply algorithm
      */
-    public Dijkstra(Labyrinthe labyrinthe){
+    public Dijkstra(Labyrinthe labyrinthe, Case caseDepart){
         this.maze = labyrinthe;
+        initDijkstra(caseDepart);
+        System.out.println("JE FAIS UN INIT");
     }
 
     /**
@@ -56,7 +58,7 @@ public class Dijkstra {
         Case nearestFrom = maze.getNearestInternal(from.getX(),from.getY());
         Case nearestTarget = maze.getNearestInternal(target.getX(),target.getY());
 
-        initDijkstra(nearestFrom);
+        //initDijkstra(nearestFrom);
         while(!graphe.isEmpty()){
             succSommet(nearestTarget);
         }
@@ -239,20 +241,29 @@ public class Dijkstra {
 
         System.out.println("Case de départ");
         System.out.println(caseDepart.toString());
-        System.out.println("Case d'arrivé");
-        System.out.println(caseFinale.toString());
+        //System.out.println("Case finale");
+        //System.out.println(caseFinale.toString());
+
+        System.out.println("_____________________________________");
 
         int distanceFinale = 0;
+        System.out.println("tableau des sommets fermés");
+        System.out.println(sommetFerme.toString());
+
         int index = estDansTab(sommetFerme, caseFinale);
+
         Case caseCourante = sommetFerme.get(index);
+        System.out.println(caseCourante.toString());
         //On part de la case finale pour retracer le chemin parcouru
         do {
             distanceFinale++;
+            System.out.println("Case courante");
+            //System.out.println(caseCourante.toString());
             caseCourante = caseCourante.getCasePrecedente();
+            System.out.println(caseCourante.toString());
 
         } while (!(caseCourante.getX() == caseDepart.getX() && caseCourante.getY() == caseDepart.getY()));
 
-        System.out.println(distanceFinale);
         return distanceFinale;
     }
 }

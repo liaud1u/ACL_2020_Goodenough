@@ -73,7 +73,8 @@ public class FollowMovementStrategy implements MovementStrategy {
      */
     public void chooseDirection() {
 
-        Dijkstra dijkstra = new Dijkstra(labyrinthe);
+        Case test = new Case(7,7);
+        Dijkstra dijkstra = new Dijkstra(labyrinthe,test);
 
         //On récupère les cases du monstre et du joueur
         Case monsterLocation = labyrinthe.getCaseLabyrinthe(monstre.getX(), monstre.getY());
