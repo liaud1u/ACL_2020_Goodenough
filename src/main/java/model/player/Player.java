@@ -89,7 +89,7 @@ public class Player {
       xPrec = x   = Util.MAZE_SIZE-2;
     this.isStuck = false;
     currentMoveDirection = Direction.IDLE;
-    invincibleTimeline.stop();
+    if(invincibleTimeline != null) invincibleTimeline.stop();
     invincible = false;
   }
 
