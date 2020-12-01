@@ -207,6 +207,10 @@ public class PacmanGame implements Game {
     }
   }
 
+  public int getAmmos() {
+    return ammos;
+  }
+
   /**
    * Update all the world
    */

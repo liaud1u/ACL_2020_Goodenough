@@ -12,7 +12,7 @@ public abstract class Util {
 
   // RATIOS
   public static double RATIO_PERSONNAGE = 1.;  //Ratio de la taille du personnage par rapport à la taille d'une case
-  public static double RATIO_PASTILLE = 0.75;  //Ratio de la taille d'une pastille par rapport à la taille d'une case
+  public static double RATIO_PASTILLE = .5;  //Ratio de la taille d'une pastille par rapport à la taille d'une case
   public static double RATIO_MONSTRE = 1;
   public static double RATIO_FIREBALL = 1;
 
@@ -26,7 +26,7 @@ public abstract class Util {
   public static DoubleProperty rightWidthProperty = new SimpleDoubleProperty();
 
   // VALUES
-  public final static int maxBestScores = 4;
+  public final static int maxBestScores = 3;
   public final static int maxPlayerNameSize = 4;
   public static boolean DEBUG_MODE = false;
   public static double rightTextHeight = 64;
