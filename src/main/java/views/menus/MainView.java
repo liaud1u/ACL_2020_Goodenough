@@ -48,7 +48,7 @@ public class MainView extends Scene {
     ( (Group) this.getRoot() ).getChildren().clear(); // clear the previous main menu
     this.initListeners(); // init game listeners
 
-    game = new PacmanGame("helpFilePacman.txt"); // creates the game and bind it to the help file
+    game = new PacmanGame("src/ressources/helpFilePacman.txt"); // creates the game and bind it to the help file
 
     painter = new PacmanPainter((Group) this.getRoot(), game);  // create the painter
     painter.draw(0);  // first draw
