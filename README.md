@@ -34,3 +34,5 @@ L'objectif du jeu est d'augmenter son score le plus possible, en collectant des 
 Les déplacements se font gràce aux flêches directionnelles pour le joueur 1. La touche 'Espace' permet de tirer des boules de feu.  
 Les déplacements se font gràce aux touches 'ZQSD' pour le joueur 2. La touche 'A' permet de tirer des boules de feu.  
 La souris permet de valider le passage aux niveaux suivants. 
+
+Il est possible de mettre le jeu en pause gràce à "Echap". 
