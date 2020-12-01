@@ -10,8 +10,9 @@ public class InvinciblePastille extends Pastille{
     }
 
     @Override
-    public void ramasser() {
+    public boolean ramasser() {
         super.ramasser();
         game.setPlayerInvincible();
+        return true;
     }
 }

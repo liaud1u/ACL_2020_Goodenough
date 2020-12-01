@@ -37,10 +37,11 @@ public abstract class Pastille {
     /**
      * Ramasser une pastille
      */
-    public void ramasser() {
+    public boolean ramasser() {
         if (!this.ramassee) {
             this.ramassee = true;
         }
+        return true;
     }
 
 

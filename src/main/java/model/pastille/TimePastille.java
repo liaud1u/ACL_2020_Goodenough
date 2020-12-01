@@ -12,8 +12,9 @@ public class TimePastille extends Pastille{
     }
 
     @Override
-    public void ramasser() {
+    public boolean ramasser() {
         super.ramasser();
         game.addTime(time);
+        return true;
     }
 }

@@ -9,8 +9,12 @@ public class AmmoPastille extends Pastille{
     }
 
     @Override
-    public void ramasser() {
-        super.ramasser();
-        game.addAmmos();
+    public boolean ramasser() {
+        if(!game.hasMaximumAmmos()) {
+            super.ramasser();
+            game.addAmmos();
+            return true;
+        }
+        return false;
     }
 }

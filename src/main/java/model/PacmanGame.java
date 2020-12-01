@@ -357,7 +357,7 @@ public class PacmanGame implements Game {
     this.generateMonster(difficulty.getNbMonstreStatic(), difficulty.getNbMonstreRandom(), difficulty.getNbMonstreFollow());
 
 
-    this.generateAllPastilles(difficulty.getScorePastilleAmount(), 4, 3, 2);
+    this.generateAllPastilles(difficulty.getScorePastilleAmount(), 4, 10, 2);
 
 
     this.gameTimer.setCurrentTimer(difficulty.getTime());
@@ -592,6 +592,10 @@ public class PacmanGame implements Game {
    */
   public void addAmmos() {
     if(ammos < Util.MAX_AMMOS) ammos++;
+  }
+
+  public boolean hasMaximumAmmos() {
+    return this.ammos == Util.MAX_AMMOS;
   }
 
   /**

@@ -16,8 +16,9 @@ public class ScorePastille extends Pastille {
     }
 
     @Override
-    public void ramasser() {
+    public boolean ramasser() {
         super.ramasser();
         game.addScore(this.score);
+        return true;
     }
 }

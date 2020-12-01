@@ -271,9 +271,12 @@ public class Case {
    *  Remove pastille in the case
    */
   public void removePastille() {
-    if(this.pastille != null) this.pastille.ramasser();
-    this.pastille = null;
-    this.hasPastilleProperty.setValue(false);
+    if(this.pastille != null) {
+      if(this.pastille.ramasser()) {
+        this.pastille = null;
+        this.hasPastilleProperty.setValue(false);
+      }
+    }
   }
 
   /**
