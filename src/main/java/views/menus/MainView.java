@@ -76,7 +76,10 @@ public class MainView extends Scene {
 
   private void play() {
     for (Node n : this.getRoot().getChildrenUnmodifiable())
-      n.setOpacity(1.);
+      if (n instanceof RightSideView) {
+        for (Node nn : ((RightSideView) n).getChildren()) nn.setOpacity(1.);
+      }
+      else n.setOpacity(1.);
 
     ((Group) this.getRoot()).getChildren().remove(this.pauseContainer);
   }
