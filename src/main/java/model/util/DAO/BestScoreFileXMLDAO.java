@@ -39,10 +39,12 @@ public class BestScoreFileXMLDAO implements BestScoreDAO {
   // private
   // public
   public final Document generateDocument() throws ParserConfigurationException, IOException, SAXException {
+    File file = new File(this.URL);
+
     // create all instances for the reading of the xml file
     DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-    Document document = documentBuilder.parse(new File(this.URL));
+    Document document = documentBuilder.parse(file);
     document.getDocumentElement().normalize();  // optional
 
     return document;
