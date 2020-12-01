@@ -1,7 +1,7 @@
 package model.projectile;
 
 import model.labyrinthe.Labyrinthe;
-import model.player.Direction;
+import model.Direction;
 import model.util.Util;
 
 /**

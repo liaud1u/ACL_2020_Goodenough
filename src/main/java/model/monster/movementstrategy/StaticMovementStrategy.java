@@ -1,6 +1,6 @@
 package model.monster.movementstrategy;
 
-import model.player.Direction;
+import model.Direction;
 
 /**
  * Class for the static movement strategy (monster will not move)

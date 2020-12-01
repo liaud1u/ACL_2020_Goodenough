@@ -1,11 +1,10 @@
 package model.monster.movementstrategy;
 
-import model.PacmanGame;
 import model.labyrinthe.Case;
 import model.labyrinthe.Labyrinthe;
 import model.labyrinthe.dijkstra.Dijkstra;
 import model.monster.Monster;
-import model.player.Direction;
+import model.Direction;
 import model.player.Player;
 import model.util.Util;
 

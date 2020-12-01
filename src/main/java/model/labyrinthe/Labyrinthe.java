@@ -1,6 +1,6 @@
 package model.labyrinthe;
 
-import model.player.Direction;
+import model.Direction;
 import model.util.Util;
 
 import java.util.ArrayList;

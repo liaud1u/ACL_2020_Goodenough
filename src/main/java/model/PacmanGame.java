@@ -11,7 +11,6 @@ import model.monster.movementstrategy.FollowMovementStrategy;
 import model.monster.movementstrategy.RandomMovementStrategy;
 import model.monster.movementstrategy.StaticMovementStrategy;
 import model.pastille.*;
-import model.player.Direction;
 import model.player.Player;
 import model.player.PlayerType;
 import model.projectile.Fireball;

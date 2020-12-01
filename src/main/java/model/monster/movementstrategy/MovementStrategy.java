@@ -1,6 +1,6 @@
 package model.monster.movementstrategy;
 
-import model.player.Direction;
+import model.Direction;
 
 /**
  * Interface for the Strategy design pattern

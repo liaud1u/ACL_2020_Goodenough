@@ -1,7 +1,6 @@
 package model;
 
 import fxengine.Cmd;
-import model.player.Direction;
 import model.player.Player;
 import model.util.Util;
 import org.junit.jupiter.api.BeforeEach;
