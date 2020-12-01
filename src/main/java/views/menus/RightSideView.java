@@ -17,7 +17,7 @@ import views.TimerView;
 
 public class RightSideView extends VBox {
 
-    private MainMenuButton buttonExit;  // the button to come back to the menu
+    private Label buttonExit;
     private TimerView timerView;   // the display for the timer
     private ScoreView scoreView;    // the display for the score
     private BestScoresView bestScoresView;  // the display for the best scores
@@ -58,9 +58,9 @@ public class RightSideView extends VBox {
         Label timerLabel = new Label("Time left : ");   // label to introduce the timer view
 
         // button to go back to the menu, with a tooltip
-        buttonExit = new MainMenuButton("MENU", "Back to the menu", event -> {
-            ((MainView) this.getScene()).initMenu();
-        });
+        this.buttonExit = new Label("Exit");
+        this.buttonExit.getStyleClass().add("button");
+        this.buttonExit.setOnMousePressed(event -> ((MainView) this.getScene()).initMenu());
 
         // add the style classes
         scoreLabel.getStyleClass().add("text_");
