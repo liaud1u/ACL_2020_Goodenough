@@ -239,38 +239,23 @@ public class Dijkstra {
      */
     private ArrayList cheminFinal(Case caseDepart, Case caseFinale){
 
-        ArrayList<Case> chemin = new ArrayList();
-        //System.out.println("Case de départ");
-        //System.out.println(caseDepart.toString());
-        //System.out.println("Case finale");
-        //System.out.println(caseFinale.toString());
 
-        //System.out.println("_____________________________________");
+            ArrayList<Case> chemin = new ArrayList();
 
-        int distanceFinale = 0;
-        //System.out.println("tableau des sommets fermés");
-        //System.out.println(sommetFerme.toString());
+            int index = estDansTab(sommetFerme, caseFinale);
+            Case caseCourante = sommetFerme.get(index);
+            //On part de la case finale pour retracer le chemin parcouru
 
-        int index = estDansTab(sommetFerme, caseFinale);
-        //System.out.println(distanceFinale);
-        Case caseCourante = sommetFerme.get(index);
-        //On part de la case finale pour retracer le chemin parcouru
+            chemin.add(caseFinale);
 
-        chemin.add(caseFinale);
-        do {
-            //System.out.println(caseCourante.toString());
-            distanceFinale++;
-            caseCourante = caseCourante.getCasePrecedente();
-            chemin.add(caseCourante);
+            while (caseCourante.getX() != caseDepart.getX() || caseCourante.getY() != caseDepart.getY())
+            {
+                caseCourante = caseCourante.getCasePrecedente();
+                System.out.println(caseCourante.toString());
+                chemin.add(caseCourante);
 
+            }
 
-        } while (caseCourante.getX() != caseDepart.getX() || caseCourante.getY() != caseDepart.getY());
-
-        //System.out.println("La distance finale est");
-        //System.out.println(distanceFinale);
-
-        //System.out.println("Le chemin est");
-        //System.out.println(chemin);
-        return chemin;
+            return chemin;
     }
 }
