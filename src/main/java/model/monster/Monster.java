@@ -1,9 +1,5 @@
 package model.monster;
 
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
 import model.PacmanGame;
 import model.monster.movementstrategy.MovementStrategy;
 import model.monster.movementstrategy.RandomMovementStrategy;
@@ -100,11 +96,12 @@ public class Monster {
      * @param v
      */
     public void setFear(int v) {
+        if(lifeState == MonsterState.ALIVE) {
             if(v==0)
-                 lifeState = MonsterState.FEAR1;
+                lifeState = MonsterState.FEAR1;
             else
                 lifeState = MonsterState.FEAR2;
-
+        }
     }
 
 
