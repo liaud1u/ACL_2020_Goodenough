@@ -45,7 +45,6 @@ public class Dijkstra {
     public Dijkstra(Labyrinthe labyrinthe, Case caseDepart){
         this.maze = labyrinthe;
         initDijkstra(caseDepart);
-        System.out.println("JE FAIS UN INIT");
     }
 
     /**
@@ -241,10 +240,10 @@ public class Dijkstra {
     private ArrayList cheminFinal(Case caseDepart, Case caseFinale){
 
         ArrayList<Case> chemin = new ArrayList();
-        System.out.println("Case de départ");
-        System.out.println(caseDepart.toString());
-        System.out.println("Case finale");
-        System.out.println(caseFinale.toString());
+        //System.out.println("Case de départ");
+        //System.out.println(caseDepart.toString());
+        //System.out.println("Case finale");
+        //System.out.println(caseFinale.toString());
 
         //System.out.println("_____________________________________");
 
@@ -259,7 +258,7 @@ public class Dijkstra {
 
         chemin.add(caseFinale);
         do {
-            System.out.println(caseCourante.toString());
+            //System.out.println(caseCourante.toString());
             distanceFinale++;
             caseCourante = caseCourante.getCasePrecedente();
             caseCourante.setEstUnMur(false);
@@ -268,11 +267,11 @@ public class Dijkstra {
 
         } while (caseCourante.getX() != caseDepart.getX() || caseCourante.getY() != caseDepart.getY());
 
-        System.out.println("La distance finale est");
-        System.out.println(distanceFinale);
+        //System.out.println("La distance finale est");
+        //System.out.println(distanceFinale);
 
-        System.out.println("Le chemin est");
-        System.out.println(chemin);
+        //System.out.println("Le chemin est");
+        //System.out.println(chemin);
         return chemin;
     }
 }

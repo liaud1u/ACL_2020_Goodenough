@@ -115,7 +115,6 @@ public class PacmanPainter implements GamePainter {
    * @param ratio
    */
   public void draw(double ratio) {
-    System.out.println(Util.player);
     if (this.game.isLost() || this.game.isWon()) {
       if (!isGameLost) {
         isGameLost = true;

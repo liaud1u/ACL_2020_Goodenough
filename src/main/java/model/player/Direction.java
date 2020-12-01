@@ -63,4 +63,19 @@ public enum Direction {
   public int getY_dir() {
     return y_dir;
   }
+
+  /**
+   * Return Direction value of two dir
+   * @param x x dir
+   * @param y y dir
+   * @return Direction
+   */
+  public static Direction valueOf(int x, int y){
+    for(Direction d : values()){
+      //System.out.println(x+" " +y);
+      if(d.x_dir==x && d.y_dir == y)
+        return d;
+    }
+    return IDLE;
+  }
 }

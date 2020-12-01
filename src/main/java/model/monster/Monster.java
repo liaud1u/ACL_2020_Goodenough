@@ -7,6 +7,7 @@ import javafx.util.Duration;
 import model.PacmanGame;
 import model.monster.movementstrategy.MovementStrategy;
 import model.monster.movementstrategy.RandomMovementStrategy;
+import model.monster.movementstrategy.RespawnMovementStrategy;
 
 /**
  * Class for the Monster object
@@ -68,6 +69,9 @@ public class Monster {
         this.xPrec = x;
         this.movementStrategy = new RandomMovementStrategy(this, game.getLabyrinthe());
         this.type = type;
+
+
+
     }
 
     /**
@@ -76,6 +80,11 @@ public class Monster {
      */
     public void setMovementStrategy(MovementStrategy strategy) {
         this.movementStrategy = strategy;
+        if(type==GhostType.RED){
+            game.getLabyrinthe().getCaseLabyrinthe(x, y).addMonster(null);
+            this.x = xPrec = this.y = yPrec = 1;
+            destroy();
+        }
     }
 
     /**
@@ -92,6 +101,7 @@ public class Monster {
     public void destroy() {
         game.getLabyrinthe().getCaseLabyrinthe(x, y).addMonster(null);
         lifeState = MonsterState.DEAD;
+        movementStrategy = new RespawnMovementStrategy(this, game.getLabyrinthe(), movementStrategy);
     }
 
 
@@ -100,10 +110,10 @@ public class Monster {
      * @param v
      */
     public void setFear(int v) {
-            if(v==0)
-                 lifeState = MonsterState.FEAR1;
-            else
-                lifeState = MonsterState.FEAR2;
+        if(v==0)
+            lifeState = MonsterState.FEAR1;
+        else
+            lifeState = MonsterState.FEAR2;
 
     }
 
@@ -112,10 +122,8 @@ public class Monster {
      * Remove the fear mode for the mob
      */
     public void removeFear(){
-        if(lifeState == MonsterState.FEAR1 || lifeState == MonsterState.FEAR2) {
+        if(lifeState==MonsterState.FEAR1 || lifeState==MonsterState.FEAR2)
             lifeState = MonsterState.ALIVE;
-        }
-
     }
 
     /**
@@ -146,10 +154,13 @@ public class Monster {
      * @param x int x coord
      */
     public void setX(int x) {
+
         game.getLabyrinthe().getCaseLabyrinthe(this.x, this.y).addMonster(null);
         this.xPrec = this.x;
         this.x = x;
-        game.getLabyrinthe().getCaseLabyrinthe(x, y).addMonster(this);
+
+        if(lifeState==MonsterState.ALIVE)
+            game.getLabyrinthe().getCaseLabyrinthe(x, y).addMonster(this);
     }
 
     /**
@@ -192,7 +203,9 @@ public class Monster {
         game.getLabyrinthe().getCaseLabyrinthe(this.x, this.y).addMonster(null);
         this.yPrec = this.y;
         this.y = y;
-        game.getLabyrinthe().getCaseLabyrinthe(x, y).addMonster(this);
+
+        if(lifeState==MonsterState.ALIVE)
+            game.getLabyrinthe().getCaseLabyrinthe(x, y).addMonster(this);
     }
 
     /**
@@ -200,5 +213,17 @@ public class Monster {
      */
     public void actionMovement() {
         movementStrategy.move();
+    }
+
+    /**
+     * Respawn the monster
+     */
+    public void respawn(){
+        lifeState=MonsterState.ALIVE;
+
+        if(movementStrategy.isRespawn())
+            movementStrategy=((RespawnMovementStrategy)movementStrategy).getOldStrategy();
+
+        game.getLabyrinthe().getCaseLabyrinthe(x, y).addMonster(this);
     }
 }
