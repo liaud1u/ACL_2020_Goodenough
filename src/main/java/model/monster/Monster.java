@@ -77,11 +77,7 @@ public class Monster {
      */
     public void setMovementStrategy(MovementStrategy strategy) {
         this.movementStrategy = strategy;
-        if(type==GhostType.RED){
-            game.getLabyrinthe().getCaseLabyrinthe(x, y).addMonster(null);
-            this.x = xPrec = this.y = yPrec = 1;
-            destroy();
-        }
+
     }
 
     /**

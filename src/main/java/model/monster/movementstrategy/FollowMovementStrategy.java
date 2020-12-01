@@ -88,33 +88,51 @@ public class FollowMovementStrategy implements MovementStrategy {
             Case firstPlayerLocation = labyrinthe.getCaseLabyrinthe(player1.getX() + player1.getCurrentMoveDirection().getX_dir(), player1.getY() + player1.getCurrentMoveDirection().getY_dir());
             Case secondPlayerLocation = labyrinthe.getCaseLabyrinthe(player2.getX() + player2.getCurrentMoveDirection().getX_dir(), player2.getY() + player2.getCurrentMoveDirection().getY_dir());
 
+
+            if(firstPlayerLocation.estUnMur())
+                firstPlayerLocation = labyrinthe.getCaseLabyrinthe(player1.getX()  , player1.getY() );
+
+
+            if(secondPlayerLocation.estUnMur())
+                secondPlayerLocation = labyrinthe.getCaseLabyrinthe(player2.getX()  , player2.getY() );
+
             dijkstra =  new Dijkstra(labyrinthe,monsterLocation);
 
-            if(dijkstra.getChemin(monsterLocation,firstPlayerLocation).size()>dijkstra.getChemin(monsterLocation,secondPlayerLocation).size())
+            if(dijkstra.getChemin(monsterLocation,firstPlayerLocation).size()>dijkstra.getChemin(monsterLocation,secondPlayerLocation).size()) {
                 playerLocation = secondPlayerLocation;
-            else
-                playerLocation = firstPlayerLocation;
 
+            }
+            else {
+                playerLocation = firstPlayerLocation;
+            }
         }else {
             playerLocation = labyrinthe.getCaseLabyrinthe(player1.getX() +player1.getCurrentMoveDirection().getX_dir(), player1.getY() + player1.getCurrentMoveDirection().getY_dir());
+
+            if(playerLocation.estUnMur())
+                playerLocation = labyrinthe.getCaseLabyrinthe(player1.getX()  , player1.getY() );
+
         }
 
 
-        //On récupère les directions que le monstre peut prendre
-        ArrayList<Direction> directions = labyrinthe.getFreeDirection(monsterLocation.getX(), monsterLocation.getY());
-
-        Direction nearest;
 
         dijkstra = new Dijkstra(labyrinthe,playerLocation);
 
-        ArrayList<Case> path = dijkstra.getChemin(monsterLocation,playerLocation);
+        ArrayList<Case> path = dijkstra.getChemin(playerLocation,monsterLocation);
 
-        if(path.size()==0)
+
+
+        if(path.size()==1)
+        {
             direction = Direction.IDLE;
 
-        System.out.println(path.get(0));
+        }
+        else{
+            Case cible = path.get(1);
+            path.remove(1);
 
-        direction = Direction.IDLE;
+            direction=Direction.valueOf(cible.getX()-monstre.getX(),cible.getY()-monstre.getY());
+
+        }
 
     }
 
@@ -141,6 +159,6 @@ public class FollowMovementStrategy implements MovementStrategy {
      */
     @Override
     public void setDirection(Direction direction) {
-        this.direction=direction;
+        this.direction = direction;
     }
 }
