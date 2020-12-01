@@ -1,9 +1,9 @@
 package model.monster;
 
 import model.PacmanGame;
-import model.monster.movementstrategy.MovementStrategy;
-import model.monster.movementstrategy.RandomMovementStrategy;
-import model.monster.movementstrategy.RespawnMovementStrategy;
+import model.movementstrategy.MovementStrategy;
+import model.movementstrategy.RandomMovementStrategy;
+import model.movementstrategy.RespawnMovementStrategy;
 
 /**
  * Class for the Monster object

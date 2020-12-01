@@ -1,11 +1,9 @@
-package model.monster.movementstrategy;
+package model.movementstrategy;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class FollowMovementStrategyTest {
+class RandomMovementStrategyTest {
 
     @BeforeEach
     void setUp() {
@@ -16,7 +14,7 @@ class FollowMovementStrategyTest {
     }
 
     @Test
-    void chooseDirection() {
+    void chooseRandomDirection() {
     }
 
 }

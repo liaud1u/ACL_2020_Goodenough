@@ -1,4 +1,4 @@
-package model.monster.movementstrategy;
+package model.movementstrategy;
 
 import model.Direction;
 
