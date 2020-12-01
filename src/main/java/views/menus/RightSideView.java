@@ -48,7 +48,7 @@ public class RightSideView extends VBox {
         }
         Label scoreLabel = new Label("Score : ");
         Label timerLabel = new Label("Time left : ");
-        buttonExit = new Label("QUIT");
+        buttonExit = new Label("EXIT");
 
         scoreLabel.getStyleClass().add("text_");
         timerLabel.getStyleClass().add("text_");
@@ -66,7 +66,7 @@ public class RightSideView extends VBox {
 
     public void draw(int score, int timer, int ammos) {
         //FIXME : find out why currentWindowProperty is NaN in init()
-        if(buttonExit != null) buttonExit.setTranslateY(Util.currentWindowHeightProperty.multiply(.2).get());
+        if(buttonExit != null) buttonExit.setTranslateY(Util.currentWindowHeightProperty.multiply(.1).get());
         scoreView.draw(score);
         timerView.draw(timer);
         this.ammoView.draw(ammos);

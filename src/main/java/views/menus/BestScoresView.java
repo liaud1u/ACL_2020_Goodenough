@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import model.BestScore;
+import model.util.Util;
 
 import java.util.Collection;
 
@@ -12,6 +13,7 @@ import java.util.Collection;
  * 29/11/2020, 13:43
  */
 public class BestScoresView extends VBox {
+  private Label title;
   /*------------------------------------------------------------------
                               Methods
    ------------------------------------------------------------------*/
@@ -21,7 +23,7 @@ public class BestScoresView extends VBox {
   // private
   private void init(Collection<BestScore> bestScores) {
     // create the tile for the best scores, add its style class, and add it to the main vbox
-    final Label title = new Label("Best scores");
+    title = new Label("Best scores");
     title.getStyleClass().add("text_");
     this.getChildren().add(title);
 
@@ -33,7 +35,7 @@ public class BestScoresView extends VBox {
       this.getChildren().add(scoreLabel);
     }
 
-    while (this.getChildren().size() <= 4) { //TODO Util this, and check in the Writer too
+    while (this.getChildren().size() <= Util.maxBestScores) { //TODO Util this, and check in the Writer too
       Label scoreLabel = new Label("----: ----");
       scoreLabel.getStyleClass().add("text_");
 
@@ -43,6 +45,9 @@ public class BestScoresView extends VBox {
     this.setAlignment(Pos.CENTER);
   }
   // public
+  public void addTitleStyleClass(String class_) {
+    this.title.getStyleClass().add(class_);
+  }
    
    /*------------------------------------------------------------------
                             Constructors

@@ -7,9 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -17,6 +15,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import model.PacmanGame;
 import model.PacmanPainter;
+import model.util.DAO.ConcreteFileFactory;
+import model.util.DAO.files.FileType;
 import model.util.Util;
 
 import java.util.Collection;
@@ -56,86 +56,6 @@ public class MainView extends Scene {
   }
 
   /**
-   *  Initialize all the components in the main menu
-   *  At this point, the game is not created yet
-   * */
-  private void initMenu() {
-    final Label title = new Label("P A C M A N");
-    title.getStyleClass().add("title"); // add the class to refer to the stylesheet used below
-
-    Button  onePlayerPlay = new Button("1 player"),
-            twoPlayersPLay = new Button("2 players"),
-            exit = new Button("Exit");
-
-    // On action, we set the number of players to 1, and we start the game
-    onePlayerPlay.setOnAction(event -> {
-      Util.player = 1;
-      this.startGame();
-    });
-
-    // add a tooltip to 1player button
-    final Tooltip onePlayerTooltip = new Tooltip("Start a game for one player");
-    onePlayerPlay.setTooltip(onePlayerTooltip);
-//    onePlayerTooltip.getStyleClass().add("tooltip");
-
-    // On action, we set the number of players to 2, and we start the game
-    twoPlayersPLay.setOnAction(event -> {
-      Util.player = 2;
-      this.startGame();
-    });
-
-    // add a tooltip to 2players button
-    final Tooltip twoPlayersTooltip = new Tooltip("Start a game for two players");
-    twoPlayersPLay.setTooltip(twoPlayersTooltip);
-    twoPlayersTooltip.getStyleClass().add("tooltip");
-
-    // add tooltip to exit button
-    final Tooltip exitTooltip = new Tooltip("Don't do it");
-    exit.setTooltip(exitTooltip);
-    exitTooltip.getStyleClass().add("tooltip");
-
-    exit.setOnAction(event -> System.exit(0));  // exit button closes the app
-
-    // all the containers used in the main menu
-    final BorderPane container = new BorderPane();
-    final VBox playButtonsContainer;
-    final HBox exitButtonContainer; //FIXME: try to align its children without having to create this. Same for below
-    final HBox titleContainer;
-
-    /**
-     *  Here, we are initializing all the containers, setting their alignement to center, adding spacing etc
-     *  we also instantiate them and add their children at the same time
-     *  We bind the stylesheet to the main container, and add extra css where needed
-     * */
-    playButtonsContainer = new VBox(onePlayerPlay, twoPlayersPLay);
-    playButtonsContainer.setAlignment(Pos.CENTER);
-    playButtonsContainer.setSpacing(50.d);
-
-    exitButtonContainer = new HBox(exit);
-    exitButtonContainer.setAlignment(Pos.CENTER);
-
-    titleContainer = new HBox(title);
-    titleContainer.setAlignment(Pos.CENTER);
-
-    container.getStylesheets().add("fonts/fontstyle.css");
-    container.setStyle("-fx-padding: 20px");
-
-    // Set the different parts of the main container
-    container.setTop(titleContainer);
-    container.setCenter(playButtonsContainer);
-    container.setBottom(exitButtonContainer);
-
-    // bind the width and height to current scene width and height
-    container.minHeightProperty().bind( this.heightProperty() );
-    container.maxHeightProperty().bind( this.widthProperty() );
-    container.minWidthProperty().bind( this.widthProperty() );
-    container.maxWidthProperty().bind( this.widthProperty() );
-
-    // add the main container to the root
-    ( (Group) this.getRoot() ).getChildren().add(container);
-  }
-
-  /**
    * initialize all the listeners
    * */
   private void initListeners() {
@@ -164,6 +84,68 @@ public class MainView extends Scene {
   }
 
   // public
+  /**
+   *  Initialize all the components in the main menu
+   *  At this point, the game is not created yet
+   * */
+  public void initMenu() {
+    this.setRoot(new Group());
+    final Label title = new Label("P A C M A N");
+    title.getStyleClass().add("title"); // add the class to refer to the stylesheet used below
+
+    MainMenuButton
+      onePlayerPlay = new MainMenuButton("1 player", "Start a game for one player", event -> {
+      Util.player = 1;  // On action, we set the number of players to 1, and we start the game
+      this.startGame();
+    }),
+      twoPlayersPLay = new MainMenuButton("2 players", "Start a game for two players", event -> {
+        Util.player = 2; // On action, we set the number of players to 2, and we start the game
+        this.startGame();
+      }),
+      bestScoresButton = new MainMenuButton("Best scores", "The current best scores", event -> {
+        this.setRoot(new BestScoreMenuView(new BestScoresView(new ConcreteFileFactory().getLeaderboardDAO(FileType.XML).load())));
+      }),
+      exit = new MainMenuButton("Exit", "Don't do it", event -> System.exit(0));
+
+
+    // all the containers used in the main menu
+    final BorderPane container = new BorderPane();
+    final VBox playButtonsContainer;
+    final HBox exitButtonContainer; //FIXME: try to align its children without having to create this. Same for below
+    final HBox titleContainer;
+
+    /**
+     *  Here, we are initializing all the containers, setting their alignement to center, adding spacing etc
+     *  we also instantiate them and add their children at the same time
+     *  We bind the stylesheet to the main container, and add extra css where needed
+     * */
+    playButtonsContainer = new VBox(onePlayerPlay, twoPlayersPLay, bestScoresButton);
+    playButtonsContainer.setAlignment(Pos.CENTER);
+    playButtonsContainer.setSpacing(50.d);
+
+    exitButtonContainer = new HBox(exit);
+    exitButtonContainer.setAlignment(Pos.CENTER_RIGHT);
+
+    titleContainer = new HBox(title);
+    titleContainer.setAlignment(Pos.CENTER);
+
+    container.getStylesheets().add("fonts/fontstyle.css");
+    container.setStyle("-fx-padding: 20px");
+
+    // Set the different parts of the main container
+    container.setTop(titleContainer);
+    container.setCenter(playButtonsContainer);
+    container.setBottom(exitButtonContainer);
+
+    // bind the width and height to current scene width and height
+    container.minHeightProperty().bind( this.heightProperty() );
+    container.maxHeightProperty().bind( this.widthProperty() );
+    container.minWidthProperty().bind( this.widthProperty() );
+    container.maxWidthProperty().bind( this.widthProperty() );
+
+    // add the main container to the root
+    ( (Group) this.getRoot() ).getChildren().add(container);
+  }
    
    /*------------------------------------------------------------------
                             Constructors
