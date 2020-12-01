@@ -15,7 +15,6 @@ class PacmanGameTest {
 
     @BeforeEach
     void setUp() {
-        System.out.println("Setup PacmanGameTest");
         mockPlayer = createMock(Player.class);
         game = new PacmanGame("");
     }
@@ -24,7 +23,6 @@ class PacmanGameTest {
     void evolveAnyJ1() {
         Util.player=1;
 
-        System.out.println("Test Evolve Any J1");
         Util.player=1;
 
         game.evolve(Cmd.LEFT);
@@ -35,8 +33,6 @@ class PacmanGameTest {
     @Test
     void evolveIdleJ1() {
         Util.player=1;
-        System.out.println("Test Evolve Idle J1");
-
         game.evolve(Cmd.IDLE);
         assertEquals(game.getPlayer().getCurrentMoveDirection(),Direction.IDLE);
     }
@@ -45,7 +41,6 @@ class PacmanGameTest {
     void evolveAnyJ2() {
         Util.player=2;
 
-        System.out.println("Test Evolve Any J2");
         Util.player=1;
 
         game.setPlayerTurn(2);
@@ -58,7 +53,6 @@ class PacmanGameTest {
     void evolveIdleJ2() {
         Util.player=1;
 
-        System.out.println("Test Evolve Idle J2");
 
         game.setPlayerTurn(2);
         game.evolve(Cmd.IDLE);
@@ -68,7 +62,6 @@ class PacmanGameTest {
 
     @Test
     void evolveTheWorldMovePlayer() {
-        System.out.println("Test EvolveWorld player move");
         int x = game.getPlayer().getX();
         int y = game.getPlayer().getY();
 
@@ -83,7 +76,6 @@ class PacmanGameTest {
 
     @Test
     void evolveTheWorldMovePlayerIdle() {
-        System.out.println("Test EvolveWorld player idle");
         int x = game.getPlayer().getX();
         int y = game.getPlayer().getY();
 

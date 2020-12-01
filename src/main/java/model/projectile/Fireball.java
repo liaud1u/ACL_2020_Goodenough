@@ -2,6 +2,7 @@ package model.projectile;
 
 import model.labyrinthe.Labyrinthe;
 import model.Direction;
+import model.monster.MonsterState;
 import model.util.Util;
 
 /**
@@ -124,7 +125,7 @@ public class Fireball implements Projectile {
 
     @Override
     public void evolve(Labyrinthe labyrinthe) {
-        if (labyrinthe.getCaseLabyrinthe(getX(), getY()).getMonstre() != null) {
+        if (labyrinthe.getCaseLabyrinthe(getX(), getY()).getMonstre() != null && labyrinthe.getCaseLabyrinthe(getX(), getY()).getMonstre().getLifeState()!= MonsterState.DEAD) {
             destroy();
             labyrinthe.getCaseLabyrinthe(getX(), getY()).getMonstre().destroy();
             hasDestroyMonster = true;
@@ -136,13 +137,13 @@ public class Fireball implements Projectile {
             destroy();
         }
 
-        if (labyrinthe.getCaseLabyrinthe(getxPrec(), getyPrec()).getMonstre() != null) {
+        if (labyrinthe.getCaseLabyrinthe(getxPrec(), getyPrec()).getMonstre() != null && labyrinthe.getCaseLabyrinthe(getX(), getY()).getMonstre().getLifeState()!= MonsterState.DEAD) {
             destroy();
             labyrinthe.getCaseLabyrinthe(getxPrec(),getyPrec()).getMonstre().destroy();
             hasDestroyMonster = true;
         }
 
-        if (labyrinthe.getCaseLabyrinthe(getX(), getY()).getMonstre() != null && alive) {
+        if (labyrinthe.getCaseLabyrinthe(getX(), getY()).getMonstre() != null && alive && labyrinthe.getCaseLabyrinthe(getX(), getY()).getMonstre().getLifeState()!= MonsterState.DEAD) {
             destroy();
             labyrinthe.getCaseLabyrinthe(getX(), getY()).getMonstre().destroy();
             hasDestroyMonster = true;
