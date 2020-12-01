@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import model.monster.Monster;
 import model.pastille.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -96,11 +97,14 @@ public class Case {
    * @param c Case voisin à ajouter
    */
   public void ajoutVoisin(Case c) {
-    if (!this.voisins.contains(c)) {
-      this.voisins.add(c);
-    }
-    if (!c.voisins.contains(this)) {
-      c.voisins.add(this);
+    if (c != null)
+    {
+      if (!this.voisins.contains(c)) {
+        this.voisins.add(c);
+      }
+      if (!c.voisins.contains(this)) {
+        c.voisins.add(this);
+      }
     }
   }
 
@@ -317,13 +321,19 @@ public class Case {
    * @return int distance
    */
   public int distance(Case c1) {
-    int distance;
-    int x = getX() - c1.getX();
-    int y = getY() - c1.getY();
 
-    distance = Math.abs(x) + Math.abs(y);
+    int distance = 0;
+  
+      if (c1 != null)
+      {
+        int x = getX() - c1.getX();
+        int y = getY() - c1.getY();
+  
+        distance = Math.abs(x) + Math.abs(y);
+  
+      }
+      return distance;
 
-    return distance;
   }
 
   /**
