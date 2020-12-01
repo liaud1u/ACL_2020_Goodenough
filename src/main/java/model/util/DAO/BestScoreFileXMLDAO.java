@@ -41,11 +41,19 @@ public class BestScoreFileXMLDAO implements BestScoreDAO {
   public final Document generateDocument() throws ParserConfigurationException, IOException, SAXException {
     File file = new File(this.URL);
 
-    // create all instances for the reading of the xml file
     DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-    Document document = documentBuilder.parse(file);
-    document.getDocumentElement().normalize();  // optional
+    Document document;
+
+    if (!file.exists()) {  // create file if it does not exists
+      document = documentBuilder.newDocument();
+      Element root = document.createElement("bestscores");
+      document.appendChild(root);
+    } else {
+      // create all instances for the reading of the xml file
+      document = documentBuilder.parse(file);
+      document.getDocumentElement().normalize();  // optional
+    }
 
     return document;
   }
@@ -158,6 +166,6 @@ public class BestScoreFileXMLDAO implements BestScoreDAO {
                             Constructors
    ------------------------------------------------------------------*/
   private BestScoreFileXMLDAO() {
-    this.URL = "best_scores.xml";
+    this.URL = "src/main/java/model/best_scores.xml";
   }
 }

@@ -26,7 +26,7 @@ public abstract class Util {
   public static DoubleProperty rightWidthProperty = new SimpleDoubleProperty();
 
   // VALUES
-  public final static int maxBestScores = 3;
+  public final static int maxBestScores = 4;
   public final static int maxPlayerNameSize = 4;
   public static boolean DEBUG_MODE = false;
   public static double rightTextHeight = 64;
