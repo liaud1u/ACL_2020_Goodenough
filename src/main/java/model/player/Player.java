@@ -172,6 +172,16 @@ public class Player {
   }
 
   /**
+   * Move the player manually USED FOR TEST PURPOSES
+   * @param x x coord of player
+   * @param y y coord of player
+   */
+  public void moveToPosition(int x, int y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  /**
    * Getter of the precedent x of the player
    * @return int precedent x
    */
