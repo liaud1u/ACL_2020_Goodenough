@@ -58,7 +58,7 @@ public class RightSideView extends VBox {
         Label timerLabel = new Label("Time left : ");   // label to introduce the timer view
 
         // button to go back to the menu, with a tooltip
-        this.buttonExit = new Label("Exit");
+        this.buttonExit = new Label("Menu");
         this.buttonExit.getStyleClass().add("button");
         this.buttonExit.setOnMousePressed(event -> ((MainView) this.getScene()).initMenu());
 
