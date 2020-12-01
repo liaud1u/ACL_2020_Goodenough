@@ -5,6 +5,7 @@ import fxengine.GameLoop;
 import fxengine.GamePainter;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -56,6 +57,23 @@ public class MainView extends Scene {
     loop.start();
   }
 
+  private VBox pauseContainer;
+  private Label pauseLabel;
+
+  private void pause() {
+    for (Node n : this.getRoot().getChildrenUnmodifiable())
+      n.setOpacity(.3);
+
+    ((Group) this.getRoot()).getChildren().add(this.pauseContainer);
+  }
+
+  private void play() {
+    for (Node n : this.getRoot().getChildrenUnmodifiable())
+      n.setOpacity(1.);
+
+    ((Group) this.getRoot()).getChildren().remove(this.pauseContainer);
+  }
+
   /**
    * initialize all the listeners
    * */
@@ -69,8 +87,14 @@ public class MainView extends Scene {
         this.controllerP2.keyPressed(event);
 
       if (event.getCode().equals(KeyCode.ESCAPE)) {
-        if (this.loop.isPaused()) this.loop.play();
-        else this.loop.pause();
+        if (this.loop.isPaused()) {
+          this.play();
+          this.loop.play();
+        }
+        else {
+          this.pause();
+          this.loop.pause();
+        }
       }
     });
 
@@ -172,5 +196,15 @@ public class MainView extends Scene {
     this.controllerP2 = controllerP2;
 
     this.initMenu();
+    this.getStylesheets().add("fonts/fontstyle.css");
+    this.pauseLabel = new Label("PAUSED");
+    this.pauseLabel.getStyleClass().add("text_");
+    this.pauseLabel.getStyleClass().add("big_text_");
+    this.pauseLabel.setText("PAUSED");
+
+    this.pauseContainer = new VBox(this.pauseLabel);
+    this.pauseContainer.setAlignment(Pos.CENTER);
+    this.pauseContainer.prefHeightProperty().bind(Util.currentWindowHeightProperty);
+    this.pauseContainer.prefWidthProperty().bind(Util.currentWindowWidthProperty);
   }
 }
