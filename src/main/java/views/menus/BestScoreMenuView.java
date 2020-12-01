@@ -1,12 +1,9 @@
 package views.menus;
 
 import javafx.geometry.Insets;
-import javafx.scene.Group;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 /**
@@ -30,14 +27,18 @@ public class BestScoreMenuView extends BorderPane {
   public BestScoreMenuView(BestScoresView bestScoresView) {
     this.getStylesheets().add("fonts/fontstyle.css");
     this.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+    this.setPadding(new Insets(20.));
 
     Button backButton = new Button("Menu");
     backButton.setOnAction(event -> {
       ((MainView) this.getScene()).initMenu();
     });
 
+    HBox container = new HBox(backButton);
+    container.setAlignment(Pos.CENTER);
+
     bestScoresView.addTitleStyleClass("big_text_");
     this.setCenter(bestScoresView);
-    this.setBottom(backButton);
+    this.setBottom(container);
   }
 }

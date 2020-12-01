@@ -48,7 +48,7 @@ public class RightSideView extends VBox {
         }
         Label scoreLabel = new Label("Score : ");
         Label timerLabel = new Label("Time left : ");
-        buttonExit = new Label("EXIT");
+        buttonExit = new Label("MENU");
 
         scoreLabel.getStyleClass().add("text_");
         timerLabel.getStyleClass().add("text_");
@@ -59,7 +59,9 @@ public class RightSideView extends VBox {
         scoreBox.setAlignment(Pos.TOP_CENTER);
         timerBox.setAlignment(Pos.TOP_CENTER);
         buttonExit.setTextFill(Color.BLACK);
-        buttonExit.setOnMousePressed(event -> System.exit(0));
+        buttonExit.setOnMousePressed(event -> {
+            ((MainView) this.getScene()).initMenu();
+        });
 
         this.getChildren().addAll(scoreBox, timerBox, this.ammoView, bestScoresView, buttonExit);
     }
