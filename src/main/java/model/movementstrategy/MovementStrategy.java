@@ -29,4 +29,9 @@ public interface MovementStrategy {
      * @return boolean true if a respawn strategy
      */
     boolean isRespawn();
+
+    /**
+     * Choose a direction
+     */
+    void chooseDirection();
 }

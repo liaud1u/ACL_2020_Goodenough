@@ -55,8 +55,6 @@ public class FollowMovementStrategy implements MovementStrategy {
     @Override
     public void move() {
 
-
-
         //On choisit une direction permettant de se rapprocher au plus du joueur
         chooseDirection();
 

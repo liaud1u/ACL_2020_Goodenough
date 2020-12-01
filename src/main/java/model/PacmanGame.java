@@ -269,6 +269,13 @@ public class PacmanGame implements Game {
     }
   }
 
+  public void setAmmos(int ammos) {
+    this.ammos = ammos;
+  }
+
+  public void setLabyrinthe(Labyrinthe labyrinthe) {
+    this.labyrinthe = labyrinthe;
+  }
 
   /**
    * Create fireball ahead of the current player

@@ -6,15 +6,11 @@ import org.junit.jupiter.api.Test;
 class FollowMovementStrategyTest {
 
     @BeforeEach
-    void setUp() {
-    }
+    void setUp() {  }
+
 
     @Test
-    void move() {
-    }
-
-    @Test
-    void chooseDirection() {
+    void chooseDirectionOnePlayer() {
     }
 
 }

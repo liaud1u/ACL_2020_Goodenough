@@ -61,13 +61,13 @@ public class RandomMovementStrategy implements MovementStrategy {
 
         //Si le monstre est statique, on choisis une direction
         if (direction == Direction.IDLE)
-            chooseRandomDirection();
+            chooseDirection();
 
         //Si la direction qu'empruntait le monstre précedement n'est plus disponible, on en choisis une nouvelle
         if (!(nextX >= 0 && nextX < Util.MAZE_SIZE - 1 && nextY >= 0 && nextY < Util.MAZE_SIZE - 1 && previousPossibleDirection.equals(labyrinthe.getFreeDirection(monstre.getX(), monstre.getY())))) {
 
 
-            chooseRandomDirection();
+            chooseDirection();
 
 
             // Le modulo de java peux retourner un nombre négatif, on comble donc pour obtenir toujours des positifs
@@ -84,7 +84,7 @@ public class RandomMovementStrategy implements MovementStrategy {
     /**
      * The strategy will choose a random direction (but will not go back, however it's the only solution)
      */
-    public void chooseRandomDirection() {
+    public void chooseDirection() {
         previousDirection = direction;
 
         Case monsterLocation = labyrinthe.getCaseLabyrinthe(monstre.getX(), monstre.getY());

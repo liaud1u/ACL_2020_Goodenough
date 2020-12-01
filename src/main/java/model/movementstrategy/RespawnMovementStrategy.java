@@ -115,6 +115,11 @@ public class RespawnMovementStrategy implements MovementStrategy{
         return true;
     }
 
+
+    @Override
+    public void chooseDirection() {
+    }
+
     /**
      * Return the old movement strategy before the respawn
      * @return Movement strategy

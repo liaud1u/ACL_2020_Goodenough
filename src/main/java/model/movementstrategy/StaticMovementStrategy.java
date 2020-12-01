@@ -28,6 +28,10 @@ public class StaticMovementStrategy implements MovementStrategy {
         return false;
     }
 
+    @Override
+    public void chooseDirection() {
+    }
+
     /**
      * Setter of the direction of the strategy
      * @param direction direction
