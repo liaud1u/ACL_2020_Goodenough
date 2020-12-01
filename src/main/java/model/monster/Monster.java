@@ -99,7 +99,7 @@ public class Monster {
      * @param v
      */
     public void setFear(int v) {
-        if(lifeState == MonsterState.ALIVE) {
+        if(lifeState != MonsterState.DEAD) {
             if(v==0)
                 lifeState = MonsterState.FEAR1;
             else

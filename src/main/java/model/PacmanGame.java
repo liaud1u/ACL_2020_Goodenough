@@ -255,7 +255,7 @@ public class PacmanGame implements Game {
         if(player.isInvincible() || secondPlayer.isInvincible()) {
 
 
-          if(player.getTimerInvincible().toSeconds()>Util.INVINCIBLE_TIME-4) {
+          if(player.getTimerInvincible().toSeconds() > Util.INVINCIBLE_TIME-4) {
             monstre.setFear((int) ((player.getTimerInvincible().toSeconds()) % 2));
           }
           else {
