@@ -1,9 +1,5 @@
 package model.monster;
 
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
 import model.PacmanGame;
 import model.monster.movementstrategy.MovementStrategy;
 import model.monster.movementstrategy.RandomMovementStrategy;
@@ -154,7 +150,7 @@ public class Monster {
         this.xPrec = this.x;
         this.x = x;
 
-        if(lifeState==MonsterState.ALIVE)
+        if(lifeState!=MonsterState.DEAD)
             game.getLabyrinthe().getCaseLabyrinthe(x, y).addMonster(this);
     }
 
@@ -199,7 +195,7 @@ public class Monster {
         this.yPrec = this.y;
         this.y = y;
 
-        if(lifeState==MonsterState.ALIVE)
+        if(lifeState!=MonsterState.DEAD)
             game.getLabyrinthe().getCaseLabyrinthe(x, y).addMonster(this);
     }
 
