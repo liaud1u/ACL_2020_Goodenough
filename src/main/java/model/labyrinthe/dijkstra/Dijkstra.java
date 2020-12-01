@@ -54,7 +54,8 @@ public class Dijkstra {
      * @param target Case target
      * @return int distance
      */
-    public int getDistance(Case from, Case target){
+    public ArrayList<Case> getChemin(Case from, Case target){
+        ArrayList<Case> chemin = new ArrayList<>();
         Case nearestFrom = maze.getNearestInternal(from.getX(),from.getY());
         Case nearestTarget = maze.getNearestInternal(target.getX(),target.getY());
 
@@ -63,8 +64,8 @@ public class Dijkstra {
             succSommet(nearestTarget);
         }
 
-        int distance = cheminFinal(nearestFrom, nearestTarget);
-        return distance;
+        chemin = cheminFinal(nearestFrom, nearestTarget);
+        return chemin;
     }
 
     /**
@@ -237,33 +238,41 @@ public class Dijkstra {
      * @param caseFinale Target case
      * @return int distance
      */
-    private int cheminFinal(Case caseDepart, Case caseFinale){
+    private ArrayList cheminFinal(Case caseDepart, Case caseFinale){
 
+        ArrayList<Case> chemin = new ArrayList();
         System.out.println("Case de départ");
         System.out.println(caseDepart.toString());
-        //System.out.println("Case finale");
-        //System.out.println(caseFinale.toString());
+        System.out.println("Case finale");
+        System.out.println(caseFinale.toString());
 
-        System.out.println("_____________________________________");
+        //System.out.println("_____________________________________");
 
         int distanceFinale = 0;
-        System.out.println("tableau des sommets fermés");
-        System.out.println(sommetFerme.toString());
+        //System.out.println("tableau des sommets fermés");
+        //System.out.println(sommetFerme.toString());
 
         int index = estDansTab(sommetFerme, caseFinale);
-
+        //System.out.println(distanceFinale);
         Case caseCourante = sommetFerme.get(index);
-        System.out.println(caseCourante.toString());
         //On part de la case finale pour retracer le chemin parcouru
+
+        chemin.add(caseFinale);
         do {
-            distanceFinale++;
-            System.out.println("Case courante");
-            //System.out.println(caseCourante.toString());
-            caseCourante = caseCourante.getCasePrecedente();
             System.out.println(caseCourante.toString());
+            distanceFinale++;
+            caseCourante = caseCourante.getCasePrecedente();
+            caseCourante.setEstUnMur(false);
+            chemin.add(caseCourante);
+
 
         } while (caseCourante.getX() != caseDepart.getX() || caseCourante.getY() != caseDepart.getY());
 
-        return distanceFinale;
+        System.out.println("La distance finale est");
+        System.out.println(distanceFinale);
+
+        System.out.println("Le chemin est");
+        System.out.println(chemin);
+        return chemin;
     }
 }
