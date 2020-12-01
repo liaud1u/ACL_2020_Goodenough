@@ -1,6 +1,7 @@
-package model.util;
+package model.util.DAO;
 
 import model.BestScore;
+import model.util.Util;
 
 import java.util.Collection;
 

@@ -7,10 +7,10 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.HBox;
 import model.BestScore;
 import model.PacmanGame;
-import model.monster.movementstrategy.ConcreteFileFactory;
+import model.util.DAO.ConcreteFileFactory;
 import model.util.Util;
-import model.util.files.BestScoreFileXMLDAO;
-import model.util.files.FileType;
+import model.util.DAO.BestScoreFileXMLDAO;
+import model.util.DAO.files.FileType;
 
 
 /** class used to display the lost level menu

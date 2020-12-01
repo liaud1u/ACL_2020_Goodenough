@@ -1,15 +1,12 @@
-package model.monster.movementstrategy;
+package model.util.DAO;
 
-import model.util.AbstractDAOFactory;
-import model.util.BestScoreDAO;
-import model.util.files.BestScoreFileXMLDAO;
-import model.util.files.FileType;
+import model.util.DAO.files.FileType;
 
 /**
  * @author Ribeyrolles Matthieu
- * 30/11/2020, 22:36
+ * 30/11/2020, 21:03
  */
-public class ConcreteFileFactory extends AbstractDAOFactory {
+public abstract class AbstractDAOFactory {
   /*------------------------------------------------------------------
                               Methods
    ------------------------------------------------------------------*/
@@ -18,14 +15,8 @@ public class ConcreteFileFactory extends AbstractDAOFactory {
   // setters
   // private
   // public
-  @Override
-  public BestScoreDAO getLeaderboardDAO(FileType fIleType) {
-    switch (fIleType) {
-      case XML:
-      default: return BestScoreFileXMLDAO.getInstance();
-    }
-  }
-   
+//  public abstract AbstractDAOFactory getAbstractDAOFactory();
+  public abstract BestScoreDAO getLeaderboardDAO(FileType fIleType);
    /*------------------------------------------------------------------
                             Constructors
    ------------------------------------------------------------------*/

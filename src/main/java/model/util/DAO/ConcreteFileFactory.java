@@ -1,12 +1,12 @@
-package model.util;
+package model.util.DAO;
 
-import model.util.files.FileType;
+import model.util.DAO.files.FileType;
 
 /**
  * @author Ribeyrolles Matthieu
- * 30/11/2020, 21:03
+ * 30/11/2020, 22:36
  */
-public abstract class AbstractDAOFactory {
+public class ConcreteFileFactory extends AbstractDAOFactory {
   /*------------------------------------------------------------------
                               Methods
    ------------------------------------------------------------------*/
@@ -15,8 +15,14 @@ public abstract class AbstractDAOFactory {
   // setters
   // private
   // public
-//  public abstract AbstractDAOFactory getAbstractDAOFactory();
-  public abstract BestScoreDAO getLeaderboardDAO(FileType fIleType);
+  @Override
+  public BestScoreDAO getLeaderboardDAO(FileType fIleType) {
+    switch (fIleType) {
+      case XML:
+      default: return BestScoreFileXMLDAO.getInstance();
+    }
+  }
+   
    /*------------------------------------------------------------------
                             Constructors
    ------------------------------------------------------------------*/

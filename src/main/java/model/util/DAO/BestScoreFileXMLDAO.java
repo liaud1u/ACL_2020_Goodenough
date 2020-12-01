@@ -1,7 +1,6 @@
-package model.util.files;
+package model.util.DAO;
 
 import model.BestScore;
-import model.util.BestScoreDAO;
 import model.util.Util;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

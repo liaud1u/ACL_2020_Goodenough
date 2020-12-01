@@ -7,10 +7,10 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import model.monster.movementstrategy.ConcreteFileFactory;
+import model.util.DAO.ConcreteFileFactory;
 import model.util.SpriteTools;
 import model.util.Util;
-import model.util.files.FileType;
+import model.util.DAO.files.FileType;
 import views.ScoreView;
 import views.TimerView;
 

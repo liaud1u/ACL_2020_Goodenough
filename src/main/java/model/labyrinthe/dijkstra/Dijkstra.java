@@ -262,7 +262,7 @@ public class Dijkstra {
             caseCourante = caseCourante.getCasePrecedente();
             System.out.println(caseCourante.toString());
 
-        } while (!(caseCourante.getX() == caseDepart.getX() && caseCourante.getY() == caseDepart.getY()));
+        } while (caseCourante.getX() != caseDepart.getX() || caseCourante.getY() != caseDepart.getY());
 
         return distanceFinale;
     }

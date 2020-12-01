@@ -1,4 +1,4 @@
-package model.util.files;
+package model.util.DAO.files;
 
 /**
  * @author Ribeyrolles Matthieu
