@@ -357,7 +357,7 @@ public class PacmanGame implements Game {
     this.generateMonster(difficulty.getNbMonstreStatic(), difficulty.getNbMonstreRandom(), difficulty.getNbMonstreFollow());
 
 
-    this.generateAllPastilles(difficulty.getScorePastilleAmount(), 4, 10, 2);
+    this.generateAllPastilles(difficulty.getScorePastilleAmount(), difficulty.getTimePastilleAmount(), difficulty.getAmmosPastilleAmount(), difficulty.getInvincibilityPastilleAmount());
 
 
     this.gameTimer.setCurrentTimer(difficulty.getTime());
@@ -471,14 +471,14 @@ public class PacmanGame implements Game {
           cases[x][y].addPastille(new AmmoPastille(this, type));
         break;
         case TIME:
-          cases[x][y].addPastille(new TimePastille(this, type,10)); // TODO : added time in difficulty
+          cases[x][y].addPastille(new TimePastille(this, type,10));
         break;
         case INVINCIBILITY:
           cases[x][y].addPastille(new InvinciblePastille(this,type));
           break;
         case SCORE:
         default:
-          cases[x][y].addPastille(new ScorePastille(this, type, 10)); // TODO : added score in difficulty
+          cases[x][y].addPastille(new ScorePastille(this, type, 100));
           this.labyrinthe.addPastille();
         break;
       }

@@ -4,14 +4,29 @@ package model;
  * Enum for the difficulty
  */
 public enum Difficulty {
-    EASY(5, 2, 1, 0, 50),
-    MEDIUM(10, 1, 1, 1, 44),
-    HARD(15, 0, 2, 1, 40);
+    EASY(5, 5,  4,6,2, 1, 0, 50),
+    MEDIUM(10, 3,2,3,1, 1, 1, 44),
+    HARD(15, 1,1,2,0, 2, 1, 40);
 
     /**
-     * Amount of pastille
+     * Amount of score pastille
      */
     private final int scorePastilleAmount;
+
+    /**
+     * Amount of ammos coins
+     */
+    private final int ammosPastilleAmount;
+
+    /**
+     * Amount of invincibility coins
+     */
+    private final int invincibilityPastilleAmount;
+
+    /**
+     *  Amount of time coins
+     */
+    private final int timePastilleAmount;
 
     /**
      * Amount of static monster
@@ -41,8 +56,11 @@ public enum Difficulty {
      * @param nbMonstreFollowing amount of following monster with that difficulty
      * @param time time with that difficulty
      */
-    Difficulty(int scorePastilleAmount, int nbMonstreStatic, int nbMonstreRandom, int nbMonstreFollowing, int time) {
+    Difficulty(int scorePastilleAmount, int timePastilleAmount, int invincibilityPastilleAmount, int ammosPastilleAmount,int nbMonstreStatic, int nbMonstreRandom, int nbMonstreFollowing, int time) {
         this.scorePastilleAmount = scorePastilleAmount;
+        this.timePastilleAmount = timePastilleAmount;
+        this.invincibilityPastilleAmount = invincibilityPastilleAmount;
+        this.ammosPastilleAmount = ammosPastilleAmount;
         this.nbMonstreStatic = nbMonstreStatic;
         this.nbMonstreRandom = nbMonstreRandom;
         this.nbMonstreFollow = nbMonstreFollowing;
@@ -87,5 +105,17 @@ public enum Difficulty {
      */
     public int getTime() {
         return time;
+    }
+
+    public int getAmmosPastilleAmount() {
+        return ammosPastilleAmount;
+    }
+
+    public int getInvincibilityPastilleAmount() {
+        return invincibilityPastilleAmount;
+    }
+
+    public int getTimePastilleAmount() {
+        return timePastilleAmount;
     }
 }
