@@ -166,6 +166,6 @@ public class BestScoreFileXMLDAO implements BestScoreDAO {
                             Constructors
    ------------------------------------------------------------------*/
   private BestScoreFileXMLDAO() {
-    this.URL = "src/main/java/model/best_scores.xml";
+    this.URL = "best_scores.xml";
   }
 }
