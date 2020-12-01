@@ -35,3 +35,7 @@
     -fx-padding: 3px;
     -fx-cursor: hand;
 }
+
+.button:hover {
+    -fx-text-fill: #3265ff;
+}

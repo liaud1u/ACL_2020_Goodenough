@@ -30,7 +30,8 @@ public class MainView extends Scene {
   private final GameController controllerP1;
   private final GameController controllerP2;
   private GameLoop loop;
-
+  private GamePainter painter;
+  private PacmanGame game;
   /*------------------------------------------------------------------
                               Methods
    ------------------------------------------------------------------*/
@@ -46,9 +47,9 @@ public class MainView extends Scene {
     ( (Group) this.getRoot() ).getChildren().clear(); // clear the previous main menu
     this.initListeners(); // init game listeners
 
-    PacmanGame game = new PacmanGame("helpFilePacman.txt"); // creates the game and bind it to the help file
+    game = new PacmanGame("helpFilePacman.txt"); // creates the game and bind it to the help file
 
-    GamePainter painter = new PacmanPainter((Group) this.getRoot(), game);  // create the painter
+    painter = new PacmanPainter((Group) this.getRoot(), game);  // create the painter
     painter.draw(0);  // first draw
 
     loop = new GameLoop(painter, this.controllerP1, this.controllerP2, game);  //creates the game loop
@@ -83,12 +84,17 @@ public class MainView extends Scene {
     });
   }
 
+  public void killInstances() {
+    if (this.loop != null) this.loop.stop();
+  }
+
   // public
   /**
    *  Initialize all the components in the main menu
    *  At this point, the game is not created yet
    * */
   public void initMenu() {
+    this.killInstances();
     this.setRoot(new Group());
     final Label title = new Label("P A C M A N");
     title.getStyleClass().add("title"); // add the class to refer to the stylesheet used below
