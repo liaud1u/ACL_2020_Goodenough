@@ -57,14 +57,15 @@ public class MainView extends Scene {
     loop.start();
   }
 
-  private VBox pauseContainer;
-  private Label pauseLabel;
+  private VBox pauseContainer;  // pause container for the display
+  private Label pauseLabel; // the label to display on pause menu
 
+  /** change opacity for the content and display the label*/
   private void pause() {
     for (Node n : this.getRoot().getChildrenUnmodifiable()) {
       if (n instanceof RightSideView) {
         for (Node nn : ((RightSideView) n).getChildren()) {
-          if (nn.getStyleClass().contains("button")) n.setOpacity(1.);
+          if (nn.getStyleClass().contains("button")) n.setOpacity(1.);  // if this is the menu button, don't change the opacity
           else nn.setOpacity(.3);
         }
       }
@@ -74,6 +75,7 @@ public class MainView extends Scene {
     ((Group) this.getRoot()).getChildren().add(this.pauseContainer);
   }
 
+  /** reset opacity to 1, and remove the label */
   private void play() {
     for (Node n : this.getRoot().getChildrenUnmodifiable())
       if (n instanceof RightSideView) {
