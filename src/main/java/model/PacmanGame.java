@@ -13,10 +13,11 @@ import model.movementstrategy.StaticMovementStrategy;
 import model.pastille.*;
 import model.player.Player;
 import model.player.PlayerType;
-import model.projectile.Fireball;
-import model.projectile.Projectile;
+import model.weapons.Fireball;
+import model.weapons.Projectile;
 import model.util.RandomGenerator;
 import model.util.Util;
+import model.weapons.StaticWeapon;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -77,6 +78,12 @@ public class PacmanGame implements Game {
   private final ArrayList<Projectile> projectiles = new ArrayList<>();
 
   /**
+   * All static weapons of the game
+   */
+  private final List<StaticWeapon> staticWeapons = new ArrayList<>();
+
+
+  /**
    * Score
    */
   private int score;
@@ -86,7 +93,11 @@ public class PacmanGame implements Game {
    */
   private int ammos;
 
-  private boolean hasShooted;
+  /**
+   * Number of landmines
+   */
+  private int landmines;
+
 
   /**
    * Current level of the game
@@ -134,9 +145,9 @@ public class PacmanGame implements Game {
     this.score = 0;
 
     this.ammos = 1;
+    this.landmines = 1;
     this.changeLevel(); // Generate the maze, the coins and the monsters
     this.justChanged = false;
-    this.hasShooted = false;
   }
 
 
@@ -247,7 +258,7 @@ public class PacmanGame implements Game {
 
     if (allPastillesEaten()) {
       gameState.setState(PacmanGameState.EtatJeu.VICTOIRE);
-    } else if (willHitMob || gameTimer.isOver()) {
+    } else if (willHitMob || gameTimer.isOver() || isWalkingOnLandmine()) {
       gameState.setState(PacmanGameState.EtatJeu.PERDU);
     } else {
       for (Monster monstre : monstres) {
@@ -453,6 +464,7 @@ public class PacmanGame implements Game {
       this.generatePastille(PastilleType.AMMO, amountAmmo);
       this.generatePastille(PastilleType.TIME, amountTime);
       this.generatePastille(PastilleType.INVINCIBILITY, amountInvincibility);
+      this.generatePastille(PastilleType.LANDMINE, amountAmmo);
     }
   }
 
@@ -482,6 +494,9 @@ public class PacmanGame implements Game {
         break;
         case INVINCIBILITY:
           cases[x][y].addPastille(new InvinciblePastille(this,type));
+          break;
+        case LANDMINE:
+          cases[x][y].addPastille(new LandminePastille(this,type));
           break;
         case SCORE:
         default:
@@ -601,10 +616,20 @@ public class PacmanGame implements Game {
     if(ammos < Util.MAX_AMMOS) ammos++;
   }
 
-  public boolean hasMaximumAmmos() {
-    return this.ammos == Util.MAX_AMMOS;
+  /**
+   * Method used to add mines to both players
+   */
+  public void addLandMine() {
+    if(landmines < Util.MAX_MINES) landmines++;
   }
 
+  public boolean hasMaximumAmmos() {
+    return this.ammos >= Util.MAX_AMMOS;
+  }
+
+  public boolean hasMaximumLandmines() {
+    return this.landmines >= Util.MAX_MINES;
+  }
   /**
    * Method used to add score to the game called by the coin when eaten
    * @param score amount of score given
@@ -630,6 +655,28 @@ public class PacmanGame implements Game {
     secondPlayer.setInvincible();
   }
 
+  public boolean isWalkingOnLandmine() {
+    Player playerWalking;
+
+    if (playerTurn == 1)
+      playerWalking = player;
+    else
+      playerWalking = secondPlayer;
+
+    for (StaticWeapon sw : staticWeapons) {
+      if (this.labyrinthe.getCaseLabyrinthe(sw.getX(), sw.getY()).getMonstre() != null) {
+        Monster monster = labyrinthe.getCaseLabyrinthe(sw.getX(), sw.getY()).getMonstre();
+        sw.destroy();
+        monster.destroy();
+      }
+
+      if(playerWalking.getX() == sw.getX() && playerWalking.getY() == sw.getY()) {
+        sw.destroy();
+        return true;
+      }
+    }
+    return false;
+  }
   /**
    * Détermine si le joueur vas manger une pastille
    */

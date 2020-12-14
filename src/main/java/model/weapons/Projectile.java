@@ -1,4 +1,4 @@
-package model.projectile;
+package model.weapons;
 
 import model.labyrinthe.Labyrinthe;
 
@@ -6,6 +6,7 @@ import model.labyrinthe.Labyrinthe;
  * Object projectile
  */
 public interface Projectile {
+
     /**
      * Mouvement of the projectile
      */

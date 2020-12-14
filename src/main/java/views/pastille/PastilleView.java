@@ -29,6 +29,9 @@ public  class PastilleView extends ImageView {
       case INVINCIBILITY:
         this.setImage(new Image("pastilles/invincibilitePastille.png", size, size,true,false));
         break;
+      case LANDMINE:
+        this.setImage(new Image("pastilles/landminePastille.png", size*1.5, size*1.5,true,false));
+        break;
       case SCORE:
       default:
         this.setImage(new Image("pastilles/scorePastille.png", size, size,true,false));
@@ -36,10 +39,10 @@ public  class PastilleView extends ImageView {
     }
     // define the coordinates of the view
     this.setX(
-      Util.slotSizeProperty.multiply(x).add(Util.slotSizeProperty.divide(2).subtract(size / 2)).get()    // FIXME: why do we have /2 here?
+      Util.slotSizeProperty.multiply(x).add(Util.slotSizeProperty.divide(2).subtract(this.getImage().getWidth()/ 2)).get()    // FIXME: why do we have /2 here?
     );
     this.setY(
-      Util.slotSizeProperty.multiply(y).add(Util.slotSizeProperty.divide(2).subtract(size / 2)).get()
+      Util.slotSizeProperty.multiply(y).add(Util.slotSizeProperty.divide(2).subtract(this.getImage().getWidth() / 2)).get()
     );
   }
 }

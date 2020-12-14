@@ -2,8 +2,8 @@ package views.projectileview;
 
 import javafx.scene.Group;
 import javafx.scene.image.Image;
-import model.projectile.Fireball;
-import model.projectile.Projectile;
+import model.weapons.Fireball;
+import model.weapons.Projectile;
 import model.util.Util;
 
 import java.util.ArrayList;
