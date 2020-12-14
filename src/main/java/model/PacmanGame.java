@@ -13,11 +13,9 @@ import model.movementstrategy.StaticMovementStrategy;
 import model.pastille.*;
 import model.player.Player;
 import model.player.PlayerType;
-import model.weapons.Fireball;
-import model.weapons.Projectile;
+import model.weapons.*;
 import model.util.RandomGenerator;
 import model.util.Util;
-import model.weapons.StaticWeapon;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -80,7 +78,7 @@ public class PacmanGame implements Game {
   /**
    * All static weapons of the game
    */
-  private final List<StaticWeapon> staticWeapons = new ArrayList<>();
+  private List<StaticWeapon> staticWeapons = new ArrayList<>();
 
 
   /**
@@ -94,10 +92,19 @@ public class PacmanGame implements Game {
   private int ammos;
 
   /**
-   * Number of landmines
+   * Number of static weapons
    */
-  private int landmines;
+  private int staticWeaponsCount;
 
+  /**
+   * Boolean if you just dropped a static weapon
+   */
+  private boolean droppedStaticWeapon;
+
+  /**
+   * Boolean if you just shooted
+   */
+  private boolean shooted;
 
   /**
    * Current level of the game
@@ -145,7 +152,7 @@ public class PacmanGame implements Game {
     this.score = 0;
 
     this.ammos = 1;
-    this.landmines = 1;
+    this.staticWeaponsCount = 1;
     this.changeLevel(); // Generate the maze, the coins and the monsters
     this.justChanged = false;
   }
@@ -206,11 +213,53 @@ public class PacmanGame implements Game {
     else
       playerEvolving=secondPlayer;
 
-    if (commande == Cmd.SHOOT) {
+
+    switch(commande) {
+      case SHOOT:
         summonFireball();
-    } else {
-      if (commande != Cmd.IDLE ) {
+        shooted = true;
+        break;
+      case PLACE_WEAPON:
+        addStaticWeapon(playerEvolving.getxPrec(), playerEvolving.getyPrec(), StaticWeaponType.LANDMINE);
+        droppedStaticWeapon = true;
+        break;
+      case UP:
+      case DOWN:
+      case LEFT:
+      case RIGHT:
         playerEvolving.setCurrentMoveDirection(Direction.valueOf(commande.name()));
+        break;
+      default:
+        droppedStaticWeapon = false;
+        shooted = false;
+        break;
+    }
+
+  }
+
+  /**
+   * Adds a static weapon at the given location
+   * If a static weapon already exists at this location, re enable it and update its type
+   * @param x coord x for the static weapon
+   * @param y coord y for the static weapon
+   * @param type type of the static weapon
+   */
+  private void addStaticWeapon(int x, int y, StaticWeaponType type) {
+    if(staticWeaponsCount >= 1 && !droppedStaticWeapon) {
+      boolean exists = false;
+      for(StaticWeapon sw : staticWeapons) {
+        if(sw.getX() == x && sw.getY() == y) {
+          sw.setTriggered(true);
+          sw.setTriggeredAnimation(false);
+          sw.setType(type);
+          exists = true;
+          staticWeaponsCount--;
+          break;
+        }
+      }
+      if(!exists) {
+        staticWeapons.add(new Landmine(x,y));
+        staticWeaponsCount--;
       }
     }
   }
@@ -264,8 +313,6 @@ public class PacmanGame implements Game {
       for (Monster monstre : monstres) {
         monstre.actionMovement();
         if(player.isInvincible() || secondPlayer.isInvincible()) {
-
-
           if(player.getTimerInvincible().toSeconds() > Util.INVINCIBLE_TIME-4) {
             monstre.setFear((int) ((player.getTimerInvincible().toSeconds()) % 2));
           }
@@ -280,12 +327,30 @@ public class PacmanGame implements Game {
     }
   }
 
+  /**
+   * used for debug purposes
+   * set the current number of ammos given in parameter
+   * @param ammos new current number of ammos
+   */
   public void setAmmos(int ammos) {
     this.ammos = ammos;
   }
 
+  /**
+   * used for debug purposes
+   * set the current labyrinthe with given parameter
+   * @param labyrinthe new labyrinthe
+   */
   public void setLabyrinthe(Labyrinthe labyrinthe) {
     this.labyrinthe = labyrinthe;
+  }
+
+  /**
+   * get the current static ammos currently in the maze
+   * @return list of static weapons
+   */
+  public List<StaticWeapon> getStaticWeapons() {
+    return staticWeapons;
   }
 
   /**
@@ -294,7 +359,7 @@ public class PacmanGame implements Game {
   public void summonFireball() {
     Player playerSummoning;
 
-    if(ammos>0) {
+    if(ammos>0 && !shooted) {
 
       if (playerTurn == 1) {
         playerSummoning = player;
@@ -374,6 +439,7 @@ public class PacmanGame implements Game {
     this.monstres = new ArrayList<>();
     this.generateMonster(difficulty.getNbMonstreStatic(), difficulty.getNbMonstreRandom(), difficulty.getNbMonstreFollow());
 
+    this.staticWeapons = new ArrayList<>();
 
     this.generateAllPastilles(difficulty.getScorePastilleAmount(), difficulty.getTimePastilleAmount(), difficulty.getAmmosPastilleAmount(), difficulty.getInvincibilityPastilleAmount());
 
@@ -620,15 +686,23 @@ public class PacmanGame implements Game {
    * Method used to add mines to both players
    */
   public void addLandMine() {
-    if(landmines < Util.MAX_MINES) landmines++;
+    if(staticWeaponsCount < Util.MAX_MINES) staticWeaponsCount++;
   }
 
+  /**
+   * Function who returns true when you have the maximum amount possible of ammos
+   * @return boolean true when you have the maximum amount possible of ammos
+   */
   public boolean hasMaximumAmmos() {
     return this.ammos >= Util.MAX_AMMOS;
   }
 
+  /**
+   * Function who returns true when you have the maximum amount possible of landmines
+   * @return boolean true when you have the maximum amount possible of landmines
+   */
   public boolean hasMaximumLandmines() {
-    return this.landmines >= Util.MAX_MINES;
+    return this.staticWeaponsCount >= Util.MAX_MINES;
   }
   /**
    * Method used to add score to the game called by the coin when eaten
@@ -655,6 +729,10 @@ public class PacmanGame implements Game {
     secondPlayer.setInvincible();
   }
 
+  /**
+   * Function who returns true when the player walks on a static weapon
+   * @return boolean true true when the player walks on a static weapon
+   */
   public boolean isWalkingOnLandmine() {
     Player playerWalking;
 
@@ -664,15 +742,16 @@ public class PacmanGame implements Game {
       playerWalking = secondPlayer;
 
     for (StaticWeapon sw : staticWeapons) {
-      if (this.labyrinthe.getCaseLabyrinthe(sw.getX(), sw.getY()).getMonstre() != null) {
-        Monster monster = labyrinthe.getCaseLabyrinthe(sw.getX(), sw.getY()).getMonstre();
-        sw.destroy();
-        monster.destroy();
-      }
-
-      if(playerWalking.getX() == sw.getX() && playerWalking.getY() == sw.getY()) {
-        sw.destroy();
-        return true;
+      if(sw.isTriggered()) {
+        if (this.labyrinthe.getCaseLabyrinthe(sw.getX(), sw.getY()).getMonstre() != null) {
+          Monster monster = labyrinthe.getCaseLabyrinthe(sw.getX(), sw.getY()).getMonstre();
+          sw.destroy();
+          monster.destroy();
+        }
+        if(playerWalking.getX() == sw.getX() && playerWalking.getY() == sw.getY()) {
+          sw.destroy();
+          return true;
+        }
       }
     }
     return false;

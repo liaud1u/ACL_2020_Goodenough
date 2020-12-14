@@ -10,4 +10,5 @@ public enum Cmd {
   DOWN,
   IDLE,
   SHOOT,
+  PLACE_WEAPON
 }

@@ -91,8 +91,8 @@ public class GameApplication extends Application {
 
 
     //Liste of the keycode for the two player (to detect for wich player the input is)
-    List<KeyCode> p1Code = Arrays.asList(KeyCode.LEFT, KeyCode.RIGHT,KeyCode.UP,KeyCode.SPACE,KeyCode.DOWN);
-    List<KeyCode> p2Code = Arrays.asList(KeyCode.Z, KeyCode.Q,KeyCode.S,KeyCode.D,KeyCode.A);
+    List<KeyCode> p1Code = Arrays.asList(KeyCode.LEFT, KeyCode.RIGHT,KeyCode.UP,KeyCode.SPACE,KeyCode.DOWN, KeyCode.CONTROL);
+    List<KeyCode> p2Code = Arrays.asList(KeyCode.Z, KeyCode.Q,KeyCode.S,KeyCode.D,KeyCode.A, KeyCode.E);
 
     // Création de la scene principale contenant le groupe de canvas
     Scene scene = new MainView(root, WIDTH, HEIGHT, p1Code, controller, controllerP2);
