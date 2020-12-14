@@ -16,11 +16,7 @@ import model.util.Util;
 
 import static javafx.scene.layout.CornerRadii.EMPTY;
 
-/**
- * @author Ribeyrolles Matthieu
- * 01/12/2020, 00:22
- */
-public class AmmoView extends HBox {
+public class StaticWeaponView extends HBox {
   private ImageView ammoView;
 
   private Group counter;
@@ -49,7 +45,7 @@ public class AmmoView extends HBox {
     this.counter = new Group(SpriteTools.getSpritedNumber(ammo, this.displayDigitsSize, 0)); // add the digits (many images)
     this.dividerLabel = new Label("/");
     this.dividerLabel.getStyleClass().add("text_");
-    this.maxAmmo = SpriteTools.getSpritedNumber(Util.MAX_AMMOS, this.displayDigitsSize, 0);
+    this.maxAmmo = SpriteTools.getSpritedNumber(Util.MAX_MINES, this.displayDigitsSize, 0);
 
     this.getChildren().addAll(this.counter, this.dividerLabel);  // add it to the root
     this.getChildren().addAll(this.maxAmmo);
@@ -59,26 +55,26 @@ public class AmmoView extends HBox {
                             Constructors
    ------------------------------------------------------------------*/
 
-  public AmmoView() {
+  public StaticWeaponView() {
     final double size = Util.slotSizeProperty.multiply(Util.RATIO_FIREBALL).get();
     final int spriteSize = (int) (size * 8);
 
-this.setBackground(new Background(new BackgroundFill(Color.RED, EMPTY, Insets.EMPTY)));
-    this.ammoView = new ImageView(  // create the imageView for the ammos
-      new Image("projectile/fireball/fireball_right.png",
-              spriteSize,
-      size,
-      true,
-        false));
+    this.setBackground(new Background(new BackgroundFill(Color.RED, EMPTY, Insets.EMPTY)));
+        this.ammoView = new ImageView(  // create the imageView for the ammos
+          new Image("pastilles/landminePastille.png",
+                  spriteSize,
+          size,
+          true,
+            false));
     this.ammoView.setViewport(new Rectangle2D(0, 0, size, size)); // set the viewport
 
-
+ 
 
     this.displayDigitsSize = String.valueOf(Util.MAX_AMMOS).length();
 
     this.setAlignment(Pos.CENTER);  // center elements on root
     this.setSpacing(5.); // spacing between elements
     this.getChildren().addAll(ammoView);  // add view to the children
-
+  
   }
 }

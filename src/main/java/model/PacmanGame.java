@@ -185,6 +185,14 @@ public class PacmanGame implements Game {
   }
 
   /**
+   * Getter for amount of current static weapons
+   * @return number of current static weapons
+   */
+  public int getStaticWeaponsCount() {
+    return staticWeaponsCount;
+  }
+
+  /**
    * Get the current player wich move
    * @return int playermoving
    */

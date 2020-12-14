@@ -13,6 +13,7 @@ import model.util.SpriteTools;
 import model.util.Util;
 import views.AmmoView;
 import views.ScoreView;
+import views.StaticWeaponView;
 import views.TimerView;
 
 public class RightSideView extends VBox {
@@ -22,6 +23,7 @@ public class RightSideView extends VBox {
     private ScoreView scoreView;    // the display for the score
     private BestScoresView bestScoresView;  // the display for the best scores
     private AmmoView ammoView;  //  the display for the ammo left
+    private StaticWeaponView staticWeaponView;
 
     public RightSideView() {
         SpriteTools.setImageSize(Util.rightWidthProperty.get(), 24);    // set image size using external method
@@ -47,6 +49,7 @@ public class RightSideView extends VBox {
         this.scoreView = new ScoreView();
         this.timerView = new TimerView();
         this.ammoView = new AmmoView();
+        this.staticWeaponView = new StaticWeaponView();
         try {
             // load the best scores and create the view
             this.bestScoresView = new BestScoresView(new ConcreteFileFactory().getLeaderboardDAO(FileType.XML).load());
@@ -73,7 +76,7 @@ public class RightSideView extends VBox {
         timerBox.setAlignment(Pos.TOP_CENTER);
 
         // finally add the elements to the root
-        this.getChildren().addAll(scoreBox, timerBox, this.ammoView, bestScoresView, buttonExit);
+        this.getChildren().addAll(scoreBox, timerBox, this.ammoView, this.staticWeaponView,bestScoresView, buttonExit);
     }
 
     /**
@@ -81,7 +84,7 @@ public class RightSideView extends VBox {
      * @param timer (:int)      : the current timer
      * @param ammos (:ammos)    : the current ammo
      * */
-    public void draw(int score, int timer, int ammos) {
+    public void draw(int score, int timer, int ammos, int staticWeapons) {
         //FIXME : find out why currentWindowProperty is NaN in init()
 
         // if button not null, set a translation to set it to the bottom of the window
@@ -89,5 +92,6 @@ public class RightSideView extends VBox {
         scoreView.draw(score);  // call draw method fot the score
         timerView.draw(timer);  // call draw method for the timer
         this.ammoView.draw(ammos);  // call the draw method for the ammo view
+        this.staticWeaponView.draw(staticWeapons);
     }
 }

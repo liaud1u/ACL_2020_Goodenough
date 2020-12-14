@@ -146,7 +146,7 @@ public class PacmanPainter implements GamePainter {
 
       this.projectileView.draw(ratio);
 
-      this.rightSideView.draw(game.getScore(), game.getGameTimer().getCurrentTimer(), this.game.getAmmos());
+      this.rightSideView.draw(game.getScore(), game.getGameTimer().getCurrentTimer(), this.game.getAmmos(), this.game.getStaticWeaponsCount());
       for (MonstreView monstre : monstreView) {
         monstre.draw(ratio);
       }

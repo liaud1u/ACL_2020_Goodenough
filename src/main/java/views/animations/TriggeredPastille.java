@@ -47,7 +47,8 @@ public class TriggeredPastille extends Group {
     switch (type) {
       case SCORE: this.text.setText(String.format("+%s", value)); break;
       case TIME: this.text.setText(String.format("+%s sec", value)); break;
-      case AMMO: this.text.setText("+1"); break;
+      case AMMO: case LANDMINE: this.text.setText("+1"); break;
+
     }
     this.setTranslateX(-this.text.getLayoutBounds().getWidth()/2);
     this.setTranslateY(-this.text.getLayoutBounds().getHeight()/2);
