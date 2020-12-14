@@ -90,6 +90,10 @@ public class PacmanController implements GameController {
 			case SPACE:
 				this.commandComplementaire = Cmd.SHOOT;
 				break;
+			case E:
+			case CONTROL:
+				this.commandComplementaire = Cmd.PLACE_WEAPON;
+			break;
 		}
 	}
 

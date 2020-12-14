@@ -1,4 +1,4 @@
-package model.projectile;
+package model.weapons;
 
 import model.Direction;
 import model.labyrinthe.Case;

@@ -4,7 +4,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import model.projectile.Fireball;
+import model.weapons.Fireball;
 import model.util.Util;
 
 public class FireballView extends Group {

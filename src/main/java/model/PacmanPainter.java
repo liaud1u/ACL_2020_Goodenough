@@ -4,6 +4,7 @@ import fxengine.GamePainter;
 import javafx.scene.Group;
 import model.monster.Monster;
 import model.util.Util;
+import model.weapons.StaticWeapon;
 import views.LabyrintheView;
 import views.MonstreView;
 import views.PlayerView;
@@ -11,6 +12,7 @@ import views.menus.EndLevelView;
 import views.menus.LostLevelView;
 import views.menus.RightSideView;
 import views.menus.WonLevelView;
+import views.projectileview.StaticWeaponsView;
 import views.projectileview.ProjectileView;
 
 import java.util.ArrayList;
@@ -69,6 +71,8 @@ public class PacmanPainter implements GamePainter {
    */
   private final ProjectileView projectileView;
 
+  private StaticWeaponsView staticWeaponView;
+
   /**
    * Largeur
    */
@@ -89,8 +93,10 @@ public class PacmanPainter implements GamePainter {
     this.labyrintheView = new LabyrintheView(game.getLabyrinthe());
     this.root.getChildren().add(this.labyrintheView);
 
-
+    staticWeaponView = new StaticWeaponsView(game.getStaticWeapons());
+    this.root.getChildren().add(staticWeaponView);
     this.addMonstres();
+
 
 
     this.playerView = new PlayerView(game.getPlayer());
@@ -145,6 +151,7 @@ public class PacmanPainter implements GamePainter {
         monstre.draw(ratio);
       }
 
+     staticWeaponView.draw();
     }
   }
 
@@ -163,6 +170,8 @@ public class PacmanPainter implements GamePainter {
     // On rajoute les nouvelles vues
     this.root.getChildren().add(labyrintheView);
 
+    staticWeaponView = new StaticWeaponsView(game.getStaticWeapons());
+    this.root.getChildren().add(staticWeaponView);
     this.addMonstres();
     this.root.getChildren().add(playerView);
 
@@ -186,6 +195,7 @@ public class PacmanPainter implements GamePainter {
       this.root.getChildren().add(view);
     }
   }
+
 
   /**
    * Renvoie la taille

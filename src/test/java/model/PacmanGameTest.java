@@ -1,13 +1,11 @@
 package model;
 
-import fxengine.Cmd;
 import model.labyrinthe.Case;
 import model.labyrinthe.Labyrinthe;
 import model.monster.Monster;
 import model.monster.MonsterState;
-import model.player.Player;
-import model.projectile.Fireball;
-import model.projectile.Projectile;
+import model.weapons.Fireball;
+import model.weapons.Projectile;
 import model.util.Util;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
