@@ -6,6 +6,7 @@ import javafx.beans.binding.Bindings;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -123,6 +124,7 @@ public class GameApplication extends Application {
     primaryStage.setScene(scene);
     primaryStage.setTitle("Pacman");
     primaryStage.sizeToScene();
+    primaryStage.getIcons().add(new Image("pacman/logo.png"));
 
     //primaryStage.setResizable(false); // FIXME for responsive
 
