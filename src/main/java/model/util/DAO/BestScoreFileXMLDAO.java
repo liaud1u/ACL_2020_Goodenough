@@ -39,7 +39,7 @@ public class BestScoreFileXMLDAO implements BestScoreDAO {
   // private
   // public
   public final Document generateDocument() throws ParserConfigurationException, IOException, SAXException {
-    File file = new File(this.URL);
+    File file = new File(System.getProperty("user.dir") + File.separator + "best_scores.xml");
 
     DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
