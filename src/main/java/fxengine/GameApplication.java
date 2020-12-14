@@ -124,7 +124,7 @@ public class GameApplication extends Application {
     primaryStage.setScene(scene);
     primaryStage.setTitle("Pacman");
     primaryStage.sizeToScene();
-    primaryStage.getIcons().add(new Image("pacman/logo.png"));
+    primaryStage.getIcons().add(new Image("logo.png"));
 
     //primaryStage.setResizable(false); // FIXME for responsive
 

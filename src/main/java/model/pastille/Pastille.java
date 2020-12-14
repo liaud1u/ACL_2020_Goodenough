@@ -1,12 +1,13 @@
 package model.pastille;
 
 import model.PacmanGame;
+import views.animations.TriggeredPastille;
 
 /**
  * Pastille
  */
 public abstract class Pastille {
-
+    protected TriggeredPastille triggeredPastille;
     protected PacmanGame game;
 
     protected PastilleType type;
@@ -23,6 +24,12 @@ public abstract class Pastille {
         this.ramassee = false;
         this.game = game;
         this.type = type;
+
+        this.triggeredPastille = new TriggeredPastille(0, 0, 0, this.type);
+    }
+
+    public TriggeredPastille getTriggeredPastille() {
+        return triggeredPastille;
     }
 
     /**
@@ -40,6 +47,7 @@ public abstract class Pastille {
     public boolean ramasser() {
         if (!this.ramassee) {
             this.ramassee = true;
+            this.getTriggeredPastille().animate();
         }
         return true;
     }
