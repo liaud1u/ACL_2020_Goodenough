@@ -4,9 +4,12 @@ import model.PacmanGame;
 import model.labyrinthe.Case;
 import model.labyrinthe.Labyrinthe;
 import model.player.Player;
+import model.util.Util;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+import start.Main;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -20,6 +23,7 @@ class InvinciblePastilleTest {
 
     @BeforeEach
     void setUp() {
+        Main main = new Main();
         game = new PacmanGame("");
         laby = game.getLabyrinthe();
         invinciblePastille = new InvinciblePastille(game, PastilleType.INVINCIBILITY);
@@ -48,16 +52,14 @@ class InvinciblePastilleTest {
 
 
 
-    // FIXME THIS TEST COULD NOT PASS PROPERLY BECAUSE OF THE ENVIRONMENT, NOT THE BEST PRACTICE
-    // FOR NEXT SPRINT TRY TO IMPLEMENT https://github.com/awaitility/awaitility FOR BETTER RESULTS
-    // Might be possible with EasyMock ?
-    @Test
-    void invincibiliteDesactivation() throws InterruptedException {
-       /* player.moveToPosition(caseLaby.getX(), caseLaby.getY()); // Moving the player on the coin case
+    // FIXME : doesn't work because JavaFX Timeline never runs during tests.
+   /* @Test
+    void invincibiliteDesactivation() {
+        player.moveToPosition(caseLaby.getX(), caseLaby.getY()); // Moving the player on the coin case
         game.isEatingAPastille(); // Checks if the player is eating a pastaga and updating the game if so
         assertEquals(true, player.isInvincible());
-        assertNull(caseLaby.getPastille()); // Check if the coin is deleted from the case
-        TimeUnit.SECONDS.sleep(10);
-        assertEquals(false, player.isInvincible());*/
-    }
+        await().atLeast(Util.INVINCIBLE_TIME, SECONDS).until(() -> {
+            return !player.isInvincible();
+        });
+    } */
 }
