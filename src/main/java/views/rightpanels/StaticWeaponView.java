@@ -1,4 +1,4 @@
-package views;
+package views.rightpanels;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -71,7 +71,6 @@ public class StaticWeaponView extends HBox {
     final double size = Util.slotSizeProperty.multiply(Util.RATIO_FIREBALL).get();
     final int spriteSize = (int) (size * 8);
 
-    this.setBackground(new Background(new BackgroundFill(Color.RED, EMPTY, Insets.EMPTY)));
         this.ammoView = new ImageView(  // create the imageView for the ammos
           new Image("pastilles/landminePastille.png",
                   spriteSize,

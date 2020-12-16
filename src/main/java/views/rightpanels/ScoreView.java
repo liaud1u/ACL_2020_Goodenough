@@ -1,4 +1,4 @@
-package views;
+package views.rightpanels;
 
 import javafx.scene.Group;
 import model.PacmanGame;

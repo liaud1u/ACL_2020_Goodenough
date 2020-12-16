@@ -11,9 +11,9 @@ import model.util.DAO.ConcreteFileFactory;
 import model.util.DAO.files.FileType;
 import model.util.SpriteTools;
 import model.util.Util;
-import views.AmmoView;
-import views.ScoreView;
-import views.StaticWeaponView;
+import views.rightpanels.AmmoView;
+import views.rightpanels.ScoreView;
+import views.rightpanels.StaticWeaponView;
 import views.TimerView;
 
 /**
