@@ -14,12 +14,12 @@ import java.util.ArrayList;
  */
 public class Case {
   /**
-   * Coordonée x de la case
+   * X coord of the case
    */
   private int x;
 
   /**
-   * Coordonnée y de la case
+   * Y coord of the case
    */
   private int y;
 
@@ -30,17 +30,17 @@ public class Case {
 
 
   /**
-   * Liste des cases voisines de la case
+   * List of neighbour cases
    */
   private ArrayList<Case> voisins = new ArrayList<>();
 
   /**
-   * Booléen, vrai si la case courante est un mur
+   * Bool, true if the case is a wall
    */
   private boolean estUnMur = true;
 
   /**
-   * Booléen, vrai si la case courante est vide
+   * Bool, true if the case is void
    */
   private boolean estVide = true;
 
@@ -50,12 +50,12 @@ public class Case {
   private Monster monstre;
 
   /**
-   * Case précédente à la case actuelle
+   * Previous case (for Dijsktra)
    */
   private Case casePrecedente;
 
   /**
-   * poids du sommet
+   * Weight of the edge (for graph)
    */
   private int weight;
 
@@ -66,10 +66,10 @@ public class Case {
   public BooleanProperty hasPastilleProperty = new SimpleBooleanProperty(false);
 
   /**
-   * Constructeur d'une case
+   * Constructor of Case
    *
-   * @param x int coordonnée x de la case
-   * @param y int coordonnée y de la case
+   * @param x int coord x of the case
+   * @param y int coord y of the case
    */
   public Case(int x, int y) {
     this(x, y, true);
@@ -77,11 +77,11 @@ public class Case {
 
 
   /**
-   * Constructeur d'une case
+   * Constructor of Case
    *
-   * @param x    int coordonnée x de la case
-   * @param y    int coordonnée y de la case
-   * @param bool booléen vrai si la case est un mur
+   * @param x    int coord x of the case
+   * @param y    int coord y of the case
+   * @param bool bool true if the case is a wall
    */
   public Case(int x, int y, boolean bool) {
     this.x = x;
@@ -92,9 +92,9 @@ public class Case {
   }
 
   /**
-   * Ajout d'un voisin à la case courante
+   * Add a neighbour to the case
    *
-   * @param c Case voisin à ajouter
+   * @param c Case neighbour to add
    */
   public void ajoutVoisin(Case c) {
     if (c != null)
@@ -109,41 +109,46 @@ public class Case {
   }
 
   /**
-   * Vérifie si il y a un voisin dessous
+   * Check if there's a neighbour down
    *
-   * @return true si il y a un voisin en dessous
+   * @return true if neighbour down
    */
   public boolean voisinDessous() {
     return this.voisins.contains(new Case(this.x, this.y + 1));
   }
 
   /**
-   * Vérifie si il y a un voisin à droite
+   * Check if there's a neighbour right
    *
-   * @return true si il y a un voisin à droite
+   * @return true if neighbour right
    */
   public boolean voisinDroite() {
     return this.voisins.contains(new Case(this.x + 1, this.y));
   }
 
   /**
-   * Vérifie si il y a un voisin à gauche
+   * Check if there's a neighbour left
    *
-   * @return true si il y a un voisin à gauche
+   * @return true if there's a neighbour left
    */
   public boolean voisinGauche() {
     return this.voisins.contains(new Case(this.x - 1, this.y));
   }
 
   /**
-   * Vérifie si il y a un voisin au dessus
+   * Check if there's a neighbour up
    *
-   * @return true si il y a un voisin au dessus
+   * @return true if neighbour up
    */
   public boolean voisinDessus() {
     return this.voisins.contains(new Case(this.x, this.y - 1));
   }
 
+  /**
+   * Check if two cases are equals
+   * @param o
+   * @return boolean equals
+   */
   @Override
   public boolean equals(Object o) {
     if (!(o instanceof Case)) return false;
@@ -151,13 +156,17 @@ public class Case {
     return (this.x == c.x && this.y == c.y);
   }
 
+  /**
+   * HashCode
+   * @return int Hashcode of the case
+   */
   @Override
   public int hashCode() {
     return this.x + this.y * 256;
   }
 
   /**
-   * Renvoie la coordonnée x de la case
+   * Getter for the X coord of the case
    *
    * @return int x
    */
@@ -166,16 +175,16 @@ public class Case {
   }
 
   /**
-   * Setter de la coordonnée x de la case
+   * Setter for the X coord of the case
    *
-   * @param x int coordonnée x
+   * @param x int coord x
    */
   public void setX(int x) {
     this.x = x;
   }
 
   /**
-   * Renvoie la coordonée y de la case
+   * Getter for the y coord of the case
    *
    * @return int y
    */
@@ -184,9 +193,9 @@ public class Case {
   }
 
   /**
-   * Setter de la coordonnée y de la case
+   * Setter for the y coord of the case
    *
-   * @param y int coordonnée y
+   * @param y int coord y
    */
   public void setY(int y) {
     this.y = y;

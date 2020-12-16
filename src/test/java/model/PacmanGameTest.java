@@ -2,6 +2,7 @@ package model;
 
 import model.labyrinthe.Case;
 import model.labyrinthe.Labyrinthe;
+import model.monster.GhostType;
 import model.monster.Monster;
 import model.monster.MonsterState;
 import model.weapons.Fireball;
@@ -1261,7 +1262,561 @@ class PacmanGameTest {
     }
 
     @Test
-    void willPlayerCollideMob() {
+    void willFirstPlayerCollideAliveMobLeft() {
+
+        expect(mockLabyrinthe.getCaseLabyrinthe(anyInt(),anyInt())).andReturn(mockCase).anyTimes();
+
+        Monster aliveMonster = new Monster(game,0,0,GhostType.RED);
+
+
+        expect(mockCase.getMonstre()).andReturn(aliveMonster).anyTimes();
+
+        replay(mockCase,mockLabyrinthe);
+
+        Util.player=1;
+        game.getPlayer().setCurrentMoveDirection(Direction.LEFT);
+        game.setPlayerTurn(1);
+        boolean res = game.willPlayerCollideMob();
+
+        assertTrue(res);
+
+        verify(mockCase,mockLabyrinthe);
+    }
+
+    @Test
+    void willFirstPlayerCollideAliveMobUp() {
+
+        expect(mockLabyrinthe.getCaseLabyrinthe(anyInt(),anyInt())).andReturn(mockCase).anyTimes();
+
+        Monster aliveMonster = new Monster(game,0,0,GhostType.RED);
+
+
+        expect(mockCase.getMonstre()).andReturn(aliveMonster).anyTimes();
+
+        replay(mockCase,mockLabyrinthe);
+
+        Util.player=1;
+        game.getPlayer().setCurrentMoveDirection(Direction.UP);
+        game.setPlayerTurn(1);
+        boolean res = game.willPlayerCollideMob();
+
+        assertTrue(res);
+
+        verify(mockCase,mockLabyrinthe);
+    }
+
+    @Test
+    void willFirstPlayerCollideAliveMobDown() {
+
+        expect(mockLabyrinthe.getCaseLabyrinthe(anyInt(),anyInt())).andReturn(mockCase).anyTimes();
+
+        Monster aliveMonster = new Monster(game,0,0,GhostType.RED);
+
+
+        expect(mockCase.getMonstre()).andReturn(aliveMonster).anyTimes();
+
+        replay(mockCase,mockLabyrinthe);
+
+        Util.player=1;
+        game.getPlayer().setCurrentMoveDirection(Direction.DOWN);
+        game.setPlayerTurn(1);
+        boolean res = game.willPlayerCollideMob();
+
+        assertTrue(res);
+
+        verify(mockCase,mockLabyrinthe);
+    }
+
+    @Test
+    void willFirstPlayerCollideAliveMobRight() {
+
+        expect(mockLabyrinthe.getCaseLabyrinthe(anyInt(),anyInt())).andReturn(mockCase).anyTimes();
+
+        Monster aliveMonster = new Monster(game,0,0,GhostType.RED);
+
+
+        expect(mockCase.getMonstre()).andReturn(aliveMonster).anyTimes();
+
+        replay(mockCase,mockLabyrinthe);
+
+        Util.player=1;
+        game.getPlayer().setCurrentMoveDirection(Direction.RIGHT);
+        game.setPlayerTurn(1);
+        boolean res = game.willPlayerCollideMob();
+
+        assertTrue(res);
+
+        verify(mockCase,mockLabyrinthe);
+    }
+
+    @Test
+    void willFirstPlayerCollideDeadMobLeft() {
+
+        expect(mockLabyrinthe.getCaseLabyrinthe(anyInt(),anyInt())).andReturn(mockCase).anyTimes();
+
+        Monster deadMonster = new Monster(game,0,0,GhostType.RED);
+        deadMonster.setMonsterState(MonsterState.DEAD);
+
+
+        expect(mockCase.getMonstre()).andReturn(deadMonster).anyTimes();
+
+        replay(mockCase,mockLabyrinthe);
+
+        Util.player=1;
+        game.getPlayer().setCurrentMoveDirection(Direction.LEFT);
+        game.setPlayerTurn(1);
+        boolean res = game.willPlayerCollideMob();
+
+        assertFalse(res);
+
+        verify(mockCase,mockLabyrinthe);
+    }
+
+    @Test
+    void willFirstPlayerCollideDeadMobUp() {
+
+        expect(mockLabyrinthe.getCaseLabyrinthe(anyInt(),anyInt())).andReturn(mockCase).anyTimes();
+
+        Monster deadMonster = new Monster(game,0,0,GhostType.RED);
+        deadMonster.setMonsterState(MonsterState.DEAD);
+
+
+        expect(mockCase.getMonstre()).andReturn(deadMonster).anyTimes();
+
+        replay(mockCase,mockLabyrinthe);
+
+        Util.player=1;
+        game.getPlayer().setCurrentMoveDirection(Direction.UP);
+        game.setPlayerTurn(1);
+        boolean res = game.willPlayerCollideMob();
+
+        assertFalse(res);
+
+        verify(mockCase,mockLabyrinthe);
+    }
+
+    @Test
+    void willFirstPlayerCollideDeadMobDown() {
+
+        expect(mockLabyrinthe.getCaseLabyrinthe(anyInt(),anyInt())).andReturn(mockCase).anyTimes();
+
+        Monster deadMonster = new Monster(game,0,0,GhostType.RED);
+        deadMonster.setMonsterState(MonsterState.DEAD);
+
+
+        expect(mockCase.getMonstre()).andReturn(deadMonster).anyTimes();
+
+        replay(mockCase,mockLabyrinthe);
+
+        Util.player=1;
+        game.getPlayer().setCurrentMoveDirection(Direction.DOWN);
+        game.setPlayerTurn(1);
+        boolean res = game.willPlayerCollideMob();
+
+        assertFalse(res);
+
+        verify(mockCase,mockLabyrinthe);
+    }
+
+    @Test
+    void willFirstPlayerCollideDeadMobRight() {
+
+        expect(mockLabyrinthe.getCaseLabyrinthe(anyInt(),anyInt())).andReturn(mockCase).anyTimes();
+
+        Monster deadMonster = new Monster(game,0,0,GhostType.RED);
+        deadMonster.setMonsterState(MonsterState.DEAD);
+
+
+        expect(mockCase.getMonstre()).andReturn(deadMonster).anyTimes();
+
+        replay(mockCase,mockLabyrinthe);
+
+        Util.player=1;
+        game.getPlayer().setCurrentMoveDirection(Direction.RIGHT);
+        game.setPlayerTurn(1);
+
+        boolean res = game.willPlayerCollideMob();
+
+        assertFalse(res);
+
+        verify(mockCase,mockLabyrinthe);
+    }
+
+    @Test
+    void willInvincibleFirstPlayerCollideAliveMobLeft() {
+
+
+        expect(mockLabyrinthe.getCaseLabyrinthe(anyInt(),anyInt())).andReturn(mockCase).anyTimes();
+
+        expect(mockCase.getMonstre()).andReturn(mockMonstre).anyTimes(); 
+        mockMonstre.destroy();
+        expectLastCall();
+        replay(mockCase,mockLabyrinthe,mockMonstre);
+
+        Util.player=1;
+        game.getPlayer().setCurrentMoveDirection(Direction.LEFT);
+        game.getPlayer().setInvincible();
+        game.setPlayerTurn(1);
+        int score = game.getScore();
+        boolean res = game.willPlayerCollideMob();
+
+        assertFalse(res);
+        assertEquals(score+500,game.getScore());
+
+        verify(mockCase,mockLabyrinthe,mockMonstre);
+    }
+
+    @Test
+    void willInvincibleFirstPlayerCollideAliveMobUp() {
+
+
+        expect(mockLabyrinthe.getCaseLabyrinthe(anyInt(),anyInt())).andReturn(mockCase).anyTimes();
+
+        expect(mockCase.getMonstre()).andReturn(mockMonstre).anyTimes();
+        mockMonstre.destroy();
+        expectLastCall();
+        replay(mockCase,mockLabyrinthe,mockMonstre);
+
+        Util.player=1;
+        game.getPlayer().setCurrentMoveDirection(Direction.UP);
+        game.getPlayer().setInvincible();
+        game.setPlayerTurn(1);
+        int score = game.getScore();
+        System.out.println(score);
+        boolean res = game.willPlayerCollideMob();
+
+        assertFalse(res);
+        assertEquals(score+500,game.getScore());
+
+        verify(mockCase,mockLabyrinthe,mockMonstre);
+    }
+
+    @Test
+    void willInvincibleFirstPlayerCollideAliveMobDown() {
+
+        expect(mockLabyrinthe.getCaseLabyrinthe(anyInt(),anyInt())).andReturn(mockCase).anyTimes();
+
+        expect(mockCase.getMonstre()).andReturn(mockMonstre).anyTimes();
+        mockMonstre.destroy();
+        expectLastCall();
+        replay(mockCase,mockLabyrinthe,mockMonstre);
+
+        Util.player=1;
+        game.getPlayer().setCurrentMoveDirection(Direction.DOWN);
+        game.getPlayer().setInvincible();
+        game.setPlayerTurn(1);
+        int score = game.getScore();
+        boolean res = game.willPlayerCollideMob();
+
+        assertFalse(res);
+        assertEquals(score+500,game.getScore());
+
+        verify(mockCase,mockLabyrinthe,mockMonstre);
+    }
+
+    @Test
+    void willInvincibleFirstPlayerCollideAliveMobRight() {
+
+        expect(mockLabyrinthe.getCaseLabyrinthe(anyInt(),anyInt())).andReturn(mockCase).anyTimes();
+
+        expect(mockCase.getMonstre()).andReturn(mockMonstre).anyTimes();
+        mockMonstre.destroy();
+        expectLastCall();
+        replay(mockCase,mockLabyrinthe,mockMonstre);
+
+        Util.player=1;
+        game.getPlayer().setCurrentMoveDirection(Direction.RIGHT);
+        game.getPlayer().setInvincible();
+        game.setPlayerTurn(1);
+        int score = game.getScore();
+        boolean res = game.willPlayerCollideMob();
+
+        assertFalse(res);
+        assertEquals(score+500,game.getScore());
+
+        verify(mockCase,mockLabyrinthe,mockMonstre);
+    }
+
+    @Test
+    void willSecondPlayerCollideAliveMobLeft() {
+
+        expect(mockLabyrinthe.getCaseLabyrinthe(anyInt(),anyInt())).andReturn(mockCase).anyTimes();
+
+        Monster aliveMonster = new Monster(game,0,0,GhostType.RED);
+
+
+        expect(mockCase.getMonstre()).andReturn(aliveMonster).anyTimes();
+
+        replay(mockCase,mockLabyrinthe);
+
+        Util.player=2;
+        game.getSecondPlayer().setCurrentMoveDirection(Direction.LEFT);
+        game.setPlayerTurn(2);
+        boolean res = game.willPlayerCollideMob();
+
+        assertTrue(res);
+
+        verify(mockCase,mockLabyrinthe);
+    }
+
+    @Test
+    void willSecondPlayerCollideAliveMobUp() {
+
+        expect(mockLabyrinthe.getCaseLabyrinthe(anyInt(),anyInt())).andReturn(mockCase).anyTimes();
+
+        Monster aliveMonster = new Monster(game,0,0,GhostType.RED);
+
+
+        expect(mockCase.getMonstre()).andReturn(aliveMonster).anyTimes();
+
+        replay(mockCase,mockLabyrinthe);
+
+        Util.player=2;
+        game.getSecondPlayer().setCurrentMoveDirection(Direction.UP);
+        game.setPlayerTurn(2);
+        boolean res = game.willPlayerCollideMob();
+
+        assertTrue(res);
+
+        verify(mockCase,mockLabyrinthe);
+    }
+
+    @Test
+    void willSecondPlayerCollideAliveMobDown() {
+
+        expect(mockLabyrinthe.getCaseLabyrinthe(anyInt(),anyInt())).andReturn(mockCase).anyTimes();
+
+        Monster aliveMonster = new Monster(game,0,0,GhostType.RED);
+
+
+        expect(mockCase.getMonstre()).andReturn(aliveMonster).anyTimes();
+
+        replay(mockCase,mockLabyrinthe);
+
+
+        Util.player=2;
+        game.getSecondPlayer().setCurrentMoveDirection(Direction.DOWN);
+        game.setPlayerTurn(2);
+        boolean res = game.willPlayerCollideMob();
+
+        assertTrue(res);
+
+        verify(mockCase,mockLabyrinthe);
+    }
+
+    @Test
+    void willSecondPlayerCollideAliveMobRight() {
+
+        expect(mockLabyrinthe.getCaseLabyrinthe(anyInt(),anyInt())).andReturn(mockCase).anyTimes();
+
+        Monster aliveMonster = new Monster(game,0,0,GhostType.RED);
+
+
+        expect(mockCase.getMonstre()).andReturn(aliveMonster).anyTimes();
+
+        replay(mockCase,mockLabyrinthe);
+
+
+        Util.player=2;
+        game.getSecondPlayer().setCurrentMoveDirection(Direction.RIGHT);
+        game.setPlayerTurn(2);
+        boolean res = game.willPlayerCollideMob();
+
+        assertTrue(res);
+
+        verify(mockCase,mockLabyrinthe);
+    }
+
+    @Test
+    void willSecondPlayerCollideDeadMobLeft() {
+
+        expect(mockLabyrinthe.getCaseLabyrinthe(anyInt(),anyInt())).andReturn(mockCase).anyTimes();
+
+        Monster deadMonster = new Monster(game,0,0,GhostType.RED);
+        deadMonster.setMonsterState(MonsterState.DEAD);
+
+
+        expect(mockCase.getMonstre()).andReturn(deadMonster).anyTimes();
+
+        replay(mockCase,mockLabyrinthe);
+
+
+        Util.player=2;
+        game.getSecondPlayer().setCurrentMoveDirection(Direction.LEFT);
+        game.setPlayerTurn(2);
+        boolean res = game.willPlayerCollideMob();
+
+        assertFalse(res);
+
+        verify(mockCase,mockLabyrinthe);
+    }
+
+    @Test
+    void willSecondPlayerCollideDeadMobUp() {
+
+        expect(mockLabyrinthe.getCaseLabyrinthe(anyInt(),anyInt())).andReturn(mockCase).anyTimes();
+
+        Monster deadMonster = new Monster(game,0,0,GhostType.RED);
+        deadMonster.setMonsterState(MonsterState.DEAD);
+
+
+        expect(mockCase.getMonstre()).andReturn(deadMonster).anyTimes();
+
+        replay(mockCase,mockLabyrinthe);
+
+
+        Util.player=2;
+        game.getSecondPlayer().setCurrentMoveDirection(Direction.UP);
+        game.setPlayerTurn(2);
+        boolean res = game.willPlayerCollideMob();
+
+        assertFalse(res);
+
+        verify(mockCase,mockLabyrinthe);
+    }
+
+    @Test
+    void willSecondPlayerCollideDeadMobDown() {
+
+        expect(mockLabyrinthe.getCaseLabyrinthe(anyInt(),anyInt())).andReturn(mockCase).anyTimes();
+
+        Monster deadMonster = new Monster(game,0,0,GhostType.RED);
+        deadMonster.setMonsterState(MonsterState.DEAD);
+
+
+        expect(mockCase.getMonstre()).andReturn(deadMonster).anyTimes();
+
+        replay(mockCase,mockLabyrinthe);
+
+
+        Util.player=2;
+        game.getSecondPlayer().setCurrentMoveDirection(Direction.DOWN);
+        game.setPlayerTurn(2);
+        boolean res = game.willPlayerCollideMob();
+
+        assertFalse(res);
+
+        verify(mockCase,mockLabyrinthe);
+    }
+
+    @Test
+    void willSecondPlayerCollideDeadMobRight() {
+
+        expect(mockLabyrinthe.getCaseLabyrinthe(anyInt(),anyInt())).andReturn(mockCase).anyTimes();
+
+        Monster deadMonster = new Monster(game,0,0,GhostType.RED);
+        deadMonster.setMonsterState(MonsterState.DEAD);
+
+
+        expect(mockCase.getMonstre()).andReturn(deadMonster).anyTimes();
+
+        replay(mockCase,mockLabyrinthe);
+
+
+        Util.player=2;
+        game.getSecondPlayer().setCurrentMoveDirection(Direction.RIGHT);
+        game.setPlayerTurn(2);
+
+        boolean res = game.willPlayerCollideMob();
+
+        assertFalse(res);
+
+        verify(mockCase,mockLabyrinthe);
+    }
+
+    @Test
+    void willInvincibleSecondPlayerCollideAliveMobLeft() {
+
+
+        expect(mockLabyrinthe.getCaseLabyrinthe(anyInt(),anyInt())).andReturn(mockCase).anyTimes();
+
+        expect(mockCase.getMonstre()).andReturn(mockMonstre).anyTimes();
+        mockMonstre.destroy();
+        expectLastCall();
+        replay(mockCase,mockLabyrinthe,mockMonstre);
+
+        Util.player=2;
+        game.getSecondPlayer().setCurrentMoveDirection(Direction.LEFT);
+        game.getSecondPlayer().setInvincible();
+        game.setPlayerTurn(2);
+        int score = game.getScore();
+        boolean res = game.willPlayerCollideMob();
+
+        assertFalse(res);
+        assertEquals(score+500,game.getScore());
+
+        verify(mockCase,mockLabyrinthe,mockMonstre);
+    }
+
+    @Test
+    void willInvincibleSecondPlayerCollideAliveMobUp() {
+
+
+        expect(mockLabyrinthe.getCaseLabyrinthe(anyInt(),anyInt())).andReturn(mockCase).anyTimes();
+
+        expect(mockCase.getMonstre()).andReturn(mockMonstre).anyTimes();
+        mockMonstre.destroy();
+        expectLastCall();
+        replay(mockCase,mockLabyrinthe,mockMonstre);
+
+        Util.player=2;
+        game.getSecondPlayer().setCurrentMoveDirection(Direction.UP);
+        game.getSecondPlayer().setInvincible();
+        game.setPlayerTurn(2);
+        int score = game.getScore();
+        System.out.println(score);
+        boolean res = game.willPlayerCollideMob();
+
+        assertFalse(res);
+        assertEquals(score+500,game.getScore());
+
+        verify(mockCase,mockLabyrinthe,mockMonstre);
+    }
+
+    @Test
+    void willInvincibleSecondPlayerCollideAliveMobDown() {
+
+        expect(mockLabyrinthe.getCaseLabyrinthe(anyInt(),anyInt())).andReturn(mockCase).anyTimes();
+
+        expect(mockCase.getMonstre()).andReturn(mockMonstre).anyTimes();
+        mockMonstre.destroy();
+        expectLastCall();
+        replay(mockCase,mockLabyrinthe,mockMonstre);
+
+        Util.player=2;
+        game.getSecondPlayer().setCurrentMoveDirection(Direction.DOWN);
+        game.getSecondPlayer().setInvincible();
+        game.setPlayerTurn(2);
+        int score = game.getScore();
+        boolean res = game.willPlayerCollideMob();
+
+        assertFalse(res);
+        assertEquals(score+500,game.getScore());
+
+        verify(mockCase,mockLabyrinthe,mockMonstre);
+    }
+
+    @Test
+    void willInvincibleSecondPlayerCollideAliveMobRight() {
+
+        expect(mockLabyrinthe.getCaseLabyrinthe(anyInt(),anyInt())).andReturn(mockCase).anyTimes();
+
+        expect(mockCase.getMonstre()).andReturn(mockMonstre).anyTimes();
+        mockMonstre.destroy();
+        expectLastCall();
+        replay(mockCase,mockLabyrinthe,mockMonstre);
+
+        Util.player=1;
+        game.getPlayer().setCurrentMoveDirection(Direction.RIGHT);
+        game.getPlayer().setInvincible();
+        game.setPlayerTurn(1);
+        int score = game.getScore();
+        boolean res = game.willPlayerCollideMob();
+
+        assertFalse(res);
+        assertEquals(score+500,game.getScore());
+
+        verify(mockCase,mockLabyrinthe,mockMonstre);
     }
 
     @Test
