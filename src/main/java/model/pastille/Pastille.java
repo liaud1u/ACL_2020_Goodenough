@@ -20,10 +20,9 @@ public abstract class Pastille extends Observable {
     /**
      * Constructeur d'une pastille
      */
-    public Pastille(PacmanGame game, PastilleType type) {
+    public Pastille(PacmanGame game) {
         this.ramassee = false;
         this.game = game;
-        this.type = type;
     }
 
     /**

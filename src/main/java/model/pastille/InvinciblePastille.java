@@ -5,8 +5,9 @@ import model.PacmanGame;
 public class InvinciblePastille extends Pastille{
 
 
-    public InvinciblePastille(PacmanGame game, PastilleType type) {
-        super(game, type);
+    public InvinciblePastille(PacmanGame game) {
+        super(game);
+        this.type = PastilleType.INVINCIBILITY;
     }
 
     @Override

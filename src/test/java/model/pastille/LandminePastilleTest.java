@@ -9,46 +9,54 @@ import model.player.Player;
 import model.util.Util;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import start.Main;
-import static java.util.concurrent.TimeUnit.SECONDS;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-class InvinciblePastilleTest {
+class LandminePastilleTest {
 
     private PacmanGame game;
     private Labyrinthe laby;
     private Case caseLaby;
-    private InvinciblePastille invinciblePastille;
+    private LandminePastille landminePastille;
     private Player player;
 
     @BeforeEach
     void setUp() {
-        Main main = new Main();
         game = new PacmanGame("");
         laby = game.getLabyrinthe();
-        invinciblePastille = new InvinciblePastille(game);
-        caseLaby = laby.getCaseLabyrinthe(4,4);
+        landminePastille = new LandminePastille(game);
+        caseLaby = laby.getCaseLabyrinthe(5,5);
         caseLaby.removePastille();
         caseLaby.setEstUnMur(false);
         player = game.getPlayer();
     }
 
+    @Test
+    void pastilleExiste() {
+        caseLaby.addPastille(landminePastille);
+        assertNotNull(caseLaby.getPastille());
+    }
 
     @Test
-    void ramasser()  {
-        caseLaby.addPastille(invinciblePastille);
+    void ramasser() {
+        caseLaby.addPastille(landminePastille);
+        int staticweaponsBefore = game.getStaticWeaponsCount(); // Getting the amount of ammos before
         player.moveToPosition(caseLaby.getX(), caseLaby.getY()); // Moving the player on the coin case
         game.isEatingAPastille(); // Checks if the player is eating a pastaga and updating the game if so
+        assertEquals(staticweaponsBefore + 1, game.getStaticWeaponsCount(), "Mines not updated properly"); // Check if the ammo increases
         assertNull(caseLaby.getPastille()); // Check if the coin is deleted from the case
     }
 
     @Test
-    void invincibilite() {
-        caseLaby.addPastille(invinciblePastille);
-        assertEquals(false, player.isInvincible());
-        player.moveToPosition(caseLaby.getX(), caseLaby.getY()); // Moving the player on the coin case
-        game.isEatingAPastille(); // Checks if the player is eating a pastaga and updating the game if so
-        assertEquals(true, player.isInvincible());
+    void ramasserLimite() {
+        caseLaby.addPastille(landminePastille);
+        int maxMines = Util.MAX_MINES;
+        for(int i = 0 ; i < maxMines + 10 ; i ++) {
+            player.moveToPosition(caseLaby.getX(), caseLaby.getY()); // Moving the player on the coin case
+            game.isEatingAPastille(); // Checks if the player is eating a pastaga and updating the game if so
+            caseLaby.addPastille(landminePastille); // Adding a new pastille
+        }
+        assertEquals(Util.MAX_MINES, game.getStaticWeaponsCount()); // You must now have the maximum amount possible of ammo, no less no more
     }
 
 
@@ -69,32 +77,20 @@ class InvinciblePastilleTest {
 
     @Test
     void boundaryMultiplePastilleSameCase() {
-        caseLaby.addPastille(invinciblePastille);
-        Pastille invinciblePastille2 = new InvinciblePastille(game);
+        caseLaby.addPastille(landminePastille);
+        Pastille invinciblePastille2 = new LandminePastille(game);
         caseLaby.addPastille(invinciblePastille2);
         assertNotEquals(invinciblePastille2, caseLaby.getPastille());
     }
 
     @Test
     void boundaryNegativePastilleNumber() {
-        assertThrows(InvalidPastilleAmountException.class, () -> {game.generatePastille(PastilleType.INVINCIBILITY, -1);});
+        assertThrows(InvalidPastilleAmountException.class, () -> {game.generatePastille(PastilleType.LANDMINE, -1);});
     }
 
     @Test
     void boundaryTooMuchPastilles() {
         int nbPastilles = laby.getNbCasesLibres() + 1;
-        assertThrows(TooMuchPastillesException.class, () -> {game.generatePastille(PastilleType.INVINCIBILITY, nbPastilles);});
+        assertThrows(TooMuchPastillesException.class, () -> {game.generatePastille(PastilleType.LANDMINE, nbPastilles);});
     }
-
-
-    // FIXME : doesn't work because JavaFX Timeline never runs during tests.
-   /* @Test
-    void invincibiliteDesactivation() {
-        player.moveToPosition(caseLaby.getX(), caseLaby.getY()); // Moving the player on the coin case
-        game.isEatingAPastille(); // Checks if the player is eating a pastaga and updating the game if so
-        assertEquals(true, player.isInvincible());
-        await().atLeast(Util.INVINCIBLE_TIME, SECONDS).until(() -> {
-            return !player.isInvincible();
-        });
-    } */
 }

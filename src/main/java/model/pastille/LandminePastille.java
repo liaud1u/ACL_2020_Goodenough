@@ -4,8 +4,9 @@ import model.PacmanGame;
 
 public class LandminePastille extends Pastille{
 
-    public LandminePastille(PacmanGame game, PastilleType type) {
-        super(game, type);
+    public LandminePastille(PacmanGame game) {
+        super(game);
+        this.type = PastilleType.LANDMINE;
     }
 
 

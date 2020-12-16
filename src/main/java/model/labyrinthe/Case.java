@@ -276,8 +276,10 @@ public class Case {
    * @param p Pastille to add
    */
   public void addPastille(Pastille p ) {
-    this.pastille = p;
-    this.hasPastilleProperty.setValue(true);
+    if(p != null && this.pastille == null) {
+      this.pastille = p;
+      this.hasPastilleProperty.setValue(true);
+    }
   }
 
   /**

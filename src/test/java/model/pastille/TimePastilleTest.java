@@ -23,7 +23,7 @@ class TimePastilleTest {
         timeAmount = 10;
         game = new PacmanGame("");
         laby = game.getLabyrinthe();
-        timePastille = new TimePastille(game, PastilleType.TIME, timeAmount);
+        timePastille = new TimePastille(game, timeAmount);
         caseLaby = laby.getCaseLabyrinthe(4,4);
         caseLaby.removePastille();
         caseLaby.setEstUnMur(false);

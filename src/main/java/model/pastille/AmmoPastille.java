@@ -4,8 +4,9 @@ import model.PacmanGame;
 
 public class AmmoPastille extends Pastille{
 
-    public AmmoPastille(PacmanGame game, PastilleType type) {
-        super(game,type);
+    public AmmoPastille(PacmanGame game) {
+        super(game);
+        this.type = PastilleType.AMMO;
     }
 
     @Override

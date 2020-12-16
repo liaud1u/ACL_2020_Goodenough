@@ -10,9 +10,10 @@ public class ScorePastille extends Pastille {
 
     private int score;
 
-    public ScorePastille(PacmanGame game, PastilleType type, int score) {
-        super(game, type);
+    public ScorePastille(PacmanGame game, int score) {
+        super(game);
         this.score = score;
+        this.type = PastilleType.SCORE;
     }
 
     @Override

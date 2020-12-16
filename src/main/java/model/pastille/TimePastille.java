@@ -6,9 +6,10 @@ public class TimePastille extends Pastille{
 
     private int time;
 
-    public TimePastille(PacmanGame game, PastilleType type, int time) {
-        super(game, type);
+    public TimePastille(PacmanGame game, int time) {
+        super(game);
         this.time = time;
+        this.type = PastilleType.TIME;
     }
 
     @Override

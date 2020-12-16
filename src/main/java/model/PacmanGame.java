@@ -1,5 +1,7 @@
 package model;
 
+import exceptions.InvalidPastilleAmountException;
+import exceptions.TooMuchPastillesException;
 import fxengine.Cmd;
 import fxengine.Game;
 import model.labyrinthe.Case;
@@ -454,7 +456,12 @@ public class PacmanGame implements Game {
 
     this.staticWeapons = new ArrayList<>();
 
-    this.generateAllPastilles(difficulty.getScorePastilleAmount(), difficulty.getTimePastilleAmount(), difficulty.getAmmosPastilleAmount(), difficulty.getInvincibilityPastilleAmount());
+    try {
+      this.generateAllPastilles(difficulty.getScorePastilleAmount(), difficulty.getTimePastilleAmount(), difficulty.getInvincibilityPastilleAmount(),difficulty.getAmmosPastilleAmount(), difficulty.getAmmosPastilleAmount());
+    } catch(InvalidPastilleAmountException | TooMuchPastillesException error) {
+      System.err.println(error.getMessage());
+      System.exit(-1);
+    }
 
 
     this.gameTimer.setInitialTimer(difficulty.getTime());
@@ -524,36 +531,44 @@ public class PacmanGame implements Game {
   }
 
   /**
+   *
    * Generate all coins for the maze
-   * This method checks if there is enough space to place the coins in the maze and if
-   * there is enough space calls another method to place each type of coin
    *
    * @param amountScore amount of score coins (increases when level becomes harder)
    * @param amountTime amount of time coins (decreases when level becomes harder)
    * @param amountAmmo amount of munitions coins (decreases when level becomes harder)
    * @param amountInvincibility amount of invicibility coins (decreases when level becomes harder)
    *
+   * @throws TooMuchPastillesException if there isn't enough space in the maze to generate the coins
+   * @throws InvalidPastilleAmountException if the number of coins to generate is negative
    */
-  private void generateAllPastilles(int amountScore, int amountTime, int amountAmmo, int amountInvincibility) {
-
-    int nbCasesDisponibles = labyrinthe.getNbCasesLibres();
-    if (nbCasesDisponibles < (amountScore+amountTime+amountAmmo)) {
-      System.err.println("ERREUR : Impossible de mettre les pastilles  dans un labyrinthe possédant " + nbCasesDisponibles + " cases libres !");
-    } else {
+  private void generateAllPastilles (int amountScore, int amountTime, int amountInvincibility, int amountAmmo, int amountStaticWeapon) throws TooMuchPastillesException, InvalidPastilleAmountException {
       this.generatePastille(PastilleType.SCORE, amountScore);
       this.generatePastille(PastilleType.AMMO, amountAmmo);
       this.generatePastille(PastilleType.TIME, amountTime);
       this.generatePastille(PastilleType.INVINCIBILITY, amountInvincibility);
-      this.generatePastille(PastilleType.LANDMINE, amountAmmo);
-    }
+      this.generatePastille(PastilleType.LANDMINE, amountStaticWeapon);
   }
 
   /**
    * Method to place the coins in the maze
+   *
+   * This method should be private and is public for test purposes.
+   *
    * @param type type of coins to place
    * @param amount amount of coins to place
+   *
+   * @throws TooMuchPastillesException if there isn't enough space in the maze to generate the coins
+   * @throws InvalidPastilleAmountException if the number of coins to generate is negative
    */
-  private void generatePastille(PastilleType type, int amount){
+  public void generatePastille(PastilleType type, int amount) throws InvalidPastilleAmountException, TooMuchPastillesException {
+    int nbCasesDisponibles = labyrinthe.getNbCasesLibres();
+    if(amount <= 0) {
+      throw new InvalidPastilleAmountException("ERREUR : Impossible de générer un nombre de pastilles négatif.");
+    }
+    if(amount > nbCasesDisponibles) {
+      throw new TooMuchPastillesException("ERREUR : Impossible de mettre les pastilles  dans un labyrinthe possédant " + nbCasesDisponibles + " cases libres !");
+    }
     Pastille p = null;
     Case[][] cases = labyrinthe.getLabyrinthe();
     for (int i = 0; i < amount; i++) {
@@ -567,20 +582,20 @@ public class PacmanGame implements Game {
       }
       switch(type) {
         case AMMO:
-          cases[x][y].addPastille(new AmmoPastille(this, type));
+          cases[x][y].addPastille(new AmmoPastille(this));
         break;
         case TIME:
-          cases[x][y].addPastille(new TimePastille(this, type,10));
+          cases[x][y].addPastille(new TimePastille(this, 10));
         break;
         case INVINCIBILITY:
-          cases[x][y].addPastille(new InvinciblePastille(this,type));
+          cases[x][y].addPastille(new InvinciblePastille(this));
           break;
         case LANDMINE:
-          cases[x][y].addPastille(new LandminePastille(this,type));
+          cases[x][y].addPastille(new LandminePastille(this));
           break;
         case SCORE:
         default:
-          cases[x][y].addPastille(new ScorePastille(this, type, 50));
+          cases[x][y].addPastille(new ScorePastille(this, 50));
           this.labyrinthe.addPastille();
         break;
       }
