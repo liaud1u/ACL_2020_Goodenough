@@ -302,7 +302,7 @@ public class PacmanGame implements Game {
           toRemove.add(p);
 
           if(p.hasDestroyMonster())
-            score += 500;
+            score += Util.SCORE_ON_KILL;
         }
     }
 
@@ -704,7 +704,7 @@ public class PacmanGame implements Game {
       Monster monster = labyrinthe.getCaseLabyrinthe(playerCheckCollide.getX(), playerCheckCollide.getY()).getMonstre();
       if(playerCheckCollide.isInvincible()) {
         monster.destroy();
-        score += 500;
+        score += Util.SCORE_ON_KILL;
         return false;
       }
       return monster.getLifeState() == MonsterState.ALIVE;
@@ -785,6 +785,7 @@ public class PacmanGame implements Game {
           Monster monster = labyrinthe.getCaseLabyrinthe(sw.getX(), sw.getY()).getMonstre();
           sw.destroy();
           monster.destroy();
+          score += Util.SCORE_ON_KILL;
         }
         if(playerWalking.getX() == sw.getX() && playerWalking.getY() == sw.getY()) {
           sw.destroy();
