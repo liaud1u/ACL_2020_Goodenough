@@ -24,6 +24,12 @@ mvn javafx:compile
 mvn javafx:run
 ```
 
+Pour effectuer les tests : 
+
+```bash
+mvn test
+```
+
 ## Description :
 Le projet est un jeu inspiré de Pacman. Ce projet a été développé dans le cadre du cours d'ACL de M1. 
 L'objectif du jeu est d'augmenter son score le plus possible, en collectant des pastilles dans des labyrinthes générés aléatoirement. Ces derniers contiennent des monstres qui tueront le joueur. La difficulté du jeu augmente au fur et à mesure des niveaux, augmantant la difficultée des monstres (leurs facons de se déplacer), le nombre de pastilles du labyrinthe et le temps attribué au joueur pour compléter le labyrinthe.
