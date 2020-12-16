@@ -13,8 +13,6 @@ public class ScorePastille extends Pastille {
     public ScorePastille(PacmanGame game, PastilleType type, int score) {
         super(game, type);
         this.score = score;
-
-        this.triggeredPastille.setValue(score);
     }
 
     @Override
@@ -22,5 +20,9 @@ public class ScorePastille extends Pastille {
         super.ramasser();
         game.addScore(this.score);
         return true;
+    }
+
+    public int getScore() {
+        return score;
     }
 }

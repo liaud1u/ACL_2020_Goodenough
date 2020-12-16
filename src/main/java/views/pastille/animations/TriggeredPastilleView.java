@@ -1,4 +1,4 @@
-package views.animations;
+package views.pastille.animations;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -9,16 +9,22 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import model.pastille.Pastille;
 import model.pastille.PastilleType;
+import model.pastille.ScorePastille;
+import model.pastille.TimePastille;
 import model.util.Util;
+
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * @author Ribeyrolles Matthieu
  * 14/12/2020, 17:40
  */
-public class TriggeredPastille extends Group {
+public class TriggeredPastilleView extends Group implements Observer {
   private Timeline timeline;
-  private PastilleType type;
+  private Pastille pastille;
   private Label text;
 
   /*------------------------------------------------------------------
@@ -33,7 +39,7 @@ public class TriggeredPastille extends Group {
   public void animate() {
     this.setOpacity(1);
 
-    if (this.type == PastilleType.INVINCIBILITY) {
+    if (pastille.getType() == PastilleType.INVINCIBILITY) {
       double size = Util.slotSizeProperty.multiply(Util.RATIO_PASTILLE).get();
       Image image = new Image("pastilles/strong.png", size, size, true, false);
       this.getChildren().add(new ImageView(image));
@@ -44,7 +50,7 @@ public class TriggeredPastille extends Group {
   }
 
   public void setValue(int value) {
-    switch (type) {
+    switch (pastille.getType()) {
       case SCORE: this.text.setText(String.format("+%s", value)); break;
       case TIME: this.text.setText(String.format("+%s sec", value)); break;
       case AMMO: case LANDMINE: this.text.setText("+1"); break;
@@ -57,8 +63,8 @@ public class TriggeredPastille extends Group {
    /*------------------------------------------------------------------
                             Constructors
    ------------------------------------------------------------------*/
-  public TriggeredPastille(double x, double y, int value, PastilleType type) {
-    this.type = type;
+  public TriggeredPastilleView(double x, double y, int value, Pastille pastille) {
+    this.pastille = pastille;
     this.text = new Label();
     this.setOpacity(0);
 
@@ -81,5 +87,16 @@ public class TriggeredPastille extends Group {
     this.timeline.setCycleCount(1);
 
     this.getChildren().add(this.text);
+
+    switch (pastille.getType()){
+      case SCORE: setValue(((ScorePastille)pastille).getScore()); break;
+      case TIME: setValue(((TimePastille)pastille).getTime()); break;
+      case AMMO: case LANDMINE: this.text.setText("+1"); break;
+    }
+  }
+
+  @Override
+  public void update(Observable o, Object arg) {
+    animate();
   }
 }

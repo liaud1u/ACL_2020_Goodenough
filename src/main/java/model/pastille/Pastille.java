@@ -1,13 +1,13 @@
 package model.pastille;
 
 import model.PacmanGame;
-import views.animations.TriggeredPastille;
+
+import java.util.Observable;
 
 /**
  * Pastille
  */
-public abstract class Pastille {
-    protected TriggeredPastille triggeredPastille;
+public abstract class Pastille extends Observable {
     protected PacmanGame game;
 
     protected PastilleType type;
@@ -24,12 +24,6 @@ public abstract class Pastille {
         this.ramassee = false;
         this.game = game;
         this.type = type;
-
-        this.triggeredPastille = new TriggeredPastille(0, 0, 0, this.type);
-    }
-
-    public TriggeredPastille getTriggeredPastille() {
-        return triggeredPastille;
     }
 
     /**
@@ -47,7 +41,8 @@ public abstract class Pastille {
     public boolean ramasser() {
         if (!this.ramassee) {
             this.ramassee = true;
-            this.getTriggeredPastille().animate();
+            setChanged();
+            notifyObservers();
         }
         return true;
     }
@@ -56,7 +51,7 @@ public abstract class Pastille {
     public PastilleType getType() {
         return type;
     }
-    
+
     /**
      * Setter to set if the pastille has been eaten
      * @param ramassee boolean eaten

@@ -20,6 +20,11 @@ public class GameTimer {
    */
   private int timer;
 
+  /**
+   * Initial time
+   */
+  private int initialTime;
+
   /*------------------------------------------------------------------
                               Methods
    ------------------------------------------------------------------*/
@@ -39,11 +44,18 @@ public class GameTimer {
    */
   public void setCurrentTimer(int currentTimer) { this.timer = currentTimer; }
 
+
+  /**
+   * Set the initial time
+   * @param initialTime
+   */
+  public void setInitialTimer(int initialTime) { this.initialTime = initialTime; }
+
   /**
    * Init the timer
    */
   private void initTimer() {
-    this.timer = Util.timer;
+    this.timer = initialTime;
 
     this.timeline = new Timeline(
       new KeyFrame(Duration.seconds(1), ae -> {

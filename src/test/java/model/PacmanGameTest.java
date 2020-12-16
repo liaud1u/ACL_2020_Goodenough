@@ -1190,7 +1190,74 @@ class PacmanGameTest {
     }
 
     @Test
-    void changeLevel() {
+    void changeLevelWin() {
+        Util.player=1;
+        int level = game.getLevel();
+
+        game.getGameState().setState(PacmanGameState.EtatJeu.VICTOIRE);
+        game.changeLevel();
+
+        assertEquals(game.getGameTimer().getCurrentTimer(),Difficulty.MEDIUM.getTime());
+        assertEquals(game.getGameState().getState(), PacmanGameState.EtatJeu.EN_COURS);
+        assertEquals(game.getPlayer().getX(),1);
+        assertEquals(game.getPlayer().getY(),1);
+        assertEquals(game.getLevel(),level+1);
+
+    }
+
+    @Test
+    void changeLevelWinTwoPlayer() {
+        Util.player=2;
+        int level = game.getLevel();
+
+        game.getGameState().setState(PacmanGameState.EtatJeu.VICTOIRE);
+        game.changeLevel();
+
+        assertEquals(game.getGameTimer().getCurrentTimer(),Difficulty.MEDIUM.getTime());
+        assertEquals(game.getGameState().getState(), PacmanGameState.EtatJeu.EN_COURS);
+        assertEquals(game.getPlayer().getX(),1);
+        assertEquals(game.getPlayer().getY(),1);
+        assertEquals(game.getSecondPlayer().getX(),Util.MAZE_SIZE-2);
+        assertEquals(game.getSecondPlayer().getY(),1);
+        assertEquals(game.getLevel(),level+1);
+
+    }
+
+    @Test
+    void changeLevelLose() {
+        Util.player=1;
+
+        game.getGameState().setState(PacmanGameState.EtatJeu.PERDU);
+        game.changeLevel();
+
+        assertEquals(game.getGameTimer().getCurrentTimer(),Difficulty.EASY.getTime());
+        assertEquals(game.getGameState().getState(), PacmanGameState.EtatJeu.EN_COURS);
+        assertEquals(game.getPlayer().getX(),1);
+        assertEquals(game.getPlayer().getY(),1);
+        assertEquals(game.getLevel(),0);
+        assertEquals(game.getScore(),0);
+        assertEquals(game.getAmmos(),1);
+
+    }
+
+    @Test
+    void changeLevelLooseTwoPlayer() {
+        Util.player=2;
+
+        game.getGameState().setState(PacmanGameState.EtatJeu.PERDU);
+        game.changeLevel();
+
+        System.out.println(game.getLevel());
+
+        assertEquals(game.getGameTimer().getCurrentTimer(),Difficulty.EASY.getTime());
+        assertEquals(game.getGameState().getState(), PacmanGameState.EtatJeu.EN_COURS);
+        assertEquals(game.getPlayer().getX(),1);
+        assertEquals(game.getPlayer().getY(),1);
+        assertEquals(game.getSecondPlayer().getX(),Util.MAZE_SIZE-2);
+        assertEquals(game.getSecondPlayer().getY(),1);
+        assertEquals(game.getLevel(),0);
+        assertEquals(game.getScore(),0);
+        assertEquals(game.getAmmos(),1);
     }
 
     @Test

@@ -46,7 +46,7 @@ public class PacmanGame implements Game {
   /**
    * Timer du jeu
    */
-  private final GameTimer gameTimer = new GameTimer(Util.timer);
+  private final GameTimer gameTimer = new GameTimer(Difficulty.EASY.getTime());
 
   /**
    * Joueur principal
@@ -452,7 +452,8 @@ public class PacmanGame implements Game {
     this.generateAllPastilles(difficulty.getScorePastilleAmount(), difficulty.getTimePastilleAmount(), difficulty.getAmmosPastilleAmount(), difficulty.getInvincibilityPastilleAmount());
 
 
-    this.gameTimer.setCurrentTimer(difficulty.getTime());
+    this.gameTimer.setInitialTimer(difficulty.getTime());
+
     resetTimer();
     replayAllInstances();
 
@@ -621,6 +622,15 @@ public class PacmanGame implements Game {
   public boolean isWon() {
     return gameState.getState() == PacmanGameState.EtatJeu.VICTOIRE;
   }
+
+  /**
+   * Getter du gamestate
+   * @return PacmanGameState
+   */
+  public PacmanGameState getGameState() {
+    return gameState;
+  }
+
 
   /**
    * Méthode retournant vrai si le joueur a perdu le niveau actuel

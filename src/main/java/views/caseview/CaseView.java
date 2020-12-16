@@ -10,6 +10,7 @@ import model.labyrinthe.Case;
 import model.pastille.Pastille;
 import model.util.Util;
 import views.pastille.PastilleView;
+import views.pastille.animations.TriggeredPastilleView;
 
 
 /** class used to display a slot
@@ -31,10 +32,12 @@ public class CaseView extends Group {
     if (c.hasPastille()) {
       Pastille p = c.getPastille();
       final PastilleView pastilleView = new PastilleView(c.getX(), c.getY(), p.getType());  // create the view
-      p.getTriggeredPastille().setLayoutX(Util.slotSizeProperty.multiply(c.getX()).get());
-      p.getTriggeredPastille().setLayoutY(Util.slotSizeProperty.multiply(c.getY()).get());
+      final TriggeredPastilleView triggeredPastilleView = new TriggeredPastilleView(0, 0, 0, p);
+      p.addObserver(triggeredPastilleView);
+      triggeredPastilleView.setLayoutX(Util.slotSizeProperty.multiply(c.getX()).get());
+      triggeredPastilleView.setLayoutY(Util.slotSizeProperty.multiply(c.getY()).get());
       pastilleView.visibleProperty().bind(c.hasPastilleProperty); // if the slot has an item, it is visible. Otherwise it is not
-      this.getChildren().addAll(pastilleView, p.getTriggeredPastille()); // add item to the group root
+      this.getChildren().addAll(pastilleView,triggeredPastilleView); // add item to the group root
       }
 
 
