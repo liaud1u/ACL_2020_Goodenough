@@ -150,6 +150,12 @@ public class BestScoreFileXMLDAO implements BestScoreDAO {
     }
   }
 
+
+  public void reset() {
+    File file = new File(System.getProperty("user.dir") + File.separator + "best_scores.xml");
+    file.delete();
+  }
+
   public static BestScoreFileXMLDAO getInstance() {
     if (instance == null) {
       synchronized (BestScoreFileXMLDAO.class) {

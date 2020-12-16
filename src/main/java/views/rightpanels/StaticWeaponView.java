@@ -84,7 +84,7 @@ public class StaticWeaponView extends HBox {
     this.displayDigitsSize = String.valueOf(Util.MAX_AMMOS).length();
 
     this.setAlignment(Pos.CENTER);  // center elements on root
-    this.setSpacing(5.); // spacing between elements
+    //this.setSpacing(2.); // spacing between elements
     this.getChildren().addAll(ammoView);  // add view to the children
   }
 }

@@ -1,6 +1,6 @@
 package model;
 
-import exceptions.NegativeScoreException;
+import exceptions.BadScoreException;
 import model.util.Util;
 
 /**
@@ -41,9 +41,9 @@ public class BestScore {
                             Constructors
    ------------------------------------------------------------------*/
 
-  public BestScore(String playerName, int score) throws NegativeScoreException {
+  public BestScore(String playerName, int score) throws BadScoreException {
 
-    if(score < 0) throw new NegativeScoreException("ERREUR : Impossible d'obtenir un score négatif");
+    if(score <= 0) throw new BadScoreException("ERREUR : Impossible de créer un score négatif ou nul");
     if(playerName.length() > 4) playerName = playerName.substring(0, Util.maxPlayerNameSize);
 
     this.score = score;

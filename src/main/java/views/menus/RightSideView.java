@@ -54,8 +54,11 @@ public class RightSideView extends VBox {
         // init the views
         this.scoreView = new ScoreView();
         this.timerView = new TimerView();
+
         this.ammoView = new AmmoView();
         this.staticWeaponView = new StaticWeaponView();
+        VBox virtualBox = new VBox(ammoView, staticWeaponView);
+
         try {
             // load the best scores and create the view
             this.bestScoresView = new BestScoresView(new ConcreteFileFactory().getLeaderboardDAO(FileType.XML).load());
@@ -82,7 +85,7 @@ public class RightSideView extends VBox {
         timerBox.setAlignment(Pos.TOP_CENTER);
 
         // finally add the elements to the root
-        this.getChildren().addAll(scoreBox, timerBox, this.ammoView, this.staticWeaponView,bestScoresView, buttonExit);
+        this.getChildren().addAll(scoreBox, timerBox, virtualBox ,bestScoresView, buttonExit);
     }
 
     /**
@@ -91,10 +94,8 @@ public class RightSideView extends VBox {
      * @param ammos (:ammos)    : the current ammo
      * */
     public void draw(int score, int timer, int ammos, int staticWeapons) {
-        //FIXME : find out why currentWindowProperty is NaN in init()
-
         // if button not null, set a translation to set it to the bottom of the window
-        if(buttonExit != null) buttonExit.setTranslateY(Util.currentWindowHeightProperty.multiply(0.05).get());
+        if(buttonExit != null) buttonExit.setTranslateY(Util.currentWindowHeightProperty.multiply(0.0000005).get());
         scoreView.draw(score);  // call draw method fot the score
         timerView.draw(timer);  // call draw method for the timer
         this.ammoView.draw(ammos);  // call the draw method for the ammo view

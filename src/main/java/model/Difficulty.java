@@ -4,9 +4,9 @@ package model;
  * Enum for the difficulty
  */
 public enum Difficulty {
-    EASY(5, 5,  4,6,2, 1, 0, 50),
-    MEDIUM(10, 3,2,3,1, 1, 1, 44),
-    HARD(15, 1,1,2,0, 2, 1, 40);
+    EASY(30, 5,  3,3,2, 1, 0, 50),
+    MEDIUM(40, 3,2,2,1, 1, 1, 44),
+    HARD(50, 1,1,1,0, 2, 1, 40);
 
     /**
      * Amount of score pastille

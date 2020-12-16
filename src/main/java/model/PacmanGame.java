@@ -434,6 +434,7 @@ public class PacmanGame implements Game {
       this.level = 0;
       this.score = 0;
       this.ammos = 1;
+      this.staticWeaponsCount = 1;
     }
 
     labyrinthe = new Labyrinthe(Util.MAZE_SIZE, Util.MAZE_SIZE);

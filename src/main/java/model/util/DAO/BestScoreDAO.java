@@ -32,4 +32,5 @@ public interface BestScoreDAO {
 
   Collection<BestScore> load();
   void save(BestScore bestScore);
+  void reset();
 }
