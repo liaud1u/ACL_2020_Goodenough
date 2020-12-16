@@ -36,6 +36,11 @@ public class FollowMovementStrategy implements MovementStrategy {
     private Player player1, player2;
 
     /**
+     * Path to player
+     */
+    private ArrayList<Case> path;
+
+    /**
      * Constructor of the strategy
      * @param monstre Monster wich have this movement strategy
      * @param labyrinthe Maze where the monster evolve
@@ -111,10 +116,9 @@ public class FollowMovementStrategy implements MovementStrategy {
         }
 
 
-
         dijkstra = new Dijkstra(labyrinthe,playerLocation);
 
-        ArrayList<Case> path = dijkstra.getChemin(playerLocation,monsterLocation);
+        path = dijkstra.getChemin(playerLocation,monsterLocation);
 
 
 
@@ -157,5 +161,9 @@ public class FollowMovementStrategy implements MovementStrategy {
     @Override
     public void setDirection(Direction direction) {
         this.direction = direction;
+    }
+
+    public ArrayList<Case> getPath() {
+        return path;
     }
 }
