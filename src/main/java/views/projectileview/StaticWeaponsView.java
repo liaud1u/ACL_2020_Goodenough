@@ -34,7 +34,7 @@ public class StaticWeaponsView extends Group {
                 ImageView staticImageView = new ImageView();
                 switch(s.getType()) {
                     case LANDMINE:
-                        staticImageView.setImage(new Image("projectile/landmine/mine.png", Util.slotSizeProperty.get(), Util.slotSizeProperty.get(),true,false));
+                        staticImageView.setImage(new Image("projectile/landmine/mine.png", Util.slotSizeProperty.get() * 0.8, Util.slotSizeProperty.get() * 0.8,true,false));
                     default:
                         break;
                 }
