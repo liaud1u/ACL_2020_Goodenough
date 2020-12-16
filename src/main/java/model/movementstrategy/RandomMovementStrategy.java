@@ -64,7 +64,7 @@ public class RandomMovementStrategy implements MovementStrategy {
             chooseDirection();
 
         //Si la direction qu'empruntait le monstre précedement n'est plus disponible, on en choisis une nouvelle
-        if (!(nextX >= 0 && nextX < Util.MAZE_SIZE - 1 && nextY >= 0 && nextY < Util.MAZE_SIZE - 1 && previousPossibleDirection.equals(labyrinthe.getFreeDirection(monstre.getX(), monstre.getY())))) {
+        if (!(nextX >= 0 && nextX < Util.MAZE_SIZE - 1 && nextY >= 0 && nextY < Util.MAZE_SIZE - 1 && labyrinthe.getFreeDirection(monstre.getX(), monstre.getY()).contains(direction))) {
 
 
             chooseDirection();

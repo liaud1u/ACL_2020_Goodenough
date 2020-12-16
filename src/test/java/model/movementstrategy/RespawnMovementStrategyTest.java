@@ -1,31 +1,31 @@
 package model.movementstrategy;
 
-import fxengine.Game;
 import model.Direction;
 import model.PacmanGame;
 import model.labyrinthe.Case;
-import model.labyrinthe.Labyrinthe;
+import model.labyrinthe.dijkstra.Dijkstra;
 import model.monster.GhostType;
 import model.monster.Monster;
-import model.util.RandomGenerator;
 import model.util.Util;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 
-class RandomMovementStrategyTest {
+import static org.junit.jupiter.api.Assertions.*;
 
-    private RandomMovementStrategy strategy;
+class RespawnMovementStrategyTest {
+
+    private RespawnMovementStrategy strategy;
     private Monster monstre;
     private PacmanGame game;
 
     @BeforeEach
     void setUp() {
+        Util.player = 1;
         game = new PacmanGame("");
-        monstre=new Monster((PacmanGame) game,2,2, GhostType.RED);
-        strategy = new RandomMovementStrategy(monstre,((PacmanGame) game).getLabyrinthe());
+        monstre=new Monster((PacmanGame) game, Util.MAZE_SIZE-2,Util.MAZE_SIZE-2, GhostType.RED);
+        strategy = new RespawnMovementStrategy(monstre,game.getLabyrinthe(),new StaticMovementStrategy());
     }
 
     @Test
@@ -89,14 +89,19 @@ class RandomMovementStrategyTest {
     }
 
     @Test
-    void chooseRandomDirection() {
-            Direction previousDirectionTest = strategy.getDirection();
+    void nearestPath() {
+            Case monsterLocation = game.getLabyrinthe().getCaseLabyrinthe(monstre.getX(), monstre.getY());
+
+            Case target = game.getLabyrinthe().getSpawnableCase().get(0);
+
+            Dijkstra dijkstra = new Dijkstra(game.getLabyrinthe(), target);
+
+            ArrayList<Case> path = dijkstra.getChemin(target, monsterLocation);
+
 
             strategy.chooseDirection();
 
-            assertNotEquals(previousDirectionTest, strategy.getDirection().opposite());
-            assertFalse(game.getLabyrinthe().getCaseLabyrinthe(monstre.getX() + strategy.getDirection().getX_dir(), monstre.getY() + strategy.getDirection().getY_dir()).estUnMur());
-            assertTrue(game.getLabyrinthe().getCaseLabyrinthe(monstre.getX() + strategy.getDirection().getX_dir(), monstre.getY() + strategy.getDirection().getY_dir()).estVide());
-    }
+            assertEquals(path, strategy.getPath());
 
+    }
 }

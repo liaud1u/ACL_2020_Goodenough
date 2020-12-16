@@ -19,23 +19,27 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * @author Ribeyrolles Matthieu
- * 14/12/2020, 17:40
+ * Class for text when getting a pastille
  */
 public class TriggeredPastilleView extends Group implements Observer {
+  /**
+   * Timeline for animation
+   */
   private Timeline timeline;
+
+  /**
+   * Pastille linked
+   */
   private Pastille pastille;
+
+  /**
+   * Text to print
+   */
   private Label text;
 
-  /*------------------------------------------------------------------
-                              Methods
-   ------------------------------------------------------------------*/
-
-  // getters
-  // setters
-  // private
-  // public
-
+  /**
+   * Animate method, call when text needs to be printed
+   */
   public void animate() {
     this.setOpacity(1);
 
@@ -59,10 +63,14 @@ public class TriggeredPastilleView extends Group implements Observer {
     this.setTranslateX(-this.text.getLayoutBounds().getWidth()/2);
     this.setTranslateY(-this.text.getLayoutBounds().getHeight()/2);
   }
-   
-   /*------------------------------------------------------------------
-                            Constructors
-   ------------------------------------------------------------------*/
+
+  /**
+   * Default constructor
+   * @param x int x
+   * @param y int y
+   * @param value int value (text to print)
+   * @param pastille Pastille linked
+   */
   public TriggeredPastilleView(double x, double y, int value, Pastille pastille) {
     this.pastille = pastille;
     this.text = new Label();
@@ -95,6 +103,11 @@ public class TriggeredPastilleView extends Group implements Observer {
     }
   }
 
+  /**
+   * On linked Pastille update, update the view
+   * @param o
+   * @param arg
+   */
   @Override
   public void update(Observable o, Object arg) {
     animate();

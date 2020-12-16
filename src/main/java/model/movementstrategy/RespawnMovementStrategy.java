@@ -127,4 +127,9 @@ public class RespawnMovementStrategy implements MovementStrategy{
     public MovementStrategy getOldStrategy() {
         return oldStrategy;
     }
+
+
+    public ArrayList<Case> getPath() {
+        return path;
+    }
 }

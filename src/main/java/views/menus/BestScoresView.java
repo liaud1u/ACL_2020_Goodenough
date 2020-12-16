@@ -9,18 +9,15 @@ import model.util.Util;
 import java.util.Collection;
 
 /**
- * @author Ribeyrolles Matthieu
- * 29/11/2020, 13:43
+ * BestScore view
  */
 public class BestScoresView extends VBox {
   private Label title;
-  /*------------------------------------------------------------------
-                              Methods
-   ------------------------------------------------------------------*/
 
-  // getters
-  // setters
-  // private
+  /**
+   * Initialize the view
+   * @param bestScores
+   */
   private void init(Collection<BestScore> bestScores) {
     // create the tile for the best scores, add its style class, and add it to the main vbox
     title = new Label("Best scores");
@@ -44,15 +41,19 @@ public class BestScoresView extends VBox {
 
     this.setAlignment(Pos.CENTER);
   }
-  // public
+
+  /**
+   * Add style
+   * @param class_
+   */
   public void addTitleStyleClass(String class_) {
     this.title.getStyleClass().add(class_);
   }
-   
-   /*------------------------------------------------------------------
-                            Constructors
-   ------------------------------------------------------------------*/
 
+  /**
+   * Constructor
+   * @param bestScores BestScores collection
+   */
   public BestScoresView(Collection<BestScore> bestScores) {
     this.init(bestScores);
   }

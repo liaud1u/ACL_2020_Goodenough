@@ -202,9 +202,9 @@ public class Case {
   }
 
   /**
-   * Retourne la liste des voisins
+   * Return neighbour list
    *
-   * @return Liste de cases voisines
+   * @return List of neighbour cases
    */
   public ArrayList<Case> getVoisins() {
     return voisins;

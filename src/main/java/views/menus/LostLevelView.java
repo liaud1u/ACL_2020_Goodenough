@@ -18,14 +18,10 @@ import model.util.DAO.files.FileType;
 public class LostLevelView extends EndLevelView{
   private boolean hasAScoreBeenAdded;
   private BestScoresView bestScoresView;
-  /*------------------------------------------------------------------
-                              Methods
-   ------------------------------------------------------------------*/
 
-  // getters
-  // setters
-  // private
-
+  /**
+   * Initialize the view
+   */
   @Override
   protected void init() {
     super.init();
@@ -41,6 +37,9 @@ public class LostLevelView extends EndLevelView{
     this.addBestScoreView();
   }
 
+  /**
+   * Add new score view
+   */
   private void addBestScoreView() {
     try {
       BestScoreFileXMLDAO bestScoresDAO = (BestScoreFileXMLDAO) new ConcreteFileFactory().getLeaderboardDAO(FileType.XML);
@@ -95,12 +94,6 @@ public class LostLevelView extends EndLevelView{
       e.printStackTrace();
     }
   }
-
-  // public
-   
-   /*------------------------------------------------------------------
-                            Constructors
-   ------------------------------------------------------------------*/
 
   /** @param game (:{@link PacmanGame}) the current game
    * */

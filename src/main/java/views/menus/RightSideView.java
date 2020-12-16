@@ -16,6 +16,9 @@ import views.ScoreView;
 import views.StaticWeaponView;
 import views.TimerView;
 
+/**
+ * Right side of the screen view
+ */
 public class RightSideView extends VBox {
 
     private Label buttonExit;
@@ -25,6 +28,9 @@ public class RightSideView extends VBox {
     private AmmoView ammoView;  //  the display for the ammo left
     private StaticWeaponView staticWeaponView;
 
+    /**
+     * Constructor
+     */
     public RightSideView() {
         SpriteTools.setImageSize(Util.rightWidthProperty.get(), 24);    // set image size using external method
 

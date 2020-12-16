@@ -8,11 +8,26 @@ import model.weapons.Fireball;
 import model.util.Util;
 
 public class FireballView extends Group {
+    /**
+     * Fireball to print
+     */
     private final Fireball fireball;
+
+    /**
+     * View of the fireball
+     */
     private final ImageView view; // The current sprite to display
 
+    /**
+     * Frame
+     */
     private int frame;  // Current frame (for animations)
 
+    /**
+     * Constructor
+     * @param fireball Fireball to print
+     * @param sprite tab of sprite
+     */
     public FireballView(Fireball fireball, Image[] sprite) {
         this.fireball = fireball;
 
@@ -45,7 +60,10 @@ public class FireballView extends Group {
         this.getChildren().add(view);
     }
 
-
+    /**
+     * Draw the fireball
+     * @param ratio of case for the animation
+     */
     public void draw(double ratio) {
 
 

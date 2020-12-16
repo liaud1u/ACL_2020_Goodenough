@@ -5,14 +5,10 @@ import model.PacmanGame;
 /** class used to display a won level menu
  * */
 public class WonLevelView extends EndLevelView {
-  /*------------------------------------------------------------------
-                              Methods
-   ------------------------------------------------------------------*/
 
-  // getters
-  // setters
-  // private
-
+  /**
+   * Initialize view
+   */
   @Override
   protected void init() {
     super.init();
@@ -28,11 +24,6 @@ public class WonLevelView extends EndLevelView {
     this.button.setText("Next level");  // set the button text
   }
 
-  // public
-   
-   /*------------------------------------------------------------------
-                            Constructors
-   ------------------------------------------------------------------*/
 
   /** @param game (:{@link PacmanGame}) the current game
    * */

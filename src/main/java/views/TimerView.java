@@ -12,10 +12,6 @@ import static model.util.Util.maxTimerSize;
  * */
 public class TimerView extends Group {
 
-  /*------------------------------------------------------------------
-                              Methods
-   ------------------------------------------------------------------*/
-
 
   /** Method displaying the painter, changing digits on screen.
    *  This method display sprites for digits

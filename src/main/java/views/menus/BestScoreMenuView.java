@@ -6,22 +6,9 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 /**
- * @author Ribeyrolles Matthieu
- * 01/12/2020, 12:15
+ * Best score menu view
  */
 public class BestScoreMenuView extends BorderPane {
-  /*------------------------------------------------------------------
-                              Methods
-   ------------------------------------------------------------------*/
-
-  // getters
-  // setters
-  // private
-  // public
-   
-   /*------------------------------------------------------------------
-                            Constructors
-   ------------------------------------------------------------------*/
 
   /**
    * @param bestScoresView (:{@link BestScoresView}): the current bestScoreView to display

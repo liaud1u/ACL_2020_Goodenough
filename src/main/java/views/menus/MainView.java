@@ -23,8 +23,7 @@ import model.util.Util;
 import java.util.Collection;
 
 /**
- * @author Ribeyrolles Matthieu
- * 29/11/2020, 11:38
+ * MainMenu view
  */
 public class MainView extends Scene {
   private final Collection<KeyCode> player1_codes;
@@ -33,13 +32,6 @@ public class MainView extends Scene {
   private GameLoop loop;
   private GamePainter painter;
   private PacmanGame game;
-  /*------------------------------------------------------------------
-                              Methods
-   ------------------------------------------------------------------*/
-
-  // getters
-  // setters
-  // private
 
   /**
    *  create, initialize and launch the game
@@ -124,7 +116,6 @@ public class MainView extends Scene {
     if (this.loop != null) this.loop.stop();
   }
 
-  // public
   /**
    *  Initialize all the components in the main menu
    *  At this point, the game is not created yet
@@ -188,10 +179,7 @@ public class MainView extends Scene {
     // add the main container to the root
     ( (Group) this.getRoot() ).getChildren().add(container);
   }
-   
-   /*------------------------------------------------------------------
-                            Constructors
-   ------------------------------------------------------------------*/
+
 
   /**
    * @param root (: {@link Parent})                               : the current root for the scene

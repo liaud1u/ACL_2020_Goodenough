@@ -34,10 +34,18 @@ public enum CaseImageTiles {
 
   private final Rectangle2D view;
 
+  /**
+   * Constructor
+   * @param view
+   */
   CaseImageTiles(Rectangle2D view) {
     this.view = view;
   }
 
+  /**
+   * Return Rectangle to get right view
+   * @return Rectangle
+   */
   public Rectangle2D getView() {
     return view;
   }
