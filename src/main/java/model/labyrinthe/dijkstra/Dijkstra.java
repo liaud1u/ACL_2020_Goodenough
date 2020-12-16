@@ -86,6 +86,7 @@ public class Dijkstra {
     /**
      *
      * @param c
+     * Ajoute les cases connectées à celle saisie en paramètre
      */
     private void caseConnecte(Case c){
         Stack<Case> s;
@@ -112,7 +113,7 @@ public class Dijkstra {
      *
      * @param casePosCourante
      * @param sontConnecte
-     * @return
+     * @return la liste des sommets suivants à la case courante saisie
      */
     private ArrayList<Case> creationSucc(Case casePosCourante, boolean sontConnecte) {
         int lig = casePosCourante.getX();
@@ -199,6 +200,7 @@ public class Dijkstra {
     /**
      *
      * @param caseFinale
+     * Choisi le case précédente à caseFinale en fonction du poids des sommets du graphe
      */
     private void succSommet(Case caseFinale){
         Case c;
