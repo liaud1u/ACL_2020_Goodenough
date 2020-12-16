@@ -5,9 +5,12 @@ import model.labyrinthe.Labyrinthe;
 import model.monster.GhostType;
 import model.monster.Monster;
 import model.monster.MonsterState;
+import model.player.Player;
 import model.weapons.Fireball;
+import model.weapons.Landmine;
 import model.weapons.Projectile;
 import model.util.Util;
+import model.weapons.StaticWeapon;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -1820,10 +1823,67 @@ class PacmanGameTest {
     }
 
     @Test
-    void isEatingAPastille() {
+    void isFirstPlayerWalkingOnLandmine(){
+        Util.player = 1;
+        Player player = game.getPlayer();
+
+        game.addWeapon(new Landmine(player.getX(),
+                player.getY()));
+
+        expect(mockLabyrinthe.getCaseLabyrinthe(anyInt(),anyInt())).andReturn(mockCase).anyTimes();
+        expect(mockCase.getMonstre()).andReturn(mockMonstre).anyTimes();
+        mockMonstre.destroy();
+        expectLastCall();
+
+        replay(mockCase,mockLabyrinthe,mockMonstre);
+
+        boolean res = game.isWalkingOnLandmine();
+
+        assertTrue(res);
+
+        verify(mockCase,mockLabyrinthe,mockMonstre);
     }
 
     @Test
-    void willPlayerCollide() {
+    void isSecondPlayerWalkingOnLandmine(){
+        Util.player = 2;
+        Player player = game.getSecondPlayer();
+        game.setPlayerTurn(2);
+
+        game.addWeapon(new Landmine(player.getX(),
+                player.getY()));
+
+        expect(mockLabyrinthe.getCaseLabyrinthe(anyInt(),anyInt())).andReturn(mockCase).anyTimes();
+        expect(mockCase.getMonstre()).andReturn(mockMonstre).anyTimes();
+        mockMonstre.destroy();
+        expectLastCall();
+
+        replay(mockCase,mockLabyrinthe,mockMonstre);
+
+        boolean res = game.isWalkingOnLandmine();
+
+        assertTrue(res);
+
+        verify(mockCase,mockLabyrinthe,mockMonstre);
+    }
+
+    @Test
+    void isMonsterWalkingOnLandmine(){
+        Monster monster = new Monster(game,5,5,GhostType.RED);
+        game.addWeapon(new Landmine(monster.getX(),
+                monster.getY()));
+
+        expect(mockLabyrinthe.getCaseLabyrinthe(anyInt(),anyInt())).andReturn(mockCase).anyTimes();
+        expect(mockCase.getMonstre()).andReturn(mockMonstre).anyTimes();
+        mockMonstre.destroy();
+        expectLastCall();
+
+        replay(mockCase,mockLabyrinthe,mockMonstre);
+
+        boolean res = game.isWalkingOnLandmine();
+
+        assertFalse(res);
+
+        verify(mockCase,mockLabyrinthe,mockMonstre);
     }
 }

@@ -272,6 +272,11 @@ public class PacmanGame implements Game {
     }
   }
 
+  public void addWeapon(StaticWeapon weapon){
+    staticWeapons.add(weapon);
+    staticWeaponsCount++;
+  }
+
   public int getAmmos() {
     return ammos;
   }
