@@ -40,6 +40,7 @@ class DijkstraTest {
 
         for (int i = 0; i < chemin.size(); i++) {
             assertNotNull(chemin.get(i));
+            assertTrue(chemin.get(i).estVide());
         }
     }
 
@@ -55,7 +56,10 @@ class DijkstraTest {
 
         for (int i = 0; i < chemin.size(); i++) {
             assertNotNull(chemin.get(i));
+            assertTrue(chemin.get(i).estVide());
         }
     }
+    
+
 
 }
