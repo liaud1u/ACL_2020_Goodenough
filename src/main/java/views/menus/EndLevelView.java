@@ -15,13 +15,7 @@ public abstract class EndLevelView extends VBox {
   protected PacmanGame game;  //  the current game
   protected Button button;  // the button for exiting the menu
   protected Label text;  //  the text displayed
-  /*------------------------------------------------------------------
-                              Methods
-   ------------------------------------------------------------------*/
 
-  // getters
-  // setters
-  // private
 
   /** init the components
    * */
@@ -49,11 +43,7 @@ public abstract class EndLevelView extends VBox {
     this.button.setOnMousePressed(event -> this.game.changeLevel() ); // on click, we change the name
     this.getChildren().add(this.text);
   }
-  // public
 
-   /*------------------------------------------------------------------
-                            Constructors
-   ------------------------------------------------------------------*/
 
   /** @param game (:{@link PacmanGame}), the current game
    * */

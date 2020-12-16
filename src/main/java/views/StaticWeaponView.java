@@ -16,22 +16,35 @@ import model.util.Util;
 
 import static javafx.scene.layout.CornerRadii.EMPTY;
 
+/**
+ * View for static weapons
+ */
 public class StaticWeaponView extends HBox {
+
+  /**
+   * Sprite
+   */
   private ImageView ammoView;
 
+  /**
+   * Group
+   */
   private Group counter;
-  private HBox container;
-  private ImageView[] maxAmmo;
-  private Label dividerLabel;
-  private int displayDigitsSize;
-  /*------------------------------------------------------------------
-                              Methods
-   ------------------------------------------------------------------*/
 
-  // getters
-  // setters
-  // private
-  // public
+  /**
+   * MaxAmmo tab
+   */
+  private ImageView[] maxAmmo;
+
+  /**
+   * Label for the print
+   */
+  private Label dividerLabel;
+
+  /**
+   * Display amount of ammo
+   */
+  private int displayDigitsSize;
 
   /**
    * @param ammo (:int): the number of ammo the player has
@@ -50,11 +63,10 @@ public class StaticWeaponView extends HBox {
     this.getChildren().addAll(this.counter, this.dividerLabel);  // add it to the root
     this.getChildren().addAll(this.maxAmmo);
   }
-   
-   /*------------------------------------------------------------------
-                            Constructors
-   ------------------------------------------------------------------*/
 
+  /**
+   * Constructor of the view
+   */
   public StaticWeaponView() {
     final double size = Util.slotSizeProperty.multiply(Util.RATIO_FIREBALL).get();
     final int spriteSize = (int) (size * 8);
@@ -75,6 +87,5 @@ public class StaticWeaponView extends HBox {
     this.setAlignment(Pos.CENTER);  // center elements on root
     this.setSpacing(5.); // spacing between elements
     this.getChildren().addAll(ammoView);  // add view to the children
-  
   }
 }

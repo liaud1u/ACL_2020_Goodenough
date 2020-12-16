@@ -17,8 +17,7 @@ import model.util.Util;
 import static javafx.scene.layout.CornerRadii.EMPTY;
 
 /**
- * @author Ribeyrolles Matthieu
- * 01/12/2020, 00:22
+ * View for ammos
  */
 public class AmmoView extends HBox {
   private ImageView ammoView;
@@ -28,14 +27,6 @@ public class AmmoView extends HBox {
   private ImageView[] maxAmmo;
   private Label dividerLabel;
   private int displayDigitsSize;
-  /*------------------------------------------------------------------
-                              Methods
-   ------------------------------------------------------------------*/
-
-  // getters
-  // setters
-  // private
-  // public
 
   /**
    * @param ammo (:int): the number of ammo the player has
@@ -54,10 +45,7 @@ public class AmmoView extends HBox {
     this.getChildren().addAll(this.counter, this.dividerLabel);  // add it to the root
     this.getChildren().addAll(this.maxAmmo);
   }
-   
-   /*------------------------------------------------------------------
-                            Constructors
-   ------------------------------------------------------------------*/
+
 
   public AmmoView() {
     final double size = Util.slotSizeProperty.multiply(Util.RATIO_FIREBALL).get();

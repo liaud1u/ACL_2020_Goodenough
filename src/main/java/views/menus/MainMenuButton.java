@@ -7,23 +7,10 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 
 /**
- * @author Ribeyrolles Matthieu
- * 01/12/2020, 11:58
+ * MainMenuButton view
  */
 public class MainMenuButton extends Button {
   private Tooltip tooltip;
-  /*------------------------------------------------------------------
-                              Methods
-   ------------------------------------------------------------------*/
-
-  // getters
-  // setters
-  // private
-  // public
-   
-   /*------------------------------------------------------------------
-                            Constructors
-   ------------------------------------------------------------------*/
 
   /**
    * @param text (:String)                                    : the text to dislay on the button
