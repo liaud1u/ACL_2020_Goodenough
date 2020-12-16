@@ -39,6 +39,7 @@ public abstract class Util {
   public static int MAX_AMMOS = 3;
   public static int MAX_MINES = 3;
   public static int INVINCIBLE_TIME = 8;
+  public static int SCORE_ON_KILL = 500;
 
   /**
    * Initialisation des valeurs
