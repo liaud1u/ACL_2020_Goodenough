@@ -1464,7 +1464,7 @@ class PacmanGameTest {
         boolean res = game.willPlayerCollideMob();
 
         assertFalse(res);
-        assertEquals(score+500,game.getScore());
+        assertEquals(score+Util.SCORE_ON_KILL,game.getScore());
 
         verify(mockCase,mockLabyrinthe,mockMonstre);
     }
@@ -1489,7 +1489,7 @@ class PacmanGameTest {
         boolean res = game.willPlayerCollideMob();
 
         assertFalse(res);
-        assertEquals(score+500,game.getScore());
+        assertEquals(score+Util.SCORE_ON_KILL,game.getScore());
 
         verify(mockCase,mockLabyrinthe,mockMonstre);
     }
@@ -1512,7 +1512,7 @@ class PacmanGameTest {
         boolean res = game.willPlayerCollideMob();
 
         assertFalse(res);
-        assertEquals(score+500,game.getScore());
+        assertEquals(score+Util.SCORE_ON_KILL,game.getScore());
 
         verify(mockCase,mockLabyrinthe,mockMonstre);
     }
@@ -1535,7 +1535,7 @@ class PacmanGameTest {
         boolean res = game.willPlayerCollideMob();
 
         assertFalse(res);
-        assertEquals(score+500,game.getScore());
+        assertEquals(score+Util.SCORE_ON_KILL,game.getScore());
 
         verify(mockCase,mockLabyrinthe,mockMonstre);
     }
@@ -1746,7 +1746,7 @@ class PacmanGameTest {
         boolean res = game.willPlayerCollideMob();
 
         assertFalse(res);
-        assertEquals(score+500,game.getScore());
+        assertEquals(score+Util.SCORE_ON_KILL,game.getScore());
 
         verify(mockCase,mockLabyrinthe,mockMonstre);
     }
@@ -1771,7 +1771,7 @@ class PacmanGameTest {
         boolean res = game.willPlayerCollideMob();
 
         assertFalse(res);
-        assertEquals(score+500,game.getScore());
+        assertEquals(score+Util.SCORE_ON_KILL,game.getScore());
 
         verify(mockCase,mockLabyrinthe,mockMonstre);
     }
@@ -1794,7 +1794,7 @@ class PacmanGameTest {
         boolean res = game.willPlayerCollideMob();
 
         assertFalse(res);
-        assertEquals(score+500,game.getScore());
+        assertEquals(score+Util.SCORE_ON_KILL,game.getScore());
 
         verify(mockCase,mockLabyrinthe,mockMonstre);
     }
@@ -1817,7 +1817,7 @@ class PacmanGameTest {
         boolean res = game.willPlayerCollideMob();
 
         assertFalse(res);
-        assertEquals(score+500,game.getScore());
+        assertEquals(score+Util.SCORE_ON_KILL,game.getScore());
 
         verify(mockCase,mockLabyrinthe,mockMonstre);
     }
@@ -1886,4 +1886,5 @@ class PacmanGameTest {
 
         verify(mockCase,mockLabyrinthe,mockMonstre);
     }
+
 }
